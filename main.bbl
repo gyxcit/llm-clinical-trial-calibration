@@ -194,8 +194,8 @@
       \strng{authornamehash}{bc30483f77d1f9f483a5770cc9c6c2ed}
       \strng{authorfullhash}{bc30483f77d1f9f483a5770cc9c6c2ed}
       \strng{authorfullhashraw}{bc30483f77d1f9f483a5770cc9c6c2ed}
-      \field{sortinit}{8}
-      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{arXiv preprint arXiv:2311.16079}
@@ -220,8 +220,8 @@
       \strng{authornamehash}{e282febebc165762e873c56cafb212a0}
       \strng{authorfullhash}{e282febebc165762e873c56cafb212a0}
       \strng{authorfullhashraw}{e282febebc165762e873c56cafb212a0}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Findings of the Association for Computational Linguistics: ACL 2024}

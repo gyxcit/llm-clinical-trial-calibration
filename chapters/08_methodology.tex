@@ -49,16 +49,106 @@ prediction procedures.
 
 \begin{figure}[htbp]
     \centering
-    % [TODO: create a schematic diagram showing:
-    %   Dataset (1015 pairs) 
-    %      → 6 models × 2 prompts = 12 configurations
-    %      → Log-probability scoring
-    %      → Metrics (ECE, Brier, C-index)
-    %      → Statistical tests (H1-H4) + Recalibration + Conformal]
+    \resizebox{\textwidth}{!}{%
+    \begin{tikzpicture}[
+        node distance=1.2cm and 1.5cm,
+        every node/.style={font=\small},
+        block/.style={
+            rectangle, draw=black!70, thick, rounded corners=2pt,
+            fill=blue!5, minimum width=2.6cm, minimum height=0.9cm,
+            align=center, inner sep=4pt
+        },
+        databox/.style={
+            rectangle, draw=black!70, thick, rounded corners=2pt,
+            fill=orange!10, minimum width=2.6cm, minimum height=1.2cm,
+            align=center, inner sep=4pt
+        },
+        modelbox/.style={
+            rectangle, draw=black!70, thick, rounded corners=1pt,
+            fill=green!8, minimum width=2.4cm, minimum height=0.6cm,
+            align=center, font=\scriptsize, inner sep=3pt
+        },
+        analysisbox/.style={
+            rectangle, draw=black!70, thick, rounded corners=2pt,
+            fill=purple!8, minimum width=3cm, minimum height=0.9cm,
+            align=center, inner sep=4pt
+        },
+        arrow/.style={-{Latex[length=2mm]}, thick, black!70},
+        label/.style={font=\scriptsize\itshape, black!60}
+    ]
+
+    % --- ZONE 1 : DATASET ---
+    \node[databox] (dataset) {
+        \textbf{TrialGPT-Criterion}\\[-1pt]
+        \scriptsize 1{,}015 pairs\\[-1pt]
+        \scriptsize 3 physicians + GPT-4\\[-1pt]
+        \scriptsize 6 ordinal labels
+    };
+
+    % --- ZONE 2 : MATRICE 2×2 DES MODÈLES ---
+    \node[modelbox, right=of dataset, yshift=1.2cm] (m1) {Mistral-7B\\Llama-3.1-8B};
+    \node[modelbox, below=0.15cm of m1] (m2) {Mistral-Instruct\\Llama-3.1-Instruct};
+    \node[modelbox, below=0.15cm of m2] (m3) {Meditron-7B};
+    \node[modelbox, below=0.15cm of m3] (m4) {BioMistral-7B};
+
+    % Encadrement de la matrice
+    \begin{scope}[on background layer]
+        \node[draw=black!40, thick, rounded corners=3pt, fill=green!3,
+              fit=(m1)(m4), inner sep=6pt, label={[font=\scriptsize\bfseries]above:6 models}] (matrix) {};
+    \end{scope}
+
+    % --- ZONE 3 : PROMPTS ---
+    \node[block, right=1.8cm of matrix, yshift=0.6cm, fill=yellow!15] (pA) {
+        \textbf{Prompt A}\\[-1pt]
+        \scriptsize minimal / naive
+    };
+    \node[block, below=0.3cm of pA, fill=yellow!15] (pB) {
+        \textbf{Prompt B}\\[-1pt]
+        \scriptsize enriched / expert
+    };
+
+    \node[label, below=0.05cm of pB, text width=3cm, align=center]
+        {6 models $\times$ 2 prompts\\= 12 configurations};
+
+    % --- ZONE 4 : SCORING ---
+    \node[block, right=1.5cm of pA, yshift=-0.5cm, fill=cyan!10,
+          minimum height=1.4cm, minimum width=3cm] (scoring) {
+        \textbf{Log-probability}\\[-1pt]
+        \textbf{scoring}\\[-1pt]
+        \scriptsize 4 candidate labels\\[-1pt]
+        \scriptsize softmax normalization\\[-1pt]
+        \scriptsize 12{,}180 predictions
+    };
+
+    % --- ZONE 5 : ANALYSES ---
+    \node[analysisbox, right=1.2cm of scoring, yshift=1.2cm] (metrics) {
+        \textbf{Metrics}\\[-1pt]
+        \scriptsize ECE, Brier, C-index
+    };
+    \node[analysisbox, right=1.2cm of scoring] (tests) {
+        \textbf{Hypothesis tests}\\[-1pt]
+        \scriptsize H1--H4, Bonferroni
+    };
+    \node[analysisbox, right=1.2cm of scoring, yshift=-1.2cm] (posthoc) {
+        \textbf{Post-hoc}\\[-1pt]
+        \scriptsize Recalibration, Conformal
+    };
+
+    % --- FLÈCHES ---
+    \draw[arrow] (dataset) -- (matrix);
+    \draw[arrow] (matrix.east) -- ($(pA.west)!0.5!(pB.west)$);
+    \draw[arrow] ($(pA.east)!0.5!(pB.east)$) -- (scoring.west);
+    \draw[arrow] (scoring.east) -- (metrics.west);
+    \draw[arrow] (scoring.east) -- (tests.west);
+    \draw[arrow] (scoring.east) -- (posthoc.west);
+
+    \end{tikzpicture}
+    }%
+
     \caption{Overview of the experimental design. Six open-source LLMs are 
-        evaluated with two prompt variants on 1{,}015 patient--criterion pairs, 
-        producing twelve configurations tested against four pre-registered 
-        hypotheses.}
+        evaluated with two prompt variants on 1{,}015 patient--criterion 
+        pairs, producing twelve configurations tested against four 
+        pre-registered hypotheses.}
     \label{fig:met-overview}
 \end{figure}
 
@@ -247,26 +337,90 @@ involving numeric thresholds or drug interactions.
 \subsection{Split for Recalibration Analysis}
 \label{subsec:met-data-split}
 
-The full dataset is used for the primary calibration audit (Chapter~\ref{chap:results}, 
-Section~\ref{sec:res-h1}) since the models are queried without any prior 
-fitting on this data. For the post-hoc recalibration analysis 
-(Section~\ref{sec:res-recalibration}), we adopt a 70/30 random split 
-stratified by criterion type. The 70\% subset is used to fit the isotonic 
-regression, the 30\% subset to evaluate the recalibrated ECE. Stability of 
-the recalibration gain is further verified through five-fold cross-validation 
-using the same split ratio.
+The dataset is used in three distinct ways depending on the analysis, each 
+governed by a specific splitting strategy.
+
+For the primary calibration audit (Chapter~\ref{chap:results}, 
+Section~\ref{sec:res-h1}) and the H2 permutation tests, the models are 
+queried on the full set of 1{,}015 pairs. No split is required at this 
+stage because the models are used off-the-shelf, without any fitting on 
+the target data. Each of the twelve configurations produces one prediction 
+per pair, and calibration metrics are computed on the full set. The 
+permutation tests reshuffle pair-level assignments between Base and 
+Instruct variants, preserving the identity of individual pairs to 
+maintain paired comparisons.
+
+For the post-hoc recalibration analysis (Section~\ref{sec:res-recalibration}), 
+we adopt a 70/30 random split. The 70\% subset (approximately 710 pairs) 
+is used to fit the recalibration function (isotonic regression, 
+temperature scaling, or Platt scaling), while the 30\% subset 
+(approximately 305 pairs) is used to evaluate the recalibrated ECE on 
+data unseen during fitting. The split is stratified by criterion type to 
+preserve the inclusion/exclusion ratio in both subsets and prevent 
+imbalance artifacts. The random seed is fixed at 42 for reproducibility, 
+and the same split is applied consistently across all twelve 
+configurations to enable direct comparison.
+
+To assess whether the recalibration gain observed on a single 70/30 
+split is stable or an artifact of a favorable split, we complement the 
+primary analysis with a 5-fold cross-validation on the same data. Each 
+fold uses 80\% of the pairs for fitting and 20\% for evaluation, with 
+the folds rotating through the dataset. We report the mean ECE reduction 
+across the five folds together with its standard deviation, providing a 
+direct measure of the stability of the recalibration effect. This 
+cross-validation is applied to isotonic recalibration only, which is the 
+method retained as the primary recommendation in Chapter~\ref{chap:results}.
+
+For the analysis of performance on truly discriminative cases 
+(Section~\ref{sec:res-non-trivial}), we introduce a further stratification 
+that separates the 238 pairs whose expert label falls outside the two 
+dominant classes (``not excluded'' and ``not enough information'') from 
+the remaining 777 pairs. This stratification is not a random split but a 
+principled selection driven by the class-imbalance analysis reported in 
+Section~\ref{subsec:met-data-distribution}, and it is used to reveal 
+model behavior on cases requiring genuine clinical decisions rather than 
+majority-class shortcuts.
 
 \subsection{Ethical and Reproducibility Considerations}
 \label{subsec:met-data-ethics}
 
-The dataset contains no real patient data: all notes are synthetic, 
-constructed by the original authors to match the semantics of real 
-recruitment scenarios without disclosing personal health information. No 
-institutional review board approval was therefore required for the present 
-work. The dataset is publicly available under a CC BY 4.0 license, and all 
-prediction files produced in this study are archived in the project 
-repository (see Appendix~\ref{app:code}) to support independent 
-reproduction of the analyses.
+The ethical framework of this study is straightforward due to the nature 
+of the dataset. TrialGPT-Criterion-Annotations contains no real patient 
+data: all clinical notes were synthesized by the original 
+authors~\cite{jin2024trialgpt} to match the structure and semantics of 
+authentic recruitment scenarios without disclosing any personal health 
+information. The synthesis process combined publicly available templates 
+from ClinicalTrials.gov with clinical concept substitution to produce 
+notes that are semantically realistic yet fully non-identifying. No 
+institutional review board approval or ethics committee clearance was 
+therefore required for the present study, since no human subject data is 
+processed.
+
+The dataset is released under a CC BY 4.0 license, permitting 
+redistribution and derivative use for research purposes with attribution. 
+This licensing framework aligns with the reproducibility commitments of 
+this thesis. All prediction files produced during the twelve model runs, 
+comprising the softmax distributions over candidate labels for each of 
+the 1{,}015 pairs, are preserved as Parquet files and archived in the 
+project repository listed in Appendix~\ref{app:code}. The complete set 
+of downstream analysis outputs (calibration metrics, permutation test 
+p-values, recalibration results, conformal prediction sets, and mode 
+collapse statistics) is also archived as CSV files to enable independent 
+verification of every numerical result reported in Chapter~\ref{chap:results}.
+
+Beyond data ethics, the study raises considerations related to the 
+deployment of the audited models in clinical practice. The results 
+reported in Chapter~\ref{chap:results} are informative but not 
+directly actionable: no model tested reaches a level of probabilistic 
+reliability sufficient for autonomous eligibility screening, and the 
+mode collapse behaviors documented in Section~\ref{sec:res-mode-collapse} 
+would in a clinical setting translate into systematic screening failures 
+if left undetected. These findings underscore the responsibility of 
+practitioners who consider integrating LLMs into recruitment workflows 
+to conduct calibration audits before deployment and to interpret model 
+outputs jointly with human clinical judgment rather than as replacements 
+for it. The methodology described in this chapter is intended as a 
+practical template for such pre-deployment audits.
 
 % ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
@@ -951,25 +1105,105 @@ model confidence. We report both empirical coverage (which should match
 the target 90\%) and average set size.
 
 % ----------------------------------------------------------------------------
+% ----------------------------------------------------------------------------
 \section{Reproducibility}
 \label{sec:met-reproducibility}
 
-All code, prompts, and prediction files produced in this study are 
-archived in the project repository listed in Appendix~\ref{app:code}. The 
-code is organized as a single Kaggle notebook that reproduces the twelve 
-model runs from scratch, together with a set of Python scripts that 
-perform the downstream analyses (calibration audit, hypothesis tests, 
-recalibration, and conformal prediction) from the archived prediction 
-files. Random seeds are fixed throughout the pipeline: the 4-bit 
-quantization is deterministic, the log-probability scoring is 
-deterministic by construction (Section~\ref{sec:met-scoring}), and the 
-bootstrap and permutation tests use a fixed seed to ensure that 
-statistical results are exactly reproducible.
+Reproducibility is treated as a first-class methodological requirement 
+throughout this study, following the recommendations of the TRIPOD+AI 
+guidelines~\cite{collins2024tripod} and the broader movement toward 
+computational transparency in machine learning research. This section 
+documents the specific measures that support independent replication of 
+the results reported in Chapter~\ref{chap:results}.
 
-The complete list of hardware and software versions used in the 
-experiments, together with the exact commit hashes of the notebook and 
-the analysis scripts, is provided in Appendix~\ref{app:code}. Any 
-independent researcher with access to a T4 GPU (or equivalent) can 
-reproduce the twelve model runs in approximately ten to fifteen hours of 
-GPU time, and the downstream analyses in a few additional minutes on 
-CPU.
+\subsection{Code Availability}
+\label{subsec:met-repro-code}
+
+All code produced during this study is archived in a public repository 
+listed in Appendix~\ref{app:code}. The repository is organized into 
+three components. First, a single Kaggle notebook contains the twelve 
+model runs, from data loading through prediction generation, with 
+inline documentation of every design choice. Second, a set of Python 
+scripts performs the downstream analyses (calibration audit, hypothesis 
+tests, recalibration, conformal prediction, mode collapse analysis, and 
+composite utility scoring) from the archived prediction files. Third, 
+the notebook and scripts share a single \texttt{requirements.txt} file 
+that pins the exact versions of every dependency, together with the 
+CUDA version required for GPU acceleration.
+
+\subsection{Deterministic Pipeline}
+\label{subsec:met-repro-determinism}
+
+The full pipeline is designed to be deterministic. The 4-bit NF4 
+quantization applied to the model weights is itself deterministic: 
+loading the same model with the same quantization configuration produces 
+identical weight matrices across runs. The log-probability scoring 
+procedure described in Section~\ref{sec:met-scoring} involves no 
+sampling and reads out probabilities directly from the model's forward 
+pass, which is also deterministic given fixed weights and inputs. All 
+random operations used in the downstream analyses --- the bootstrap 
+resamples for confidence intervals, the permutation tests for 
+Hypothesis~H2, the 70/30 splits for recalibration, and the 5-fold 
+cross-validation --- use a fixed random seed (42), ensuring that 
+statistical results are bit-exact reproducible across independent runs 
+of the analysis scripts.
+
+\subsection{Data and Prediction Archives}
+\label{subsec:met-repro-data}
+
+Two categories of data files are preserved in the project repository. 
+The first category comprises the raw prediction files: for each of the 
+twelve configurations, a Parquet file records the softmax distribution 
+over candidate labels, the predicted label, the associated confidence, 
+the expert label, the criterion type, and metadata linking each 
+prediction to the original patient--criterion pair. These twelve files 
+allow any downstream analysis to be reproduced without re-running the 
+model inference, which is the most computationally expensive step. The 
+second category comprises the analysis outputs: CSV files containing the 
+calibration metrics, permutation test results, recalibration comparisons, 
+conformal prediction sets, mode collapse statistics, and composite 
+utility scores. Each numerical result reported in 
+Chapter~\ref{chap:results} can be traced to a specific row in one of 
+these files.
+
+\subsection{Prompt Verbatim}
+\label{subsec:met-repro-prompts}
+
+Because prompt engineering constitutes an experimental variable in this 
+study (Section~\ref{sec:met-prompts}), the exact text of all four prompt 
+variants --- Prompt~A and Prompt~B, in both Instruct and Base 
+formulations --- is reproduced verbatim in Appendix~\ref{app:prompts}. 
+This includes the chat template markers used for instruction-tuned 
+models and the few-shot examples embedded in the base-model prompts. 
+Any deviation from these verbatim prompts constitutes a distinct 
+experimental condition and cannot be considered a replication of the 
+present results.
+
+\subsection{Computational Requirements}
+\label{subsec:met-repro-compute}
+
+Independent reproduction of the full pipeline requires access to a GPU 
+with at least 16~GB of memory (a Tesla~T4 or equivalent) and 
+approximately ten to fifteen hours of GPU time to complete the twelve 
+model runs. The downstream analyses run on CPU in a few minutes on 
+standard hardware. All experiments reported in this thesis were 
+performed on the Kaggle free-tier compute environment, which is 
+publicly accessible and imposes no barriers to independent replication. 
+The complete list of hardware and software versions, together with the 
+commit hashes of the notebook and analysis scripts at the time of 
+submission, is provided in Appendix~\ref{app:code}.
+
+\subsection{Reporting Standards}
+\label{subsec:met-repro-reporting}
+
+The reporting in Chapter~\ref{chap:results} follows the structure 
+recommended by TRIPOD+AI for prediction model studies: hypotheses are 
+stated before results, the four pre-registered hypotheses are reported 
+alongside their pre-specified rejection thresholds, statistical tests 
+are reported with their exact p-values and their Bonferroni-corrected 
+significance thresholds, and all point estimates are accompanied by 
+95\% bootstrap confidence intervals. Findings not covered by the 
+pre-registered hypotheses are clearly labelled as original observations 
+to distinguish confirmatory from exploratory results. This structured 
+reporting is intended to make the strength of the evidence transparent 
+to readers without requiring them to re-analyze the underlying data.

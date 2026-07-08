@@ -7,13 +7,13 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Overview of the experimental design. Six open-source LLMs are evaluated with two prompt variants on 1{,}015 patient--criterion pairs, producing twelve configurations tested against four pre-registered hypotheses.}}{7}{figure.caption.9}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Reliability diagrams of all 12 configurations (Prompt A left, Prompt B right). All curves fall well below the perfect calibration diagonal.}}{24}{figure.caption.15}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Risk-coverage curves for the 6 Prompt-B configurations.}}{27}{figure.caption.17}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Reliability diagrams of all 12 configurations (Prompt A left, Prompt B right). All curves fall well below the perfect calibration diagonal.}}{27}{figure.caption.15}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Risk-coverage curves for the 6 Prompt-B configurations.}}{30}{figure.caption.17}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {C.1}{\ignorespaces Reliability diagrams for the 12 configurations.}}{33}{figure.caption.19}%
+\contentsline {figure}{\numberline {C.1}{\ignorespaces Reliability diagrams for the 12 configurations.}}{36}{figure.caption.19}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
