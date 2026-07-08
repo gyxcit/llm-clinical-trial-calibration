@@ -6,10 +6,13 @@
 \contentsline {table}{\numberline {2.1}{\ignorespaces Comparative positioning of related works and this thesis.}}{4}{table.caption.8}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Selected models and their scientific role.}}{7}{table.caption.10}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces The six eligibility labels used in TrialGPT-Criterion-Annotations, organized by criterion type.}}{9}{table.caption.10}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Expert-label distribution in TrialGPT-Criterion-Annotations.}}{9}{table.caption.11}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Selected models and their scientific role in the two-by-two experimental matrix.}}{11}{table.caption.12}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces The two-by-two experimental matrix of selected models.}}{12}{table.caption.13}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {5.1}{\ignorespaces Calibration metrics across the 12 configurations.}}{9}{table.caption.11}%
-\contentsline {table}{\numberline {5.2}{\ignorespaces Global vs.\ non-trivial accuracy across configurations. The performance drop reveals which models rely on the majority class distribution.}}{11}{table.caption.13}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces Calibration metrics across the 12 configurations.}}{24}{table.caption.14}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Global vs.\ non-trivial accuracy across configurations. The performance drop reveals which models rely on the majority class distribution.}}{26}{table.caption.16}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

@@ -95,203 +95,289 @@
 \newlabel{subsec:ctx-time}{{3.5.3}{5}{Time Constraints}{subsection.3.5.3}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.6}Scope of This Work}{5}{section.3.6}\protected@file@percent }
 \newlabel{sec:ctx-scope}{{3.6}{5}{Scope of This Work}{section.3.6}{}}
+\abx@aux@cite{0}{collins2024tripod}
+\abx@aux@segm{0}{0}{collins2024tripod}
+\abx@aux@cite{0}{jin2024trialgpt}
+\abx@aux@segm{0}{0}{jin2024trialgpt}
 \@writefile{toc}{\contentsline {chapter}{\numberline {4}Methodology and Technical Approach}{6}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \newlabel{chap:methodology}{{4}{6}{Methodology and Technical Approach}{chapter.4}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4.1}Overview of the Experimental Design}{6}{section.4.1}\protected@file@percent }
 \newlabel{sec:met-overview}{{4.1}{6}{Overview of the Experimental Design}{section.4.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Overview of the experimental design: 6 models $\times $ 2 prompts $=$ 12 configurations evaluated on 1,015 patient-criterion pairs.}}{6}{figure.caption.9}\protected@file@percent }
-\newlabel{fig:met-overview}{{4.1}{6}{Overview of the experimental design: 6 models $\times $ 2 prompts $=$ 12 configurations evaluated on 1,015 patient-criterion pairs}{figure.caption.9}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Research Question and Pre-registered Hypotheses}{6}{section.4.2}\protected@file@percent }
-\newlabel{sec:met-hypotheses}{{4.2}{6}{Research Question and Pre-registered Hypotheses}{section.4.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Selected models and their scientific role.}}{7}{table.caption.10}\protected@file@percent }
-\newlabel{tab:met-models}{{4.1}{7}{Selected models and their scientific role}{table.caption.10}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Data Preparation}{7}{section.4.3}\protected@file@percent }
-\newlabel{sec:met-data}{{4.3}{7}{Data Preparation}{section.4.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Model Selection}{7}{section.4.4}\protected@file@percent }
-\newlabel{sec:met-models}{{4.4}{7}{Model Selection}{section.4.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Selection Criteria}{7}{subsection.4.4.1}\protected@file@percent }
-\newlabel{subsec:met-criteria}{{4.4.1}{7}{Selection Criteria}{subsection.4.4.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}The Six Selected Models}{7}{subsection.4.4.2}\protected@file@percent }
-\newlabel{subsec:met-selected}{{4.4.2}{7}{The Six Selected Models}{subsection.4.4.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.3}Excluded Models}{7}{subsection.4.4.3}\protected@file@percent }
-\newlabel{subsec:met-excluded}{{4.4.3}{7}{Excluded Models}{subsection.4.4.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Prompt Design}{7}{section.4.5}\protected@file@percent }
-\newlabel{sec:met-prompts}{{4.5}{7}{Prompt Design}{section.4.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.1}Rationale for Two Prompt Variants}{7}{subsection.4.5.1}\protected@file@percent }
-\newlabel{subsec:met-two-prompts}{{4.5.1}{7}{Rationale for Two Prompt Variants}{subsection.4.5.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.2}Prompt A: Generic Baseline}{7}{subsection.4.5.2}\protected@file@percent }
-\newlabel{subsec:met-prompt-a}{{4.5.2}{7}{Prompt A: Generic Baseline}{subsection.4.5.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.3}Prompt B: Adapted with Expert Guidance}{7}{subsection.4.5.3}\protected@file@percent }
-\newlabel{subsec:met-prompt-b}{{4.5.3}{7}{Prompt B: Adapted with Expert Guidance}{subsection.4.5.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.4}Adaptations for Base vs Instruct Models}{7}{subsection.4.5.4}\protected@file@percent }
-\newlabel{subsec:met-base-instruct}{{4.5.4}{7}{Adaptations for Base vs Instruct Models}{subsection.4.5.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.6}Scoring Pipeline: Log-Probability Extraction}{7}{section.4.6}\protected@file@percent }
-\newlabel{sec:met-scoring}{{4.6}{7}{Scoring Pipeline: Log-Probability Extraction}{section.4.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.7}Quantization and Infrastructure}{7}{section.4.7}\protected@file@percent }
-\newlabel{sec:met-infrastructure}{{4.7}{7}{Quantization and Infrastructure}{section.4.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.8}Evaluation Metrics}{7}{section.4.8}\protected@file@percent }
-\newlabel{sec:met-metrics}{{4.8}{7}{Evaluation Metrics}{section.4.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.1}Expected Calibration Error (ECE)}{7}{subsection.4.8.1}\protected@file@percent }
-\newlabel{subsec:met-ece}{{4.8.1}{7}{Expected Calibration Error (ECE)}{subsection.4.8.1}{}}
-\newlabel{eq:ece}{{4.1}{7}{Expected Calibration Error (ECE)}{equation.4.1}{}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Log-probability scoring for eligibility label prediction}}{8}{algorithm.1}\protected@file@percent }
-\newlabel{alg:scoring}{{1}{8}{Log-probability scoring for eligibility label prediction}{algorithm.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.2}Brier Score}{8}{subsection.4.8.2}\protected@file@percent }
-\newlabel{subsec:met-brier}{{4.8.2}{8}{Brier Score}{subsection.4.8.2}{}}
-\newlabel{eq:brier}{{4.2}{8}{Brier Score}{equation.4.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.3}C-index for Ordinal Validity}{8}{subsection.4.8.3}\protected@file@percent }
-\newlabel{subsec:met-cindex}{{4.8.3}{8}{C-index for Ordinal Validity}{subsection.4.8.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.4}Reliability Diagrams}{8}{subsection.4.8.4}\protected@file@percent }
-\newlabel{subsec:met-reliab}{{4.8.4}{8}{Reliability Diagrams}{subsection.4.8.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.5}Bootstrap Confidence Intervals}{8}{subsection.4.8.5}\protected@file@percent }
-\newlabel{subsec:met-bootstrap}{{4.8.5}{8}{Bootstrap Confidence Intervals}{subsection.4.8.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.9}Statistical Analysis Plan}{8}{section.4.9}\protected@file@percent }
-\newlabel{sec:met-stats}{{4.9}{8}{Statistical Analysis Plan}{section.4.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.1}Pre-registration of Hypotheses}{8}{subsection.4.9.1}\protected@file@percent }
-\newlabel{subsec:met-preregistration}{{4.9.1}{8}{Pre-registration of Hypotheses}{subsection.4.9.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.2}Permutation Tests}{8}{subsection.4.9.2}\protected@file@percent }
-\newlabel{subsec:met-permutation}{{4.9.2}{8}{Permutation Tests}{subsection.4.9.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.3}Bonferroni Correction}{8}{subsection.4.9.3}\protected@file@percent }
-\newlabel{subsec:met-bonferroni}{{4.9.3}{8}{Bonferroni Correction}{subsection.4.9.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.4}Post-hoc Recalibration Methods}{8}{subsection.4.9.4}\protected@file@percent }
-\newlabel{subsec:met-recalibration}{{4.9.4}{8}{Post-hoc Recalibration Methods}{subsection.4.9.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.5}Conformal Prediction}{8}{subsection.4.9.5}\protected@file@percent }
-\newlabel{subsec:met-conformal}{{4.9.5}{8}{Conformal Prediction}{subsection.4.9.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.10}Reproducibility}{8}{section.4.10}\protected@file@percent }
-\newlabel{sec:met-reproducibility}{{4.10}{8}{Reproducibility}{section.4.10}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Results and Analysis}{9}{chapter.5}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:results}{{5}{9}{Results and Analysis}{chapter.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Chapter Overview}{9}{section.5.1}\protected@file@percent }
-\newlabel{sec:res-overview}{{5.1}{9}{Chapter Overview}{section.5.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Pre-LLM Audit and Expert Agreement}{9}{section.5.2}\protected@file@percent }
-\newlabel{sec:res-audit}{{5.2}{9}{Pre-LLM Audit and Expert Agreement}{section.5.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Calibration Audit: H1 Supported Across All Models}{9}{section.5.3}\protected@file@percent }
-\newlabel{sec:res-h1}{{5.3}{9}{Calibration Audit: H1 Supported Across All Models}{section.5.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Calibration metrics across the 12 configurations.}}{9}{table.caption.11}\protected@file@percent }
-\newlabel{tab:res-calibration}{{5.1}{9}{Calibration metrics across the 12 configurations}{table.caption.11}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Reliability diagrams of all 12 configurations (Prompt A left, Prompt B right). All curves fall well below the perfect calibration diagonal.}}{9}{figure.caption.12}\protected@file@percent }
-\newlabel{fig:res-reliability}{{5.1}{9}{Reliability diagrams of all 12 configurations (Prompt A left, Prompt B right). All curves fall well below the perfect calibration diagonal}{figure.caption.12}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}The Effect of RLHF: H2 Supported (Main Contribution)}{10}{section.5.4}\protected@file@percent }
-\newlabel{sec:res-h2}{{5.4}{10}{The Effect of RLHF: H2 Supported (Main Contribution)}{section.5.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.5}The Enriched-Prompt Paradox}{10}{section.5.5}\protected@file@percent }
-\newlabel{sec:res-prompt}{{5.5}{10}{The Enriched-Prompt Paradox}{section.5.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.6}Mode Collapse in Medical and RLHF-Aligned LLMs}{10}{section.5.6}\protected@file@percent }
-\newlabel{sec:res-mode-collapse}{{5.6}{10}{Mode Collapse in Medical and RLHF-Aligned LLMs}{section.5.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.7}Performance on Truly Discriminative Cases}{10}{section.5.7}\protected@file@percent }
-\newlabel{sec:res-non-trivial}{{5.7}{10}{Performance on Truly Discriminative Cases}{section.5.7}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.2}{\ignorespaces Global vs.\ non-trivial accuracy across configurations. The performance drop reveals which models rely on the majority class distribution.}}{11}{table.caption.13}\protected@file@percent }
-\newlabel{tab:res-non-trivial}{{5.2}{11}{Global vs.\ non-trivial accuracy across configurations. The performance drop reveals which models rely on the majority class distribution}{table.caption.13}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.8}Systematic Inclusion vs Exclusion Asymmetry}{11}{section.5.8}\protected@file@percent }
-\newlabel{sec:res-asymmetry}{{5.8}{11}{Systematic Inclusion vs Exclusion Asymmetry}{section.5.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.9}Model-Specific Evasion Biases}{11}{section.5.9}\protected@file@percent }
-\newlabel{sec:res-evasion}{{5.9}{11}{Model-Specific Evasion Biases}{section.5.9}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Risk-coverage curves for the 6 Prompt-B configurations.}}{12}{figure.caption.14}\protected@file@percent }
-\newlabel{fig:res-riskcov}{{5.2}{12}{Risk-coverage curves for the 6 Prompt-B configurations}{figure.caption.14}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.10}Ordinal Validity (H3) and Selective Classification (H4)}{12}{section.5.10}\protected@file@percent }
-\newlabel{sec:res-h3h4}{{5.10}{12}{Ordinal Validity (H3) and Selective Classification (H4)}{section.5.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.10.1}H3: Not Reached but Revealing Hierarchy}{12}{subsection.5.10.1}\protected@file@percent }
-\newlabel{subsec:res-h3}{{5.10.1}{12}{H3: Not Reached but Revealing Hierarchy}{subsection.5.10.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.10.2}H4: Supported Only on the Mistral Family}{12}{subsection.5.10.2}\protected@file@percent }
-\newlabel{subsec:res-h4}{{5.10.2}{12}{H4: Supported Only on the Mistral Family}{subsection.5.10.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.11}Post-hoc Recalibration and Stability}{12}{section.5.11}\protected@file@percent }
-\newlabel{sec:res-recalibration}{{5.11}{12}{Post-hoc Recalibration and Stability}{section.5.11}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.12}Conformal Prediction and Inter-Model Consensus}{12}{section.5.12}\protected@file@percent }
-\newlabel{sec:res-conformal-consensus}{{5.12}{12}{Conformal Prediction and Inter-Model Consensus}{section.5.12}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.12.1}Conformal Prediction Achieves Target Coverage}{12}{subsection.5.12.1}\protected@file@percent }
-\newlabel{subsec:res-conformal}{{5.12.1}{12}{Conformal Prediction Achieves Target Coverage}{subsection.5.12.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.12.2}Inter-Model Consensus}{12}{subsection.5.12.2}\protected@file@percent }
-\newlabel{subsec:res-consensus}{{5.12.2}{12}{Inter-Model Consensus}{subsection.5.12.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.13}Baselines and Composite Utility Score}{12}{section.5.13}\protected@file@percent }
-\newlabel{sec:res-baselines}{{5.13}{12}{Baselines and Composite Utility Score}{section.5.13}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.14}Summary of Results}{12}{section.5.14}\protected@file@percent }
-\newlabel{sec:res-summary}{{5.14}{12}{Summary of Results}{section.5.14}{}}
+\abx@aux@cite{0}{collins2024tripod}
+\abx@aux@segm{0}{0}{collins2024tripod}
+\abx@aux@cite{0}{vancalster2019calibration}
+\abx@aux@segm{0}{0}{vancalster2019calibration}
+\abx@aux@cite{0}{kadavath2022know}
+\abx@aux@segm{0}{0}{kadavath2022know}
+\abx@aux@cite{0}{vancalster2019calibration}
+\abx@aux@segm{0}{0}{vancalster2019calibration}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Overview of the experimental design. Six open-source LLMs are evaluated with two prompt variants on 1{,}015 patient--criterion pairs, producing twelve configurations tested against four pre-registered hypotheses.}}{7}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:met-overview}{{4.1}{7}{Overview of the experimental design. Six open-source LLMs are evaluated with two prompt variants on 1{,}015 patient--criterion pairs, producing twelve configurations tested against four pre-registered hypotheses}{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Research Question and Pre-registered Hypotheses}{7}{section.4.2}\protected@file@percent }
+\newlabel{sec:met-hypotheses}{{4.2}{7}{Research Question and Pre-registered Hypotheses}{section.4.2}{}}
 \abx@aux@cite{0}{jin2024trialgpt}
 \abx@aux@segm{0}{0}{jin2024trialgpt}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion and Future Work}{13}{chapter.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Data Preparation}{8}{section.4.3}\protected@file@percent }
+\newlabel{sec:met-data}{{4.3}{8}{Data Preparation}{section.4.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Dataset Composition}{8}{subsection.4.3.1}\protected@file@percent }
+\newlabel{subsec:met-data-composition}{{4.3.1}{8}{Dataset Composition}{subsection.4.3.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces The six eligibility labels used in TrialGPT-Criterion-Annotations, organized by criterion type.}}{9}{table.caption.10}\protected@file@percent }
+\newlabel{tab:met-labels}{{4.1}{9}{The six eligibility labels used in TrialGPT-Criterion-Annotations, organized by criterion type}{table.caption.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}Label Distribution}{9}{subsection.4.3.2}\protected@file@percent }
+\newlabel{subsec:met-data-distribution}{{4.3.2}{9}{Label Distribution}{subsection.4.3.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Expert-label distribution in TrialGPT-Criterion-Annotations.}}{9}{table.caption.11}\protected@file@percent }
+\newlabel{tab:met-label-freq}{{4.2}{9}{Expert-label distribution in TrialGPT-Criterion-Annotations}{table.caption.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.3}Textual Characteristics}{10}{subsection.4.3.3}\protected@file@percent }
+\newlabel{subsec:met-data-text}{{4.3.3}{10}{Textual Characteristics}{subsection.4.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.4}Split for Recalibration Analysis}{10}{subsection.4.3.4}\protected@file@percent }
+\newlabel{subsec:met-data-split}{{4.3.4}{10}{Split for Recalibration Analysis}{subsection.4.3.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.5}Ethical and Reproducibility Considerations}{10}{subsection.4.3.5}\protected@file@percent }
+\newlabel{subsec:met-data-ethics}{{4.3.5}{10}{Ethical and Reproducibility Considerations}{subsection.4.3.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Model Selection}{10}{section.4.4}\protected@file@percent }
+\newlabel{sec:met-models}{{4.4}{10}{Model Selection}{section.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Selection Criteria}{11}{subsection.4.4.1}\protected@file@percent }
+\newlabel{subsec:met-criteria}{{4.4.1}{11}{Selection Criteria}{subsection.4.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}The Six Selected Models}{11}{subsection.4.4.2}\protected@file@percent }
+\newlabel{subsec:met-selected}{{4.4.2}{11}{The Six Selected Models}{subsection.4.4.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Selected models and their scientific role in the two-by-two experimental matrix.}}{11}{table.caption.12}\protected@file@percent }
+\newlabel{tab:met-models}{{4.3}{11}{Selected models and their scientific role in the two-by-two experimental matrix}{table.caption.12}{}}
+\abx@aux@cite{0}{chen2023meditron}
+\abx@aux@segm{0}{0}{chen2023meditron}
+\abx@aux@cite{0}{labrak2024biomistral}
+\abx@aux@segm{0}{0}{labrak2024biomistral}
+\abx@aux@cite{0}{christophe2024med42}
+\abx@aux@segm{0}{0}{christophe2024med42}
+\abx@aux@cite{0}{chen2024huatuogpt}
+\abx@aux@segm{0}{0}{chen2024huatuogpt}
+\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces The two-by-two experimental matrix of selected models.}}{12}{table.caption.13}\protected@file@percent }
+\newlabel{tab:met-matrix}{{4.4}{12}{The two-by-two experimental matrix of selected models}{table.caption.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.3}Excluded Models}{12}{subsection.4.4.3}\protected@file@percent }
+\newlabel{subsec:met-excluded}{{4.4.3}{12}{Excluded Models}{subsection.4.4.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Prompt Design}{13}{section.4.5}\protected@file@percent }
+\newlabel{sec:met-prompts}{{4.5}{13}{Prompt Design}{section.4.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.1}Rationale for Two Prompt Variants}{13}{subsection.4.5.1}\protected@file@percent }
+\newlabel{subsec:met-two-prompts}{{4.5.1}{13}{Rationale for Two Prompt Variants}{subsection.4.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.2}Prompt A: Generic Baseline}{13}{subsection.4.5.2}\protected@file@percent }
+\newlabel{subsec:met-prompt-a}{{4.5.2}{13}{Prompt A: Generic Baseline}{subsection.4.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.3}Prompt B: Adapted with Expert Guidance}{14}{subsection.4.5.3}\protected@file@percent }
+\newlabel{subsec:met-prompt-b}{{4.5.3}{14}{Prompt B: Adapted with Expert Guidance}{subsection.4.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.4}Adaptations for Base vs.\ Instruct Models}{15}{subsection.4.5.4}\protected@file@percent }
+\newlabel{subsec:met-base-instruct}{{4.5.4}{15}{Adaptations for Base vs.\ Instruct Models}{subsection.4.5.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Scoring Pipeline: Log-Probability Extraction}{15}{section.4.6}\protected@file@percent }
+\newlabel{sec:met-scoring}{{4.6}{15}{Scoring Pipeline: Log-Probability Extraction}{section.4.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6.1}Principle of Log-Probability Scoring}{15}{subsection.4.6.1}\protected@file@percent }
+\newlabel{subsec:met-scoring-principle}{{4.6.1}{15}{Principle of Log-Probability Scoring}{subsection.4.6.1}{}}
+\newlabel{eq:label-logprob}{{4.1}{16}{Principle of Log-Probability Scoring}{equation.4.1}{}}
+\newlabel{eq:softmax}{{4.2}{16}{Principle of Log-Probability Scoring}{equation.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6.2}Restriction of the Candidate Set by Criterion Type}{16}{subsection.4.6.2}\protected@file@percent }
+\newlabel{subsec:met-scoring-candidates}{{4.6.2}{16}{Restriction of the Candidate Set by Criterion Type}{subsection.4.6.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6.3}Algorithmic Summary}{16}{subsection.4.6.3}\protected@file@percent }
+\newlabel{subsec:met-scoring-algorithm}{{4.6.3}{16}{Algorithmic Summary}{subsection.4.6.3}{}}
+\abx@aux@cite{0}{dettmers2023qlora}
+\abx@aux@segm{0}{0}{dettmers2023qlora}
+\abx@aux@cite{0}{dettmers2023qlora}
+\abx@aux@segm{0}{0}{dettmers2023qlora}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Log-probability scoring for eligibility label prediction}}{17}{algorithm.1}\protected@file@percent }
+\newlabel{alg:scoring}{{1}{17}{Log-probability scoring for eligibility label prediction}{algorithm.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6.4}Implementation Notes}{17}{subsection.4.6.4}\protected@file@percent }
+\newlabel{subsec:met-scoring-implementation}{{4.6.4}{17}{Implementation Notes}{subsection.4.6.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.7}Quantization and Infrastructure}{17}{section.4.7}\protected@file@percent }
+\newlabel{sec:met-infrastructure}{{4.7}{17}{Quantization and Infrastructure}{section.4.7}{}}
+\abx@aux@cite{0}{guo2017calibration}
+\abx@aux@segm{0}{0}{guo2017calibration}
+\abx@aux@cite{0}{brier1950}
+\abx@aux@segm{0}{0}{brier1950}
+\@writefile{toc}{\contentsline {section}{\numberline {4.8}Evaluation Metrics}{18}{section.4.8}\protected@file@percent }
+\newlabel{sec:met-metrics}{{4.8}{18}{Evaluation Metrics}{section.4.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.1}Expected Calibration Error (ECE)}{18}{subsection.4.8.1}\protected@file@percent }
+\newlabel{subsec:met-ece}{{4.8.1}{18}{Expected Calibration Error (ECE)}{subsection.4.8.1}{}}
+\newlabel{eq:ece}{{4.3}{18}{Expected Calibration Error (ECE)}{equation.4.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.2}Brier Score}{18}{subsection.4.8.2}\protected@file@percent }
+\newlabel{subsec:met-brier}{{4.8.2}{18}{Brier Score}{subsection.4.8.2}{}}
+\newlabel{eq:brier}{{4.4}{18}{Brier Score}{equation.4.4}{}}
+\abx@aux@cite{0}{vancalster2019calibration}
+\abx@aux@segm{0}{0}{vancalster2019calibration}
+\abx@aux@cite{0}{cohen1968}
+\abx@aux@segm{0}{0}{cohen1968}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.3}Classification Metrics}{19}{subsection.4.8.3}\protected@file@percent }
+\newlabel{subsec:met-classification}{{4.8.3}{19}{Classification Metrics}{subsection.4.8.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.4}C-index for Ordinal Validity}{19}{subsection.4.8.4}\protected@file@percent }
+\newlabel{subsec:met-cindex}{{4.8.4}{19}{C-index for Ordinal Validity}{subsection.4.8.4}{}}
+\newlabel{eq:cindex}{{4.5}{19}{C-index for Ordinal Validity}{equation.4.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.5}Weighted Kappa for Expert-Model Agreement}{19}{subsection.4.8.5}\protected@file@percent }
+\newlabel{subsec:met-kappa}{{4.8.5}{19}{Weighted Kappa for Expert-Model Agreement}{subsection.4.8.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.6}Overconfidence and Prediction Diversity}{20}{subsection.4.8.6}\protected@file@percent }
+\newlabel{subsec:met-behavioral}{{4.8.6}{20}{Overconfidence and Prediction Diversity}{subsection.4.8.6}{}}
+\newlabel{eq:overconf}{{4.6}{20}{Overconfidence and Prediction Diversity}{equation.4.6}{}}
+\newlabel{eq:diversity}{{4.7}{20}{Overconfidence and Prediction Diversity}{equation.4.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.7}Composite Utility Score}{20}{subsection.4.8.7}\protected@file@percent }
+\newlabel{subsec:met-composite}{{4.8.7}{20}{Composite Utility Score}{subsection.4.8.7}{}}
+\newlabel{eq:composite}{{4.8}{20}{Composite Utility Score}{equation.4.8}{}}
+\abx@aux@cite{0}{collins2024tripod}
+\abx@aux@segm{0}{0}{collins2024tripod}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.8}Reliability Diagrams}{21}{subsection.4.8.8}\protected@file@percent }
+\newlabel{subsec:met-reliab}{{4.8.8}{21}{Reliability Diagrams}{subsection.4.8.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.9}Bootstrap Confidence Intervals}{21}{subsection.4.8.9}\protected@file@percent }
+\newlabel{subsec:met-bootstrap}{{4.8.9}{21}{Bootstrap Confidence Intervals}{subsection.4.8.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.9}Statistical Analysis Plan}{21}{section.4.9}\protected@file@percent }
+\newlabel{sec:met-stats}{{4.9}{21}{Statistical Analysis Plan}{section.4.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.1}Pre-registration of Hypotheses}{21}{subsection.4.9.1}\protected@file@percent }
+\newlabel{subsec:met-preregistration}{{4.9.1}{21}{Pre-registration of Hypotheses}{subsection.4.9.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.2}Permutation Tests}{21}{subsection.4.9.2}\protected@file@percent }
+\newlabel{subsec:met-permutation}{{4.9.2}{21}{Permutation Tests}{subsection.4.9.2}{}}
+\abx@aux@cite{0}{guo2017calibration}
+\abx@aux@segm{0}{0}{guo2017calibration}
+\abx@aux@cite{0}{vovk2005}
+\abx@aux@segm{0}{0}{vovk2005}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.3}Bonferroni Correction}{22}{subsection.4.9.3}\protected@file@percent }
+\newlabel{subsec:met-bonferroni}{{4.9.3}{22}{Bonferroni Correction}{subsection.4.9.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.4}Post-hoc Recalibration Methods}{22}{subsection.4.9.4}\protected@file@percent }
+\newlabel{subsec:met-recalibration}{{4.9.4}{22}{Post-hoc Recalibration Methods}{subsection.4.9.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.5}Conformal Prediction}{22}{subsection.4.9.5}\protected@file@percent }
+\newlabel{subsec:met-conformal}{{4.9.5}{22}{Conformal Prediction}{subsection.4.9.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.10}Reproducibility}{23}{section.4.10}\protected@file@percent }
+\newlabel{sec:met-reproducibility}{{4.10}{23}{Reproducibility}{section.4.10}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Results and Analysis}{24}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:conclusion}{{6}{13}{Conclusion and Future Work}{chapter.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Summary of Findings}{13}{section.6.1}\protected@file@percent }
-\newlabel{sec:conc-summary}{{6.1}{13}{Summary of Findings}{section.6.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Answer to the Research Question}{13}{section.6.2}\protected@file@percent }
-\newlabel{sec:conc-answer}{{6.2}{13}{Answer to the Research Question}{section.6.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.3}Contributions}{13}{section.6.3}\protected@file@percent }
-\newlabel{sec:conc-contributions}{{6.3}{13}{Contributions}{section.6.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.4}Limitations}{13}{section.6.4}\protected@file@percent }
-\newlabel{sec:conc-limitations}{{6.4}{13}{Limitations}{section.6.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.1}External Validation}{13}{subsection.6.4.1}\protected@file@percent }
-\newlabel{subsec:conc-limitations-external}{{6.4.1}{13}{External Validation}{subsection.6.4.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.2}Model Scale}{14}{subsection.6.4.2}\protected@file@percent }
-\newlabel{subsec:conc-limitations-scale}{{6.4.2}{14}{Model Scale}{subsection.6.4.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.3}Prompt Space}{14}{subsection.6.4.3}\protected@file@percent }
-\newlabel{subsec:conc-limitations-prompts}{{6.4.3}{14}{Prompt Space}{subsection.6.4.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.5}Future Work}{14}{section.6.5}\protected@file@percent }
-\newlabel{sec:conc-future}{{6.5}{14}{Future Work}{section.6.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.1}External Validation on Independent Benchmarks}{14}{subsection.6.5.1}\protected@file@percent }
-\newlabel{subsec:conc-external}{{6.5.1}{14}{External Validation on Independent Benchmarks}{subsection.6.5.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.2}Multi-Agent Adversarial Debate for Calibration}{14}{subsection.6.5.2}\protected@file@percent }
-\newlabel{subsec:conc-debate}{{6.5.2}{14}{Multi-Agent Adversarial Debate for Calibration}{subsection.6.5.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.3}Investigating the Origin of Mode Collapse}{14}{subsection.6.5.3}\protected@file@percent }
-\newlabel{subsec:conc-collapse-origin}{{6.5.3}{14}{Investigating the Origin of Mode Collapse}{subsection.6.5.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.4}Extension to Larger and Multilingual Models}{14}{subsection.6.5.4}\protected@file@percent }
-\newlabel{subsec:conc-scale-future}{{6.5.4}{14}{Extension to Larger and Multilingual Models}{subsection.6.5.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.6}Closing Remarks}{14}{section.6.6}\protected@file@percent }
-\newlabel{sec:conc-closing}{{6.6}{14}{Closing Remarks}{section.6.6}{}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{15}{chapter*.15}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Detailed Results Tables}{16}{appendix.A}\protected@file@percent }
+\newlabel{chap:results}{{5}{24}{Results and Analysis}{chapter.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Chapter Overview}{24}{section.5.1}\protected@file@percent }
+\newlabel{sec:res-overview}{{5.1}{24}{Chapter Overview}{section.5.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Pre-LLM Audit and Expert Agreement}{24}{section.5.2}\protected@file@percent }
+\newlabel{sec:res-audit}{{5.2}{24}{Pre-LLM Audit and Expert Agreement}{section.5.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Calibration Audit: H1 Supported Across All Models}{24}{section.5.3}\protected@file@percent }
+\newlabel{sec:res-h1}{{5.3}{24}{Calibration Audit: H1 Supported Across All Models}{section.5.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Calibration metrics across the 12 configurations.}}{24}{table.caption.14}\protected@file@percent }
+\newlabel{tab:res-calibration}{{5.1}{24}{Calibration metrics across the 12 configurations}{table.caption.14}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Reliability diagrams of all 12 configurations (Prompt A left, Prompt B right). All curves fall well below the perfect calibration diagonal.}}{24}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:res-reliability}{{5.1}{24}{Reliability diagrams of all 12 configurations (Prompt A left, Prompt B right). All curves fall well below the perfect calibration diagonal}{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}The Effect of RLHF: H2 Supported (Main Contribution)}{25}{section.5.4}\protected@file@percent }
+\newlabel{sec:res-h2}{{5.4}{25}{The Effect of RLHF: H2 Supported (Main Contribution)}{section.5.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}The Enriched-Prompt Paradox}{25}{section.5.5}\protected@file@percent }
+\newlabel{sec:res-prompt}{{5.5}{25}{The Enriched-Prompt Paradox}{section.5.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.6}Mode Collapse in Medical and RLHF-Aligned LLMs}{25}{section.5.6}\protected@file@percent }
+\newlabel{sec:res-mode-collapse}{{5.6}{25}{Mode Collapse in Medical and RLHF-Aligned LLMs}{section.5.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.7}Performance on Truly Discriminative Cases}{25}{section.5.7}\protected@file@percent }
+\newlabel{sec:res-non-trivial}{{5.7}{25}{Performance on Truly Discriminative Cases}{section.5.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.2}{\ignorespaces Global vs.\ non-trivial accuracy across configurations. The performance drop reveals which models rely on the majority class distribution.}}{26}{table.caption.16}\protected@file@percent }
+\newlabel{tab:res-non-trivial}{{5.2}{26}{Global vs.\ non-trivial accuracy across configurations. The performance drop reveals which models rely on the majority class distribution}{table.caption.16}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.8}Systematic Inclusion vs Exclusion Asymmetry}{26}{section.5.8}\protected@file@percent }
+\newlabel{sec:res-asymmetry}{{5.8}{26}{Systematic Inclusion vs Exclusion Asymmetry}{section.5.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.9}Model-Specific Evasion Biases}{26}{section.5.9}\protected@file@percent }
+\newlabel{sec:res-evasion}{{5.9}{26}{Model-Specific Evasion Biases}{section.5.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Risk-coverage curves for the 6 Prompt-B configurations.}}{27}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:res-riskcov}{{5.2}{27}{Risk-coverage curves for the 6 Prompt-B configurations}{figure.caption.17}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.10}Ordinal Validity (H3) and Selective Classification (H4)}{27}{section.5.10}\protected@file@percent }
+\newlabel{sec:res-h3h4}{{5.10}{27}{Ordinal Validity (H3) and Selective Classification (H4)}{section.5.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.10.1}H3: Not Reached but Revealing Hierarchy}{27}{subsection.5.10.1}\protected@file@percent }
+\newlabel{subsec:res-h3}{{5.10.1}{27}{H3: Not Reached but Revealing Hierarchy}{subsection.5.10.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.10.2}H4: Supported Only on the Mistral Family}{27}{subsection.5.10.2}\protected@file@percent }
+\newlabel{subsec:res-h4}{{5.10.2}{27}{H4: Supported Only on the Mistral Family}{subsection.5.10.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.11}Post-hoc Recalibration and Stability}{27}{section.5.11}\protected@file@percent }
+\newlabel{sec:res-recalibration}{{5.11}{27}{Post-hoc Recalibration and Stability}{section.5.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.12}Conformal Prediction and Inter-Model Consensus}{27}{section.5.12}\protected@file@percent }
+\newlabel{sec:res-conformal-consensus}{{5.12}{27}{Conformal Prediction and Inter-Model Consensus}{section.5.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.12.1}Conformal Prediction Achieves Target Coverage}{27}{subsection.5.12.1}\protected@file@percent }
+\newlabel{subsec:res-conformal}{{5.12.1}{27}{Conformal Prediction Achieves Target Coverage}{subsection.5.12.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.12.2}Inter-Model Consensus}{27}{subsection.5.12.2}\protected@file@percent }
+\newlabel{subsec:res-consensus}{{5.12.2}{27}{Inter-Model Consensus}{subsection.5.12.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.13}Baselines and Composite Utility Score}{27}{section.5.13}\protected@file@percent }
+\newlabel{sec:res-baselines}{{5.13}{27}{Baselines and Composite Utility Score}{section.5.13}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.14}Summary of Results}{27}{section.5.14}\protected@file@percent }
+\newlabel{sec:res-summary}{{5.14}{27}{Summary of Results}{section.5.14}{}}
+\abx@aux@cite{0}{jin2024trialgpt}
+\abx@aux@segm{0}{0}{jin2024trialgpt}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion and Future Work}{28}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{app:tables}{{A}{16}{Detailed Results Tables}{appendix.A}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {B}Full Prompt Specifications}{17}{appendix.B}\protected@file@percent }
+\newlabel{chap:conclusion}{{6}{28}{Conclusion and Future Work}{chapter.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Summary of Findings}{28}{section.6.1}\protected@file@percent }
+\newlabel{sec:conc-summary}{{6.1}{28}{Summary of Findings}{section.6.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Answer to the Research Question}{28}{section.6.2}\protected@file@percent }
+\newlabel{sec:conc-answer}{{6.2}{28}{Answer to the Research Question}{section.6.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Contributions}{28}{section.6.3}\protected@file@percent }
+\newlabel{sec:conc-contributions}{{6.3}{28}{Contributions}{section.6.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.4}Limitations}{28}{section.6.4}\protected@file@percent }
+\newlabel{sec:conc-limitations}{{6.4}{28}{Limitations}{section.6.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.1}External Validation}{28}{subsection.6.4.1}\protected@file@percent }
+\newlabel{subsec:conc-limitations-external}{{6.4.1}{28}{External Validation}{subsection.6.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.2}Model Scale}{29}{subsection.6.4.2}\protected@file@percent }
+\newlabel{subsec:conc-limitations-scale}{{6.4.2}{29}{Model Scale}{subsection.6.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.3}Prompt Space}{29}{subsection.6.4.3}\protected@file@percent }
+\newlabel{subsec:conc-limitations-prompts}{{6.4.3}{29}{Prompt Space}{subsection.6.4.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.5}Future Work}{29}{section.6.5}\protected@file@percent }
+\newlabel{sec:conc-future}{{6.5}{29}{Future Work}{section.6.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.1}External Validation on Independent Benchmarks}{29}{subsection.6.5.1}\protected@file@percent }
+\newlabel{subsec:conc-external}{{6.5.1}{29}{External Validation on Independent Benchmarks}{subsection.6.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.2}Multi-Agent Adversarial Debate for Calibration}{29}{subsection.6.5.2}\protected@file@percent }
+\newlabel{subsec:conc-debate}{{6.5.2}{29}{Multi-Agent Adversarial Debate for Calibration}{subsection.6.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.3}Investigating the Origin of Mode Collapse}{29}{subsection.6.5.3}\protected@file@percent }
+\newlabel{subsec:conc-collapse-origin}{{6.5.3}{29}{Investigating the Origin of Mode Collapse}{subsection.6.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.4}Extension to Larger and Multilingual Models}{29}{subsection.6.5.4}\protected@file@percent }
+\newlabel{subsec:conc-scale-future}{{6.5.4}{29}{Extension to Larger and Multilingual Models}{subsection.6.5.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.6}Closing Remarks}{29}{section.6.6}\protected@file@percent }
+\newlabel{sec:conc-closing}{{6.6}{29}{Closing Remarks}{section.6.6}{}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{30}{chapter*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Detailed Results Tables}{31}{appendix.A}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{app:prompts}{{B}{17}{Full Prompt Specifications}{appendix.B}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {B.1}Prompt A --- Generic (Baseline)}{17}{section.B.1}\protected@file@percent }
-\newlabel{sec:app-prompt-a}{{B.1}{17}{Prompt A --- Generic (Baseline)}{section.B.1}{}}
-\newlabel{lst:prompt-a-instruct}{{B.1}{17}{Prompt A for Instruct models}{lstlisting.B.1}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.1}{\ignorespaces Prompt A for Instruct models}}{17}{lstlisting.B.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B.2}Prompt B --- Adapted with Expert Guidance}{17}{section.B.2}\protected@file@percent }
-\newlabel{sec:app-prompt-b}{{B.2}{17}{Prompt B --- Adapted with Expert Guidance}{section.B.2}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {C}Individual Reliability Diagrams}{18}{appendix.C}\protected@file@percent }
+\newlabel{app:tables}{{A}{31}{Detailed Results Tables}{appendix.A}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {B}Full Prompt Specifications}{32}{appendix.B}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{app:reliability}{{C}{18}{Individual Reliability Diagrams}{appendix.C}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {C.1}{\ignorespaces Reliability diagrams for the 12 configurations.}}{18}{figure.caption.16}\protected@file@percent }
-\newlabel{fig:app-reliability-all}{{C.1}{18}{Reliability diagrams for the 12 configurations}{figure.caption.16}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {D}Code and Data Availability}{19}{appendix.D}\protected@file@percent }
+\newlabel{app:prompts}{{B}{32}{Full Prompt Specifications}{appendix.B}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.1}Prompt A --- Generic (Baseline)}{32}{section.B.1}\protected@file@percent }
+\newlabel{sec:app-prompt-a}{{B.1}{32}{Prompt A --- Generic (Baseline)}{section.B.1}{}}
+\newlabel{lst:prompt-a-instruct}{{B.1}{32}{Prompt A for Instruct models}{lstlisting.B.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.1}{\ignorespaces Prompt A for Instruct models}}{32}{lstlisting.B.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {B.2}Prompt B --- Adapted with Expert Guidance}{32}{section.B.2}\protected@file@percent }
+\newlabel{sec:app-prompt-b}{{B.2}{32}{Prompt B --- Adapted with Expert Guidance}{section.B.2}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {C}Individual Reliability Diagrams}{33}{appendix.C}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{app:code}{{D}{19}{Code and Data Availability}{appendix.D}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {D.1}Repository Structure}{19}{section.D.1}\protected@file@percent }
-\newlabel{sec:app-repo}{{D.1}{19}{Repository Structure}{section.D.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {D.2}Data Availability}{19}{section.D.2}\protected@file@percent }
-\newlabel{sec:app-data}{{D.2}{19}{Data Availability}{section.D.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {D.3}Reproducing the Experiments}{19}{section.D.3}\protected@file@percent }
-\newlabel{sec:app-reproduce}{{D.3}{19}{Reproducing the Experiments}{section.D.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {D.4}Computational Requirements}{19}{section.D.4}\protected@file@percent }
-\newlabel{sec:app-compute}{{D.4}{19}{Computational Requirements}{section.D.4}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {E}Generative AI Usage Declaration}{20}{appendix.E}\protected@file@percent }
+\newlabel{app:reliability}{{C}{33}{Individual Reliability Diagrams}{appendix.C}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {C.1}{\ignorespaces Reliability diagrams for the 12 configurations.}}{33}{figure.caption.19}\protected@file@percent }
+\newlabel{fig:app-reliability-all}{{C.1}{33}{Reliability diagrams for the 12 configurations}{figure.caption.19}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {D}Code and Data Availability}{34}{appendix.D}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{app:ai-declaration}{{E}{20}{Generative AI Usage Declaration}{appendix.E}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {F}Detailed Mode Collapse Analysis}{22}{appendix.F}\protected@file@percent }
+\newlabel{app:code}{{D}{34}{Code and Data Availability}{appendix.D}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {D.1}Repository Structure}{34}{section.D.1}\protected@file@percent }
+\newlabel{sec:app-repo}{{D.1}{34}{Repository Structure}{section.D.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {D.2}Data Availability}{34}{section.D.2}\protected@file@percent }
+\newlabel{sec:app-data}{{D.2}{34}{Data Availability}{section.D.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {D.3}Reproducing the Experiments}{34}{section.D.3}\protected@file@percent }
+\newlabel{sec:app-reproduce}{{D.3}{34}{Reproducing the Experiments}{section.D.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {D.4}Computational Requirements}{34}{section.D.4}\protected@file@percent }
+\newlabel{sec:app-compute}{{D.4}{34}{Computational Requirements}{section.D.4}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {E}Generative AI Usage Declaration}{35}{appendix.E}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{app:mode-collapse}{{F}{22}{Detailed Mode Collapse Analysis}{appendix.F}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {F.1}Prediction Distribution per Configuration}{22}{section.F.1}\protected@file@percent }
-\newlabel{sec:app-collapse-dist}{{F.1}{22}{Prediction Distribution per Configuration}{section.F.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {F.2}Simulation: Forcing Decisive Predictions}{22}{section.F.2}\protected@file@percent }
-\newlabel{sec:app-collapse-force}{{F.2}{22}{Simulation: Forcing Decisive Predictions}{section.F.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {F.3}Composite Utility Score Ranking}{22}{section.F.3}\protected@file@percent }
-\newlabel{sec:app-collapse-composite}{{F.3}{22}{Composite Utility Score Ranking}{section.F.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {F.4}Cross-Validation Stability}{22}{section.F.4}\protected@file@percent }
-\newlabel{sec:app-collapse-cv}{{F.4}{22}{Cross-Validation Stability}{section.F.4}{}}
+\newlabel{app:ai-declaration}{{E}{35}{Generative AI Usage Declaration}{appendix.E}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {F}Detailed Mode Collapse Analysis}{37}{appendix.F}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{app:mode-collapse}{{F}{37}{Detailed Mode Collapse Analysis}{appendix.F}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {F.1}Prediction Distribution per Configuration}{37}{section.F.1}\protected@file@percent }
+\newlabel{sec:app-collapse-dist}{{F.1}{37}{Prediction Distribution per Configuration}{section.F.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {F.2}Simulation: Forcing Decisive Predictions}{37}{section.F.2}\protected@file@percent }
+\newlabel{sec:app-collapse-force}{{F.2}{37}{Simulation: Forcing Decisive Predictions}{section.F.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {F.3}Composite Utility Score Ranking}{37}{section.F.3}\protected@file@percent }
+\newlabel{sec:app-collapse-composite}{{F.3}{37}{Composite Utility Score Ranking}{section.F.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {F.4}Cross-Validation Stability}{37}{section.F.4}\protected@file@percent }
+\newlabel{sec:app-collapse-cv}{{F.4}{37}{Cross-Validation Stability}{section.F.4}{}}
 \abx@aux@lbx@loadrequest{french}
 \abx@aux@lbx@loadrequest{french}
-\abx@aux@read@bbl@mdfivesum{0169C5F74C6FD12D35641DE6F3378BBE}
+\abx@aux@read@bbl@mdfivesum{0E8CD05D8145E5F694F10AC161866203}
+\abx@aux@defaultrefcontext{0}{collins2024tripod}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{jin2024trialgpt}{none/global//global/global/global}
-\gdef \@abspage@last{34}
+\abx@aux@defaultrefcontext{0}{vancalster2019calibration}{none/global//global/global/global}
+\abx@aux@defaultrefcontext{0}{kadavath2022know}{none/global//global/global/global}
+\abx@aux@defaultrefcontext{0}{chen2023meditron}{none/global//global/global/global}
+\abx@aux@defaultrefcontext{0}{labrak2024biomistral}{none/global//global/global/global}
+\abx@aux@defaultrefcontext{0}{christophe2024med42}{none/global//global/global/global}
+\abx@aux@defaultrefcontext{0}{chen2024huatuogpt}{none/global//global/global/global}
+\abx@aux@defaultrefcontext{0}{guo2017calibration}{none/global//global/global/global}
+\gdef \@abspage@last{49}

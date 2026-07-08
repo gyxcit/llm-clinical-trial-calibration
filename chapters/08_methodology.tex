@@ -11,17 +11,54 @@
 \section{Overview of the Experimental Design}
 \label{sec:met-overview}
 
-% [TODO — 1 page]
-% Global schematic of the pipeline:
-%   Data → Prompting → LLM inference (12 configs) → Metrics → Statistical tests
-% Include a figure showing the 2×2 matrix (generalist/medical × Base/Instruct)
-% and the double prompt (A/B) structure.
+This chapter describes the methodology used to audit the calibration of large 
+language models in patient--clinical trial matching. The experimental design 
+follows a pre-registered protocol consistent with the TRIPOD+AI reporting 
+guidelines~\cite{collins2024tripod}, which recommend explicit hypothesis 
+specification, statistical rigor, and reproducibility for clinical prediction 
+models.
+
+The evaluation pipeline is organized around three principles. First, all 
+predictions are generated on a single held-out benchmark, 
+TrialGPT-Criterion-Annotations~\cite{jin2024trialgpt}, which contains 1{,}015 
+patient--criterion pairs annotated by three physicians and by GPT-4. Second, 
+model probabilities are extracted directly from the log-probabilities of 
+candidate labels rather than from free-form generation, in order to obtain 
+well-defined probability distributions suitable for calibration analysis. 
+Third, every hypothesis test is defined before the analysis begins, and 
+p-values are corrected for multiple comparisons.
+
+The design forms a $2 \times 2$ matrix crossing model type and post-training 
+regime. Along one axis, we compare generalist models (Mistral-7B, 
+Llama-3.1-8B) with medically specialized models (Meditron-7B, BioMistral-7B). 
+Along the other axis, we compare base models (without RLHF) with 
+instruction-tuned models (with RLHF). This crossing produces six models, each 
+of which is evaluated with two prompt variants: a generic minimalist prompt 
+(Prompt~A) and an adapted prompt with expert guidance (Prompt~B). The full 
+factorial yields twelve configurations, all evaluated on the same 1{,}015 
+pairs, for a total of 12{,}180 predictions.
+
+Figure~\ref{fig:met-overview} summarizes the pipeline. Section~\ref{sec:met-hypotheses} 
+states the four pre-registered hypotheses. Section~\ref{sec:met-data} describes 
+the dataset. Sections~\ref{sec:met-models} and~\ref{sec:met-prompts} justify 
+the model and prompt selection. Section~\ref{sec:met-scoring} details the 
+log-probability scoring pipeline. Section~\ref{sec:met-metrics} defines the 
+calibration and validity metrics. Section~\ref{sec:met-stats} presents the 
+statistical analysis plan, including the recalibration and conformal 
+prediction procedures.
 
 \begin{figure}[htbp]
     \centering
-    % \includegraphics[width=0.9\textwidth]{methodology_overview.pdf}
-    \caption{Overview of the experimental design: 6 models $\times$ 2 prompts
-        $=$ 12 configurations evaluated on 1,015 patient-criterion pairs.}
+    % [TODO: create a schematic diagram showing:
+    %   Dataset (1015 pairs) 
+    %      → 6 models × 2 prompts = 12 configurations
+    %      → Log-probability scoring
+    %      → Metrics (ECE, Brier, C-index)
+    %      → Statistical tests (H1-H4) + Recalibration + Conformal]
+    \caption{Overview of the experimental design. Six open-source LLMs are 
+        evaluated with two prompt variants on 1{,}015 patient--criterion pairs, 
+        producing twelve configurations tested against four pre-registered 
+        hypotheses.}
     \label{fig:met-overview}
 \end{figure}
 
@@ -29,60 +66,251 @@
 \section{Research Question and Pre-registered Hypotheses}
 \label{sec:met-hypotheses}
 
-% [TODO — 1 page]
-% Restate the research question and 4 hypotheses formally.
+The main research question addressed in this work is stated as follows:
 
-\begin{hypothesis}[H1]
-    Current LLM pipelines are poorly calibrated in clinical trial matching:
-    $\ece > 0.05$ (threshold from Van Calster et al.\ 2019).
+\begin{quote}
+    \itshape
+    Are the eligibility scores produced by large language models in 
+    patient--clinical trial matching probabilistically reliable, and does 
+    reinforcement learning from human feedback affect this reliability?
+\end{quote}
+
+This question is decomposed into four falsifiable hypotheses, each associated 
+with a numerical rejection threshold defined prior to the experimental phase. 
+Pre-registration of hypotheses is a standard safeguard against confirmation 
+bias in empirical work~\cite{collins2024tripod} and provides a clear criterion 
+for evaluating each finding.
+
+Hypothesis~H1 tests whether current LLM pipelines are systematically 
+miscalibrated. The rejection threshold is derived from Van~Calster 
+et~al.~\cite{vancalster2019calibration}, who characterize an Expected 
+Calibration Error (ECE) below $0.05$ as evidence of a well-calibrated 
+predictive system in clinical contexts.
+
+\begin{hypothesis}[H1: Poor calibration of current LLM pipelines]
+    The Expected Calibration Error of an LLM-based eligibility scoring 
+    pipeline exceeds the well-calibrated threshold of $0.05$:
+    \[
+        \ece(\text{pipeline}) > 0.05.
+    \]
 \end{hypothesis}
 
-\begin{hypothesis}[H2]
-    RLHF post-training degrades calibration:
-    $\ece(\text{Instruct}) > \ece(\text{Base})$, tested by permutation with
-    Bonferroni correction.
+Hypothesis~H2 extends the finding of Kadavath et~al.~\cite{kadavath2022know}, 
+who observed that RLHF post-training degrades calibration on general 
+question-answering tasks, to the specific domain of clinical trial matching. 
+It is the central original contribution of this thesis. The comparison uses 
+a permutation test on the difference in ECE between paired Base and Instruct 
+versions of the same model family, with Bonferroni correction across families 
+and prompt variants.
+
+\begin{hypothesis}[H2: RLHF degrades calibration]
+    Within a given model family, the RLHF-aligned Instruct variant exhibits 
+    worse calibration than its Base counterpart:
+    \[
+        \ece(\text{Instruct}) > \ece(\text{Base}).
+    \]
 \end{hypothesis}
 
-\begin{hypothesis}[H3]
-    LLM eligibility scores exhibit ordinal validity: C-index $> 0.70$.
+Hypothesis~H3 tests whether, independently of absolute calibration, the 
+model's scores respect the ordinal structure of the eligibility labels. 
+Ordinal validity is measured by the concordance index (C-index), and the 
+threshold of $0.70$ corresponds to conventional discrimination criteria used 
+in clinical prediction modeling~\cite{vancalster2019calibration}.
+
+\begin{hypothesis}[H3: Ordinal validity]
+    The C-index between the LLM ordinal score and the expert ordinal label 
+    exceeds the standard discrimination threshold:
+    \[
+        \operatorname{C-index} > 0.70.
+    \]
 \end{hypothesis}
 
-\begin{hypothesis}[H4]
-    Selective abstention improves clinical quality:
-    $F_1(80\% \text{ coverage}) > F_1(100\% \text{ coverage}) + 0.02$.
+Hypothesis~H4 addresses the practical value of confidence-based abstention. 
+If confidence scores are meaningful, restricting predictions to the most 
+confident subset should yield higher classification quality. The threshold 
+of $+0.02$ on macro-F1 gain is chosen to reflect a clinically noticeable 
+improvement without being trivially achievable.
+
+\begin{hypothesis}[H4: Selective classification improves quality]
+    Restricting predictions to the top 80\% most confident cases increases 
+    macro-F1 by at least $0.02$:
+    \[
+        F_1(\text{coverage}=80\%) > F_1(\text{coverage}=100\%) + 0.02.
+    \]
 \end{hypothesis}
+
+Together, these four hypotheses probe distinct aspects of probabilistic 
+reliability: absolute calibration (H1), the effect of RLHF (H2), ordinal 
+consistency (H3), and practical usability under abstention (H4). All 
+rejection criteria and statistical tests were fixed prior to running the 
+experiments and are reported without modification in Chapter~\ref{chap:results}.
 
 % ----------------------------------------------------------------------------
 \section{Data Preparation}
 \label{sec:met-data}
 
-% [TODO — 1 page]
-% - Loading TrialGPT-Criterion-Annotations
-% - Descriptive statistics: label distribution, note length, criterion length
-% - Ordinal mapping: 6 labels → 3 ordinal levels for some analyses
-% - Split strategy: 70/30 for post-hoc recalibration
+The experimental evaluation is conducted on the TrialGPT-Criterion-Annotations 
+dataset~\cite{jin2024trialgpt}, released alongside the TrialGPT system by 
+Jin et al. To our knowledge, it is the only publicly available benchmark that 
+provides multi-level expert annotations at the level of individual eligibility 
+criteria, with an explicit distinction between inclusion and exclusion 
+criteria. These properties are essential for a fine-grained calibration 
+analysis: aggregating annotations at the trial level, as in TREC Clinical 
+Trials or SIGIR benchmarks, would preclude the per-criterion probability 
+estimation required by the present protocol.
 
+\subsection{Dataset Composition}
+\label{subsec:met-data-composition}
+
+The dataset comprises 1{,}015 patient--criterion pairs. Each pair associates 
+a synthetic patient note with a single eligibility criterion drawn from a 
+real clinical trial. Two independent annotations are provided per pair: a 
+consensus label from three physicians, and a label produced by GPT-4. Both 
+annotations use the same six-level ordinal scale, described in 
+Table~\ref{tab:met-labels}.
+
+\begin{table}[htbp]
+    \centering
+    \caption{The six eligibility labels used in TrialGPT-Criterion-Annotations,
+        organized by criterion type.}
+    \label{tab:met-labels}
+    \small
+    \begin{tabular}{@{}p{2.5cm}p{2.5cm}p{7cm}@{}}
+        \toprule
+        \textbf{Label} & \textbf{Criterion type} & \textbf{Semantics} \\
+        \midrule
+        included & inclusion & The patient satisfies the inclusion criterion. \\
+        not included & inclusion & The patient does not satisfy the criterion. \\
+        excluded & exclusion & The patient has the excluding condition. \\
+        not excluded & exclusion & The patient does not have the excluding condition (favorable). \\
+        not enough information & both & The note does not permit a decision. \\
+        not applicable & both & The criterion does not apply to this patient. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Two of the six labels function as evasion or uncertainty markers rather than 
+decisive clinical judgments (``not enough information'' and 
+``not applicable''). We deliberately keep them in the label space to preserve 
+the semantics of the original benchmark, while treating their behavior as an 
+object of study in its own right (see Sections~\ref{sec:res-evasion} 
+and~\ref{sec:res-mode-collapse}).
+
+\subsection{Label Distribution}
+\label{subsec:met-data-distribution}
+
+The distribution of expert annotations is markedly imbalanced 
+(Table~\ref{tab:met-label-freq}). ``Not excluded'' dominates at 47.7\%, 
+reflecting the fact that most patients do not present the specific medical 
+conditions targeted by exclusion criteria. ``Not enough information'' 
+accounts for a further 28.9\%. The remaining 23.4\% of pairs, distributed 
+across four labels, represent the cases requiring a truly discriminative 
+clinical judgment. This asymmetry is critical for the interpretation of 
+results in Chapter~\ref{chap:results}: aggregate metrics computed over the 
+full 1{,}015 pairs can be dominated by the two majority classes and may 
+mask complete failure on the discriminative subset.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Expert-label distribution in TrialGPT-Criterion-Annotations.}
+    \label{tab:met-label-freq}
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{Label} & \textbf{Count} & \textbf{Proportion} \\
+        \midrule
+        not excluded & 484 & 47.7\% \\
+        not enough information & 293 & 28.9\% \\
+        included & 74 & 7.3\% \\
+        excluded & 55 & 5.4\% \\
+        not applicable & 55 & 5.4\% \\
+        not included & 54 & 5.3\% \\
+        \midrule
+        Total & 1{,}015 & 100.0\% \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Textual Characteristics}
+\label{subsec:met-data-text}
+
+Patient notes are short and structured: their length ranges from 232 to 
+1{,}447 characters with a median of 579 characters. This compactness is 
+important for two reasons. First, it means that no aggressive truncation is 
+required to fit the notes within LLM context windows, avoiding an additional 
+source of variability. Second, short notes place a heavier reasoning burden 
+on the model: information is often implicit, and the model must infer 
+unstated conditions from the surrounding clinical context. Criterion texts 
+are also short, with a median length of 58 characters, ranging from 
+declarative statements (\emph{Age 18 to 75 years}) to more elaborate clauses 
+involving numeric thresholds or drug interactions.
+
+\subsection{Split for Recalibration Analysis}
+\label{subsec:met-data-split}
+
+The full dataset is used for the primary calibration audit (Chapter~\ref{chap:results}, 
+Section~\ref{sec:res-h1}) since the models are queried without any prior 
+fitting on this data. For the post-hoc recalibration analysis 
+(Section~\ref{sec:res-recalibration}), we adopt a 70/30 random split 
+stratified by criterion type. The 70\% subset is used to fit the isotonic 
+regression, the 30\% subset to evaluate the recalibrated ECE. Stability of 
+the recalibration gain is further verified through five-fold cross-validation 
+using the same split ratio.
+
+\subsection{Ethical and Reproducibility Considerations}
+\label{subsec:met-data-ethics}
+
+The dataset contains no real patient data: all notes are synthetic, 
+constructed by the original authors to match the semantics of real 
+recruitment scenarios without disclosing personal health information. No 
+institutional review board approval was therefore required for the present 
+work. The dataset is publicly available under a CC BY 4.0 license, and all 
+prediction files produced in this study are archived in the project 
+repository (see Appendix~\ref{app:code}) to support independent 
+reproduction of the analyses.
+
+% ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Model Selection}
 \label{sec:met-models}
 
+The choice of models under evaluation is the central design decision of this 
+work. Rather than surveying a broad catalogue of open-source LLMs, we 
+prioritize a small selection organized as a controlled experimental matrix. 
+This design enables clean isolation of the effects under study --- 
+particularly the effect of RLHF post-training --- while remaining feasible on 
+the limited computational resources available.
+
 \subsection{Selection Criteria}
 \label{subsec:met-criteria}
 
-% [TODO — 1 page]
-% Three criteria:
-%   (1) Available Base/Instruct pairs (essential for H2)
-%   (2) Scientific relevance (2×2 matrix: generalist/medical × RLHF/no-RLHF)
-%   (3) Feasibility on free-tier T4 GPU
+Three criteria guide the selection of models. First, the model must be 
+available in both a base and an instruction-tuned variant with a common 
+pretraining, since testing hypothesis~H2 requires paired comparisons within 
+the same model family. Second, the selection must span the two-by-two matrix 
+of interest: generalist versus medically specialized pretraining, crossed 
+with the presence or absence of RLHF post-training. Third, the model must 
+fit into 16~GB of GPU memory when quantized to 4~bits, which is the memory 
+budget of a free-tier T4 GPU on Kaggle. This constraint effectively caps the 
+parameter count at 7--9 billion.
+
+These three criteria eliminate several candidates that would otherwise be 
+attractive. Models larger than 9~B parameters (Meditron-70B, Med42-v2-70B, 
+Llama-3.3-70B) exceed the memory budget. Model families without a clean 
+base--instruct pairing (Med42-v2 releases only the instruction-tuned 
+variant) preclude the H2 comparison. Model families released without a 
+medical counterpart (Gemma, DeepSeek) do not add information for our 
+two-by-two matrix.
 
 \subsection{The Six Selected Models}
 \label{subsec:met-selected}
 
-% [TODO — 2 pages]
+The six selected models, together with their scientific role in the 
+experimental matrix, are summarized in Table~\ref{tab:met-models}.
 
 \begin{table}[htbp]
     \centering
-    \caption{Selected models and their scientific role.}
+    \caption{Selected models and their scientific role in the two-by-two 
+        experimental matrix.}
     \label{tab:met-models}
     \small
     \begin{tabular}{@{}p{4.5cm}p{4cm}p{4.5cm}@{}}
@@ -94,72 +322,291 @@
         \model{Llama-3.1-8B} & Generalist, no RLHF & H2 replication \\
         \model{Llama-3.1-8B-Instruct} & Generalist, with RLHF & H2 replication \\
         \model{Meditron-7B} & Medical, no RLHF & Pure specialization effect \\
-        \model{BioMistral-7B} & Medical, inherited RLHF & Validation vs Labrak 2024 \\
+        \model{BioMistral-7B} & Medical, inherited RLHF & Validation vs.\ Labrak et al.\ (2024) \\
         \bottomrule
     \end{tabular}
 \end{table}
 
-% Justify each model's role in 1 paragraph each.
+\model{Mistral-7B-v0.3} and its instruction-tuned counterpart 
+\model{Mistral-7B-Instruct-v0.3} form the primary base--instruct pair for 
+testing~H2. The two models share the same pretraining corpus and 
+architecture; the Instruct variant differs only through subsequent 
+supervised fine-tuning and RLHF. This clean isolation of the RLHF stage 
+makes them the reference comparison for our central hypothesis.
+
+\model{Llama-3.1-8B} and \model{Llama-3.1-8B-Instruct} play the same role 
+for a second, independent model family. Testing H2 on two families rather 
+than one rules out the possibility that any observed effect is specific to 
+a single training pipeline. Llama-3.1 also brings a different tokenizer, a 
+larger context window, and a different alignment methodology, which 
+strengthens the generality of the conclusions.
+
+\model{Meditron-7B}~\cite{chen2023meditron} is a foundation model 
+pretrained on 46{,}000 clinical practice guidelines and a large corpus of 
+PubMed abstracts, starting from Llama-2 weights. Crucially, no official 
+instruction-tuned variant of Meditron-7B has been released; the base model 
+is the only publicly available version. Meditron therefore isolates the 
+effect of medical pretraining without any confound with RLHF, providing a 
+direct test of whether medical specialization improves calibration in the 
+absence of instruction alignment.
+
+\model{BioMistral-7B}~\cite{labrak2024biomistral} occupies the opposite 
+corner of the two-by-two matrix. It is derived from 
+Mistral-7B-Instruct-v0.1 through continued pretraining on PubMed Central 
+Open Access texts. It therefore inherits the RLHF alignment of its 
+Mistral-Instruct parent while adding a medical specialization stage. 
+BioMistral is also the only open-source medical LLM with published ECE 
+values, which provides an external validation point for our measurement 
+methodology.
+
+Together, these six models populate the two-by-two matrix completely 
+(Table~\ref{tab:met-matrix}). Each of the three scientific questions 
+associated with the matrix --- the effect of RLHF, the effect of medical 
+specialization, and their interaction --- can be tested through paired 
+comparisons within this design.
+
+\begin{table}[htbp]
+    \centering
+    \caption{The two-by-two experimental matrix of selected models.}
+    \label{tab:met-matrix}
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+         & \textbf{Without RLHF} & \textbf{With RLHF} \\
+        \midrule
+        \textbf{Generalist} & 
+            \model{Mistral-7B} & 
+            \model{Mistral-7B-Instruct} \\
+         & 
+            \model{Llama-3.1-8B} & 
+            \model{Llama-3.1-8B-Instruct} \\
+        \midrule
+        \textbf{Medical} & 
+            \model{Meditron-7B} & 
+            \model{BioMistral-7B} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 \subsection{Excluded Models}
 \label{subsec:met-excluded}
 
-% [TODO — 0.5 page]
-% - Qwen, Gemma, DeepSeek (redundant for H2)
-% - 70B models (GPU constraints)
-% - Med42-v2, OpenBioLLM (redundant with BioMistral)
-% Rationale: prioritize depth over breadth.
+Several candidate models were considered and deliberately excluded from the 
+final selection. \model{Qwen2.5-7B} and \model{DeepSeek-V2-Lite} were 
+excluded as redundant additions to the generalist axis: they would not 
+provide new evidence for H2 beyond what Mistral and Llama already establish. 
+\model{Gemma-2-9B} was excluded for the same reason, and additionally 
+because its license restricts commercial redistribution of derivative 
+model outputs, complicating reproducibility.
 
+Among medical LLMs, \model{Med42-v2}~\cite{christophe2024med42} and 
+\model{OpenBioLLM-8B} were excluded because their base versions are not 
+publicly released, precluding a within-family H2 comparison. 
+\model{HuatuoGPT-o1}~\cite{chen2024huatuogpt} was excluded because its 
+training corpus is primarily Chinese, which introduces a confound with the 
+English-only nature of the TrialGPT-Criterion benchmark. Larger medical 
+models (\model{Meditron-70B}, \model{Med42-v2-70B}, \model{Aloe-70B}) all 
+exceed the memory budget of a free-tier T4 GPU, even at 4-bit quantization.
+
+The rationale for this restrictive selection is that a small number of 
+well-matched models tested on the same protocol yields more interpretable 
+conclusions than a broader benchmark that would necessarily mix confounding 
+factors. Extending the analysis to additional families is a natural 
+direction for future work, discussed in Chapter~\ref{chap:conclusion}.
+% ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Prompt Design}
 \label{sec:met-prompts}
 
+The prompt used to elicit predictions from a large language model is not a 
+neutral component of an evaluation pipeline: it is a design choice that 
+directly affects the model's outputs. Any calibration audit that fixes a 
+single prompt inevitably conflates two effects --- the properties of the 
+model and the properties of the prompt --- which cannot be separated post 
+hoc. To address this ambiguity, we evaluate each of the six models under 
+two distinct prompt variants, treating the prompt as an experimental variable 
+rather than a fixed convention.
+
 \subsection{Rationale for Two Prompt Variants}
 \label{subsec:met-two-prompts}
 
-% [TODO — 0.5 page]
-% Why we test two prompts instead of one:
-% - Isolate the effect of prompting from the effect of the model
-% - Enable ablation of prompt design as an experimental variable
-% - Turn a potential limitation into a controlled variable
+The two prompts are designed to represent the two extremes of a spectrum of 
+elicitation strategies commonly encountered in practice. The first 
+(Prompt~A) is intentionally minimal: it presents the classification task and 
+the label vocabulary without any explanation, in the manner of a naive user 
+querying the model. The second (Prompt~B) is enriched with definitions, 
+examples, and explicit reasoning rules, in the manner of an expert operator 
+who invests time in prompt engineering. By evaluating each model with both 
+prompts, we obtain four independent measurement points per model family for 
+hypothesis~H2 (Base--Instruct comparison at Prompt~A, Base--Instruct 
+comparison at Prompt~B), doubling the statistical power of the RLHF test.
+
+This design also enables three additional analyses beyond the pre-registered 
+hypotheses. First, the effect of prompt design itself becomes measurable 
+within each model. Second, the interaction between RLHF and prompt design 
+becomes testable: some models may be more sensitive to prompt enrichment 
+than others. Third, the design places our results in a stronger position 
+with respect to external validity: a finding replicated under two different 
+prompts is more robust than a finding measured under a single one.
 
 \subsection{Prompt A: Generic Baseline}
 \label{subsec:met-prompt-a}
 
-% [TODO — 1 page]
-% Full prompt A (verbatim) with description of design choices.
-% Emphasize: minimal, naive user-style prompt.
+Prompt~A is a minimalist prompt containing only the classification 
+instruction, the input note, the criterion text, and the list of candidate 
+labels. It does not define the labels, does not provide examples, and does 
+not include reasoning rules. Its purpose is to establish a baseline that 
+corresponds to how a first-time user would query the model, and to provide 
+a reference point against which enriched prompts can be compared.
+
+The complete text of Prompt~A is given in Appendix~\ref{app:prompts}. Its 
+essential structure is:
+
+\begin{quote}
+\itshape
+Classify whether this patient meets the eligibility criterion.\\
+Patient: \textrm{[note]}\\
+Criterion (\textrm{[type]}): \textrm{[criterion]}\\
+Choose exactly one label from: included, not included, excluded, 
+not excluded, not enough information, not applicable.\\
+Answer:
+\end{quote}
+
+Prompt~A is applied identically to all six models. For instruction-tuned 
+models, the prompt is wrapped in the model's native chat template. For base 
+models, the prompt is presented as a plain-text continuation task without 
+special tokens.
 
 \subsection{Prompt B: Adapted with Expert Guidance}
 \label{subsec:met-prompt-b}
 
-% [TODO — 1.5 pages]
-% Full prompt B (verbatim) with:
-% - Explicit label definitions
-% - Concrete examples per label
-% - The "CRUCIAL RULE FOR EXCLUSION CRITERIA"
-% - Justification for the exclusion-criterion rule
-% (Full prompts also reproduced in Appendix B)
+Prompt~B is an adapted prompt containing definitions of the six labels, 
+one worked example per label, and a critical inference rule for exclusion 
+criteria that addresses a subtle failure mode observed in preliminary 
+experiments. The full text is reproduced in Appendix~\ref{app:prompts}.
 
-\subsection{Adaptations for Base vs Instruct Models}
+Three design choices distinguish Prompt~B from Prompt~A. First, each of the 
+six labels is defined with an explicit semantic description. For example, 
+``not included'' is characterized as ``The patient note contains 
+information showing the patient does NOT meet this inclusion criterion,'' 
+which distinguishes it from ``not enough information'' (where the note is 
+silent). Second, a one-sentence example is provided for each label, drawn 
+from realistic clinical situations. Third, a specific inference rule is 
+stated for exclusion criteria:
+
+\begin{quote}
+\itshape
+If the criterion names a specific disease, condition, or medical history, 
+and the note does not mention it, the default is ``not excluded'' (the 
+patient most likely does not have it). Reserve ``not enough information'' 
+only for criteria requiring a specific lab value or measurement that is 
+truly missing.
+\end{quote}
+
+This rule directly targets the tendency of language models to produce 
+``not enough information'' for any exclusion criterion whose target 
+condition is not explicitly discussed in the patient note --- a pattern 
+that mechanically converts the absence of a mention into an expression of 
+epistemic uncertainty, when clinically it should be treated as evidence of 
+absence.
+
+\subsection{Adaptations for Base vs.\ Instruct Models}
 \label{subsec:met-base-instruct}
 
-% [TODO — 0.5 page]
-% - Instruct: use apply_chat_template
-% - Base: no chat template, few-shot examples embedded in prompt
+Base models and instruction-tuned models expect prompts in different 
+formats, and applying the same prompt verbatim to both would create an 
+artificial handicap for the base variant. To ensure a fair comparison, 
+we adapt the surface form of each prompt to the target model class while 
+preserving its semantic content.
 
+For instruction-tuned models, prompts are formatted using the model's 
+native chat template, which delimits user and assistant roles with 
+model-specific special tokens (\texttt{[INST]}~for Mistral, 
+\texttt{<|start\_header\_id|>}~for Llama-3). This is the format for which 
+these models were aligned and where they behave as expected.
+
+For base models, no chat template is applied. Instead, the prompt includes 
+one or more few-shot examples that establish the desired input-output 
+pattern by demonstration. Prompt~A for base models includes a single 
+example; Prompt~B includes three examples covering distinct label types. 
+This asymmetry reflects a genuine limitation of base models --- they do 
+not natively follow instructions --- and treating it as an evaluation 
+artifact would misrepresent how these models are actually used in 
+practice. The introduction of few-shot examples is nevertheless a 
+potential confounder for cross-family comparisons, and we discuss it 
+explicitly in Chapter~\ref{chap:conclusion}.
+
+The complete text of all four prompt variants (Prompt~A / Prompt~B, 
+Instruct / Base) is provided in Appendix~\ref{app:prompts} to support 
+independent reproduction of the pipeline.
+
+% ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Scoring Pipeline: Log-Probability Extraction}
 \label{sec:met-scoring}
 
-% [TODO — 1.5 pages]
-% Instead of free-form generation, we compute per-label log-probabilities:
-% 1. For each candidate label (4 candidates depending on criterion_type)
-% 2. Compute mean log-probability of the label token sequence
-% 3. Softmax normalization → clean probability distribution
-% 4. Extract predicted label + confidence + full distribution
+Standard practice for querying a large language model on a classification 
+task is to sample a textual output and post-process it to recover a label. 
+This approach has two limitations for a calibration audit. First, the 
+sampled output is a point estimate: it discards the underlying probability 
+distribution over candidate labels, which is precisely the object of 
+interest for calibration analysis. Second, generation is stochastic, 
+introducing an additional source of variability that would complicate the 
+reproducibility of downstream statistics. We therefore adopt a 
+log-probability scoring approach that directly reads out the model's 
+probability distribution over the candidate labels, without any generation 
+step.
 
-% Include pseudocode or algorithm figure
+\subsection{Principle of Log-Probability Scoring}
+\label{subsec:met-scoring-principle}
+
+For a given patient--criterion pair, we first construct the prompt as 
+described in Section~\ref{sec:met-prompts}. Rather than sampling a 
+continuation, we consider each candidate label as a hypothetical completion 
+of the prompt. For each label $\ell$, we compute the mean log-probability 
+of its token sequence conditional on the prompt:
+\begin{equation}
+    s_\ell = \frac{1}{|\ell|} \sum_{t=1}^{|\ell|} \log p(\ell_t \mid \text{prompt}, \ell_{<t})
+    \label{eq:label-logprob}
+\end{equation}
+where $\ell_t$ is the $t$-th token of the label and $|\ell|$ is the total 
+number of tokens. Length normalization by $|\ell|$ is necessary because 
+labels have unequal token lengths in the tokenizer: without it, longer 
+labels such as ``not enough information'' would be systematically 
+penalized against shorter ones such as ``included''.
+
+The resulting scores $\{s_\ell\}$ are then normalized through a softmax to 
+obtain a proper probability distribution $\pi$ over the candidate labels:
+\begin{equation}
+    \pi_\ell = \frac{\exp(s_\ell)}{\sum_{\ell' \in \mathcal{L}} \exp(s_{\ell'})}
+    \label{eq:softmax}
+\end{equation}
+The predicted label $\hat{y}$ is the argmax of $\pi$, and the associated 
+confidence $\hat{p}$ is the maximum probability. Crucially, the full 
+distribution $\pi$ is retained for downstream analyses, including 
+recalibration, conformal prediction, and the simulation of constrained 
+label spaces (Section~\ref{sec:res-mode-collapse}).
+
+\subsection{Restriction of the Candidate Set by Criterion Type}
+\label{subsec:met-scoring-candidates}
+
+The six labels described in Section~\ref{sec:met-data} split into two 
+groups by criterion type. For inclusion criteria, the semantically valid 
+labels are \emph{included}, \emph{not included}, \emph{not enough 
+information}, and \emph{not applicable}. For exclusion criteria, they are 
+\emph{excluded}, \emph{not excluded}, \emph{not enough information}, and 
+\emph{not applicable}. In both cases, four labels are candidates and two 
+would be semantically nonsensical (e.g., predicting ``included'' for an 
+exclusion criterion). We therefore restrict the softmax in 
+Equation~\ref{eq:softmax} to the four candidates appropriate to the 
+criterion type at hand. This restriction preserves the ordinal structure 
+of the task and prevents the model from being penalized for probability 
+mass placed on labels that could not have been correct in the first place.
+
+\subsection{Algorithmic Summary}
+\label{subsec:met-scoring-algorithm}
+
+Algorithm~\ref{alg:scoring} summarizes the full scoring procedure applied 
+to each patient--criterion pair.
 
 \begin{algorithm}[htbp]
 \caption{Log-probability scoring for eligibility label prediction}
@@ -179,24 +626,77 @@
 \end{algorithmic}
 \end{algorithm}
 
+Because no sampling is involved, the procedure is fully deterministic: 
+running the same model on the same input twice yields identical scores. 
+This determinism is important for the reproducibility of the entire 
+downstream analysis, including the bootstrap confidence intervals and 
+permutation tests described in Section~\ref{sec:met-stats}.
+
+\subsection{Implementation Notes}
+\label{subsec:met-scoring-implementation}
+
+The scoring loop is implemented using the standard causal language modeling 
+interface of the HuggingFace \texttt{transformers} library. For a given 
+prompt, we tokenize the concatenation of the prompt and each candidate 
+label separately, run a single forward pass per concatenation, and read 
+out the token log-probabilities from the model's logits after applying a 
+log-softmax over the vocabulary. This approach requires four forward 
+passes per patient--criterion pair (one per candidate label), which is 
+approximately twice as expensive as free-form generation of a short 
+answer. In practice, on a T4 GPU with 4-bit quantization, the four passes 
+complete in approximately three seconds per pair for a 7-billion-parameter 
+model, and the full evaluation of 1{,}015 pairs takes fifty to seventy 
+minutes depending on the model.
+
+% ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Quantization and Infrastructure}
 \label{sec:met-infrastructure}
 
-% [TODO — 0.5 page]
-% - 4-bit NF4 quantization via bitsandbytes
-% - Reduces 7B model memory from ~14GB to ~2GB
-% - Kaggle T4 GPU environment
-% - Reproducibility: fixed seeds, saved random states
+Running 7-to-9-billion-parameter models on a free-tier T4 GPU (16~GB of 
+memory) requires reducing the memory footprint of the model weights. We 
+apply 4-bit NF4 quantization~\cite{dettmers2023qlora} through the 
+\texttt{bitsandbytes} library, which represents each weight as a 4-bit 
+value drawn from a distribution matched to the empirical distribution of 
+neural network weights. This reduces the memory required to store a 
+7-billion-parameter model from approximately 14~GB (in half-precision) to 
+approximately 4~GB, leaving sufficient headroom for the key-value cache 
+during inference.
 
+Prior work has shown that 4-bit NF4 quantization introduces negligible 
+degradation on downstream evaluation benchmarks compared to full 
+precision~\cite{dettmers2023qlora}, including on tasks that involve 
+long-form generation or fine-grained probability estimation. We rely on 
+this evidence to justify the use of NF4 quantization for our calibration 
+audit, while acknowledging that a small residual effect of quantization 
+on absolute ECE values cannot be entirely ruled out. Since Hypothesis~H2 
+and the associated Bonferroni-corrected permutation tests compare 
+\emph{differences} in ECE between paired variants evaluated under the 
+same quantization regime, any systematic bias introduced by quantization 
+cancels out and does not affect the conclusions.
+
+All experiments were run on Kaggle notebooks with a single Tesla~T4 GPU. 
+The compute quota (30~GPU-hours per week on the free tier) was sufficient 
+to complete the twelve runs and all downstream analyses within the 
+experimental phase of the project.
+
+% ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Evaluation Metrics}
 \label{sec:met-metrics}
 
+The evaluation combines calibration metrics, classification metrics, 
+ordinal validity metrics, and behavioral metrics. Each captures a distinct 
+aspect of probabilistic reliability, and no single metric is sufficient on 
+its own. This section defines every metric used in Chapter~\ref{chap:results}.
+
 \subsection{Expected Calibration Error (ECE)}
 \label{subsec:met-ece}
 
-% [TODO — 1 page with formula]
+The Expected Calibration Error, introduced by Naeini et~al.\ and 
+popularized by Guo et~al.~\cite{guo2017calibration}, measures the average 
+absolute gap between predicted confidence and observed accuracy across 
+confidence bins:
 
 \begin{equation}
     \ece = \sum_{k=1}^{K} \frac{|B_k|}{n}
@@ -204,13 +704,19 @@
     \label{eq:ece}
 \end{equation}
 
-% Explain: K bins, |B_k| bin size, acc average accuracy, conf average confidence.
-% Standard choice: K=10 equal-width bins.
+where predictions are partitioned into $K$ equal-width bins $B_1, \ldots, 
+B_K$ based on their confidence, $n$ is the total number of predictions, 
+$\operatorname{acc}(B_k)$ is the empirical accuracy of predictions in 
+bin $B_k$, and $\operatorname{conf}(B_k)$ is the average confidence of 
+predictions in the same bin. A perfectly calibrated model satisfies 
+$\operatorname{acc}(B_k) = \operatorname{conf}(B_k)$ for all bins, yielding 
+an ECE of zero. We use $K = 10$ equal-width bins on $[0, 1]$.
 
 \subsection{Brier Score}
 \label{subsec:met-brier}
 
-% [TODO — 0.5 page with formula]
+The Brier score~\cite{brier1950} measures the mean squared error between 
+predicted probability and the true binary outcome (correct or incorrect):
 
 \begin{equation}
     \operatorname{Brier} = \frac{1}{n} \sum_{i=1}^{n}
@@ -218,65 +724,252 @@
     \label{eq:brier}
 \end{equation}
 
+where $p_i$ is the predicted confidence and $y_i \in \{0, 1\}$ indicates 
+whether the prediction was correct. Unlike ECE, which measures calibration 
+alone, the Brier score jointly reflects calibration and sharpness: a model 
+that is both accurate and confident achieves a lower Brier score than one 
+that is only well calibrated but uninformative.
+
+\subsection{Classification Metrics}
+\label{subsec:met-classification}
+
+We report accuracy as the proportion of predictions matching the expert 
+label, and macro-F1 as the unweighted mean of per-class F1 scores. Macro-F1 
+is critical in the presence of the severe class imbalance documented in 
+Section~\ref{subsec:met-data-distribution}: a model that always predicts 
+the majority class achieves an accuracy of 47.7\% but a macro-F1 close to 
+zero on the minority classes. This distinction becomes central in 
+Chapter~\ref{chap:results} when comparing model behavior across cases of 
+varying clinical difficulty.
+
 \subsection{C-index for Ordinal Validity}
 \label{subsec:met-cindex}
 
-% [TODO — 0.5 page]
+Because the eligibility labels form an ordinal scale, we complement 
+calibration and classification metrics with the concordance index 
+(C-index), which measures the probability that, for a randomly chosen 
+pair of cases with different expert labels, the model correctly ranks 
+them:
+
+\begin{equation}
+    \operatorname{C-index} = \frac{
+        |\{(i, j) : y_i < y_j \text{ and } s_i < s_j\}|
+    }{
+        |\{(i, j) : y_i \neq y_j\}|
+    }
+    \label{eq:cindex}
+\end{equation}
+
+where $y_i, y_j$ are ordinal expert labels of cases $i$ and $j$, and 
+$s_i, s_j$ are the model's scalar scores obtained by mapping the 
+predicted label and confidence onto the ordinal scale. A C-index of 1 
+indicates perfect ranking, 0.5 indicates random ranking, and the 
+conventional threshold of 0.70 is used in clinical prediction modeling as 
+evidence of acceptable discrimination~\cite{vancalster2019calibration}.
+
+\subsection{Weighted Kappa for Expert-Model Agreement}
+\label{subsec:met-kappa}
+
+To measure the agreement between physician annotations and GPT-4 
+annotations in the pre-LLM audit (Section~\ref{sec:res-audit}), we use 
+Cohen's weighted kappa with quadratic weights~\cite{cohen1968}. Weighted 
+kappa extends the standard kappa coefficient by penalizing disagreements 
+proportionally to their ordinal distance: a confusion between adjacent 
+labels (e.g., ``included'' and ``not enough information'') counts less 
+than a confusion between distant labels (e.g., ``included'' and 
+``excluded''). We report values in the range $[-1, 1]$, with 1 
+indicating perfect agreement, 0 indicating chance agreement, and 
+negative values indicating systematic disagreement.
+
+\subsection{Overconfidence and Prediction Diversity}
+\label{subsec:met-behavioral}
+
+Beyond calibration and classification, two behavioral metrics quantify 
+how a model uses its probability distribution.
+
+The mean overconfidence is defined as the difference between the average 
+confidence and the average accuracy:
+
+\begin{equation}
+    \operatorname{overconfidence} = \bar{p} - \operatorname{acc}
+    \label{eq:overconf}
+\end{equation}
+
+where $\bar{p}$ is the mean predicted confidence across the evaluation 
+set. A positive value indicates that the model tends to overstate its 
+certainty, a negative value that it understates it. Unlike ECE, which is 
+a magnitude, overconfidence is a signed quantity that reveals the 
+direction of the miscalibration.
+
+Prediction diversity is measured as the normalized Shannon entropy of 
+the empirical label distribution:
+
+\begin{equation}
+    \operatorname{diversity} = 
+    \frac{
+        -\sum_{\ell \in \mathcal{L}} f_\ell \log_2 f_\ell
+    }{
+        \log_2 |\mathcal{L}|
+    }
+    \label{eq:diversity}
+\end{equation}
+
+where $f_\ell$ is the empirical frequency of label $\ell$ in the model's 
+predictions and $\mathcal{L}$ is the label vocabulary. A diversity of 0 
+indicates that the model predicts a single label; a diversity of 1 
+indicates a uniform distribution over all labels. This metric is central 
+to detecting the mode collapse behavior documented in 
+Section~\ref{sec:res-mode-collapse}, which the calibration and 
+classification metrics can mask.
+
+\subsection{Composite Utility Score}
+\label{subsec:met-composite}
+
+To provide a single rank-ordering of the twelve configurations that 
+reflects clinical usability, we propose a composite utility score 
+combining calibration quality, discrimination, and prediction diversity:
+
+\begin{equation}
+    \operatorname{utility} = F_1^{\text{macro}} \times (1 - \ece) \times 
+    \operatorname{diversity}
+    \label{eq:composite}
+\end{equation}
+
+The three factors are multiplicative rather than additive so that a 
+failure on any single dimension zeroes out the score. A model with 
+excellent calibration but complete mode collapse (diversity $= 0$) 
+receives a utility score of zero, correctly capturing its lack of 
+practical value. This composite score complements rather than replaces 
+the individual metrics, which remain the primary object of analysis.
 
 \subsection{Reliability Diagrams}
 \label{subsec:met-reliab}
 
-% [TODO — 0.5 page]
+Reliability diagrams complement ECE by visualizing the calibration curve 
+directly. For each of the $K$ bins used in the ECE computation, we plot 
+the average confidence on the horizontal axis and the observed accuracy 
+on the vertical axis. A perfectly calibrated model produces points that 
+lie on the diagonal $y = x$. Points below the diagonal indicate 
+overconfidence; points above indicate underconfidence.
 
 \subsection{Bootstrap Confidence Intervals}
 \label{subsec:met-bootstrap}
 
-% [TODO — 0.5 page]
-% 1000 bootstrap resamples, 95% percentile intervals
+For every point estimate of ECE, Brier score, and C-index, we report a 
+95\% confidence interval obtained by 1{,}000 bootstrap resamples of the 
+prediction set. Bootstrap confidence intervals do not assume any specific 
+distributional form and are appropriate for the non-Gaussian statistics 
+under study. They also provide a natural way to assess whether a given 
+model's ECE genuinely exceeds the 0.05 threshold of Hypothesis~H1, or 
+whether the excess is within sampling noise.
 
 % ----------------------------------------------------------------------------
 \section{Statistical Analysis Plan}
 \label{sec:met-stats}
 
+The four pre-registered hypotheses described in 
+Section~\ref{sec:met-hypotheses} are tested according to a fixed analysis 
+plan. This section describes the tests, the correction for multiple 
+comparisons, and the additional analyses (post-hoc recalibration and 
+conformal prediction) that complement the primary hypotheses.
+
 \subsection{Pre-registration of Hypotheses}
 \label{subsec:met-preregistration}
 
-% [TODO — 0.5 page]
-% Hypotheses fixed BEFORE running experiments (Popperian falsifiability).
-% Following TRIPOD+AI (Collins et al. 2024) recommendations.
+All four rejection criteria (H1: $\ece > 0.05$; H2: 
+$\ece(\text{Instruct}) > \ece(\text{Base})$; H3: 
+$\operatorname{C-index} > 0.70$; H4: $F_1(80\%) > F_1(100\%) + 0.02$) 
+were fixed before the twelve model runs were executed. This 
+pre-registration protects the analysis against post-hoc adjustment of 
+the criteria to fit the observed results and follows the recommendations 
+of the TRIPOD+AI reporting guidelines~\cite{collins2024tripod}. Results 
+are reported without modification of the rejection criteria, and any 
+findings not covered by these four hypotheses are reported separately as 
+original observations (see Chapter~\ref{chap:results}).
 
 \subsection{Permutation Tests}
 \label{subsec:met-permutation}
 
-% [TODO — 0.5 page]
-% For H2 and comparisons: 1000 permutations, one-sided p-value.
+Hypothesis~H2 compares the ECE of paired Base and Instruct variants of 
+the same model family under the same prompt. Rather than assume any 
+particular distributional form for the ECE difference, we use a 
+permutation test: for 1{,}000 random permutations of the model labels 
+(Base vs.\ Instruct) within each pair, we recompute the ECE difference 
+and count the fraction of permutations in which the observed difference 
+is equalled or exceeded. This fraction is the one-sided p-value for the 
+null hypothesis that the two variants have the same underlying 
+calibration. The one-sided formulation is appropriate because 
+Hypothesis~H2 is directional: we test whether Instruct is worse than 
+Base, not merely different from it.
 
 \subsection{Bonferroni Correction}
 \label{subsec:met-bonferroni}
 
-% [TODO — 0.5 page]
-% Multiple comparisons: 8 tests planned, α_corrected = 0.05/8 = 0.00625
+Hypothesis~H2 is tested four times (Mistral--Prompt~A, Mistral--Prompt~B, 
+Llama--Prompt~A, Llama--Prompt~B) and further comparisons for medical 
+specialization contribute additional tests. To control the family-wise 
+error rate across the eight planned comparisons, we apply a Bonferroni 
+correction with $\alpha_{\text{corrected}} = 0.05 / 8 = 0.00625$. This 
+correction is conservative but appropriate given the small number of 
+comparisons and the desire for a stringent test of the central 
+hypothesis.
 
 \subsection{Post-hoc Recalibration Methods}
 \label{subsec:met-recalibration}
 
-% [TODO — 1 page]
-% Temperature scaling, isotonic regression, Platt scaling
-% Split 70% calibration / 30% test
+Beyond the primary calibration audit, we evaluate three post-hoc 
+recalibration methods that could correct miscalibration without retraining 
+the model. Temperature scaling~\cite{guo2017calibration} applies a single 
+learned scalar $T$ to the logits before the softmax, effectively 
+softening (or sharpening) the confidence distribution. Isotonic 
+regression fits a monotone piecewise-constant function mapping 
+uncorrected confidences to corrected ones; being non-parametric, it can 
+correct arbitrary shapes of miscalibration but requires more data than 
+temperature scaling. Platt scaling fits a logistic function of the 
+uncorrected confidence, offering a compromise between the flexibility of 
+isotonic regression and the parsimony of temperature scaling.
+
+Each method is fitted on the 70\% training subset and evaluated on the 
+30\% held-out subset (see Section~\ref{subsec:met-data-split}). To assess 
+whether the recalibration gains are stable across different data splits, 
+we additionally perform a 5-fold cross-validation, reporting the mean 
+and standard deviation of the ECE reduction over the five folds.
 
 \subsection{Conformal Prediction}
 \label{subsec:met-conformal}
 
-% [TODO — 0.5 page]
-% Split conformal: nonconformity = 1 - p(true label)
-% Target coverage 90% (α = 0.1)
+To complement point-estimate calibration, we apply split conformal 
+prediction~\cite{vovk2005}, a distribution-free framework that produces 
+prediction sets with a guaranteed marginal coverage rate. Given a 
+target coverage level $1 - \alpha$ (we use $\alpha = 0.10$, i.e., 90\% 
+coverage), the framework calibrates a threshold on the non-conformity 
+scores of a held-out calibration set and returns, for each test case, 
+the set of labels whose non-conformity is below that threshold. The 
+size of the prediction set is an informative quantity: large sets 
+indicate high aleatoric uncertainty, while small sets indicate high 
+model confidence. We report both empirical coverage (which should match 
+the target 90\%) and average set size.
 
 % ----------------------------------------------------------------------------
 \section{Reproducibility}
 \label{sec:met-reproducibility}
 
-% [TODO — 0.5 page]
-% - Code and predictions publicly available (Kaggle notebook + GitHub)
-% - Fixed seeds
-% - Full prompts in Appendix B
-% - All raw prediction files preserved
+All code, prompts, and prediction files produced in this study are 
+archived in the project repository listed in Appendix~\ref{app:code}. The 
+code is organized as a single Kaggle notebook that reproduces the twelve 
+model runs from scratch, together with a set of Python scripts that 
+perform the downstream analyses (calibration audit, hypothesis tests, 
+recalibration, and conformal prediction) from the archived prediction 
+files. Random seeds are fixed throughout the pipeline: the 4-bit 
+quantization is deterministic, the log-probability scoring is 
+deterministic by construction (Section~\ref{sec:met-scoring}), and the 
+bootstrap and permutation tests use a fixed seed to ensure that 
+statistical results are exactly reproducible.
+
+The complete list of hardware and software versions used in the 
+experiments, together with the exact commit hashes of the notebook and 
+the analysis scripts, is provided in Appendix~\ref{app:code}. Any 
+independent researcher with access to a T4 GPU (or equivalent) can 
+reproduce the twelve model runs in approximately ten to fifteen hours of 
+GPU time, and the downstream analyses in a few additional minutes on 
+CPU.

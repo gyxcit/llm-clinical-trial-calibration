@@ -5,15 +5,15 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Overview of the experimental design: 6 models $\times $ 2 prompts $=$ 12 configurations evaluated on 1,015 patient-criterion pairs.}}{6}{figure.caption.9}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Overview of the experimental design. Six open-source LLMs are evaluated with two prompt variants on 1{,}015 patient--criterion pairs, producing twelve configurations tested against four pre-registered hypotheses.}}{7}{figure.caption.9}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Reliability diagrams of all 12 configurations (Prompt A left, Prompt B right). All curves fall well below the perfect calibration diagonal.}}{9}{figure.caption.12}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Risk-coverage curves for the 6 Prompt-B configurations.}}{12}{figure.caption.14}%
-\addvspace {10\p@ }
-\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Reliability diagrams of all 12 configurations (Prompt A left, Prompt B right). All curves fall well below the perfect calibration diagonal.}}{24}{figure.caption.15}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Risk-coverage curves for the 6 Prompt-B configurations.}}{27}{figure.caption.17}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {C.1}{\ignorespaces Reliability diagrams for the 12 configurations.}}{18}{figure.caption.16}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {C.1}{\ignorespaces Reliability diagrams for the 12 configurations.}}{33}{figure.caption.19}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
