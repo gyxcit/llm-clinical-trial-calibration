@@ -1,0 +1,95 @@
+% ============================================================================
+%   CHAPTER 1 — INTRODUCTION
+%   Aivancity: 3-5 pages, funnel structure (general → specific)
+% ============================================================================
+
+\chapter{Introduction}
+\label{chap:introduction}
+
+% ----------------------------------------------------------------------------
+\section{Macro Context: AI in Healthcare}
+\label{sec:intro-macro}
+
+% [TODO — 0.5-1 page]
+% - AI transformation of healthcare
+% - The specific role of LLMs since 2022
+% - Societal stakes: efficiency, accessibility, safety, trust
+
+% ----------------------------------------------------------------------------
+\section{Micro Context: Clinical Trial Matching}
+\label{sec:intro-micro}
+
+% [TODO — 0.5-1 page]
+% - The clinical trial matching problem: what it is, why it matters
+% - Current bottleneck: manual review, low enrollment rates
+% - LLM-based approaches: TrialGPT (Jin et al. 2024) as the reference
+
+% ----------------------------------------------------------------------------
+\section{Problem Statement}
+\label{sec:intro-problem}
+
+% [TODO — 0.5 page]
+% - LLMs produce eligibility scores, but ARE THESE SCORES RELIABLE?
+% - The specific problem of calibration
+% - Why calibration matters clinically (Van Calster 2019, TRIPOD+AI)
+% - The gap: no systematic audit of LLM calibration in trial matching
+
+% ----------------------------------------------------------------------------
+\section{Research Question and Hypotheses}
+\label{sec:intro-question}
+
+% [TODO — 0.5-1 page]
+% Main research question:
+%   "Are the eligibility scores produced by LLM-based patient-trial matching
+%    systems probabilistically reliable, and does RLHF post-training affect
+%    this reliability?"
+%
+% Pre-registered falsifiable hypotheses:
+%   H1: Current LLM pipelines are poorly calibrated (ECE > 0.05).
+%   H2: RLHF post-training degrades calibration
+%       [ECE(Instruct) > ECE(Base), permutation test with Bonferroni].
+%   H3: LLM scores exhibit ordinal validity (C-index > 0.70).
+%   H4: Selective abstention improves clinical quality
+%       [F1@80% coverage > F1@100% + 0.02].
+
+% ----------------------------------------------------------------------------
+\section{Contributions}
+\label{sec:intro-contributions}
+
+% [TODO — 0.5 page]
+% List the 9 original contributions:
+%   1. Systematic calibration audit of 12 LLM configurations, with
+%      cross-validation and comparison against naïve baselines
+%   2. Empirical demonstration that RLHF significantly degrades calibration
+%      across two independent model families (H2, main pre-registered
+%      contribution, extending Kadavath 2022 to the clinical domain)
+%   3. The enriched-prompt paradox: expert prompts degrade calibration in
+%      5 out of 6 models
+%   4. Systematic inclusion/exclusion asymmetry in LLM predictions
+%   5. Model-specific evasion biases: GPT-4 over-uses "not applicable",
+%      open-source LLMs over-use "not enough information"
+%   6. Post-hoc isotonic recalibration brings 11 of 12 configurations below
+%      the calibration threshold, robustly across cross-validation folds
+%   7. Discovery of mode collapse: 5 of 12 configurations predict "not
+%      enough information" in more than 97% of cases
+%   8. Structural nature of mode collapse: forcing decisive labels does not
+%      restore reasoning
+%   9. Complete failure of medical LLMs on truly discriminative cases,
+%      hidden by aggregate metrics
+
+% ----------------------------------------------------------------------------
+\section{Structure of the Thesis}
+\label{sec:intro-structure}
+
+% [TODO — 0.5 page]
+% One sentence per chapter:
+%   Chapter 2 reviews the state of the art on clinical trial matching,
+%     LLM calibration, and the effect of RLHF on model behavior.
+%   Chapter 3 describes the project context, the dataset used, and the
+%     scientific constraints.
+%   Chapter 4 details the experimental methodology, including model
+%     selection, prompt design, metrics, and statistical analysis plan.
+%   Chapter 5 presents the results structured around the four
+%     pre-registered hypotheses and five original findings.
+%   Chapter 6 discusses the implications, limitations, and future work,
+%     including a proposed multi-agent debate extension.

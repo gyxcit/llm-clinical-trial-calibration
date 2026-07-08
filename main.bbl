@@ -1,0 +1,59 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{jin2024trialgpt}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{2}{}{%
+        {{hash=732ccdb61a1d0a29e0406f2f23f7dc49}{%
+           family={Jin},
+           familyi={J\bibinitperiod},
+           given={Qiao},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=56236ebe3de0921885c080d156cf9620}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Zifeng},
+           giveni={Z\bibinitperiod}}}%
+      }
+      \strng{namehash}{4fadf3ab637d9e1313bdb92966cb24b0}
+      \strng{fullhash}{4fadf3ab637d9e1313bdb92966cb24b0}
+      \strng{fullhashraw}{4fadf3ab637d9e1313bdb92966cb24b0}
+      \strng{bibnamehash}{4fadf3ab637d9e1313bdb92966cb24b0}
+      \strng{authorbibnamehash}{4fadf3ab637d9e1313bdb92966cb24b0}
+      \strng{authornamehash}{4fadf3ab637d9e1313bdb92966cb24b0}
+      \strng{authorfullhash}{4fadf3ab637d9e1313bdb92966cb24b0}
+      \strng{authorfullhashraw}{4fadf3ab637d9e1313bdb92966cb24b0}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature Communications}
+      \field{title}{Matching patients to clinical trials with large language models}
+      \field{volume}{15}
+      \field{year}{2024}
+      \field{pages}{9074}
+      \range{pages}{1}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

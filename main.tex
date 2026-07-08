@@ -1,0 +1,262 @@
+% ============================================================================
+%   FINAL YEAR PROJECT (PFE) — MASTER'S THESIS
+%   Aivancity — Grande Ecole Programme PGE5 — AI & Data Science
+%   Academic Year 2025-2026
+%
+%   TITLE:   Auditing the Calibration of Eligibility Scores Produced by LLMs
+%            in Patient-Clinical Trial Matching
+%   AUTHOR:  Régis Likassi
+%   ADVISOR: Dr. Anuradha Kar
+% ============================================================================
+
+\documentclass[12pt, a4paper, oneside]{report}
+
+% ----------------------------------------------------------------------------
+%   ENCODING AND LANGUAGE
+% ----------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{lmodern}                % Latin Modern (required by Aivancity)
+
+% ----------------------------------------------------------------------------
+%   PAGE LAYOUT (Aivancity requirements: 2.5cm top/bot/outer, 3cm inner)
+% ----------------------------------------------------------------------------
+\usepackage[
+    a4paper,
+    top=2.5cm,
+    bottom=2.5cm,
+    inner=3cm,
+    outer=2.5cm,
+    headheight=15pt
+]{geometry}
+
+\usepackage{setspace}
+\onehalfspacing                     % Line spacing 1.5 (Aivancity)
+
+% ----------------------------------------------------------------------------
+%   TYPOGRAPHY AND PARAGRAPH
+% ----------------------------------------------------------------------------
+\usepackage{microtype}              % Fine typography
+\usepackage{parskip}                % Blank line between paragraphs (Aivancity)
+\usepackage{ragged2e}
+\usepackage{indentfirst}
+
+% Justified body text (Aivancity requirement)
+\justifying
+
+% ----------------------------------------------------------------------------
+%   MATHEMATICS
+% ----------------------------------------------------------------------------
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{siunitx}                % Units and numbers
+
+% ----------------------------------------------------------------------------
+%   FIGURES AND TABLES
+% ----------------------------------------------------------------------------
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+
+\usepackage{booktabs}               % Professional tables (Aivancity)
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage[table]{xcolor}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup{font=small, labelfont=bf, format=plain}
+\captionsetup[table]{position=above, skip=6pt}
+\captionsetup[figure]{position=below, skip=6pt}
+
+% ----------------------------------------------------------------------------
+%   CODE LISTINGS
+% ----------------------------------------------------------------------------
+\usepackage{listings}
+\lstset{
+    basicstyle=\ttfamily\small,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    numbersep=8pt,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray!80},
+    stringstyle=\color{orange!80!black},
+    frame=single,
+    framerule=0.5pt,
+    breaklines=true,
+    tabsize=2,
+    showstringspaces=false,
+    captionpos=b
+}
+
+% ----------------------------------------------------------------------------
+%   ALGORITHMS
+% ----------------------------------------------------------------------------
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% ----------------------------------------------------------------------------
+%   HEADERS AND FOOTERS
+% ----------------------------------------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\nouppercase\leftmark}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{             % First page of each chapter
+    \fancyhf{}
+    \fancyfoot[C]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+}
+
+% ----------------------------------------------------------------------------
+%   CHAPTER AND SECTION STYLE
+% ----------------------------------------------------------------------------
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+    {\normalfont\huge\bfseries\raggedright}
+    {\chaptertitlename\ \thechapter}
+    {20pt}
+    {\LARGE}
+\titlespacing*{\chapter}{0pt}{-30pt}{40pt}
+
+% ----------------------------------------------------------------------------
+%   HYPERREF (clickable links)
+% ----------------------------------------------------------------------------
+\usepackage[
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=blue!60!black,
+    urlcolor=blue!60!black,
+    pdftitle={Auditing the Calibration of LLMs in Clinical Trial Matching},
+    pdfauthor={Régis Likassi},
+    pdfsubject={Master's Thesis},
+    bookmarks=true,
+    bookmarksnumbered=true
+]{hyperref}
+
+% ----------------------------------------------------------------------------
+%   BIBLIOGRAPHY (IEEE style, recommended by Aivancity)
+% ----------------------------------------------------------------------------
+\usepackage{csquotes}               % Required by biblatex
+\usepackage[
+    backend=biber,
+    style=ieee,
+    sorting=none,
+    maxbibnames=10,
+    minbibnames=3
+]{biblatex}
+\addbibresource{bibliography/references.bib}
+
+% ----------------------------------------------------------------------------
+%   CUSTOM COMMANDS
+% ----------------------------------------------------------------------------
+\newcommand{\ece}{\textrm{ECE}}
+\newcommand{\llm}{LLM}
+\newcommand{\rlhf}{RLHF}
+\newcommand{\model}[1]{{\normalfont\textsc{#1}}}  % Model names: \model{Mistral-7B}
+
+% Custom theorem environments
+\theoremstyle{plain}
+\newtheorem{hypothesis}{Hypothesis}
+\newtheorem{finding}{Finding}
+
+% ----------------------------------------------------------------------------
+%   FRONT MATTER METADATA
+% ----------------------------------------------------------------------------
+\newcommand{\thesistitle}{Auditing the Calibration of Eligibility Scores\\
+    Produced by Large Language Models\\
+    in Patient--Clinical Trial Matching}
+\newcommand{\thesissubtitle}{Assessing the Effect of RLHF and Uncovering
+    Mode Collapse in Open-Source Medical LLMs}
+\newcommand{\thesisauthor}{Régis Likassi}
+\newcommand{\thesisadvisor}{Dr.\ Anuradha Kar}
+\newcommand{\thesisinstitution}{Aivancity --- School of AI \& Data for Business \& Society}
+\newcommand{\thesisprogram}{Grande Ecole Programme PGE5 --- AI \& Data Science}
+\newcommand{\thesisyear}{Academic Year 2025--2026}
+\newcommand{\thesisdate}{September 2026}
+
+% ============================================================================
+%   DOCUMENT
+% ============================================================================
+
+% ----------------------------------------------------------------------------
+%   COMPILE SPEED TRICK (Overleaf free tier ~60s timeout)
+% ----------------------------------------------------------------------------
+% Uncomment ONE of the following lines to compile only that chapter.
+% This can speed up compilation by 3-5x during writing.
+% Cross-references and biblio will still work from the aux files of previous
+% full compilations, so recompile fully once per session.
+%
+% \includeonly{chapters/05_introduction}
+% \includeonly{chapters/06_state_of_the_art}
+% \includeonly{chapters/07_project_context}
+% \includeonly{chapters/08_methodology}
+% \includeonly{chapters/09_results}
+% \includeonly{chapters/10_conclusion}
+%
+% NOTE: \includeonly requires \include (not \input). Currently the skeleton
+% uses \input. To use includeonly, replace \input{chapters/XX} with
+% \include{chapters/XX} in the chapter list below.
+% ----------------------------------------------------------------------------
+
+\begin{document}
+
+% ----------------------------------------------------------------------------
+%   FRONT MATTER (Roman numerals)
+% ----------------------------------------------------------------------------
+% Note: \frontmatter/\mainmatter only exist in class 'book'.
+% For 'report', we use pagenumbering manually.
+\pagenumbering{roman}
+
+\input{chapters/00_coverpage}
+\input{chapters/01_acknowledgements}
+\input{chapters/02_abstract}
+\input{chapters/03_resume_fr}
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\input{chapters/04_abbreviations}
+
+% ----------------------------------------------------------------------------
+%   MAIN MATTER (Arabic numerals)
+% ----------------------------------------------------------------------------
+\cleardoublepage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\input{chapters/05_introduction}
+\input{chapters/06_state_of_the_art}
+\input{chapters/07_project_context}
+\input{chapters/08_methodology}
+\input{chapters/09_results}
+\input{chapters/10_conclusion}
+
+% ----------------------------------------------------------------------------
+%   BIBLIOGRAPHY
+% ----------------------------------------------------------------------------
+% \nocite{*} forces all bib entries to appear even if not yet cited.
+% ⚠ Currently DISABLED during writing to speed up compilation.
+% ⚠ Uncomment before final submission if some references aren't cited yet.
+% \nocite{*}
+\printbibliography[heading=bibintoc, title={Bibliography}]
+
+% ----------------------------------------------------------------------------
+%   APPENDICES
+% ----------------------------------------------------------------------------
+\appendix
+\input{appendices/A_detailed_tables}
+\input{appendices/B_prompts}
+\input{appendices/C_reliability_diagrams}
+\input{appendices/D_code_availability}
+\input{appendices/E_ai_declaration}
+\input{appendices/F_mode_collapse}
+
+\end{document}

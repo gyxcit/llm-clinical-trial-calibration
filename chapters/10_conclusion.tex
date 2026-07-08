@@ -1,0 +1,178 @@
+% ============================================================================
+%   CHAPTER 6 — CONCLUSION AND FUTURE WORK
+%   Aivancity: 3-5 pages
+%   UPDATED: 9 findings, external validation limitation, mode collapse
+% ============================================================================
+
+\chapter{Conclusion and Future Work}
+\label{chap:conclusion}
+
+% ----------------------------------------------------------------------------
+\section{Summary of Findings}
+\label{sec:conc-summary}
+
+% [TODO — 1 page]
+% Recap of the 4 pre-registered hypotheses:
+%   H1: supported across all 12 configurations
+%   H2: supported by 4 independent tests, main pre-registered contribution
+%   H3: not reached (C-index cap at 0.65 for Meditron)
+%   H4: partial (Mistral family only)
+
+% Recap of the 9 original findings:
+%   F1: GPT-4 evasion bias
+%   F2: RLHF systematically degrades calibration
+%   F3: Enriched-prompt paradox
+%   F4: Inclusion/exclusion asymmetry
+%   F5: Divergent evasion strategies across LLMs
+%   F6: Post-hoc isotonic recalibration works
+%   F7: Mode collapse in 5 of 12 configurations
+%   F8: Mode collapse is structural, not superficial
+%   F9: Global accuracy hides complete failure on discriminative cases
+
+% ----------------------------------------------------------------------------
+\section{Answer to the Research Question}
+\label{sec:conc-answer}
+
+% [TODO — 0.5 page]
+% Direct answer:
+% "Are the eligibility scores produced by LLM-based patient-trial matching
+%  systems probabilistically reliable, and does RLHF post-training affect
+%  this reliability?"
+%
+% ANSWER: No, they are not reliable — but the reasons are more diverse than
+% initially expected. Beyond systematic miscalibration (ECE 0.12–0.63), five
+% configurations exhibit mode collapse, and no medical LLM tested can handle
+% truly discriminative clinical cases (0% accuracy). RLHF significantly
+% degrades calibration on both tested model families. Post-hoc recalibration
+% offers a practical remedy for non-degenerate models, but cannot restore
+% classification quality in collapsed ones.
+
+% ----------------------------------------------------------------------------
+\section{Contributions}
+\label{sec:conc-contributions}
+
+% [TODO — 1 page]
+% Nine scientific contributions:
+%   1. First systematic RLHF-vs-Base calibration audit in clinical trial
+%      matching (H2 supported on two independent model families)
+%   2. Empirical demonstration of the enriched-prompt paradox (5 out of 6
+%      models degrade under expert prompts)
+%   3. Discovery of the systematic inclusion/exclusion asymmetry
+%   4. Documentation of divergent evasion strategies (GPT-4 vs open-source)
+%   5. Isotonic recalibration as a practical deployment recommendation,
+%      with stability confirmed by cross-validation
+%   6. First systematic documentation of mode collapse in open-source
+%      medical LLMs, present in 5 of 12 configurations
+%   7. Structural nature of mode collapse: forcing decisive labels does not
+%      restore reasoning, only shifts collapse to a new default label
+%   8. Complete failure of medical LLMs (Meditron, BioMistral) on truly
+%      discriminative cases, hidden by global accuracy metrics
+%   9. Proposal of a composite utility score combining calibration,
+%      discrimination, and prediction diversity
+
+% ----------------------------------------------------------------------------
+\section{Limitations}
+\label{sec:conc-limitations}
+
+\subsection{External Validation}
+\label{subsec:conc-limitations-external}
+
+The present study relies on a single benchmark,
+TrialGPT-Criterion-Annotations~\cite{jin2024trialgpt}, chosen because it is
+the only public corpus offering per-criterion multi-level expert annotations
+with an explicit inclusion/exclusion distinction --- properties that are
+essential for fine-grained calibration analysis. External validation on
+independent datasets was not carried out, for three complementary reasons.
+
+First, existing alternatives are not directly comparable. TREC Clinical
+Trials 2021/2022 and SIGIR 2016 operate at the trial level rather than the
+criterion level and use only three ordinal relevance grades, which precludes
+direct replication of the calibration protocol used here. Adapting the
+hypotheses to these datasets would not constitute a validation but a
+distinct study with different endpoints.
+
+Second, the mode collapse phenomenon documented in
+Section~\ref{sec:res-mode-collapse} appears intrinsically linked to the
+availability of an evasion label (``not enough information'') in the label
+space. Datasets that do not include such a label cannot be used to test
+whether this behavior generalizes: they would trivially prevent it by design.
+
+Third, prospective validation on real clinical data would require ethical
+approval, hospital partnership, and integration into a live recruitment
+workflow. These constraints situate external validation as a research
+project in its own right, complementary to the present work rather than a
+subordinate step.
+
+External validation nevertheless remains an important direction for future
+work.
+
+\subsection{Model Scale}
+\label{subsec:conc-limitations-scale}
+
+% [TODO — 0.5 page]
+% Only 7–9B models tested due to GPU constraints
+% 70B medical models (Meditron-70B, Med42-v2-70B) may behave differently
+% Larger models may be less prone to mode collapse
+
+\subsection{Prompt Space}
+\label{subsec:conc-limitations-prompts}
+
+% [TODO — 0.5 page]
+% Only 2 prompt variants tested
+% The full prompt space is much larger (chain-of-thought, role prompting,
+% etc.)
+% The enriched-prompt paradox may be specific to our particular Prompt B
+
+% ----------------------------------------------------------------------------
+\section{Future Work}
+\label{sec:conc-future}
+
+\subsection{External Validation on Independent Benchmarks}
+\label{subsec:conc-external}
+
+% [TODO — 0.5 page]
+% Validate findings on TREC CT (with adaptation), MIMIC-derived cohorts,
+% or prospective clinical data.
+% Key question: does mode collapse persist on datasets without an
+% explicit NEI label?
+
+\subsection{Multi-Agent Adversarial Debate for Calibration}
+\label{subsec:conc-debate}
+
+% [TODO — 0.5 page]
+% The multi-agent debate paradigm applied to calibration.
+% Cite Du et al. 2023, Khan et al. 2024.
+% Hypothesis: models with distinct RLHF biases and distinct evasion
+% strategies could mutually challenge each other's overconfidence and
+% mode collapse via argumentative confrontation.
+% To our knowledge, unexplored in clinical trial matching.
+
+\subsection{Investigating the Origin of Mode Collapse}
+\label{subsec:conc-collapse-origin}
+
+% [TODO — 0.5 page]
+% Mechanistic study: is mode collapse caused by (a) safety-oriented RLHF
+% pushing models toward "safe" evasive answers, (b) domain shift between
+% medical pretraining data and clinical trial criteria, or
+% (c) a combination? Investigating requires model internals analysis.
+
+\subsection{Extension to Larger and Multilingual Models}
+\label{subsec:conc-scale-future}
+
+% [TODO — 0.5 page]
+% 70B models (Meditron-70B, Med42-v2-70B)
+% Multilingual evaluation (MMed-Llama-3, Apollo)
+
+% ----------------------------------------------------------------------------
+\section{Closing Remarks}
+\label{sec:conc-closing}
+
+% [TODO — 0.5 page]
+% Broader perspective:
+% - Calibration should be a mandatory audit before clinical LLM deployment
+% - The post-hoc recalibration path is practical and scalable, but only
+%   for models that actually classify
+% - Mode collapse is a mode of failure that current benchmarks and metrics
+%   fail to detect; the community needs better evaluation protocols
+% - The RLHF trade-off between usefulness and calibration deserves more
+%   attention, especially in high-stakes clinical settings

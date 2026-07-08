@@ -1,0 +1,152 @@
+% ============================================================================
+%   CHAPTER 2 — STATE OF THE ART
+%   Aivancity: 10-15 pages, thematic organization, ≥15 peer-reviewed refs
+% ============================================================================
+
+\chapter{State of the Art}
+\label{chap:sota}
+
+% ----------------------------------------------------------------------------
+\section{Patient--Clinical Trial Matching}
+\label{sec:sota-matching}
+
+\subsection{Clinical Context and Need}
+\label{subsec:sota-clinical}
+
+% [TODO — 1 page]
+% - Statistics on clinical trial recruitment
+% - The manual review process and its cost
+% - The need for automation
+
+\subsection{Pre-LLM Approaches}
+\label{subsec:sota-prelm}
+
+% [TODO — 1 page]
+% - Rule-based systems
+% - NER and information extraction (BioBERT, ClinicalBERT)
+% - Neural retrieval (DoSSIER, TREC CT approaches)
+
+\subsection{LLM-based Approaches}
+\label{subsec:sota-llmapproach}
+
+% [TODO — 2 pages]
+% - TrialGPT (Jin et al. 2024, Nature Communications 15:9074)
+% - OncoLLM / PRISM (Triomics, npj Digital Medicine 2024)
+% - LLM-Match (Wang et al. 2025)
+% - Trial-LLaMA (Nievas et al. JAMIA 2024)
+
+% ----------------------------------------------------------------------------
+\section{Probabilistic Calibration of Classifiers}
+\label{sec:sota-calibration}
+
+\subsection{Definitions and Metrics}
+\label{subsec:sota-metrics}
+
+% [TODO — 1.5 pages]
+% - Perfect calibration definition
+% - Expected Calibration Error (ECE) — Guo et al. 2017 (ICML)
+% - Brier score
+% - Reliability diagrams
+
+\subsection{Clinical Importance of Calibration}
+\label{subsec:sota-clinical-calib}
+
+% [TODO — 1 page]
+% - Van Calster et al. 2019 (BMC Medicine 17:230) — threshold 0.05
+% - TRIPOD+AI (Collins et al. 2024, BMJ 385:e078378)
+% - Chen et al. 2025 scoping review on calibration in medical AI
+
+\subsection{Recalibration Methods}
+\label{subsec:sota-recalibration}
+
+% [TODO — 1 page]
+% - Temperature scaling (Guo et al. 2017)
+% - Isotonic regression
+% - Platt scaling
+% - Beta calibration
+% - Dirichlet calibration
+
+% ----------------------------------------------------------------------------
+\section{Calibration of Large Language Models}
+\label{sec:sota-llm-calib}
+
+\subsection{The RLHF Effect on Calibration}
+\label{subsec:sota-rlhf}
+
+% [TODO — 1.5 pages]
+% KEY REFERENCE: Kadavath et al. 2022 (arXiv:2207.05221) — RLHF degrades
+% calibration in QA tasks. The gap our work fills: extension to clinical.
+
+\subsection{Calibration of Medical LLMs}
+\label{subsec:sota-medcalib}
+
+% [TODO — 1 page]
+% KEY REFERENCE: Labrak et al. 2024 (ACL Findings, arXiv:2402.10373)
+% BioMistral — the ONLY published ECE benchmark on medical LLMs, in multilingual
+% Their finding: pretrain on biomed does NOT fix calibration, but model
+% merging (DARE/TIES/SLERP) does.
+
+\subsection{Identified Gap}
+\label{subsec:sota-gap}
+
+% [TODO — 0.5 page]
+% Justify the originality of this work:
+% - No systematic RLHF audit in clinical trial matching
+% - No comparison across generalist vs medical LLMs on calibration in trial
+%   matching specifically
+
+% ----------------------------------------------------------------------------
+\section{Open-Source Medical LLMs}
+\label{sec:sota-medllms}
+
+\subsection{The Meditron Family}
+\label{subsec:sota-meditron}
+
+% [TODO — 0.5 page]
+% Chen et al. 2023, Meditron: 46K clinical guidelines + PubMed
+
+\subsection{BioMistral and Model Merges}
+\label{subsec:sota-biomistral}
+
+% [TODO — 0.5 page]
+% Labrak et al. 2024 — Mistral-Instruct + PubMed Central Open Access
+
+\subsection{Other Open-Source Medical LLMs}
+\label{subsec:sota-others}
+
+% [TODO — 1 page]
+% - Med42-v1/v2 (Christophe et al. 2024)
+% - OpenBioLLM
+% - HuatuoGPT-o1 (Chen et al. 2024)
+% - Aloe (HPAI-BSC)
+% Brief mention of others (comparison table)
+
+% ----------------------------------------------------------------------------
+\section{Positioning of This Work}
+\label{sec:sota-positioning}
+
+% [TODO — 1 page]
+% Comparative table of approaches (Aivancity recommendation)
+% Explicit statement of what this work adds:
+%   - First systematic audit combining RLHF effect + prompt effect
+%     + medical specialization on trial matching calibration
+%   - 12 configurations tested on the same protocol
+%   - Contribution beyond H1-H4: 5 original findings
+
+\begin{table}[htbp]
+    \centering
+    \caption{Comparative positioning of related works and this thesis.}
+    \label{tab:sota-comparison}
+    % [TODO: fill this table]
+    \small
+    \begin{tabular}{@{}p{2.5cm}p{2.2cm}p{1.7cm}ccc@{}}
+        \toprule
+        \textbf{Work} & \textbf{Domain} & \textbf{Models} & \textbf{RLHF} & \textbf{Calib.} & \textbf{Recalib.} \\
+        \midrule
+        Jin et al.\ 2024 & Trial matching & GPT-4 & --- & --- & --- \\
+        Kadavath 2022 & QA & Anthropic & \checkmark & \checkmark & --- \\
+        Labrak et al.\ 2024 & Med QA & BioMistral & --- & \checkmark & --- \\
+        \textbf{This work} & \textbf{Trial matching} & \textbf{6 LLMs} & \textbf{\checkmark} & \textbf{\checkmark} & \textbf{\checkmark} \\
+        \bottomrule
+    \end{tabular}
+\end{table}

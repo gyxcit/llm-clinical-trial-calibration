@@ -1,0 +1,108 @@
+% ============================================================================
+%   CHAPTER 3 — PROJECT CONTEXT AND SCOPE
+%   Aivancity: 5-8 pages
+%   ADAPTED for a PURELY ACADEMIC/RESEARCH context (no company internship)
+% ============================================================================
+
+\chapter{Project Context and Scope}
+\label{chap:context}
+
+% ----------------------------------------------------------------------------
+\section{Academic Research Framework}
+\label{sec:ctx-framework}
+
+% [TODO — 1 page]
+% - Aivancity's research environment
+% - The PGE5 program structure
+% - The relationship with the academic supervisor (Dr. Kar)
+% - Nature of the research: pure academic, no industrial partner
+
+% ----------------------------------------------------------------------------
+\section{Project Origin and Evolution}
+\label{sec:ctx-origin}
+
+% [TODO — 1 page]
+% - Initial topic: patient-reported uncertainty in trial matching
+% - Reformulation after literature review: focus on LLM calibration
+% - Justification: measurable, testable, addresses a documented gap
+
+% ----------------------------------------------------------------------------
+\section{Dataset: TrialGPT-Criterion-Annotations}
+\label{sec:ctx-dataset}
+
+\subsection{Dataset Description}
+\label{subsec:ctx-desc}
+
+% [TODO — 1.5 pages]
+% - 1,015 patient-criterion pairs
+% - Annotated by 3 physicians + GPT-4
+% - 6-level ordinal eligibility labels
+% - Provenance: Jin et al. 2024, TrialGPT (Nature Comm 15:9074)
+% - Public availability, no patient data (synthetic notes)
+
+\subsection{Justification of the Single-Dataset Choice}
+\label{subsec:ctx-single}
+
+% [TODO — 0.5 page]
+% Explain the choice: TrialGPT-Criterion is the ONLY public dataset with
+% - Expert (physician) annotations at the criterion-level (not trial-level)
+% - Multi-level ordinal labels (6 levels)
+% - Explicit criterion_type (inclusion vs exclusion)
+% Other datasets (TREC CT, SIGIR, n2c2) either operate at trial-level or use
+% only 3 levels, and thus cannot support fine-grained calibration analysis.
+
+% ----------------------------------------------------------------------------
+\section{Ethical Considerations}
+\label{sec:ctx-ethics}
+
+% [TODO — 0.5 page]
+% - No real patient data (dataset uses synthetic notes)
+% - Public data, CC BY 4.0
+% - No IRB/CER approval required
+% - Reproducibility commitments
+
+% ----------------------------------------------------------------------------
+\section{Constraints and Resources}
+\label{sec:ctx-constraints}
+
+\subsection{Computational Constraints}
+\label{subsec:ctx-compute}
+
+% [TODO — 0.5 page]
+% - Kaggle free-tier T4 GPU (30h/week quota)
+% - 4-bit quantization (bitsandbytes NF4) mandatory to fit 7-9B models
+% - No 70B model runs feasible
+
+\subsection{Model Access Constraints}
+\label{subsec:ctx-access}
+
+% [TODO — 0.5 page]
+% - HuggingFace license approvals (Llama-3.1, Gemma)
+% - Some models excluded due to licensing (e.g., some CC-BY-NC-only medical
+%   LLMs)
+
+\subsection{Time Constraints}
+\label{subsec:ctx-time}
+
+% [TODO — 0.5 page]
+% - PFE conducted from March to September 2026 (6 months)
+% - Design phase (March-April), experimental phase (May-July), writing phase
+%   (August-September)
+
+% ----------------------------------------------------------------------------
+\section{Scope of This Work}
+\label{sec:ctx-scope}
+
+% [TODO — 1 page]
+% What IS in scope:
+%   - Systematic calibration audit on 12 LLM configurations
+%   - Comparison of RLHF vs no-RLHF, generalist vs medical, prompt A vs B
+%   - Post-hoc recalibration and conformal prediction
+%   - Statistical analysis of pre-registered hypotheses
+%
+% What is NOT in scope (explicitly deferred):
+%   - Multi-agent debate architectures (see future work)
+%   - Fine-tuning or continued pretraining
+%   - 70B models
+%   - Multiple datasets validation
+%   - Prospective clinical validation

@@ -1,0 +1,282 @@
+% ============================================================================
+%   CHAPTER 4 — METHODOLOGY AND TECHNICAL APPROACH
+%   Aivancity: 15-20 pages — the technical core of the thesis
+%   Should be reproducible and self-contained
+% ============================================================================
+
+\chapter{Methodology and Technical Approach}
+\label{chap:methodology}
+
+% ----------------------------------------------------------------------------
+\section{Overview of the Experimental Design}
+\label{sec:met-overview}
+
+% [TODO — 1 page]
+% Global schematic of the pipeline:
+%   Data → Prompting → LLM inference (12 configs) → Metrics → Statistical tests
+% Include a figure showing the 2×2 matrix (generalist/medical × Base/Instruct)
+% and the double prompt (A/B) structure.
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=0.9\textwidth]{methodology_overview.pdf}
+    \caption{Overview of the experimental design: 6 models $\times$ 2 prompts
+        $=$ 12 configurations evaluated on 1,015 patient-criterion pairs.}
+    \label{fig:met-overview}
+\end{figure}
+
+% ----------------------------------------------------------------------------
+\section{Research Question and Pre-registered Hypotheses}
+\label{sec:met-hypotheses}
+
+% [TODO — 1 page]
+% Restate the research question and 4 hypotheses formally.
+
+\begin{hypothesis}[H1]
+    Current LLM pipelines are poorly calibrated in clinical trial matching:
+    $\ece > 0.05$ (threshold from Van Calster et al.\ 2019).
+\end{hypothesis}
+
+\begin{hypothesis}[H2]
+    RLHF post-training degrades calibration:
+    $\ece(\text{Instruct}) > \ece(\text{Base})$, tested by permutation with
+    Bonferroni correction.
+\end{hypothesis}
+
+\begin{hypothesis}[H3]
+    LLM eligibility scores exhibit ordinal validity: C-index $> 0.70$.
+\end{hypothesis}
+
+\begin{hypothesis}[H4]
+    Selective abstention improves clinical quality:
+    $F_1(80\% \text{ coverage}) > F_1(100\% \text{ coverage}) + 0.02$.
+\end{hypothesis}
+
+% ----------------------------------------------------------------------------
+\section{Data Preparation}
+\label{sec:met-data}
+
+% [TODO — 1 page]
+% - Loading TrialGPT-Criterion-Annotations
+% - Descriptive statistics: label distribution, note length, criterion length
+% - Ordinal mapping: 6 labels → 3 ordinal levels for some analyses
+% - Split strategy: 70/30 for post-hoc recalibration
+
+% ----------------------------------------------------------------------------
+\section{Model Selection}
+\label{sec:met-models}
+
+\subsection{Selection Criteria}
+\label{subsec:met-criteria}
+
+% [TODO — 1 page]
+% Three criteria:
+%   (1) Available Base/Instruct pairs (essential for H2)
+%   (2) Scientific relevance (2×2 matrix: generalist/medical × RLHF/no-RLHF)
+%   (3) Feasibility on free-tier T4 GPU
+
+\subsection{The Six Selected Models}
+\label{subsec:met-selected}
+
+% [TODO — 2 pages]
+
+\begin{table}[htbp]
+    \centering
+    \caption{Selected models and their scientific role.}
+    \label{tab:met-models}
+    \small
+    \begin{tabular}{@{}p{4.5cm}p{4cm}p{4.5cm}@{}}
+        \toprule
+        \textbf{Model} & \textbf{Type} & \textbf{Scientific Role} \\
+        \midrule
+        \model{Mistral-7B-v0.3} & Generalist, no RLHF & H2 control \\
+        \model{Mistral-7B-Instruct-v0.3} & Generalist, with RLHF & H2 test \\
+        \model{Llama-3.1-8B} & Generalist, no RLHF & H2 replication \\
+        \model{Llama-3.1-8B-Instruct} & Generalist, with RLHF & H2 replication \\
+        \model{Meditron-7B} & Medical, no RLHF & Pure specialization effect \\
+        \model{BioMistral-7B} & Medical, inherited RLHF & Validation vs Labrak 2024 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% Justify each model's role in 1 paragraph each.
+
+\subsection{Excluded Models}
+\label{subsec:met-excluded}
+
+% [TODO — 0.5 page]
+% - Qwen, Gemma, DeepSeek (redundant for H2)
+% - 70B models (GPU constraints)
+% - Med42-v2, OpenBioLLM (redundant with BioMistral)
+% Rationale: prioritize depth over breadth.
+
+% ----------------------------------------------------------------------------
+\section{Prompt Design}
+\label{sec:met-prompts}
+
+\subsection{Rationale for Two Prompt Variants}
+\label{subsec:met-two-prompts}
+
+% [TODO — 0.5 page]
+% Why we test two prompts instead of one:
+% - Isolate the effect of prompting from the effect of the model
+% - Enable ablation of prompt design as an experimental variable
+% - Turn a potential limitation into a controlled variable
+
+\subsection{Prompt A: Generic Baseline}
+\label{subsec:met-prompt-a}
+
+% [TODO — 1 page]
+% Full prompt A (verbatim) with description of design choices.
+% Emphasize: minimal, naive user-style prompt.
+
+\subsection{Prompt B: Adapted with Expert Guidance}
+\label{subsec:met-prompt-b}
+
+% [TODO — 1.5 pages]
+% Full prompt B (verbatim) with:
+% - Explicit label definitions
+% - Concrete examples per label
+% - The "CRUCIAL RULE FOR EXCLUSION CRITERIA"
+% - Justification for the exclusion-criterion rule
+% (Full prompts also reproduced in Appendix B)
+
+\subsection{Adaptations for Base vs Instruct Models}
+\label{subsec:met-base-instruct}
+
+% [TODO — 0.5 page]
+% - Instruct: use apply_chat_template
+% - Base: no chat template, few-shot examples embedded in prompt
+
+% ----------------------------------------------------------------------------
+\section{Scoring Pipeline: Log-Probability Extraction}
+\label{sec:met-scoring}
+
+% [TODO — 1.5 pages]
+% Instead of free-form generation, we compute per-label log-probabilities:
+% 1. For each candidate label (4 candidates depending on criterion_type)
+% 2. Compute mean log-probability of the label token sequence
+% 3. Softmax normalization → clean probability distribution
+% 4. Extract predicted label + confidence + full distribution
+
+% Include pseudocode or algorithm figure
+
+\begin{algorithm}[htbp]
+\caption{Log-probability scoring for eligibility label prediction}
+\label{alg:scoring}
+\begin{algorithmic}[1]
+    \Require Patient note $n$, criterion $c$, criterion type $t$
+    \Ensure Predicted label $\hat{y}$, confidence $\hat{p}$, distribution $\pi$
+    \State Build prompt from $n$, $c$, $t$
+    \State $\mathcal{L} \gets$ candidate labels according to $t$
+    \ForAll{$\ell \in \mathcal{L}$}
+        \State $s_\ell \gets $ mean log-probability of tokens of $\ell$
+    \EndFor
+    \State $\pi \gets \operatorname{softmax}(s)$
+    \State $\hat{y} \gets \arg\max_{\ell} \pi_\ell$
+    \State $\hat{p} \gets \pi_{\hat{y}}$
+    \State \Return $\hat{y}, \hat{p}, \pi$
+\end{algorithmic}
+\end{algorithm}
+
+% ----------------------------------------------------------------------------
+\section{Quantization and Infrastructure}
+\label{sec:met-infrastructure}
+
+% [TODO — 0.5 page]
+% - 4-bit NF4 quantization via bitsandbytes
+% - Reduces 7B model memory from ~14GB to ~2GB
+% - Kaggle T4 GPU environment
+% - Reproducibility: fixed seeds, saved random states
+
+% ----------------------------------------------------------------------------
+\section{Evaluation Metrics}
+\label{sec:met-metrics}
+
+\subsection{Expected Calibration Error (ECE)}
+\label{subsec:met-ece}
+
+% [TODO — 1 page with formula]
+
+\begin{equation}
+    \ece = \sum_{k=1}^{K} \frac{|B_k|}{n}
+    \left| \operatorname{acc}(B_k) - \operatorname{conf}(B_k) \right|
+    \label{eq:ece}
+\end{equation}
+
+% Explain: K bins, |B_k| bin size, acc average accuracy, conf average confidence.
+% Standard choice: K=10 equal-width bins.
+
+\subsection{Brier Score}
+\label{subsec:met-brier}
+
+% [TODO — 0.5 page with formula]
+
+\begin{equation}
+    \operatorname{Brier} = \frac{1}{n} \sum_{i=1}^{n}
+    \left( p_i - y_i \right)^2
+    \label{eq:brier}
+\end{equation}
+
+\subsection{C-index for Ordinal Validity}
+\label{subsec:met-cindex}
+
+% [TODO — 0.5 page]
+
+\subsection{Reliability Diagrams}
+\label{subsec:met-reliab}
+
+% [TODO — 0.5 page]
+
+\subsection{Bootstrap Confidence Intervals}
+\label{subsec:met-bootstrap}
+
+% [TODO — 0.5 page]
+% 1000 bootstrap resamples, 95% percentile intervals
+
+% ----------------------------------------------------------------------------
+\section{Statistical Analysis Plan}
+\label{sec:met-stats}
+
+\subsection{Pre-registration of Hypotheses}
+\label{subsec:met-preregistration}
+
+% [TODO — 0.5 page]
+% Hypotheses fixed BEFORE running experiments (Popperian falsifiability).
+% Following TRIPOD+AI (Collins et al. 2024) recommendations.
+
+\subsection{Permutation Tests}
+\label{subsec:met-permutation}
+
+% [TODO — 0.5 page]
+% For H2 and comparisons: 1000 permutations, one-sided p-value.
+
+\subsection{Bonferroni Correction}
+\label{subsec:met-bonferroni}
+
+% [TODO — 0.5 page]
+% Multiple comparisons: 8 tests planned, α_corrected = 0.05/8 = 0.00625
+
+\subsection{Post-hoc Recalibration Methods}
+\label{subsec:met-recalibration}
+
+% [TODO — 1 page]
+% Temperature scaling, isotonic regression, Platt scaling
+% Split 70% calibration / 30% test
+
+\subsection{Conformal Prediction}
+\label{subsec:met-conformal}
+
+% [TODO — 0.5 page]
+% Split conformal: nonconformity = 1 - p(true label)
+% Target coverage 90% (α = 0.1)
+
+% ----------------------------------------------------------------------------
+\section{Reproducibility}
+\label{sec:met-reproducibility}
+
+% [TODO — 0.5 page]
+% - Code and predictions publicly available (Kaggle notebook + GitHub)
+% - Fixed seeds
+% - Full prompts in Appendix B
+% - All raw prediction files preserved

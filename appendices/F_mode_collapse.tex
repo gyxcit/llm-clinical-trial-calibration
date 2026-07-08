@@ -1,0 +1,47 @@
+% ============================================================================
+%   APPENDIX F — DETAILED MODE COLLAPSE ANALYSIS
+% ============================================================================
+
+\chapter{Detailed Mode Collapse Analysis}
+\label{app:mode-collapse}
+
+% ----------------------------------------------------------------------------
+\section{Prediction Distribution per Configuration}
+\label{sec:app-collapse-dist}
+
+% [TODO — 1-2 pages]
+% Full table showing the proportion of each of the 6 possible labels
+% predicted by each of the 12 configurations. Highlights those with
+% >97% concentration on a single label.
+
+% ----------------------------------------------------------------------------
+\section{Simulation: Forcing Decisive Predictions}
+\label{sec:app-collapse-force}
+
+% [TODO — 1 page]
+% Detailed results of the softmax renormalization experiment:
+% - Accuracy per configuration when forced to choose between decisive labels
+% - Distribution of predictions after forcing
+% - Interpretation: collapse migrates rather than disappearing
+
+% ----------------------------------------------------------------------------
+\section{Composite Utility Score Ranking}
+\label{sec:app-collapse-composite}
+
+% [TODO — 1 page]
+% Full composite score computation:
+%   score = F1_macro × (1 − ECE) × prediction_diversity
+% Ranking of all 12 configurations
+% Justification of each component
+
+% ----------------------------------------------------------------------------
+\section{Cross-Validation Stability}
+\label{sec:app-collapse-cv}
+
+% [TODO — 1 page]
+% 5-fold cross-validation results for:
+% - ECE original (stability of the miscalibration finding)
+% - ECE after isotonic recalibration (stability of the correction gain)
+% - Confidence spread ratio (behavior of the recalibration function)
+EOF
+echo "OK"

@@ -1,0 +1,34 @@
+% ============================================================================
+%   APPENDIX B — FULL PROMPTS
+% ============================================================================
+
+\chapter{Full Prompt Specifications}
+\label{app:prompts}
+
+% ----------------------------------------------------------------------------
+\section{Prompt A --- Generic (Baseline)}
+\label{sec:app-prompt-a}
+
+% [TODO — verbatim prompt A for INSTRUCT models]
+\begin{lstlisting}[caption={Prompt A for Instruct models},
+                   label={lst:prompt-a-instruct}]
+Classify whether this patient meets the eligibility criterion.
+
+Patient: {note}
+Criterion ({type}): {criterion}
+
+Choose exactly one label from: included, not included, excluded,
+not excluded, not enough information, not applicable.
+
+Answer:
+\end{lstlisting}
+
+% [TODO — verbatim prompt A for BASE models]
+
+% ----------------------------------------------------------------------------
+\section{Prompt B --- Adapted with Expert Guidance}
+\label{sec:app-prompt-b}
+
+% [TODO — full verbatim prompt B for INSTRUCT models]
+
+% [TODO — full verbatim prompt B for BASE models with few-shot examples]
