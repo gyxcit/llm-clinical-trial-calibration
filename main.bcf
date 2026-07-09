@@ -2396,7 +2396,13 @@
     <bcf:citekey order="20" intorder="1">guo2017calibration</bcf:citekey>
     <bcf:citekey order="21" intorder="1">vovk2005</bcf:citekey>
     <bcf:citekey order="22" intorder="1">collins2024tripod</bcf:citekey>
-    <bcf:citekey order="23" intorder="1">jin2024trialgpt</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">cohen1968</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">jin2024trialgpt</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">vancalster2019calibration</bcf:citekey>
+    <bcf:citekey order="26" intorder="1">kadavath2022know</bcf:citekey>
+    <bcf:citekey order="27" intorder="1">ouyang2022training</bcf:citekey>
+    <bcf:citekey order="28" intorder="1">kadavath2022know</bcf:citekey>
+    <bcf:citekey order="29" intorder="1">jin2024trialgpt</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

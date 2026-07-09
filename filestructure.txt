@@ -23,6 +23,8 @@
     |-- 09_results.tex
     |-- 10_conclusion.tex
 |-- figures
+    |-- courbes_risque_couverture.png
+    |-- reliability_compare_AvsB.png
 |-- LICENSE
 |-- main.aux
 |-- main.bbl

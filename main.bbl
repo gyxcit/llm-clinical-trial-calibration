@@ -322,6 +322,42 @@
       \field{pages}{1321\bibrangedash 1330}
       \range{pages}{10}
     \endentry
+    \entry{ouyang2022training}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{3}{}{%
+        {{hash=6e3708cf33f22d79419d7e79124060a8}{%
+           family={Ouyang},
+           familyi={O\bibinitperiod},
+           given={Long},
+           giveni={L\bibinitperiod}}}%
+        {{hash=495187f3a2c93ddb8083bd18a5702527}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Jeffrey},
+           giveni={J\bibinitperiod}}}%
+        {{hash=214803c09eda269a0ed928d7e5a93461}{%
+           family={Jiang},
+           familyi={J\bibinitperiod},
+           given={Xu},
+           giveni={X\bibinitperiod}}}%
+      }
+      \strng{namehash}{13d52a5bcb04f48fa855da0c9fb052de}
+      \strng{fullhash}{2070e3e63153b22cd927c973bcfee4f1}
+      \strng{fullhashraw}{2070e3e63153b22cd927c973bcfee4f1}
+      \strng{bibnamehash}{2070e3e63153b22cd927c973bcfee4f1}
+      \strng{authorbibnamehash}{2070e3e63153b22cd927c973bcfee4f1}
+      \strng{authornamehash}{13d52a5bcb04f48fa855da0c9fb052de}
+      \strng{authorfullhash}{2070e3e63153b22cd927c973bcfee4f1}
+      \strng{authorfullhashraw}{2070e3e63153b22cd927c973bcfee4f1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Advances in Neural Information Processing Systems}
+      \field{title}{Training language models to follow instructions with human feedback}
+      \field{year}{2022}
+    \endentry
   \enddatalist
   \missing{brier1950}
   \missing{cohen1968}

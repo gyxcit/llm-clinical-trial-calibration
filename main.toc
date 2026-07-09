@@ -4,7 +4,7 @@
 \contentsline {chapter}{Résumé}{iii}{chapter*.3}%
 \babel@toc {french}{}\relax 
 \babel@toc {english}{}\relax 
-\contentsline {chapter}{List of Abbreviations}{x}{chapter*.7}%
+\contentsline {chapter}{List of Abbreviations}{xii}{chapter*.7}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Macro Context: AI in Healthcare}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Micro Context: Clinical Trial Matching}{1}{section.1.2}%
@@ -91,51 +91,70 @@
 \contentsline {subsection}{\numberline {4.10.6}Reporting Standards}{26}{subsection.4.10.6}%
 \contentsline {chapter}{\numberline {5}Results and Analysis}{27}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Chapter Overview}{27}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Pre-LLM Audit and Expert Agreement}{27}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Calibration Audit: H1 Supported Across All Models}{27}{section.5.3}%
-\contentsline {section}{\numberline {5.4}The Effect of RLHF: H2 Supported (Main Contribution)}{28}{section.5.4}%
-\contentsline {section}{\numberline {5.5}The Enriched-Prompt Paradox}{28}{section.5.5}%
-\contentsline {section}{\numberline {5.6}Mode Collapse in Medical and RLHF-Aligned LLMs}{28}{section.5.6}%
-\contentsline {section}{\numberline {5.7}Performance on Truly Discriminative Cases}{28}{section.5.7}%
-\contentsline {section}{\numberline {5.8}Systematic Inclusion vs Exclusion Asymmetry}{29}{section.5.8}%
-\contentsline {section}{\numberline {5.9}Model-Specific Evasion Biases}{29}{section.5.9}%
-\contentsline {section}{\numberline {5.10}Ordinal Validity (H3) and Selective Classification (H4)}{30}{section.5.10}%
-\contentsline {subsection}{\numberline {5.10.1}H3: Not Reached but Revealing Hierarchy}{30}{subsection.5.10.1}%
-\contentsline {subsection}{\numberline {5.10.2}H4: Supported Only on the Mistral Family}{30}{subsection.5.10.2}%
-\contentsline {section}{\numberline {5.11}Post-hoc Recalibration and Stability}{30}{section.5.11}%
-\contentsline {section}{\numberline {5.12}Conformal Prediction and Inter-Model Consensus}{30}{section.5.12}%
-\contentsline {subsection}{\numberline {5.12.1}Conformal Prediction Achieves Target Coverage}{30}{subsection.5.12.1}%
-\contentsline {subsection}{\numberline {5.12.2}Inter-Model Consensus}{30}{subsection.5.12.2}%
-\contentsline {section}{\numberline {5.13}Baselines and Composite Utility Score}{30}{section.5.13}%
-\contentsline {section}{\numberline {5.14}Summary of Results}{30}{section.5.14}%
-\contentsline {chapter}{\numberline {6}Conclusion and Future Work}{31}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Summary of Findings}{31}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Answer to the Research Question}{31}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Contributions}{31}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Limitations}{31}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}External Validation}{31}{subsection.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}Model Scale}{32}{subsection.6.4.2}%
-\contentsline {subsection}{\numberline {6.4.3}Prompt Space}{32}{subsection.6.4.3}%
-\contentsline {section}{\numberline {6.5}Future Work}{32}{section.6.5}%
-\contentsline {subsection}{\numberline {6.5.1}External Validation on Independent Benchmarks}{32}{subsection.6.5.1}%
-\contentsline {subsection}{\numberline {6.5.2}Multi-Agent Adversarial Debate for Calibration}{32}{subsection.6.5.2}%
-\contentsline {subsection}{\numberline {6.5.3}Investigating the Origin of Mode Collapse}{32}{subsection.6.5.3}%
-\contentsline {subsection}{\numberline {6.5.4}Extension to Larger and Multilingual Models}{32}{subsection.6.5.4}%
-\contentsline {section}{\numberline {6.6}Closing Remarks}{32}{section.6.6}%
-\contentsline {chapter}{Bibliography}{33}{chapter*.18}%
-\contentsline {chapter}{\numberline {A}Detailed Results Tables}{34}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Full Prompt Specifications}{35}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Prompt A --- Generic (Baseline)}{35}{section.B.1}%
-\contentsline {section}{\numberline {B.2}Prompt B --- Adapted with Expert Guidance}{35}{section.B.2}%
-\contentsline {chapter}{\numberline {C}Individual Reliability Diagrams}{36}{appendix.C}%
-\contentsline {chapter}{\numberline {D}Code and Data Availability}{37}{appendix.D}%
-\contentsline {section}{\numberline {D.1}Repository Structure}{37}{section.D.1}%
-\contentsline {section}{\numberline {D.2}Data Availability}{37}{section.D.2}%
-\contentsline {section}{\numberline {D.3}Reproducing the Experiments}{37}{section.D.3}%
-\contentsline {section}{\numberline {D.4}Computational Requirements}{37}{section.D.4}%
-\contentsline {chapter}{\numberline {E}Generative AI Usage Declaration}{38}{appendix.E}%
-\contentsline {chapter}{\numberline {F}Detailed Mode Collapse Analysis}{40}{appendix.F}%
-\contentsline {section}{\numberline {F.1}Prediction Distribution per Configuration}{40}{section.F.1}%
-\contentsline {section}{\numberline {F.2}Simulation: Forcing Decisive Predictions}{40}{section.F.2}%
-\contentsline {section}{\numberline {F.3}Composite Utility Score Ranking}{40}{section.F.3}%
-\contentsline {section}{\numberline {F.4}Cross-Validation Stability}{40}{section.F.4}%
+\contentsline {section}{\numberline {5.2}Pre-LLM Audit and Expert Agreement}{28}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Expert-GPT-4 Agreement}{28}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Ground Truth Choice}{29}{subsection.5.2.2}%
+\contentsline {section}{\numberline {5.3}Calibration Audit: H1 Supported Across All Configurations}{29}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Overall Calibration Results}{30}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Direction of the Miscalibration}{30}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Reliability Diagrams}{31}{subsection.5.3.3}%
+\contentsline {section}{\numberline {5.4}The Effect of RLHF: H2 Supported}{32}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Paired Comparison of ECE}{32}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Mechanism: From Underconfidence to Overconfidence}{33}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Comparison to Prior Work}{34}{subsection.5.4.3}%
+\contentsline {section}{\numberline {5.5}The Enriched-Prompt Paradox}{34}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Effect of Prompt Enrichment Across Models}{35}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Interpretation}{35}{subsection.5.5.2}%
+\contentsline {section}{\numberline {5.6}Mode Collapse in Medical and RLHF-Aligned LLMs}{36}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Prediction Distribution Analysis}{36}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Structural Persistence Under Constrained Decoding}{37}{subsection.5.6.2}%
+\contentsline {section}{\numberline {5.7}Performance on Truly Discriminative Cases}{37}{section.5.7}%
+\contentsline {subsection}{\numberline {5.7.1}Comparison of Global vs.\ Discriminative Accuracy}{38}{subsection.5.7.1}%
+\contentsline {subsection}{\numberline {5.7.2}Implications for Model Evaluation}{39}{subsection.5.7.2}%
+\contentsline {section}{\numberline {5.8}Systematic Inclusion vs.\ Exclusion Asymmetry}{39}{section.5.8}%
+\contentsline {section}{\numberline {5.9}Model-Specific Evasion Biases}{40}{section.5.9}%
+\contentsline {section}{\numberline {5.10}Ordinal Validity (H3) and Selective Classification (H4)}{41}{section.5.10}%
+\contentsline {subsection}{\numberline {5.10.1}H3: Ordinal Validity Not Reached}{41}{subsection.5.10.1}%
+\contentsline {subsection}{\numberline {5.10.2}H4: Selective Classification Partially Supported}{42}{subsection.5.10.2}%
+\contentsline {section}{\numberline {5.11}Post-hoc Recalibration}{44}{section.5.11}%
+\contentsline {subsection}{\numberline {5.11.1}Comparison of Recalibration Methods}{44}{subsection.5.11.1}%
+\contentsline {subsection}{\numberline {5.11.2}Robustness under Cross-Validation}{45}{subsection.5.11.2}%
+\contentsline {subsection}{\numberline {5.11.3}Interpretive Caveats}{45}{subsection.5.11.3}%
+\contentsline {section}{\numberline {5.12}Conformal Prediction and Inter-Model Consensus}{46}{section.5.12}%
+\contentsline {subsection}{\numberline {5.12.1}Conformal Prediction Sets}{46}{subsection.5.12.1}%
+\contentsline {subsection}{\numberline {5.12.2}Inter-Model Consensus}{46}{subsection.5.12.2}%
+\contentsline {section}{\numberline {5.13}Baselines and Composite Utility Score}{47}{section.5.13}%
+\contentsline {subsection}{\numberline {5.13.1}Comparison with Naïve Baselines}{47}{subsection.5.13.1}%
+\contentsline {subsection}{\numberline {5.13.2}Composite Utility Score}{48}{subsection.5.13.2}%
+\contentsline {section}{\numberline {5.14}Summary of Results}{49}{section.5.14}%
+\contentsline {chapter}{\numberline {6}Conclusion and Future Work}{50}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Summary of Findings}{50}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Answer to the Research Question}{50}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Contributions}{50}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Limitations}{50}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}External Validation}{50}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Model Scale}{51}{subsection.6.4.2}%
+\contentsline {subsection}{\numberline {6.4.3}Prompt Space}{51}{subsection.6.4.3}%
+\contentsline {section}{\numberline {6.5}Future Work}{51}{section.6.5}%
+\contentsline {subsection}{\numberline {6.5.1}External Validation on Independent Benchmarks}{51}{subsection.6.5.1}%
+\contentsline {subsection}{\numberline {6.5.2}Multi-Agent Adversarial Debate for Calibration}{51}{subsection.6.5.2}%
+\contentsline {subsection}{\numberline {6.5.3}Investigating the Origin of Mode Collapse}{51}{subsection.6.5.3}%
+\contentsline {subsection}{\numberline {6.5.4}Extension to Larger and Multilingual Models}{51}{subsection.6.5.4}%
+\contentsline {section}{\numberline {6.6}Closing Remarks}{51}{section.6.6}%
+\contentsline {chapter}{Bibliography}{52}{chapter*.36}%
+\contentsline {chapter}{\numberline {A}Detailed Results Tables}{53}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Full Prompt Specifications}{54}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Prompt A --- Generic (Baseline)}{54}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Prompt B --- Adapted with Expert Guidance}{54}{section.B.2}%
+\contentsline {chapter}{\numberline {C}Individual Reliability Diagrams}{55}{appendix.C}%
+\contentsline {chapter}{\numberline {D}Code and Data Availability}{56}{appendix.D}%
+\contentsline {section}{\numberline {D.1}Repository Structure}{56}{section.D.1}%
+\contentsline {section}{\numberline {D.2}Data Availability}{56}{section.D.2}%
+\contentsline {section}{\numberline {D.3}Reproducing the Experiments}{56}{section.D.3}%
+\contentsline {section}{\numberline {D.4}Computational Requirements}{56}{section.D.4}%
+\contentsline {chapter}{\numberline {E}Generative AI Usage Declaration}{57}{appendix.E}%
+\contentsline {chapter}{\numberline {F}Detailed Mode Collapse Analysis}{59}{appendix.F}%
+\contentsline {section}{\numberline {F.1}Prediction Distribution per Configuration}{59}{section.F.1}%
+\contentsline {section}{\numberline {F.2}Simulation: Forcing Decisive Predictions}{59}{section.F.2}%
+\contentsline {section}{\numberline {F.3}Composite Utility Score Ranking}{59}{section.F.3}%
+\contentsline {section}{\numberline {F.4}Cross-Validation Stability}{59}{section.F.4}%

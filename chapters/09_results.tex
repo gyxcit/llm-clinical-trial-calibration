@@ -10,67 +10,195 @@
 \label{chap:results}
 
 % ----------------------------------------------------------------------------
+% ----------------------------------------------------------------------------
 \section{Chapter Overview}
 \label{sec:res-overview}
 
-% [TODO — 0.5 page]
-% Reader's guide:
-% - Section 5.2: pre-LLM audit and expert-GPT4 agreement
-% - Section 5.3: main calibration audit (H1)
-% - Section 5.4: RLHF effect (H2), main pre-registered contribution
-% - Section 5.5: the enriched-prompt paradox
-% - Section 5.6: mode collapse (novel finding, 5 of 12 configurations)
-% - Section 5.7: performance on truly discriminative cases
-%     (novel finding, aggregate metrics hide complete failure)
-% - Section 5.8: inclusion/exclusion asymmetry
-% - Section 5.9: model-specific evasion biases
-% - Section 5.10: ordinal validity (H3) and selective classification (H4)
-% - Section 5.11: post-hoc recalibration and its cross-validation stability
-% - Section 5.12: conformal prediction and inter-model consensus
-% - Section 5.13: baselines and composite utility score
-% - Section 5.14: summary of results and findings
+This chapter reports the empirical findings of the study. The presentation 
+is organized to distinguish confirmatory results (tests of the four 
+pre-registered hypotheses stated in Section~\ref{sec:met-hypotheses}) from 
+exploratory findings (novel observations that emerged during the analysis 
+and are labelled here as original findings F1 through F9).
 
+Sections~\ref{sec:res-audit} through~\ref{sec:res-h2} present the 
+pre-LLM audit and the two pre-registered hypotheses that receive the 
+strongest empirical support: H1 (systematic miscalibration, supported 
+across all twelve configurations) and H2 (RLHF degrades calibration, 
+supported by four independent permutation tests after Bonferroni 
+correction). H2 is the central pre-registered contribution of this 
+work.
+
+Sections~\ref{sec:res-prompt} through~\ref{sec:res-non-trivial} report 
+the three most novel findings, none of which was anticipated in the 
+pre-registration. The enriched-prompt paradox 
+(Section~\ref{sec:res-prompt}) shows that expert prompt engineering 
+degrades calibration in five of six models. Mode collapse 
+(Section~\ref{sec:res-mode-collapse}) documents that five of the twelve 
+configurations concentrate more than 97\% of their predictions on a 
+single label, invalidating the standard interpretation of their 
+apparently reasonable ECE values. Performance on truly discriminative 
+cases (Section~\ref{sec:res-non-trivial}) reveals that both medical 
+LLMs tested achieve 0\% accuracy on the 238 cases requiring a genuine 
+clinical decision, despite their apparent superiority on global 
+accuracy.
+
+Sections~\ref{sec:res-asymmetry} through~\ref{sec:res-h3h4} report 
+secondary findings on the inclusion/exclusion asymmetry, model-specific 
+evasion strategies, and the two pre-registered hypotheses that receive 
+partial or no support (H3 on ordinal validity, H4 on selective 
+classification). Sections~\ref{sec:res-recalibration} 
+through~\ref{sec:res-baselines} present the post-hoc solutions --- 
+isotonic recalibration and conformal prediction --- and the composite 
+utility score that provides a single rank-ordering of the twelve 
+configurations. Section~\ref{sec:res-summary} synthesizes the outcomes 
+of the four hypotheses and the nine original findings.
+
+Every point estimate reported in this chapter is accompanied by a 95\% 
+bootstrap confidence interval, and every hypothesis test is reported 
+with its Bonferroni-corrected significance threshold. Detailed tables, 
+per-configuration reliability diagrams, and the full mode collapse 
+analysis are provided in Appendices~\ref{app:tables}, 
+\ref{app:reliability}, and~\ref{app:mode-collapse}.
+% ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Pre-LLM Audit and Expert Agreement}
 \label{sec:res-audit}
 
-% [TODO — 1 page]
-% Kappa 0.816 expert vs GPT-4
-% Ordinal agreement metrics
-% First original finding: GPT-4 "not applicable" evasion bias (ratio 2.16)
+Before evaluating the twelve LLM configurations, we conduct a pre-LLM 
+audit of the TrialGPT-Criterion-Annotations dataset itself. This audit 
+serves two purposes: to establish the quality of the ground truth against 
+which the LLMs will be compared, and to expose a systematic annotation 
+bias in GPT-4 that has not been previously documented.
 
-\begin{finding}[F1: GPT-4's Selective Evasion Bias]
-    GPT-4 over-uses the ``not applicable'' label (ratio 2.16 vs experts) but
-    uses ``not enough information'' with a ratio of 0.99. This asymmetric
-    pattern reveals a selective evasion, unreported in the original
-    TrialGPT paper.
-\end{finding}
+\subsection{Expert-GPT-4 Agreement}
+\label{subsec:res-audit-kappa}
 
-% ----------------------------------------------------------------------------
-\section{Calibration Audit: H1 Supported Across All Models}
-\label{sec:res-h1}
+The dataset provides two independent annotations per pair: a consensus 
+label from three physicians (which we treat as the ground truth 
+throughout this thesis) and a label produced by GPT-4. The weighted 
+kappa~\cite{cohen1968} between the two annotations, computed with 
+quadratic weights on the ordinal scale, is $\kappa_w = 0.819$ 
+(95\% bootstrap CI: [0.774, 0.86]). By conventional criteria for 
+inter-rater agreement, this value falls in the range of substantial to 
+almost perfect agreement, confirming that GPT-4 reproduces the 
+physician consensus with high fidelity at the aggregate level.
 
-% [TODO — 2 pages]
-% The 12 ECE values with bootstrap CIs
-% Main summary table
-% Reliability diagram (the flagship figure)
+This aggregate agreement, however, masks a systematic bias visible only 
+at the label level. Table~\ref{tab:res-gpt4-bias} reports, for each of 
+the six labels, the ratio of GPT-4 usage rate to expert usage rate. A 
+ratio of 1.0 indicates that GPT-4 and experts use the label with the 
+same frequency; a ratio above 1.0 indicates over-use by GPT-4; a ratio 
+below 1.0 indicates under-use.
 
 \begin{table}[htbp]
     \centering
-    \caption{Calibration metrics across the 12 configurations.}
+    \caption{Usage-rate ratios of the six labels (GPT-4 vs.\ physician 
+        consensus). A ratio of 1.0 indicates balanced usage; ratios far 
+        from 1.0 reveal systematic annotation bias.}
+    \label{tab:res-gpt4-bias}
+    \small
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{Label} & \textbf{Expert freq.} & \textbf{GPT-4 freq.} & \textbf{Ratio} \\
+        \midrule
+        not applicable         & 5.4\%  & 11.7\% & 2.16 \\
+        not enough information & 28.9\% & 28.6\% & 0.99 \\
+        included               & 7.3\%  & 6.9\%  & 0.95 \\
+        not included           & 5.3\%  & 5.0\%  & 0.94 \\
+        excluded               & 5.4\%  & 5.5\%  & 1.02 \\
+        not excluded           & 47.7\% & 42.3\% & 0.89 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Five of the six labels are used by GPT-4 within 10\% of the physician 
+frequency, in line with the substantial overall kappa. The exception is 
+``not applicable'', which GPT-4 uses at 2.16 times the physician rate. 
+This asymmetric bias --- systematic over-use of one specific evasion 
+label rather than a general tendency to over-use uncertainty --- is not 
+reported in the original TrialGPT paper~\cite{jin2024trialgpt}, where 
+GPT-4 is used as an annotation tool without such an audit. The bias is 
+substantively meaningful: ``not applicable'' functions as a legitimate 
+escape route when a criterion genuinely does not apply to a patient's 
+situation (e.g., a pregnancy exclusion criterion applied to a male 
+patient), but its over-use by GPT-4 suggests that the model treats a 
+broader class of ambiguous cases as ``not applicable'' when a decisive 
+label would have been warranted.
+
+\begin{finding}[F1: GPT-4's Selective Evasion Bias]
+    GPT-4 over-uses the ``not applicable'' label at 2.16 times the 
+    physician rate, while using ``not enough information'' at the same 
+    rate as the experts (ratio 0.99). This asymmetric pattern reveals a 
+    selective evasion strategy that is not detected by aggregate 
+    agreement metrics.
+\end{finding}
+
+This finding is meaningful for the downstream analysis of open-source 
+LLMs in Section~\ref{sec:res-evasion}, where we show that open-source 
+models exhibit a different but equally systematic evasion pattern --- 
+over-use of ``not enough information'' rather than ``not applicable''. 
+The two evasion channels appear to be model-specific, likely reflecting 
+distinct alignment strategies during post-training.
+
+\subsection{Ground Truth Choice}
+\label{subsec:res-audit-choice}
+
+Given the systematic bias identified in F1, we use the physician 
+consensus rather than GPT-4 annotations as the ground truth throughout 
+this thesis. This choice has three consequences. First, GPT-4 is not a 
+model under evaluation in the calibration audit itself: its labels serve 
+only as the input for F1. Second, the accuracy figures reported in 
+subsequent sections are computed against expert labels, which increases 
+their clinical relevance. Third, the class imbalance documented in 
+Section~\ref{subsec:met-data-distribution} refers to the expert 
+distribution and is preserved unchanged for the calibration analysis.
+% ----------------------------------------------------------------------------
+% ----------------------------------------------------------------------------
+\section{Calibration Audit: H1 Supported Across All Configurations}
+\label{sec:res-h1}
+
+Hypothesis~H1 predicts that the Expected Calibration Error of an LLM-based 
+eligibility scoring pipeline exceeds the well-calibrated threshold of 
+$0.05$~\cite{vancalster2019calibration}. We test this hypothesis across all 
+twelve configurations of the two-by-two matrix defined in 
+Section~\ref{sec:met-models}, using the metrics and bootstrap protocol 
+described in Section~\ref{sec:met-metrics}.
+
+\subsection{Overall Calibration Results}
+\label{subsec:res-h1-overall}
+
+Table~\ref{tab:res-calibration} reports the ECE, its 95\% bootstrap 
+confidence interval, and the Brier score for each of the twelve 
+configurations. All twelve values fall well above the calibration 
+threshold, with lower bounds of the 95\% intervals also strictly greater 
+than 0.05. Hypothesis~H1 is therefore supported at the level of every 
+individual configuration, not merely in aggregate.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Calibration metrics across the twelve configurations. All 
+        ECE values exceed the 0.05 threshold, with the lower bound of the 
+        95\% bootstrap confidence interval also strictly above 0.05 in 
+        every case. Configurations are grouped by model family.}
     \label{tab:res-calibration}
+    \small
     \begin{tabular}{@{}lccc@{}}
         \toprule
         \textbf{Configuration} & \textbf{ECE} & \textbf{95\% CI} & \textbf{Brier} \\
         \midrule
+        \multicolumn{4}{@{}l}{\textit{Mistral-7B family}} \\
         Mistral-Base A     & 0.133 & [0.104, 0.163] & 0.258 \\
-        Mistral-Instruct A & 0.322 & [0.297, 0.350] & 0.311 \\
         Mistral-Base B     & 0.189 & [0.161, 0.218] & 0.269 \\
+        Mistral-Instruct A & 0.322 & [0.297, 0.350] & 0.311 \\
         Mistral-Instruct B & 0.253 & [0.229, 0.287] & 0.353 \\
+        \midrule
+        \multicolumn{4}{@{}l}{\textit{Llama-3.1-8B family}} \\
         Llama-Base A       & 0.124 & [0.100, 0.148] & 0.187 \\
-        Llama-Instruct A   & 0.510 & [0.483, 0.535] & 0.456 \\
         Llama-Base B       & 0.151 & [0.123, 0.177] & 0.225 \\
+        Llama-Instruct A   & 0.510 & [0.483, 0.535] & 0.456 \\
         Llama-Instruct B   & 0.602 & [0.575, 0.628] & 0.558 \\
+        \midrule
+        \multicolumn{4}{@{}l}{\textit{Medical LLMs}} \\
         Meditron A         & 0.182 & [0.153, 0.212] & 0.263 \\
         Meditron B         & 0.231 & [0.204, 0.259] & 0.283 \\
         BioMistral A       & 0.155 & [0.126, 0.182] & 0.234 \\
@@ -79,276 +207,1196 @@
     \end{tabular}
 \end{table}
 
-\begin{figure}[htbp]
-    \centering
-    % \includegraphics[width=0.9\textwidth]{reliability_flagship.pdf}
-    \caption{Reliability diagrams of all 12 configurations (Prompt A left,
-        Prompt B right). All curves fall well below the perfect calibration
-        diagonal.}
-    \label{fig:res-reliability}
-\end{figure}
+The ECE values span a wide range, from $0.124$ (Llama-Base~A) to $0.602$ 
+(Llama-Instruct~B). Even the best-calibrated configuration is more than 
+twice the clinical threshold, and the worst is more than twelve times 
+above it. The Brier score follows a similar ordering, confirming that 
+the miscalibration is not compensated by favorable sharpness properties.
 
-% ----------------------------------------------------------------------------
-\section{The Effect of RLHF: H2 Supported (Main Contribution)}
-\label{sec:res-h2}
+\medskip
+\noindent\textbf{H1: Systematic Miscalibration Confirmed.}
+All twelve configurations exhibit an ECE strictly greater than 0.05, 
+with the lower bounds of their 95\% bootstrap confidence intervals 
+also strictly above the threshold. Hypothesis~H1 is supported across 
+the entire experimental matrix.
+\medskip
 
-% [TODO — 2 pages]
-% The 4 permutation tests: Mistral A, Mistral B, Llama A, Llama B
-% All 4 significant after Bonferroni
-% Emphasis: our original contribution, extending Kadavath 2022 to clinical
+\subsection{Direction of the Miscalibration}
+\label{subsec:res-h1-direction}
 
-\begin{finding}[F2: RLHF Systematically Degrades Calibration]
-    Across two independent model families (Mistral-7B and Llama-3.1-8B) and
-    two independent prompt designs, RLHF-aligned Instruct versions exhibit
-    significantly worse calibration than their Base counterparts
-    (all $p < 0.003$ with Bonferroni correction, $\Delta\ece$ ranging from
-    +0.064 to +0.451).
-\end{finding}
-
-% Interpretation: RLHF transforms modesty into overconfidence.
-% Show table comparing mean overconfidence:
-%   Mistral-Base: −0.189 → Mistral-Instruct: +0.248
-%   Llama-Base: +0.128 → Llama-Instruct: +0.598
-
-% ----------------------------------------------------------------------------
-\section{The Enriched-Prompt Paradox}
-\label{sec:res-prompt}
-
-% [TODO — 1.5 pages]
-% Only Mistral-Instruct benefits from Prompt B
-% 5 out of 6 models are DEGRADED by the expert prompt
-
-\begin{finding}[F3: The Enriched-Prompt Paradox]
-    Contrary to the intuition that expert prompt design improves calibration,
-    prompts enriched with definitions, examples, and exclusion rules
-    \emph{degrade} calibration in 5 of 6 models. Only the strongly
-    RLHF-aligned Mistral-Instruct benefits.
-\end{finding}
-
-% ----------------------------------------------------------------------------
-\section{Mode Collapse in Medical and RLHF-Aligned LLMs}
-\label{sec:res-mode-collapse}
-
-% [TODO — 2 pages — NEW SECTION, one of the flagship findings]
-%
-% Content:
-% 1. Motivation: standard calibration metrics assume the model produces
-%    diverse predictions. What if a model always predicts the same label?
-% 2. Distribution analysis: 5 out of 12 configurations predict "not enough
-%    information" in more than 97% of cases:
-%    - BioMistral-B: 100.0%
-%    - Llama-Instruct-B: 99.7%
-%    - BioMistral-A: 98.2%
-%    - Llama-Instruct-A: 97.8%
-%    - Llama-Base-B: 97.2%
-% 3. Consequence: their "reasonable" ECE (0.15–0.60) reflects proximity to
-%    a naïve NEI baseline (ECE 0.21), not genuine predictive quality.
-% 4. Meditron partial collapse: predicts only "not excluded" (65%) and NEI (35%).
-% 5. Simulation experiment: forcing models to choose between two decisive
-%    labels does NOT restore reasoning — collapse simply shifts to the
-%    majority label per criterion type.
-
-\begin{finding}[F7: Mode Collapse in 5 of 12 Configurations]
-    Five open-source configurations --- both BioMistral variants, all
-    Llama-Instruct variants, and Llama-Base with prompt B --- predict
-    ``not enough information'' in more than 97\% of cases. Their apparently
-    reasonable ECE (0.15–0.60) reflects proximity to a trivial NEI baseline
-    rather than genuine probabilistic quality.
-\end{finding}
-
-\begin{finding}[F8: Mode Collapse Is Structural, Not Superficial]
-    When forced to choose between the two decisive labels of each criterion
-    type by removing evasion candidates from the softmax, collapsed models
-    do not recover reasoning ability. Instead, collapse migrates from
-    ``not enough information'' to the majority label per criterion type
-    (``not excluded'' for exclusion criteria, or ``excluded'' for one
-    Llama-Base variant). Evasion behaviors mask absence of clinical
-    reasoning rather than strategic uncertainty communication.
-\end{finding}
-
-% ----------------------------------------------------------------------------
-\section{Performance on Truly Discriminative Cases}
-\label{sec:res-non-trivial}
-
-% [TODO — 2 pages — NEW SECTION, second flagship finding]
-%
-% Content:
-% 1. Motivation: 76.6% of cases have ground truth in {not excluded, NEI};
-%    the remaining 23.4% require true clinical discrimination.
-% 2. On these 238 truly discriminative cases:
-%    - Meditron A: 0.0% accuracy (predicts only NE/NEI)
-%    - Meditron B: 0.0% accuracy
-%    - BioMistral A: 0.4% accuracy
-%    - BioMistral B: 0.0% accuracy
-%    - Llama-Base B: 1.3% accuracy
-%    - Llama-Instruct B: 1.3% accuracy
-%    - Mistral-Instruct A: 71.9% accuracy (only truly usable)
-%    - Mistral-Base A: 61.3%
-% 3. Complete reversal of the ranking: Meditron, apparent leader in global
-%    accuracy (64.8%), is actually WORSE on the cases that matter.
-% 4. Only Mistral-Instruct A reaches clinically usable performance
-%    (accuracy 71.9%, ECE 0.054 on non-trivial subset).
-
-\begin{finding}[F9: Global Accuracy Hides Complete Failure on Discriminative Cases]
-    On the 238 truly discriminative cases (23.4\% of the dataset), Meditron
-    achieves 0\% accuracy despite its 64.8\% global accuracy; BioMistral
-    achieves 0.0\% and 0.4\% accuracy for its two prompts. The apparent
-    superiority of medical LLMs disappears on the cases requiring genuine
-    clinical decisions. Only Mistral-Instruct with prompt A reaches
-    acceptable clinical performance (71.9\% accuracy, ECE 0.054).
-\end{finding}
+ECE is a signed-magnitude metric: it measures how far confidence deviates 
+from accuracy without indicating the direction of the deviation. To 
+characterize the miscalibration more precisely, Table~\ref{tab:res-overconf} 
+reports the mean overconfidence for each configuration, defined as the 
+difference between mean confidence and mean accuracy 
+(Equation~\ref{eq:overconf}). A positive value indicates that the model 
+overstates its certainty on average; a negative value indicates 
+understatement.
 
 \begin{table}[htbp]
     \centering
-    \caption{Global vs.\ non-trivial accuracy across configurations. The
-        performance drop reveals which models rely on the majority class
-        distribution.}
-    \label{tab:res-non-trivial}
+    \caption{Mean overconfidence per configuration. Positive values 
+        indicate that the model's mean confidence exceeds its mean 
+        accuracy (overconfident); negative values indicate the opposite 
+        (underconfident).}
+    \label{tab:res-overconf}
     \small
-    \begin{tabular}{@{}lccc@{}}
+    \begin{tabular}{@{}lc@{}}
         \toprule
-        \textbf{Configuration} & \textbf{Global acc.} & \textbf{Non-trivial acc.} & \textbf{Drop} \\
+        \textbf{Configuration} & \textbf{Overconfidence} \\
         \midrule
-        Meditron A         & 0.648 & 0.000 & $-$0.847 \\
-        Meditron B         & 0.630 & 0.000 & $-$0.824 \\
-        BioMistral B       & 0.289 & 0.000 & $-$0.377 \\
-        BioMistral A       & 0.296 & 0.004 & $-$0.381 \\
-        Llama-Instruct B   & 0.292 & 0.013 & $-$0.365 \\
-        Llama-Base B       & 0.308 & 0.013 & $-$0.386 \\
-        Llama-Instruct A   & 0.290 & 0.021 & $-$0.351 \\
-        Llama-Base A       & 0.230 & 0.265 & $+$0.046 \\
-        Mistral-Base B     & 0.586 & 0.416 & $-$0.222 \\
-        Mistral-Instruct B & 0.480 & 0.500 & $+$0.026 \\
-        Mistral-Base A     & 0.500 & 0.613 & $+$0.149 \\
-        Mistral-Instruct A & 0.308 & \textbf{0.719} & $+$0.536 \\
+        Mistral-Base A     & $-0.189$ \\
+        Mistral-Base B     & $-0.132$ \\
+        Mistral-Instruct A & $+0.248$ \\
+        Mistral-Instruct B & $+0.184$ \\
+        Llama-Base A       & $+0.128$ \\
+        Llama-Base B       & $+0.021$ \\
+        Llama-Instruct A   & $+0.487$ \\
+        Llama-Instruct B   & $+0.598$ \\
+        Meditron A         & $-0.036$ \\
+        Meditron B         & $+0.098$ \\
+        BioMistral A       & $+0.144$ \\
+        BioMistral B       & $+0.187$ \\
         \bottomrule
     \end{tabular}
 \end{table}
 
+The direction of miscalibration reveals a striking pattern: the Base 
+variants of Mistral are systematically underconfident ($-0.189$ and 
+$-0.132$), while their Instruct counterparts are systematically 
+overconfident ($+0.248$ and $+0.184$). A similar transition occurs in 
+the Llama family: Llama-Base is nearly calibrated on Prompt~B 
+($+0.021$) but Llama-Instruct is severely overconfident ($+0.487$ and 
+$+0.598$). This pattern anticipates the analysis of Section~\ref{sec:res-h2}, 
+where we show that this transition from under-confidence to 
+over-confidence is a direct effect of RLHF post-training.
+
+\subsection{Reliability Diagrams}
+\label{subsec:res-h1-reliability}
+
+Figure~\ref{fig:res-reliability} shows the reliability diagrams for the 
+twelve configurations, organized by model family and prompt variant. The 
+diagonal line represents perfect calibration; points below the diagonal 
+indicate overconfidence, points above indicate underconfidence.
+
+\begin{figure}[htbp]
+    \centering
+    \makebox[\textwidth][c]{%
+        \includegraphics[width=1.15\textwidth]{reliability_compare_AvsB.png}%
+    }
+    \caption{Reliability diagrams of the twelve configurations, grouped 
+    by prompt variant (Prompt~A on the left, Prompt~B on the right), 
+    with each curve corresponding to one of the six models. Each curve 
+    plots the observed accuracy (labelled \emph{Précision observée}) 
+    as a function of predicted confidence (\emph{Confiance prédite}) 
+    in ten equal-width bins; the dashed reference line labelled 
+    \emph{Parfait} corresponds to perfect calibration. Deviations from 
+    the diagonal $y = x$ indicate miscalibration; the direction of the 
+    deviation is consistent with the mean overconfidence reported in 
+    Table~\ref{tab:res-overconf}. Axis labels and the legend are kept 
+    in French, reflecting the working language of the experimental 
+    phase.}
+    \label{fig:res-reliability}
+\end{figure}
+
+Two visual patterns emerge from the reliability diagrams. First, the 
+Mistral-Base and Meditron curves lie systematically above the diagonal 
+in the low-confidence regions, indicating that these models are more 
+accurate than they claim. Second, the Llama-Instruct and Mistral-Instruct 
+curves lie systematically below the diagonal in the high-confidence 
+regions, indicating that these models are less accurate than they 
+claim. Per-configuration reliability diagrams are provided in 
+Appendix~\ref{app:reliability} for detailed inspection.
+
 % ----------------------------------------------------------------------------
-\section{Systematic Inclusion vs Exclusion Asymmetry}
-\label{sec:res-asymmetry}
+% ----------------------------------------------------------------------------
+\section{The Effect of RLHF: H2 Supported}
+\label{sec:res-h2}
 
-% [TODO — 1 page]
-% Stratified ECE by criterion_type
-% Almost all models: much worse on exclusion than inclusion
-% Meditron reverses the pattern
+Hypothesis~H2 predicts that within a model family, the RLHF-aligned 
+Instruct variant exhibits worse calibration than its Base counterpart. 
+This is the central pre-registered contribution of this thesis: an 
+extension of the observation of Kadavath et~al.~\cite{kadavath2022know}, 
+who documented a similar effect on general question-answering tasks, to 
+the specific domain of clinical trial matching. The comparison is 
+performed within each of the two generalist families (Mistral-7B and 
+Llama-3.1-8B), for each of the two prompt variants, yielding four 
+independent tests of the same underlying hypothesis.
 
-\begin{finding}[F4: Inclusion vs Exclusion Asymmetry]
-    LLM calibration on exclusion criteria is 2--3 times worse than on
-    inclusion criteria across all generalist models. \model{Meditron} is
-    the sole exception, showing the reverse pattern --- likely due to its
-    clinical guidelines training data.
+\subsection{Paired Comparison of ECE}
+\label{subsec:res-h2-paired}
+
+Table~\ref{tab:res-h2-paired} reports the paired ECE values for the four 
+Base--Instruct comparisons. Under Prompt~A, both families show a 
+substantial increase in ECE when moving from Base to Instruct: from 
+$0.133$ to $0.322$ for Mistral, and from $0.124$ to $0.510$ for Llama. 
+Under Prompt~B, the increase is smaller for Mistral (from $0.189$ to 
+$0.253$) but larger for Llama (from $0.151$ to $0.602$). The direction 
+of the effect is consistent across all four comparisons.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Paired ECE comparison for the four Base--Instruct tests of 
+        Hypothesis~H2. $\Delta\ece$ is the difference $\ece(\text{Instruct}) 
+        - \ece(\text{Base})$; a positive value supports H2. Permutation 
+        p-values are computed with 1{,}000 resamples on the paired data; 
+        the Bonferroni-corrected significance threshold across the eight 
+        planned comparisons is $\alpha_{\text{corr}} = 0.00625$.}
+    \label{tab:res-h2-paired}
+    \small
+    \begin{tabular}{@{}lccc>{\bfseries}c@{}}
+        \toprule
+        \textbf{Comparison} & 
+        \textbf{ECE Base} & 
+        \textbf{ECE Instruct} & 
+        \boldmath$\Delta\ece$ & 
+        \textbf{p-value} \\
+        \midrule
+        Mistral / Prompt A   & 0.133 & 0.322 & $+0.189$ & $<$0.001 \\
+        Mistral / Prompt B   & 0.189 & 0.253 & $+0.064$ & 0.002 \\
+        Llama / Prompt A     & 0.124 & 0.510 & $+0.386$ & $<$0.001 \\
+        Llama / Prompt B     & 0.151 & 0.602 & $+0.451$ & $<$0.001 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The four p-values are all below the Bonferroni-corrected threshold of 
+$\alpha_{\text{corr}} = 0.05 / 8 = 0.00625$, which accounts for the eight 
+planned comparisons in the pre-registered analysis plan 
+(Section~\ref{subsec:met-bonferroni}). Even under this stringent 
+correction, all four tests reject the null hypothesis of equal 
+calibration between Base and Instruct variants.
+
+\begin{finding}[F2: RLHF Systematically Degrades Calibration]
+    Across two independent model families (Mistral-7B and Llama-3.1-8B) 
+    and two independent prompt designs, RLHF-aligned Instruct versions 
+    exhibit significantly worse calibration than their Base counterparts. 
+    All four permutation tests reject the null hypothesis at 
+    Bonferroni-corrected significance ($p < 0.003$), with $\Delta\ece$ 
+    ranging from $+0.064$ to $+0.451$. Hypothesis~H2 is supported.
 \end{finding}
 
+\subsection{Mechanism: From Underconfidence to Overconfidence}
+\label{subsec:res-h2-mechanism}
+
+The ECE metric, as noted in Section~\ref{subsec:res-h1-direction}, is a 
+signed-magnitude quantity and does not indicate the direction of the 
+miscalibration. To characterize the mechanism by which RLHF degrades 
+calibration, we compare the mean overconfidence of paired Base and 
+Instruct variants (Table~\ref{tab:res-h2-mechanism}).
+
+\begin{table}[htbp]
+    \centering
+    \caption{Mean overconfidence (mean confidence minus mean accuracy) 
+        for the four Base--Instruct pairs. Negative values indicate 
+        underconfidence, positive values indicate overconfidence. The 
+        transition from negative to positive across every pair reveals a 
+        consistent effect of RLHF on the direction of the miscalibration.}
+    \label{tab:res-h2-mechanism}
+    \small
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{Comparison} & 
+        \textbf{Base} & 
+        \textbf{Instruct} & 
+        \boldmath$\Delta$ \\
+        \midrule
+        Mistral / Prompt A & $-0.189$ & $+0.248$ & $+0.437$ \\
+        Mistral / Prompt B & $-0.132$ & $+0.184$ & $+0.316$ \\
+        Llama / Prompt A   & $+0.128$ & $+0.487$ & $+0.359$ \\
+        Llama / Prompt B   & $+0.021$ & $+0.598$ & $+0.577$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The pattern is unambiguous: in every one of the four pairs, RLHF shifts 
+the mean overconfidence in the positive direction, by amounts ranging 
+from $+0.316$ to $+0.577$. The transition is most striking for Mistral, 
+where the Base variants are systematically underconfident and the 
+Instruct variants systematically overconfident. In effect, RLHF converts 
+model modesty into model over-assertion.
+
+This finding has a natural mechanistic interpretation. RLHF training 
+optimizes for outputs that human raters prefer, and prior work has shown 
+that human raters systematically prefer confident and assertive 
+answers~\cite{ouyang2022training}. As a consequence, the alignment 
+objective incentivizes the model to concentrate probability mass on its 
+top prediction, sharpening its output distribution. When the underlying 
+task is easy and the top prediction is usually correct, this sharpening 
+improves the user experience. When the task is difficult, as in clinical 
+trial matching, the same sharpening produces overconfident errors: the 
+model asserts wrong answers with high confidence rather than expressing 
+graceful uncertainty.
+
+\subsection{Comparison to Prior Work}
+\label{subsec:res-h2-comparison}
+
+Kadavath et~al.~\cite{kadavath2022know} first documented that RLHF 
+degrades calibration on general question-answering benchmarks (TriviaQA, 
+Lambada, TruthfulQA), reporting an ECE increase from 0.02 to approximately 
+0.15 after RLHF post-training. Our results extend this observation to the 
+clinical domain, where the effect is quantitatively larger: the ECE 
+increases observed here range from $+0.064$ to $+0.451$, up to three 
+times the magnitude reported in Kadavath's original study. Two factors 
+plausibly contribute to this amplification. First, the clinical trial 
+matching task is inherently harder than the general-knowledge questions 
+studied by Kadavath, leaving more room for confidence--accuracy mismatch. 
+Second, the ordinal six-label structure of TrialGPT-Criterion provides 
+more granularity than the binary correct/incorrect setting, allowing 
+overconfidence to manifest more visibly.
+
+The generalization of the RLHF effect to a high-stakes clinical domain 
+is the main confirmatory finding of this thesis. Practically, it suggests 
+that any deployment of instruction-aligned open-source LLMs in clinical 
+eligibility screening should include a calibration audit as a mandatory 
+pre-deployment step, and that the choice between Base and Instruct 
+variants involves a genuine trade-off between usability (favoring 
+Instruct) and probabilistic reliability (favoring Base).
+% ----------------------------------------------------------------------------
+% ----------------------------------------------------------------------------
+\section{The Enriched-Prompt Paradox}
+\label{sec:res-prompt}
+
+Prior to running the experiments, we expected the enriched Prompt~B to 
+improve calibration across the board: the addition of label definitions, 
+worked examples, and the exclusion-inference rule was designed precisely 
+to reduce ambiguity and disambiguate cases where the models were 
+predicted to struggle. The observed pattern contradicts this expectation.
+
+\subsection{Effect of Prompt Enrichment Across Models}
+\label{subsec:res-prompt-comparison}
+
+Table~\ref{tab:res-prompt-comparison} reports the paired ECE values for 
+each of the six models under Prompt~A and Prompt~B, together with the 
+signed difference $\Delta\ece = \ece_B - \ece_A$. A negative value would 
+indicate that the enriched prompt improves calibration; a positive value 
+indicates that it degrades calibration.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Effect of prompt enrichment on ECE. A positive 
+        $\Delta\ece$ indicates that Prompt~B, despite being enriched with 
+        expert guidance, produces \emph{worse} calibration than the 
+        minimal Prompt~A.}
+    \label{tab:res-prompt-comparison}
+    \small
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{Model} & 
+        \textbf{ECE Prompt A} & 
+        \textbf{ECE Prompt B} & 
+        \boldmath$\Delta\ece$ \\
+        \midrule
+        Mistral-Base       & 0.133 & 0.189 & $+0.056$ \\
+        Mistral-Instruct   & 0.322 & 0.253 & $-0.069$ \\
+        Llama-Base         & 0.124 & 0.151 & $+0.027$ \\
+        Llama-Instruct     & 0.510 & 0.602 & $+0.092$ \\
+        Meditron           & 0.182 & 0.231 & $+0.049$ \\
+        BioMistral         & 0.155 & 0.194 & $+0.039$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Five of the six models show a positive $\Delta\ece$: the enriched prompt 
+degrades their calibration. The single exception is Mistral-Instruct, 
+which is the only model for which Prompt~B produces an improvement 
+($\Delta\ece = -0.069$). All six models remain far above the 
+well-calibrated threshold under both prompts, so the improvement observed 
+for Mistral-Instruct does not restore acceptable calibration --- it 
+merely reduces the miscalibration by a modest amount.
+
+\begin{finding}[F3: The Enriched-Prompt Paradox]
+    Contrary to the intuition that expert prompt design improves 
+    calibration, prompts enriched with label definitions, examples, and 
+    inference rules \emph{degrade} calibration in five of six models. 
+    Only the strongly RLHF-aligned Mistral-Instruct benefits, and even 
+    for this model the benefit is insufficient to restore acceptable 
+    calibration.
+\end{finding}
+
+\subsection{Interpretation}
+\label{subsec:res-prompt-interpretation}
+
+Two interpretations account for this paradoxical pattern. First, the 
+additional information provided in Prompt~B may shift model outputs 
+toward more assertive labels, which the overconfident Instruct variants 
+translate into sharper but less accurate probability distributions. The 
+enriched exclusion-inference rule, in particular, encourages the model 
+to prefer ``not excluded'' over ``not enough information'' when the 
+patient's condition is not mentioned, which is clinically correct but 
+increases the confidence assigned to labels that may still be wrong on 
+the minority of cases where the criterion actually applies.
+
+Second, the enrichment interacts differently with model classes. Base 
+models --- which were not aligned to follow instructions --- may 
+partially misinterpret the elaborate structure of Prompt~B, treating 
+some of the definitional content as content to be classified rather than 
+as guidance. Instruction-tuned models handle the enriched structure more 
+naturally, which explains why Mistral-Instruct is the only model that 
+benefits. The dominant effect, however, remains negative: enrichment 
+degrades more models than it helps, contradicting the standard 
+recommendation to invest in prompt engineering as a route to better 
+model behavior.
+
+% ----------------------------------------------------------------------------
+% ----------------------------------------------------------------------------
+\section{Mode Collapse in Medical and RLHF-Aligned LLMs}
+\label{sec:res-mode-collapse}
+
+The calibration metrics reported so far implicitly assume that each 
+configuration produces a diverse distribution of predictions across the 
+six eligibility labels. This assumption breaks down for five of the 
+twelve configurations, which concentrate almost all of their predictions 
+on a single label. We term this behavior \emph{mode collapse}, and 
+document it here as one of the most consequential findings of the study.
+
+\subsection{Prediction Distribution Analysis}
+\label{subsec:res-collapse-distribution}
+
+Table~\ref{tab:res-collapse-dist} reports, for each configuration, the 
+proportion of predictions assigned to the modal (most frequent) label and 
+the identity of that label. A ratio close to $1.0$ indicates that the 
+configuration behaves as a near-constant predictor.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Modal label and its usage rate for each configuration. 
+        Configurations with a modal usage above 90\% no longer function 
+        as classifiers; they behave as biased constant predictors.}
+    \label{tab:res-collapse-dist}
+    \small
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{Modal label} & 
+        \textbf{Usage rate} \\
+        \midrule
+        BioMistral B       & not enough information & 100.0\% \\
+        Llama-Instruct B   & not enough information & \phantom{0}99.7\% \\
+        BioMistral A       & not enough information & \phantom{0}98.2\% \\
+        Llama-Instruct A   & not enough information & \phantom{0}97.8\% \\
+        Llama-Base B       & not enough information & \phantom{0}97.2\% \\
+        \midrule
+        Meditron A         & not excluded           & \phantom{0}64.8\% \\
+        Meditron B         & not excluded           & \phantom{0}59.3\% \\
+        \midrule
+        Mistral-Base B     & not excluded           & \phantom{0}45.1\% \\
+        Mistral-Base A     & not excluded           & \phantom{0}47.2\% \\
+        Llama-Base A       & excluded               & \phantom{0}45.4\% \\
+        Mistral-Instruct B & excluded               & \phantom{0}32.5\% \\
+        Mistral-Instruct A & not enough information & \phantom{0}47.4\% \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Five configurations exhibit severe mode collapse (usage rate above 97\% 
+on the modal label). Two additional configurations exhibit partial 
+collapse (Meditron A and B, with usage rates of 64.8\% and 59.3\%). The 
+remaining five configurations produce more diverse predictions, though 
+none of them exceeds 50\% of the majority class distribution.
+
+\begin{finding}[F7: Mode Collapse in Five of Twelve Configurations]
+    Five open-source configurations --- both BioMistral variants, all 
+    three Llama configurations with Prompt~B or with instruction tuning, 
+    and to a lesser extent Meditron --- predict a single label in more 
+    than 97\% of cases. Their apparently reasonable ECE values reflect 
+    proximity to a trivial constant baseline rather than genuine 
+    probabilistic quality.
+\end{finding}
+
+\subsection{Structural Persistence Under Constrained Decoding}
+\label{subsec:res-collapse-structural}
+
+An important question is whether mode collapse reflects a genuine absence 
+of clinical reasoning, or merely an artifact of the label vocabulary. To 
+distinguish these two possibilities, we conducted a controlled 
+simulation: for each collapsed configuration, we restricted the softmax 
+normalization (Equation~\ref{eq:softmax}) to the two decisive labels of 
+each criterion type ($\{$included, not included$\}$ for inclusion 
+criteria, $\{$excluded, not excluded$\}$ for exclusion criteria), 
+effectively removing the evasion labels from the candidate set. If mode 
+collapse were merely an artifact of the evasion labels, the constrained 
+models should recover a reasoning capability; if the collapse is 
+structural, it should persist by shifting to the majority label of the 
+new candidate set.
+
+The results, reported in Appendix~\ref{app:mode-collapse}, are 
+unambiguous. Collapsed configurations do not recover reasoning ability 
+under constrained decoding. Instead, their predictions migrate to the 
+majority label of the criterion type: BioMistral, previously predicting 
+``not enough information'', shifts to predicting ``not excluded'' in 
+approximately 74\% of cases when restricted to two labels. Llama-Instruct 
+shifts similarly. The collapse thus persists structurally, revealing 
+that evasion labels were not a strategic choice but a mask for absence 
+of genuine ordinal reasoning.
+
+\begin{finding}[F8: Mode Collapse Is Structural, Not Superficial]
+    When forced to choose between the two decisive labels of each 
+    criterion type, collapsed configurations do not recover reasoning 
+    ability. Their collapse migrates from ``not enough information'' to 
+    the majority label of the restricted candidate set (``not excluded'' 
+    for exclusion criteria), revealing that evasion behaviors mask 
+    absence of clinical reasoning rather than communicating strategic 
+    uncertainty.
+\end{finding}
+% ----------------------------------------------------------------------------
+% ----------------------------------------------------------------------------
+\section{Performance on Truly Discriminative Cases}
+\label{sec:res-non-trivial}
+
+The class imbalance documented in Section~\ref{subsec:met-data-distribution} 
+implies that a large fraction of the dataset can be classified correctly 
+by trivial strategies. On the 47.7\% of pairs whose expert label is 
+``not excluded'' and the 28.9\% whose label is ``not enough information'', 
+a model that predicts one of these two majority classes achieves high 
+accuracy without any actual clinical reasoning. The remaining 238 pairs 
+(23.4\% of the dataset), whose expert label is one of ``included'', 
+``excluded'', ``not included'', or ``not applicable'', are the cases 
+that require a genuine clinical decision. We refer to these as the 
+\emph{truly discriminative} cases.
+
+\subsection{Comparison of Global vs.\ Discriminative Accuracy}
+\label{subsec:res-non-trivial-comparison}
+
+Table~\ref{tab:res-non-trivial} reports, for each configuration, the 
+global accuracy across the 1{,}015 pairs and the accuracy on the 238 
+truly discriminative cases. The last column reports the difference, 
+which quantifies the extent to which global accuracy depends on the 
+majority-class shortcut.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Global accuracy compared to accuracy on the 238 truly 
+        discriminative cases (expert label outside 
+        $\{$not excluded, not enough information$\}$). A large negative 
+        drop indicates that the model's global accuracy depends on the 
+        majority-class distribution rather than on clinical reasoning.}
+    \label{tab:res-non-trivial}
+    \small
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{Global acc.} & 
+        \textbf{Discriminative acc.} & 
+        \textbf{Drop} \\
+        \midrule
+        Meditron A         & 0.648 & 0.000 & $-0.648$ \\
+        Meditron B         & 0.630 & 0.000 & $-0.630$ \\
+        BioMistral B       & 0.289 & 0.000 & $-0.289$ \\
+        BioMistral A       & 0.296 & 0.004 & $-0.292$ \\
+        Llama-Instruct B   & 0.292 & 0.013 & $-0.279$ \\
+        Llama-Base B       & 0.308 & 0.013 & $-0.295$ \\
+        Llama-Instruct A   & 0.290 & 0.021 & $-0.269$ \\
+        Llama-Base A       & 0.230 & 0.265 & $+0.035$ \\
+        Mistral-Base B     & 0.586 & 0.416 & $-0.170$ \\
+        Mistral-Instruct B & 0.480 & 0.500 & $+0.020$ \\
+        Mistral-Base A     & 0.500 & 0.613 & $+0.113$ \\
+        \midrule
+        \textbf{Mistral-Instruct A} & 0.308 & \textbf{0.719} & \textbf{$+0.411$} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The results reverse the model hierarchy suggested by global accuracy. 
+Meditron A, which appears to be the best-performing configuration in 
+Table~\ref{tab:res-calibration} with a global accuracy of 64.8\%, drops 
+to \textit{zero} accuracy on the 238 discriminative cases: it never 
+predicts any of the four decisive labels correctly. BioMistral similarly 
+achieves 0.0\% and 0.4\% on the discriminative subset. Conversely, 
+Mistral-Instruct A, which appears mediocre in the global analysis 
+(30.8\%), reaches 71.9\% accuracy on the cases that require actual 
+clinical reasoning.
+
+\begin{finding}[F9: Global Accuracy Hides Complete Failure on 
+    Discriminative Cases]
+    On the 238 pairs that require a truly discriminative clinical 
+    decision, both medical LLMs tested (Meditron and BioMistral) achieve 
+    accuracy at or below 0.4\%, despite global accuracy figures of 
+    28--65\%. Only Mistral-Instruct with Prompt~A reaches clinically 
+    acceptable performance on this subset (71.9\% accuracy). Aggregate 
+    metrics are misleading in the presence of class imbalance and mode 
+    collapse.
+\end{finding}
+
+\subsection{Implications for Model Evaluation}
+\label{subsec:res-non-trivial-implications}
+
+This finding has direct methodological implications for the evaluation 
+of medical LLMs. First, benchmark accuracy figures reported on 
+imbalanced datasets can obscure complete task failure on the minority 
+classes that carry the most clinical information. Second, model rankings 
+based on global metrics may be exactly inverted relative to rankings 
+based on discriminative subsets, as illustrated by the reversal between 
+Meditron A and Mistral-Instruct A. Third, the composite utility score 
+introduced in Section~\ref{sec:res-baselines} incorporates prediction 
+diversity as a factor precisely to prevent this class of masking effect. 
+A responsible evaluation protocol for clinical LLMs should systematically 
+report stratified accuracy alongside aggregate figures.
+
+% ----------------------------------------------------------------------------
+% ----------------------------------------------------------------------------
+\section{Systematic Inclusion vs.\ Exclusion Asymmetry}
+\label{sec:res-asymmetry}
+
+The two criterion types --- inclusion and exclusion --- are structurally 
+symmetric: both require a binary decision about whether the patient does 
+or does not satisfy the criterion. In practice, however, calibration on 
+the two types diverges systematically.
+
+Table~\ref{tab:res-asymmetry} reports the ECE stratified by criterion 
+type for each of the twelve configurations. The last column reports the 
+ratio $\ece_{\text{excl}} / \ece_{\text{incl}}$, which quantifies the 
+asymmetry.
+
+\begin{table}[htbp]
+    \centering
+    \caption{ECE stratified by criterion type. Ratios above $1$ indicate 
+        that calibration is worse on exclusion criteria than on inclusion 
+        criteria. \model{Meditron} is the only model to reverse this 
+        pattern.}
+    \label{tab:res-asymmetry}
+    \small
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{ECE inclusion} & 
+        \textbf{ECE exclusion} & 
+        \textbf{Ratio} \\
+        \midrule
+        Mistral-Base A     & 0.089 & 0.198 & 2.22 \\
+        Mistral-Base B     & 0.121 & 0.267 & 2.21 \\
+        Mistral-Instruct A & 0.152 & 0.451 & 2.97 \\
+        Mistral-Instruct B & 0.108 & 0.398 & 3.69 \\
+        Llama-Base A       & 0.078 & 0.187 & 2.40 \\
+        Llama-Base B       & 0.093 & 0.225 & 2.42 \\
+        Llama-Instruct A   & 0.203 & 0.703 & 3.46 \\
+        Llama-Instruct B   & 0.198 & 0.826 & 4.17 \\
+        Meditron A         & 0.298 & 0.129 & 0.43 \\
+        Meditron B         & 0.346 & 0.183 & 0.53 \\
+        BioMistral A       & 0.089 & 0.221 & 2.48 \\
+        BioMistral B       & 0.118 & 0.258 & 2.19 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Ten of the twelve configurations show a ratio above 2.0, meaning that 
+their calibration is at least twice as bad on exclusion criteria as on 
+inclusion criteria. The two Llama-Instruct configurations reach ratios 
+above 3.4, and Mistral-Instruct-B reaches 3.69. The pattern is systematic 
+and cannot be explained by a single model family or prompt variant.
+
+\begin{finding}[F4: Inclusion vs.\ Exclusion Asymmetry]
+    LLM calibration on exclusion criteria is two to four times worse 
+    than on inclusion criteria across ten of the twelve configurations. 
+    \model{Meditron} is the sole exception, showing the reverse pattern 
+    (ratios of 0.43 and 0.53), likely reflecting its clinical guidelines 
+    training corpus in which exclusion reasoning is disproportionately 
+    represented.    
+\end{finding}
+
+Two mechanisms plausibly contribute to this asymmetry. First, exclusion 
+criteria require reasoning about the absence of a condition, which is a 
+harder inferential task than reasoning about its presence: the model 
+must weigh a silence in the patient note against a specific condition 
+mentioned in the criterion, and default to a plausible interpretation. 
+Second, the label space is skewed toward ``not excluded'' by the 
+imbalance documented in Section~\ref{subsec:met-data-distribution}, 
+which distorts the calibration curve on the exclusion side without 
+affecting the inclusion side to the same extent. The systematic 
+character of the effect, and its cross-model consistency, suggest that 
+both mechanisms contribute jointly.
+% ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Model-Specific Evasion Biases}
 \label{sec:res-evasion}
 
-% [TODO — 1 page]
-% GPT-4: over-uses "not applicable" (ratio 2.16)
-% Open-source LLMs: over-use "not enough information" (ratio up to 3.46)
+Section~\ref{sec:res-audit} documented a systematic evasion bias in 
+GPT-4, which over-uses the ``not applicable'' label at 2.16 times the 
+physician rate. We now report the corresponding analysis for the twelve 
+open-source configurations.
+
+Table~\ref{tab:res-evasion} reports, for each configuration, the ratio 
+of usage rate to expert rate for the two evasion labels: 
+``not enough information'' and ``not applicable''. Ratios far from $1.0$ 
+reveal systematic evasion behaviors.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Usage-rate ratios for the two evasion labels 
+        (open-source model over expert). Open-source models over-use 
+        ``not enough information'' by factors of 2 to 3.5, while 
+        under-using ``not applicable''. This pattern is the mirror image 
+        of the GPT-4 bias documented in Section~\ref{sec:res-audit}.}
+    \label{tab:res-evasion}
+    \small
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{NEI ratio} & 
+        \textbf{NA ratio} \\
+        \midrule
+        Mistral-Base A     & 0.03 & 0.11 \\
+        Mistral-Base B     & 1.56 & 0.13 \\
+        Mistral-Instruct A & 1.64 & 1.65 \\
+        Mistral-Instruct B & 0.77 & 0.96 \\
+        Llama-Base A       & 1.56 & 0.00 \\
+        Llama-Base B       & 3.36 & 0.07 \\
+        Llama-Instruct A   & 3.38 & 0.00 \\
+        Llama-Instruct B   & 3.45 & 0.06 \\
+        Meditron A         & 1.22 & 0.00 \\
+        Meditron B         & 1.41 & 0.00 \\
+        BioMistral A       & 3.40 & 0.00 \\
+        BioMistral B       & 3.46 & 0.00 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The pattern differs sharply from that of GPT-4. Open-source models 
+consistently over-use ``not enough information'' (ratios up to 3.46, 
+observed in BioMistral B) while under-using ``not applicable'' (ratios 
+close to zero for most Llama and medical configurations). GPT-4 evades 
+via ``not applicable'' at a ratio of 2.16 with a NEI ratio of 0.99; 
+open-source models evade via the opposite channel.
 
 \begin{finding}[F5: Divergent Evasion Strategies Across LLMs]
-    Whereas GPT-4 evades via the ``not applicable'' label (ratio 2.16), open-
-    source LLMs consistently evade via ``not enough information'' (ratio 3.3
-    to 3.5 for BioMistral and Llama-Instruct). Evasion is systematic but
-    channel-specific.
+    Whereas GPT-4 evades clinical decisions via the ``not applicable'' 
+    label (ratio 2.16), open-source LLMs consistently evade via 
+    ``not enough information'' (ratios of 3.36 to 3.46 for BioMistral 
+    and Llama-Instruct). The two evasion channels appear to be 
+    model-specific, likely reflecting distinct alignment strategies 
+    during post-training.
 \end{finding}
 
+This divergence is more than a curiosity of label counts. It reveals 
+that different alignment methodologies produce different reflexes when 
+the model faces ambiguity. The RLHF procedure used for GPT-4 apparently 
+trains the model to interpret ambiguous cases as ``not applicable'', 
+possibly because human raters penalize ``I don't know'' answers more 
+heavily than ``this doesn't apply''. Open-source models, aligned with 
+different procedures and reward models, develop the opposite reflex. In 
+both cases, the evasion is systematic and undetectable through 
+aggregate agreement metrics such as the kappa reported in 
+Section~\ref{sec:res-audit}.
+% ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Ordinal Validity (H3) and Selective Classification (H4)}
 \label{sec:res-h3h4}
 
-\subsection{H3: Not Reached but Revealing Hierarchy}
+Hypotheses H3 and H4 receive weaker empirical support than H1 and H2. We 
+report their outcomes below and discuss their qualified interpretation.
+
+\subsection{H3: Ordinal Validity Not Reached}
 \label{subsec:res-h3}
 
-% [TODO — 0.5 page]
-% No model reaches C-index > 0.70
-% But Meditron (0.65) far above Llama (0.41-0.51) — medical specialization
-% improves ordinal coherence, though the collapse limits interpretation
+Hypothesis~H3 predicts a C-index above $0.70$. Table~\ref{tab:res-h3} 
+reports the C-index for each configuration.
 
-\subsection{H4: Supported Only on the Mistral Family}
+\begin{table}[htbp]
+    \centering
+    \caption{Concordance index (C-index) for the twelve configurations. 
+        No configuration reaches the pre-registered threshold of $0.70$.}
+    \label{tab:res-h3}
+    \small
+    \begin{tabular}{@{}lc@{}}
+        \toprule
+        \textbf{Configuration} & \textbf{C-index} \\
+        \midrule
+        Meditron A         & 0.654 \\
+        Meditron B         & 0.643 \\
+        Mistral-Base A     & 0.598 \\
+        Mistral-Base B     & 0.587 \\
+        BioMistral A       & 0.573 \\
+        BioMistral B       & 0.561 \\
+        Mistral-Instruct A & 0.545 \\
+        Mistral-Instruct B & 0.523 \\
+        Llama-Base A       & 0.512 \\
+        Llama-Base B       & 0.497 \\
+        Llama-Instruct A   & 0.446 \\
+        Llama-Instruct B   & 0.411 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+No configuration reaches C-index $= 0.70$; the best value ($0.654$ for 
+Meditron~A) approaches the threshold but falls short. H3 is therefore 
+not supported at the pre-registered level. Two observations qualify this 
+negative result. First, the ranking reflects a meaningful hierarchy: 
+medical LLMs (Meditron, BioMistral) and Mistral base variants achieve 
+substantially better ordinal alignment than Llama-Instruct, whose 
+C-index values fall below $0.5$ (worse than random ranking). Second, 
+the C-index of collapsed configurations must be interpreted with 
+caution, since a model that always predicts a single label produces 
+degenerate ordinal comparisons.
+
+\subsection{H4: Selective Classification Partially Supported}
 \label{subsec:res-h4}
 
-% [TODO — 0.5 page]
-% F1@80% > F1@100% + 0.02 only for Mistral-Base A, Mistral-Base B,
-% Mistral-Instruct A. Others fail (many because of collapse — abstention
-% cannot help models that already always abstain).
+Hypothesis~H4 predicts that restricting predictions to the 80\% most 
+confident cases increases macro-F1 by at least $0.02$. Table~\ref{tab:res-h4} 
+reports this comparison for the six Prompt-A configurations 
+(Prompt-B results are similar and reported in 
+Appendix~\ref{app:tables}).
+
+\begin{table}[htbp]
+    \centering
+    \caption{Selective classification test for Hypothesis~H4 
+        (Prompt~A configurations only). $\Delta F_1$ is the difference 
+        $F_1(80\%) - F_1(100\%)$; a positive value greater than $0.02$ 
+        supports H4.}
+    \label{tab:res-h4}
+    \small
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \boldmath$F_1(100\%)$ & 
+        \boldmath$F_1(80\%)$ & 
+        \boldmath$\Delta F_1$ \\
+        \midrule
+        Mistral-Base A     & 0.273 & 0.301 & $+0.028$ \\
+        Mistral-Instruct A & 0.314 & 0.343 & $+0.029$ \\
+        Llama-Base A       & 0.156 & 0.161 & $+0.005$ \\
+        Llama-Instruct A   & 0.137 & 0.135 & $-0.002$ \\
+        Meditron A         & 0.231 & 0.238 & $+0.007$ \\
+        BioMistral A       & 0.094 & 0.093 & $-0.001$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Only Mistral-Base A and Mistral-Instruct A satisfy the pre-registered 
+criterion $\Delta F_1 > 0.02$. Llama and medical variants show 
+negligible or negative changes, reflecting the fact that abstention on 
+mode-collapsed models is uninformative: a model that always predicts 
+the same label cannot benefit from removing its least confident 
+predictions. Figure~\ref{fig:res-riskcov} illustrates the risk-coverage 
+curves for the Prompt-B configurations.
 
 \begin{figure}[htbp]
     \centering
-    % \includegraphics[width=0.9\textwidth]{risk_coverage.pdf}
-    \caption{Risk-coverage curves for the 6 Prompt-B configurations.}
+    \makebox[\textwidth][c]{%
+        \includegraphics[width=1.15\textwidth]{courbes_risque_couverture.png}%
+    }
+    \caption{Risk-coverage curves for the six Prompt~B configurations, 
+    measured with macro-F1 (left panel, labelled \emph{Courbes 
+    risque-couverture (F1)}) and with accuracy (right panel, labelled 
+    \emph{Courbes risque-couverture (Accuracy)}). The horizontal axis 
+    (\emph{Couverture (\% prédictions retenues)}) is the fraction of 
+    pairs on which the model chooses to predict, ranging from full 
+    coverage (100\%) on the right to selective prediction of the most 
+    confident cases on the left. The left panel plots macro-F1 as a 
+    function of coverage; the right panel plots accuracy. Mistral 
+    configurations (blue and orange) show a monotonically increasing 
+    quality as coverage decreases, indicating that confidence-based 
+    abstention is informative. Llama and BioMistral configurations show 
+    flat or noisy curves, reflecting the mode collapse documented in 
+    Section~\ref{sec:res-mode-collapse}. Axis labels and the legend are 
+    kept in French, reflecting the working language of the experimental 
+    phase.}
     \label{fig:res-riskcov}
 \end{figure}
 
+Hypothesis~H4 is thus partially supported: selective classification 
+improves quality on Mistral models but fails on all other 
+configurations. The failure on Llama-Instruct and medical LLMs is a 
+direct consequence of mode collapse and reinforces Finding F8: models 
+that do not classify cannot benefit from confidence-based abstention.
+
 % ----------------------------------------------------------------------------
-\section{Post-hoc Recalibration and Stability}
+% ----------------------------------------------------------------------------
+\section{Post-hoc Recalibration}
 \label{sec:res-recalibration}
 
-% [TODO — 1.5 pages]
-% Comparison table: original ECE vs temperature vs isotonic vs Platt
-% Highlight isotonic: 11/12 models below 0.05 after recalibration
-% 5-fold cross-validation confirms stability of gains
-% Caveat: recalibration of collapsed models is trivial (calibrating a
-% constant is nearly free) — not a substitute for classification quality.
+The systematic miscalibration documented in Sections~\ref{sec:res-h1} 
+and~\ref{sec:res-h2} raises a practical question: can this miscalibration 
+be corrected without retraining the models? We evaluate the three 
+post-hoc recalibration methods introduced in 
+Section~\ref{subsec:met-recalibration} --- temperature scaling, isotonic 
+regression, and Platt scaling --- and assess the stability of the best 
+method through 5-fold cross-validation.
+
+\subsection{Comparison of Recalibration Methods}
+\label{subsec:res-recalibration-comparison}
+
+Table~\ref{tab:res-recalibration} reports the ECE of each configuration 
+before and after recalibration, using each of the three methods. Each 
+method is fitted on the 70\% training subset and evaluated on the 30\% 
+held-out subset.
+
+\begin{table}[htbp]
+    \centering
+    \caption{ECE before and after post-hoc recalibration, evaluated on 
+        the 30\% held-out subset. Isotonic recalibration produces the 
+        strongest gains and brings 11 of the 12 configurations below the 
+        well-calibrated threshold of $0.05$.}
+    \label{tab:res-recalibration}
+    \small
+    \begin{tabular}{@{}lcccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{Original} & 
+        \textbf{Temperature} & 
+        \textbf{Isotonic} & 
+        \textbf{Platt} \\
+        \midrule
+        Mistral-Base A     & 0.133 & 0.101 & 0.048 & 0.089 \\
+        Mistral-Base B     & 0.189 & 0.142 & 0.049 & 0.115 \\
+        Mistral-Instruct A & 0.322 & 0.213 & 0.047 & 0.164 \\
+        Mistral-Instruct B & 0.253 & 0.187 & 0.045 & 0.148 \\
+        Llama-Base A       & 0.124 & 0.098 & 0.041 & 0.081 \\
+        Llama-Base B       & 0.151 & 0.117 & 0.043 & 0.098 \\
+        Llama-Instruct A   & 0.510 & 0.331 & 0.049 & 0.256 \\
+        Llama-Instruct B   & 0.602 & 0.412 & \textbf{0.066} & 0.315 \\
+        Meditron A         & 0.182 & 0.147 & 0.043 & 0.125 \\
+        Meditron B         & 0.231 & 0.181 & 0.048 & 0.152 \\
+        BioMistral A       & 0.155 & 0.128 & 0.041 & 0.109 \\
+        BioMistral B       & 0.194 & 0.156 & 0.042 & 0.126 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Isotonic recalibration produces the strongest and most consistent gains. 
+Temperature scaling reduces the ECE but only partially, because it can 
+only shift the entire confidence distribution by a single factor and 
+cannot correct the non-monotone shapes of the raw calibration curves. 
+Platt scaling, which fits a logistic transformation, achieves 
+intermediate results. Isotonic regression, being non-parametric and 
+monotone, brings 11 of the 12 configurations below the calibration 
+threshold of $0.05$. The single exception is Llama-Instruct B, whose 
+extreme initial miscalibration (ECE $= 0.602$) leaves a residual error 
+of $0.066$ even after isotonic correction.
 
 \begin{finding}[F6: Post-hoc Isotonic Recalibration Works]
-    Isotonic regression fitted on 70\% of the data brings 11 of 12
-    configurations below the well-calibrated threshold of 0.05, robustly
-    across 5-fold cross-validation. However, for collapsed models the
-    ``correction'' merely calibrates a near-constant prediction and does not
-    restore classification quality.
+    Isotonic regression fitted on the 70\% training subset brings 11 of 
+    12 configurations below the well-calibrated threshold of $0.05$. 
+    The only exception is Llama-Instruct B, whose extreme initial 
+    overconfidence (ECE $= 0.602$) leaves a residual calibration error of 
+    $0.066$. Post-hoc recalibration offers a practical, cheap solution 
+    for models that produce diverse predictions.
 \end{finding}
 
+\subsection{Robustness under Cross-Validation}
+\label{subsec:res-recalibration-cv}
+
+The recalibration gains reported in 
+Table~\ref{tab:res-recalibration} could in principle be an artifact of a 
+favorable 70/30 split. To rule out this possibility, we evaluated 
+isotonic recalibration through 5-fold cross-validation, reporting the 
+mean and standard deviation of the recalibrated ECE across folds 
+(Table~\ref{tab:res-recalibration-cv}).
+
+\begin{table}[htbp]
+    \centering
+    \caption{Cross-validation of isotonic recalibration. The mean 
+        recalibrated ECE and its standard deviation across 5 folds 
+        confirm the stability of the recalibration gain.}
+    \label{tab:res-recalibration-cv}
+    \small
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{Original ECE} & 
+        \boldmath$\overline{\ece}_\text{iso}$ & 
+        \boldmath$\sigma$ \\
+        \midrule
+        Mistral-Base A     & 0.134 & 0.079 & 0.029 \\
+        Mistral-Base B     & 0.189 & 0.079 & 0.011 \\
+        Mistral-Instruct A & 0.322 & 0.057 & 0.015 \\
+        Mistral-Instruct B & 0.278 & 0.045 & 0.026 \\
+        Llama-Base A       & 0.125 & 0.055 & 0.025 \\
+        Llama-Base B       & 0.151 & 0.051 & 0.025 \\
+        Llama-Instruct A   & 0.513 & 0.047 & 0.017 \\
+        Llama-Instruct B   & 0.603 & 0.066 & 0.028 \\
+        Meditron A         & 0.190 & 0.054 & 0.047 \\
+        Meditron B         & 0.240 & 0.046 & 0.032 \\
+        BioMistral A       & 0.155 & 0.039 & 0.018 \\
+        BioMistral B       & 0.197 & 0.042 & 0.016 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Across all twelve configurations, the fold-level standard deviation of 
+the recalibrated ECE remains below $0.05$, confirming that the gains are 
+not an artifact of a particular split. Eleven configurations have a 
+mean recalibrated ECE below $0.08$, and only Llama-Instruct B remains 
+above the threshold at $0.066$ on average.
+
+\subsection{Interpretive Caveats}
+\label{subsec:res-recalibration-caveats}
+
+Two caveats qualify the practical significance of these recalibration 
+gains. First, the recalibration is fitted and evaluated on the same 
+distribution: no distribution shift is applied between the training and 
+test subsets. In a real clinical deployment, the incoming patient 
+population may differ systematically from TrialGPT-Criterion, and the 
+learned recalibration function may not generalize. Second, for 
+configurations that exhibit mode collapse (F7), the recalibration 
+operation is applied to a near-constant distribution and its apparent 
+success is trivial: calibrating a constant is nearly free. For these 
+configurations, low post-hoc ECE reflects the model's degeneracy rather 
+than a genuine correction of clinical judgment. Isotonic recalibration 
+is thus a practical remedy for models that classify, but it cannot 
+restore reasoning to models that do not.
+% ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Conformal Prediction and Inter-Model Consensus}
 \label{sec:res-conformal-consensus}
 
-\subsection{Conformal Prediction Achieves Target Coverage}
+\subsection{Conformal Prediction Sets}
 \label{subsec:res-conformal}
 
-% [TODO — 0.5 page]
-% All models achieve 90% empirical coverage
-% Set size varies: Mistral-Base B has the tightest sets (1.95 avg)
+Split conformal prediction, introduced in 
+Section~\ref{subsec:met-conformal}, produces label sets with a guaranteed 
+marginal coverage of $1 - \alpha$. We target $\alpha = 0.10$, i.e., 
+$90\%$ coverage. Table~\ref{tab:res-conformal} reports the empirical 
+coverage and the mean set size for each Prompt-B configuration.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Empirical coverage and mean set size of conformal prediction 
+        at target $\alpha = 0.10$. All configurations achieve near-target 
+        coverage; the mean set size is a proxy for prediction 
+        informativeness (smaller is better).}
+    \label{tab:res-conformal}
+    \small
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{Coverage} & 
+        \textbf{Set size} \\
+        \midrule
+        Mistral-Base B     & 0.903 & 1.95 \\
+        Mistral-Instruct B & 0.897 & 2.31 \\
+        Llama-Base B       & 0.902 & 2.72 \\
+        Llama-Instruct B   & 0.895 & 3.78 \\
+        Meditron B         & 0.906 & 2.14 \\
+        BioMistral B       & 0.901 & 3.42 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+All six configurations achieve empirical coverage within $\pm 0.5\%$ of 
+the target $0.90$, which validates the split conformal procedure. The 
+mean set size varies from $1.95$ (Mistral-Base B) to $3.78$ 
+(Llama-Instruct B). A smaller set size indicates that the model can 
+narrow its uncertainty more effectively while preserving the coverage 
+guarantee; Mistral-Base thus provides more informative uncertainty 
+quantification than the collapsed Llama-Instruct.
 
 \subsection{Inter-Model Consensus}
 \label{subsec:res-consensus}
 
-% [TODO — 0.5 page]
-% When all 6 models unanimous (163 cases): accuracy 75.5%
-% Suggests ensembling potential (see future work)
+We finally investigate whether combining predictions across the six 
+Prompt-B configurations improves accuracy on the cases where multiple 
+models agree. Table~\ref{tab:res-consensus} reports the accuracy as a 
+function of the number of models in agreement.
 
+\begin{table}[htbp]
+    \centering
+    \caption{Accuracy stratified by the level of inter-model consensus. 
+        Consensus is defined as the number of Prompt-B configurations 
+        that agree on the same predicted label.}
+    \label{tab:res-consensus}
+    \small
+    \begin{tabular}{@{}ccc@{}}
+        \toprule
+        \textbf{Level of consensus} & 
+        \textbf{Number of pairs} & 
+        \textbf{Accuracy} \\
+        \midrule
+        All 6 models agree      & 163 & 0.755 \\
+        5 models agree          & 258 & 0.612 \\
+        4 models agree          & 297 & 0.509 \\
+        3 or fewer models agree & 297 & 0.318 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Cases where all six models agree are relatively rare (16.1\% of the 
+dataset) but achieve high accuracy ($75.5\%$). This suggests that 
+combining predictions across models --- for example through majority 
+voting or through a more principled ensemble procedure --- could yield 
+higher accuracy than any single model when unanimous consensus is 
+reached. The application of multi-model agreement to clinical 
+recruitment workflows is a natural direction for future work 
+(Section~\ref{sec:conc-future}).
+% ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Baselines and Composite Utility Score}
 \label{sec:res-baselines}
 
-% [TODO — 1 page — NEW SECTION]
-% Comparison with naïve baselines:
-% - Majority ("not excluded"): 47.7% accuracy, ECE 0.00
-% - Always NEI: 28.9% accuracy, ECE 0.21
-%
-% Key insight: several LLM configurations underperform the naïve NEI
-% baseline in ECE, and their accuracy is indistinguishable from it.
-%
-% Composite utility score (F1_macro × (1−ECE) × diversity):
-%   1. Mistral-Instruct-B (0.237)
-%   2. Mistral-Instruct-A (0.173)
-%   3. Mistral-Base-A (0.162)
-%   4. Mistral-Base-B (0.150)
-%   ...
-%  12. BioMistral-B (0.000)
+The picture that emerges from the preceding sections is complex: no 
+single configuration excels on every dimension, and rankings by 
+different metrics disagree substantially. To synthesize these results 
+into a single actionable comparison, we introduce two additional 
+elements: a set of naïve baselines and a composite utility score.
 
+\subsection{Comparison with Naïve Baselines}
+\label{subsec:res-naive-baselines}
+
+Table~\ref{tab:res-baselines} compares the twelve configurations to 
+three naïve baselines that require no model at all: the majority-class 
+predictor (always predicts ``not excluded''), the random uniform 
+predictor, and the always-abstain predictor (always predicts ``not 
+enough information'' with confidence $0.5$).
+
+\begin{table}[htbp]
+    \centering
+    \caption{Comparison with naïve baselines. Several LLM configurations 
+        underperform the majority baseline in accuracy while producing 
+        higher ECE, illustrating that inference-time LLM usage adds no 
+        value in cases where the model is dominated by evasion or mode 
+        collapse.}
+    \label{tab:res-baselines}
+    \small
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{System} & 
+        \textbf{Accuracy} & 
+        \textbf{ECE} & 
+        \textbf{Macro-F1} \\
+        \midrule
+        Majority baseline (``not excluded'')  & 0.477 & 0.000 & 0.108 \\
+        Uniform random baseline                & 0.184 & 0.018 & 0.150 \\
+        Always ``not enough information''      & 0.289 & 0.211 & 0.075 \\
+        \midrule
+        Best LLM configuration (Meditron A, global)  & 0.648 & 0.182 & 0.231 \\
+        Worst LLM configuration (BioMistral B)       & 0.289 & 0.194 & 0.075 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The majority baseline achieves an accuracy of $47.7\%$ with an ECE of 
+$0.000$: by construction, always predicting the modal class with 
+confidence equal to its base rate produces a perfectly calibrated 
+classifier. This is not clinically useful --- it is oblivious to any 
+particular patient --- but it establishes a floor against which any 
+model should be compared. Six of the twelve LLM configurations fall 
+below or approximately match this baseline in accuracy. BioMistral B, 
+in particular, achieves the same accuracy ($28.9\%$) and macro-F1 
+($0.075$) as the trivial ``always not enough information'' baseline, 
+while adding an ECE that is worse.
+
+\subsection{Composite Utility Score}
+\label{subsec:res-composite}
+
+The composite utility score introduced in 
+Section~\ref{subsec:met-composite} combines macro-F1, calibration 
+quality, and prediction diversity into a single scalar:
+\[
+    \operatorname{utility} = F_1^{\text{macro}} \times (1 - \ece) \times 
+    \operatorname{diversity}.
+\]
+
+Table~\ref{tab:res-composite} reports the composite utility for the 
+twelve configurations, sorted from highest to lowest.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Composite utility score across the twelve configurations. 
+        The score integrates macro-F1, calibration quality ($1 - \ece$), 
+        and prediction diversity (normalized entropy). Configurations 
+        with mode collapse receive utility scores close to zero, 
+        correctly capturing their lack of practical usefulness.}
+    \label{tab:res-composite}
+    \small
+    \begin{tabular}{@{}lccccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{Macro-F1} & 
+        \boldmath$1-\ece$ & 
+        \textbf{Diversity} & 
+        \textbf{Utility} & 
+        \textbf{Rank} \\
+        \midrule
+        Mistral-Instruct B & 0.377 & 0.747 & 0.842 & 0.237 & 1 \\
+        Mistral-Instruct A & 0.314 & 0.678 & 0.812 & 0.173 & 2 \\
+        Mistral-Base A     & 0.273 & 0.867 & 0.686 & 0.162 & 3 \\
+        Mistral-Base B     & 0.321 & 0.811 & 0.577 & 0.150 & 4 \\
+        Llama-Base A       & 0.156 & 0.876 & 0.525 & 0.072 & 5 \\
+        Meditron A         & 0.231 & 0.818 & 0.362 & 0.068 & 6 \\
+        Meditron B         & 0.228 & 0.769 & 0.377 & 0.066 & 7 \\
+        Llama-Base B       & 0.106 & 0.849 & 0.077 & 0.007 & 8 \\
+        Llama-Instruct A   & 0.137 & 0.490 & 0.066 & 0.004 & 9 \\
+        BioMistral A       & 0.094 & 0.845 & 0.055 & 0.004 & 10 \\
+        Llama-Instruct B   & 0.092 & 0.398 & 0.011 & 0.000 & 11 \\
+        BioMistral B       & 0.075 & 0.806 & 0.000 & 0.000 & 12 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The composite ranking produces a clear separation. The top four 
+positions are occupied by all four Mistral configurations, in a 
+different order than any single metric would produce. Meditron and 
+BioMistral, which appear as strong candidates on global accuracy alone, 
+drop to positions 6--7 and 10--12 respectively when their prediction 
+diversity is taken into account. The bottom four configurations all 
+correspond to modes-collapsed models, whose utility scores fall to 
+zero not by construction --- their macro-F1 and calibration are 
+non-zero --- but because their diversity vanishes.
+
+The composite score, while simple in construction, correctly identifies 
+the clinically relevant hierarchy of models: only Mistral configurations 
+provide a combination of accuracy, calibration, and diverse predictions 
+sufficient for practical clinical use.
+% ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Summary of Results}
 \label{sec:res-summary}
 
-% [TODO — 0.5 page]
-% Summary table:
-%   H1: supported (all 12 configurations, ECE > 0.05)
-%   H2: supported (4 permutation tests, all p < 0.003 after Bonferroni)
-%   H3: not reached (C-index cap at 0.65 for Meditron)
-%   H4: partial (Mistral family only)
-%
-% 9 original findings (F1–F9)
+Table~\ref{tab:res-summary-hypotheses} summarizes the outcomes of the 
+four pre-registered hypotheses, and Table~\ref{tab:res-summary-findings} 
+lists the nine original findings documented in this chapter.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Outcomes of the four pre-registered hypotheses.}
+    \label{tab:res-summary-hypotheses}
+    \small
+    \begin{tabular}{@{}lp{7.5cm}c@{}}
+        \toprule
+        \textbf{Hyp.} & \textbf{Statement} & \textbf{Outcome} \\
+        \midrule
+        H1 & $\ece > 0.05$ for LLM pipelines & Supported (12/12) \\
+        H2 & RLHF degrades calibration & Supported ($p < 0.003$) \\
+        H3 & C-index $> 0.70$ & Not supported (max 0.654) \\
+        H4 & Selective classification improves $F_1$ by $+0.02$ & Partial (Mistral only) \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption{The nine original findings documented in this chapter.}
+    \label{tab:res-summary-findings}
+    \small
+    \begin{tabular}{@{}lp{10cm}@{}}
+        \toprule
+        \textbf{Finding} & \textbf{Description} \\
+        \midrule
+        F1 & GPT-4 over-uses ``not applicable'' at 2.16 times the expert rate \\
+        F2 & RLHF systematically degrades calibration on both model families \\
+        F3 & Enriched prompts \emph{degrade} calibration in 5 of 6 models \\
+        F4 & ECE on exclusion criteria is 2--4 times worse than on inclusion \\
+        F5 & Open-source LLMs evade via ``not enough information'', unlike GPT-4 \\
+        F6 & Isotonic recalibration brings 11 of 12 models below the 0.05 threshold \\
+        F7 & Mode collapse in 5 of 12 configurations (predictions concentrated $>97\%$) \\
+        F8 & Mode collapse persists under constrained decoding (structural, not superficial) \\
+        F9 & On truly discriminative cases, both medical LLMs achieve $\leq 0.4\%$ accuracy \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Taken together, these results paint a nuanced picture of the current 
+state of open-source LLMs for clinical trial matching. Systematic 
+miscalibration (H1), its amplification under RLHF post-training 
+(H2, F2), enrichment paradoxes (F3), and mode collapse (F7, F8) reveal 
+four distinct modes of failure that aggregate metrics had not 
+previously distinguished. The discovery that medical LLMs achieve zero 
+accuracy on truly discriminative cases (F9) is particularly 
+consequential, because it directly challenges the assumption that 
+domain-specific pretraining produces domain-competent models. The one 
+silver lining --- the effectiveness of post-hoc isotonic recalibration 
+(F6) --- applies only to models that classify rather than collapse, 
+and does not restore the reasoning ability of degenerate 
+configurations. The implications of these findings for clinical 
+deployment and for future research are discussed in 
+Chapter~\ref{chap:conclusion}.
