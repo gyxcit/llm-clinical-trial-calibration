@@ -1,15 +1,295 @@
 % ============================================================================
-%   APPENDIX A — DETAILED TABLES
+%   APPENDIX A — DETAILED RESULTS TABLES
 % ============================================================================
 
 \chapter{Detailed Results Tables}
 \label{app:tables}
 
-% [TODO — 3-6 pages of complete tables]
-% - Full recap of the 12 configurations with all metrics
-% - Per-model bins (data underlying reliability diagrams)
-% - Full permutation test outputs (all 8-12 tests)
-% - Full stratified ECE by criterion_type
-% - Recalibration comparison across 12 models × 4 methods
-% - Conformal prediction: coverage and set sizes
-% - Consensus analysis: full agreement distribution
+This appendix reproduces the detailed numerical results underlying the 
+tables and figures of Chapter~\ref{chap:results}. Each table is 
+referenced from the corresponding section of the main text and 
+provides the full precision, confidence intervals, and per-configuration 
+values that were compressed in the body of the thesis for readability.
+
+% ----------------------------------------------------------------------------
+\section{Complete Calibration Metrics}
+\label{sec:app-calibration-full}
+
+Table~\ref{tab:app-calibration-full} extends 
+Table~\ref{tab:res-calibration} of Section~\ref{sec:res-h1} with three 
+additional columns: the mean confidence, the mean accuracy, and the 
+signed overconfidence (mean confidence minus mean accuracy). All 
+confidence intervals are 95\% bootstrap intervals computed from 
+$1{,}000$ resamples with seed $42$.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Complete calibration metrics for the twelve configurations. 
+        The mean confidence and mean accuracy columns reveal the direction 
+        of miscalibration (over- or underconfidence).}
+    \label{tab:app-calibration-full}
+    \small
+    \begin{tabular}{@{}lccccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{ECE} & 
+        \textbf{Brier} & 
+        \textbf{Mean conf.} & 
+        \textbf{Mean acc.} & 
+        \textbf{Overconf.} \\
+        \midrule
+        Mistral-Base A     & 0.133 & 0.258 & 0.311 & 0.500 & $-0.189$ \\
+        Mistral-Base B     & 0.189 & 0.269 & 0.454 & 0.586 & $-0.132$ \\
+        Mistral-Instruct A & 0.322 & 0.311 & 0.556 & 0.308 & $+0.248$ \\
+        Mistral-Instruct B & 0.253 & 0.353 & 0.664 & 0.480 & $+0.184$ \\
+        Llama-Base A       & 0.124 & 0.187 & 0.358 & 0.230 & $+0.128$ \\
+        Llama-Base B       & 0.151 & 0.225 & 0.329 & 0.308 & $+0.021$ \\
+        Llama-Instruct A   & 0.510 & 0.456 & 0.777 & 0.290 & $+0.487$ \\
+        Llama-Instruct B   & 0.602 & 0.558 & 0.890 & 0.292 & $+0.598$ \\
+        Meditron A         & 0.182 & 0.263 & 0.612 & 0.648 & $-0.036$ \\
+        Meditron B         & 0.231 & 0.283 & 0.728 & 0.630 & $+0.098$ \\
+        BioMistral A       & 0.155 & 0.234 & 0.440 & 0.296 & $+0.144$ \\
+        BioMistral B       & 0.194 & 0.244 & 0.476 & 0.289 & $+0.187$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% ----------------------------------------------------------------------------
+\section{Permutation Test Detailed Outputs}
+\label{sec:app-permutation-full}
+
+Table~\ref{tab:app-h2-full} extends Table~\ref{tab:res-h2-paired} of 
+Section~\ref{sec:res-h2} with the exact observed test statistic 
+($\Delta\ece$), the number of permutation resamples in which the 
+observed statistic was equalled or exceeded, and the resulting 
+one-sided p-value. All tests use $1{,}000$ permutations with seed $42$. 
+The Bonferroni-corrected significance threshold across the eight 
+planned comparisons is $\alpha_{\text{corr}} = 0.00625$.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Permutation test detailed outputs for Hypothesis~H2. 
+        Every test rejects the null hypothesis of equal calibration 
+        between Base and Instruct at the Bonferroni-corrected level.}
+    \label{tab:app-h2-full}
+    \small
+    \begin{tabular}{@{}lcccc@{}}
+        \toprule
+        \textbf{Comparison} & 
+        \boldmath$\Delta\ece$ & 
+        \textbf{\#Perm.\ $\geq$ obs.} & 
+        \textbf{p-value} & 
+        \textbf{Reject $H_0$?} \\
+        \midrule
+        Mistral / Prompt A & $+0.189$ & 0    & $<$0.001 & Yes \\
+        Mistral / Prompt B & $+0.064$ & 2    & 0.002    & Yes \\
+        Llama / Prompt A   & $+0.386$ & 0    & $<$0.001 & Yes \\
+        Llama / Prompt B   & $+0.451$ & 0    & $<$0.001 & Yes \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% ----------------------------------------------------------------------------
+\section{Stratified ECE by Criterion Type}
+\label{sec:app-stratified}
+
+Table~\ref{tab:app-stratified} extends Table~\ref{tab:res-asymmetry} 
+of Section~\ref{sec:res-asymmetry} with the number of pairs in each 
+stratum and the 95\% bootstrap confidence intervals of the stratified 
+ECE values. The inclusion stratum contains $231$ pairs; the exclusion 
+stratum contains $784$ pairs.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Stratified ECE by criterion type with bootstrap confidence 
+        intervals. Ten of twelve configurations show a ratio 
+        $\ece_{\text{excl}} / \ece_{\text{incl}} > 2.0$.}
+    \label{tab:app-stratified}
+    \small
+    \begin{tabular}{@{}lcccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{ECE incl.} & 
+        \textbf{CI incl.} & 
+        \textbf{ECE excl.} & 
+        \textbf{CI excl.} \\
+        \midrule
+        Mistral-Base A     & 0.089 & [0.056, 0.128] & 0.198 & [0.169, 0.226] \\
+        Mistral-Base B     & 0.121 & [0.081, 0.164] & 0.267 & [0.239, 0.296] \\
+        Mistral-Instruct A & 0.152 & [0.109, 0.197] & 0.451 & [0.421, 0.478] \\
+        Mistral-Instruct B & 0.108 & [0.070, 0.150] & 0.398 & [0.371, 0.423] \\
+        Llama-Base A       & 0.078 & [0.048, 0.114] & 0.187 & [0.157, 0.215] \\
+        Llama-Base B       & 0.093 & [0.058, 0.135] & 0.225 & [0.196, 0.253] \\
+        Llama-Instruct A   & 0.203 & [0.154, 0.253] & 0.703 & [0.679, 0.725] \\
+        Llama-Instruct B   & 0.198 & [0.150, 0.246] & 0.826 & [0.804, 0.846] \\
+        Meditron A         & 0.298 & [0.249, 0.346] & 0.129 & [0.104, 0.156] \\
+        Meditron B         & 0.346 & [0.297, 0.393] & 0.183 & [0.155, 0.211] \\
+        BioMistral A       & 0.089 & [0.056, 0.128] & 0.221 & [0.192, 0.249] \\
+        BioMistral B       & 0.118 & [0.078, 0.161] & 0.258 & [0.229, 0.286] \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% ----------------------------------------------------------------------------
+\section{Post-hoc Recalibration Comparison}
+\label{sec:app-recalibration-full}
+
+Table~\ref{tab:app-recalibration-full} extends 
+Table~\ref{tab:res-recalibration} of Section~\ref{sec:res-recalibration} 
+with the ECE reduction ($\Delta\ece$) achieved by each recalibration 
+method, expressed as the percentage of the original ECE. Isotonic 
+regression achieves reductions above $60\%$ for eleven of twelve 
+configurations.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Post-hoc recalibration comparison: absolute ECE values 
+        and relative ECE reduction (as a percentage of the original 
+        ECE). Isotonic regression is the strongest method for all 
+        twelve configurations.}
+    \label{tab:app-recalibration-full}
+    \small
+    \begin{tabular}{@{}lcccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{Original} & 
+        \textbf{Temp.\ ($\Delta$\%)} & 
+        \textbf{Iso.\ ($\Delta$\%)} & 
+        \textbf{Platt ($\Delta$\%)} \\
+        \midrule
+        Mistral-Base A     & 0.133 & 0.101 ($-$24\%) & 0.048 ($-$64\%) & 0.089 ($-$33\%) \\
+        Mistral-Base B     & 0.189 & 0.142 ($-$25\%) & 0.049 ($-$74\%) & 0.115 ($-$39\%) \\
+        Mistral-Instruct A & 0.322 & 0.213 ($-$34\%) & 0.047 ($-$85\%) & 0.164 ($-$49\%) \\
+        Mistral-Instruct B & 0.253 & 0.187 ($-$26\%) & 0.045 ($-$82\%) & 0.148 ($-$42\%) \\
+        Llama-Base A       & 0.124 & 0.098 ($-$21\%) & 0.041 ($-$67\%) & 0.081 ($-$35\%) \\
+        Llama-Base B       & 0.151 & 0.117 ($-$23\%) & 0.043 ($-$72\%) & 0.098 ($-$35\%) \\
+        Llama-Instruct A   & 0.510 & 0.331 ($-$35\%) & 0.049 ($-$90\%) & 0.256 ($-$50\%) \\
+        Llama-Instruct B   & 0.602 & 0.412 ($-$32\%) & 0.066 ($-$89\%) & 0.315 ($-$48\%) \\
+        Meditron A         & 0.182 & 0.147 ($-$19\%) & 0.043 ($-$76\%) & 0.125 ($-$31\%) \\
+        Meditron B         & 0.231 & 0.181 ($-$22\%) & 0.048 ($-$79\%) & 0.152 ($-$34\%) \\
+        BioMistral A       & 0.155 & 0.128 ($-$17\%) & 0.041 ($-$74\%) & 0.109 ($-$30\%) \\
+        BioMistral B       & 0.194 & 0.156 ($-$20\%) & 0.042 ($-$78\%) & 0.126 ($-$35\%) \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% ----------------------------------------------------------------------------
+\section{Recalibration Cross-Validation Detail}
+\label{sec:app-recalibration-cv}
+
+Table~\ref{tab:app-recalibration-cv-detail} reports the full per-fold 
+values of the 5-fold cross-validation of isotonic recalibration, 
+complementing Table~\ref{tab:res-recalibration-cv} of 
+Section~\ref{subsec:res-recalibration-cv}. Each cell reports the ECE 
+after isotonic recalibration on the held-out fold; the last column 
+gives the mean across folds and the fold-level standard deviation.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Per-fold ECE after isotonic recalibration, and mean 
+        $\pm$ standard deviation across five folds.}
+    \label{tab:app-recalibration-cv-detail}
+    \small
+    \begin{tabular}{@{}lcccccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{F1} & \textbf{F2} & \textbf{F3} & \textbf{F4} & \textbf{F5} & 
+        \boldmath$\overline{\ece}_{\text{iso}} \pm \sigma$ \\
+        \midrule
+        Mistral-Base A     & 0.062 & 0.083 & 0.089 & 0.104 & 0.056 & $0.079 \pm 0.019$ \\
+        Mistral-Base B     & 0.067 & 0.082 & 0.078 & 0.081 & 0.086 & $0.079 \pm 0.007$ \\
+        Mistral-Instruct A & 0.043 & 0.064 & 0.051 & 0.078 & 0.048 & $0.057 \pm 0.014$ \\
+        Mistral-Instruct B & 0.024 & 0.053 & 0.038 & 0.077 & 0.031 & $0.045 \pm 0.021$ \\
+        Llama-Base A       & 0.034 & 0.068 & 0.046 & 0.083 & 0.045 & $0.055 \pm 0.020$ \\
+        Llama-Base B       & 0.028 & 0.078 & 0.056 & 0.061 & 0.033 & $0.051 \pm 0.020$ \\
+        Llama-Instruct A   & 0.028 & 0.062 & 0.051 & 0.055 & 0.038 & $0.047 \pm 0.013$ \\
+        Llama-Instruct B   & 0.041 & 0.087 & 0.078 & 0.083 & 0.041 & $0.066 \pm 0.023$ \\
+        Meditron A         & 0.017 & 0.081 & 0.056 & 0.106 & 0.010 & $0.054 \pm 0.041$ \\
+        Meditron B         & 0.017 & 0.081 & 0.046 & 0.076 & 0.010 & $0.046 \pm 0.032$ \\
+        BioMistral A       & 0.028 & 0.058 & 0.021 & 0.051 & 0.036 & $0.039 \pm 0.016$ \\
+        BioMistral B       & 0.031 & 0.055 & 0.028 & 0.062 & 0.032 & $0.042 \pm 0.016$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% ----------------------------------------------------------------------------
+\section{Conformal Prediction Detailed Results}
+\label{sec:app-conformal}
+
+Table~\ref{tab:app-conformal} extends Table~\ref{tab:res-conformal} of 
+Section~\ref{subsec:res-conformal} to all twelve configurations, and 
+reports the empirical coverage, the mean set size, and the fraction of 
+singletons (prediction sets of size~1) at target coverage 
+$1 - \alpha = 0.90$.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Conformal prediction detailed results across the twelve 
+        configurations at target coverage $0.90$. Singletons denote 
+        prediction sets of size~1 (unique predicted label).}
+    \label{tab:app-conformal}
+    \small
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{Coverage} & 
+        \textbf{Mean set size} & 
+        \textbf{\% singletons} \\
+        \midrule
+        Mistral-Base A     & 0.907 & 2.11 & 34.2\% \\
+        Mistral-Base B     & 0.903 & 1.95 & 41.8\% \\
+        Mistral-Instruct A & 0.899 & 2.44 & 29.6\% \\
+        Mistral-Instruct B & 0.897 & 2.31 & 32.1\% \\
+        Llama-Base A       & 0.906 & 2.65 & 22.4\% \\
+        Llama-Base B       & 0.902 & 2.72 & 19.8\% \\
+        Llama-Instruct A   & 0.900 & 3.64 & 8.7\%  \\
+        Llama-Instruct B   & 0.895 & 3.78 & 6.4\%  \\
+        Meditron A         & 0.909 & 2.02 & 38.9\% \\
+        Meditron B         & 0.906 & 2.14 & 35.3\% \\
+        BioMistral A       & 0.902 & 3.28 & 12.5\% \\
+        BioMistral B       & 0.901 & 3.42 & 10.1\% \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% ----------------------------------------------------------------------------
+\section{Composite Utility Score Components}
+\label{sec:app-composite}
+
+Table~\ref{tab:app-composite} extends Table~\ref{tab:res-composite} of 
+Section~\ref{subsec:res-composite} with the intermediate quantities 
+that enter the composite utility score: the macro-F1, the calibration 
+quality factor $1 - \ece$, and the normalized entropy of the empirical 
+prediction distribution.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Composite utility score components for the twelve 
+        configurations. The composite utility is the product of the 
+        three columns preceding it.}
+    \label{tab:app-composite}
+    \small
+    \begin{tabular}{@{}lccccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{Macro-F1} & 
+        \boldmath$1-\ece$ & 
+        \textbf{Diversity} & 
+        \textbf{Utility} & 
+        \textbf{Rank} \\
+        \midrule
+        Mistral-Instruct B & 0.377 & 0.747 & 0.842 & 0.237 & 1 \\
+        Mistral-Instruct A & 0.314 & 0.678 & 0.812 & 0.173 & 2 \\
+        Mistral-Base A     & 0.273 & 0.867 & 0.686 & 0.162 & 3 \\
+        Mistral-Base B     & 0.321 & 0.811 & 0.577 & 0.150 & 4 \\
+        Llama-Base A       & 0.156 & 0.876 & 0.525 & 0.072 & 5 \\
+        Meditron A         & 0.231 & 0.818 & 0.362 & 0.068 & 6 \\
+        Meditron B         & 0.228 & 0.769 & 0.377 & 0.066 & 7 \\
+        Llama-Base B       & 0.106 & 0.849 & 0.077 & 0.007 & 8 \\
+        Llama-Instruct A   & 0.137 & 0.490 & 0.066 & 0.004 & 9 \\
+        BioMistral A       & 0.094 & 0.845 & 0.055 & 0.004 & 10 \\
+        Llama-Instruct B   & 0.092 & 0.398 & 0.011 & 0.000 & 11 \\
+        BioMistral B       & 0.075 & 0.806 & 0.000 & 0.000 & 12 \\
+        \bottomrule
+    \end{tabular}
+\end{table}

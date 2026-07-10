@@ -5,24 +5,52 @@
 \chapter{Individual Reliability Diagrams}
 \label{app:reliability}
 
-% [TODO — 12 individual reliability diagrams, 2 per page]
-% Use subfigure to save space
+This appendix reproduces the individual reliability diagrams for each 
+of the twelve configurations, in a compact grid format that facilitates 
+visual comparison. Figure~\ref{fig:app-reliability-grid} presents the 
+diagrams organized by model family (colors) and prompt variant (A/B in 
+adjacent cells within each row).
+
+Each panel plots the observed accuracy as a function of predicted 
+confidence in ten equal-width bins. The dashed diagonal represents 
+perfect calibration; points below the diagonal indicate overconfidence, 
+points above indicate underconfidence. Configurations that exhibit 
+mode collapse (Section~\ref{sec:res-mode-collapse}) produce degenerate 
+reliability curves concentrated in a narrow range of the confidence 
+axis, reflecting their inability to modulate confidence across cases.
 
 \begin{figure}[htbp]
     \centering
-    \begin{subfigure}{0.48\textwidth}
-        \centering
-        % \includegraphics[width=\textwidth]{reliability_mistral_base_A.pdf}
-        \caption{Mistral-Base, Prompt A}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}{0.48\textwidth}
-        \centering
-        % \includegraphics[width=\textwidth]{reliability_mistral_base_B.pdf}
-        \caption{Mistral-Base, Prompt B}
-    \end{subfigure}
-
-    % [TODO — continue for all 12 diagrams]
-    \caption{Reliability diagrams for the 12 configurations.}
-    \label{fig:app-reliability-all}
+    \includegraphics[width=\textwidth]{reliability_diagrams_grid.pdf}
+    \caption{Individual reliability diagrams for the twelve 
+        configurations. Colors indicate the model family: 
+        \textcolor{red!80!black}{Mistral-Base} (red), 
+        \textcolor{orange}{Mistral-Instruct} (orange), 
+        \textcolor{blue}{Llama-Base} (blue), 
+        \textcolor{black!70}{Llama-Instruct} (dark), 
+        \textcolor{green!60!black}{Meditron} (green), 
+        \textcolor{purple}{BioMistral} (purple). 
+        The dashed diagonal represents perfect calibration. 
+        Configurations with mode collapse show curves concentrated 
+        in a narrow confidence range, unable to reflect the diversity 
+        of clinical situations.}
+    \label{fig:app-reliability-grid}
 \end{figure}
+
+Three visual patterns emerge from the grid. First, the two Mistral-Base 
+panels (top row) show curves that lie systematically above the diagonal 
+in the low-to-mid confidence range, indicating underconfidence: the 
+model is more accurate than it claims. Second, the two Llama-Instruct 
+panels show curves that lie systematically below the diagonal in the 
+high-confidence range, indicating severe overconfidence: the model 
+asserts wrong answers with high confidence. Third, the BioMistral and 
+Llama-Base~B panels display near-vertical curves concentrated around a 
+single confidence value, which is the visual signature of mode 
+collapse: the model produces a nearly constant confidence estimate 
+regardless of the input, and its accuracy on that narrow range is 
+close to the base rate of the majority class.
+
+The individual patterns visible in this grid complement the aggregate 
+comparison of Figure~\ref{fig:res-reliability} of 
+Chapter~\ref{chap:results} and support the finer interpretations 
+provided in Sections~\ref{sec:res-h1} and~\ref{sec:res-mode-collapse}.

@@ -126,43 +126,50 @@
 \contentsline {subsection}{\numberline {5.13.1}Comparison with Naïve Baselines}{60}{subsection.5.13.1}%
 \contentsline {subsection}{\numberline {5.13.2}Composite Utility Score}{61}{subsection.5.13.2}%
 \contentsline {section}{\numberline {5.14}Summary of Results}{62}{section.5.14}%
-\contentsline {chapter}{\numberline {6}Conclusion and Future Work}{63}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Summary of Findings}{63}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Answer to the Research Question}{64}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Contributions}{65}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Limitations}{65}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}External Validation}{65}{subsection.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}Model Scale}{66}{subsection.6.4.2}%
-\contentsline {subsection}{\numberline {6.4.3}Prompt Space}{66}{subsection.6.4.3}%
-\contentsline {section}{\numberline {6.5}Future Work}{66}{section.6.5}%
-\contentsline {subsection}{\numberline {6.5.1}External Validation on Independent Benchmarks}{67}{subsection.6.5.1}%
-\contentsline {subsection}{\numberline {6.5.2}Multi-Agent Adversarial Debate for Calibration}{67}{subsection.6.5.2}%
-\contentsline {subsection}{\numberline {6.5.3}Investigating the Origin of Mode Collapse}{67}{subsection.6.5.3}%
-\contentsline {subsection}{\numberline {6.5.4}Extension to Larger and Multilingual Models}{67}{subsection.6.5.4}%
-\contentsline {section}{\numberline {6.6}Closing Remarks}{68}{section.6.6}%
-\contentsline {chapter}{Bibliography}{69}{chapter*.36}%
-\contentsline {chapter}{\numberline {A}Detailed Results Tables}{73}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Full Prompt Specifications}{74}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Prompt A --- Generic Baseline}{74}{section.B.1}%
-\contentsline {subsection}{\numberline {B.1.1}Prompt A for Instruct Models}{74}{subsection.B.1.1}%
-\contentsline {subsection}{\numberline {B.1.2}Prompt A for Base Models}{75}{subsection.B.1.2}%
-\contentsline {section}{\numberline {B.2}Prompt B --- Adapted with Expert Guidance}{75}{section.B.2}%
-\contentsline {subsection}{\numberline {B.2.1}Prompt B for Instruct Models}{75}{subsection.B.2.1}%
-\contentsline {paragraph}{Guidance block for inclusion criteria.}{76}{paragraph*.37}%
-\contentsline {paragraph}{Guidance block for exclusion criteria.}{77}{paragraph*.38}%
-\contentsline {subsection}{\numberline {B.2.2}Prompt B for Base Models}{78}{subsection.B.2.2}%
-\contentsline {paragraph}{Few-shot block for inclusion criteria.}{79}{paragraph*.39}%
-\contentsline {paragraph}{Few-shot block for exclusion criteria.}{79}{paragraph*.40}%
-\contentsline {chapter}{\numberline {C}Individual Reliability Diagrams}{81}{appendix.C}%
-\contentsline {chapter}{\numberline {D}Code and Data Availability}{82}{appendix.D}%
-\contentsline {section}{\numberline {D.1}Repository}{82}{section.D.1}%
-\contentsline {section}{\numberline {D.2}Data Availability}{82}{section.D.2}%
-\contentsline {section}{\numberline {D.3}Reproducing the Experiments}{83}{section.D.3}%
-\contentsline {section}{\numberline {D.4}Computational Requirements}{83}{section.D.4}%
-\contentsline {section}{\numberline {D.5}Software Versions}{84}{section.D.5}%
-\contentsline {chapter}{\numberline {E}Generative AI Usage Declaration}{85}{appendix.E}%
-\contentsline {chapter}{\numberline {F}Detailed Mode Collapse Analysis}{87}{appendix.F}%
-\contentsline {section}{\numberline {F.1}Prediction Distribution per Configuration}{87}{section.F.1}%
-\contentsline {section}{\numberline {F.2}Simulation: Forcing Decisive Predictions}{87}{section.F.2}%
-\contentsline {section}{\numberline {F.3}Composite Utility Score Ranking}{87}{section.F.3}%
-\contentsline {section}{\numberline {F.4}Cross-Validation Stability}{87}{section.F.4}%
+\contentsline {chapter}{\numberline {6}Conclusion and Future Work}{64}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Summary of Findings}{64}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Answer to the Research Question}{65}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Contributions}{66}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Limitations}{66}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}External Validation}{66}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Model Scale}{67}{subsection.6.4.2}%
+\contentsline {subsection}{\numberline {6.4.3}Prompt Space and Prompt-Driven Effects}{67}{subsection.6.4.3}%
+\contentsline {section}{\numberline {6.5}Future Work}{68}{section.6.5}%
+\contentsline {subsection}{\numberline {6.5.1}External Validation on Independent Benchmarks}{68}{subsection.6.5.1}%
+\contentsline {subsection}{\numberline {6.5.2}Multi-Agent Adversarial Debate for Calibration}{68}{subsection.6.5.2}%
+\contentsline {subsection}{\numberline {6.5.3}Investigating the Origin of Mode Collapse}{69}{subsection.6.5.3}%
+\contentsline {subsection}{\numberline {6.5.4}Extension to Larger and Multilingual Models}{69}{subsection.6.5.4}%
+\contentsline {section}{\numberline {6.6}Closing Remarks}{69}{section.6.6}%
+\contentsline {chapter}{Bibliography}{71}{chapter*.36}%
+\contentsline {chapter}{\numberline {A}Detailed Results Tables}{75}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Complete Calibration Metrics}{75}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Permutation Test Detailed Outputs}{75}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Stratified ECE by Criterion Type}{76}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Post-hoc Recalibration Comparison}{76}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Recalibration Cross-Validation Detail}{76}{section.A.5}%
+\contentsline {section}{\numberline {A.6}Conformal Prediction Detailed Results}{77}{section.A.6}%
+\contentsline {section}{\numberline {A.7}Composite Utility Score Components}{78}{section.A.7}%
+\contentsline {chapter}{\numberline {B}Full Prompt Specifications}{79}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Prompt A --- Generic Baseline}{79}{section.B.1}%
+\contentsline {subsection}{\numberline {B.1.1}Prompt A for Instruct Models}{79}{subsection.B.1.1}%
+\contentsline {subsection}{\numberline {B.1.2}Prompt A for Base Models}{80}{subsection.B.1.2}%
+\contentsline {section}{\numberline {B.2}Prompt B --- Adapted with Expert Guidance}{80}{section.B.2}%
+\contentsline {subsection}{\numberline {B.2.1}Prompt B for Instruct Models}{80}{subsection.B.2.1}%
+\contentsline {paragraph}{Guidance block for inclusion criteria.}{81}{paragraph*.44}%
+\contentsline {paragraph}{Guidance block for exclusion criteria.}{82}{paragraph*.45}%
+\contentsline {subsection}{\numberline {B.2.2}Prompt B for Base Models}{83}{subsection.B.2.2}%
+\contentsline {paragraph}{Few-shot block for inclusion criteria.}{84}{paragraph*.46}%
+\contentsline {paragraph}{Few-shot block for exclusion criteria.}{84}{paragraph*.47}%
+\contentsline {chapter}{\numberline {C}Individual Reliability Diagrams}{86}{appendix.C}%
+\contentsline {chapter}{\numberline {D}Code and Data Availability}{88}{appendix.D}%
+\contentsline {section}{\numberline {D.1}Repository}{88}{section.D.1}%
+\contentsline {section}{\numberline {D.2}Data Availability}{88}{section.D.2}%
+\contentsline {section}{\numberline {D.3}Reproducing the Experiments}{89}{section.D.3}%
+\contentsline {section}{\numberline {D.4}Computational Requirements}{89}{section.D.4}%
+\contentsline {section}{\numberline {D.5}Software Versions}{90}{section.D.5}%
+\contentsline {chapter}{\numberline {E}Generative AI Usage Declaration}{91}{appendix.E}%
+\contentsline {chapter}{\numberline {F}Detailed Mode Collapse Analysis}{93}{appendix.F}%
+\contentsline {section}{\numberline {F.1}Complete Prediction Distributions}{93}{section.F.1}%
+\contentsline {section}{\numberline {F.2}Constrained-Decoding Simulation (Finding F8)}{94}{section.F.2}%
+\contentsline {section}{\numberline {F.3}Dominant vs.\ Discriminative Cases (Finding F9)}{95}{section.F.3}%
+\contentsline {section}{\numberline {F.4}Diversity Predicts Discriminative Accuracy}{95}{section.F.4}%

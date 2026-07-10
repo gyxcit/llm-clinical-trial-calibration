@@ -33,8 +33,19 @@
 \contentsline {table}{\numberline {5.20}{\ignorespaces The nine original findings documented in this chapter.}}{62}{table.caption.35}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {A.1}{\ignorespaces Complete calibration metrics for the twelve configurations. The mean confidence and mean accuracy columns reveal the direction of miscalibration (over- or underconfidence).}}{75}{table.caption.37}%
+\contentsline {table}{\numberline {A.2}{\ignorespaces Permutation test detailed outputs for Hypothesis~H2. Every test rejects the null hypothesis of equal calibration between Base and Instruct at the Bonferroni-corrected level.}}{76}{table.caption.38}%
+\contentsline {table}{\numberline {A.3}{\ignorespaces Stratified ECE by criterion type with bootstrap confidence intervals. Ten of twelve configurations show a ratio $\textrm {ECE}_{\text {excl}} / \textrm {ECE}_{\text {incl}} > 2.0$.}}{76}{table.caption.39}%
+\contentsline {table}{\numberline {A.4}{\ignorespaces Post-hoc recalibration comparison: absolute ECE values and relative ECE reduction (as a percentage of the original ECE). Isotonic regression is the strongest method for all twelve configurations.}}{77}{table.caption.40}%
+\contentsline {table}{\numberline {A.5}{\ignorespaces Per-fold ECE after isotonic recalibration, and mean $\pm $ standard deviation across five folds.}}{77}{table.caption.41}%
+\contentsline {table}{\numberline {A.6}{\ignorespaces Conformal prediction detailed results across the twelve configurations at target coverage $0.90$. Singletons denote prediction sets of size~1 (unique predicted label).}}{78}{table.caption.42}%
+\contentsline {table}{\numberline {A.7}{\ignorespaces Composite utility score components for the twelve configurations. The composite utility is the product of the three columns preceding it.}}{78}{table.caption.43}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {F.1}{\ignorespaces Complete prediction distributions across the six labels for the twelve configurations. \emph {Incl.}: included. \emph {NIncl.}: not included. \emph {Excl.}: excluded. \emph {NExcl.}: not excluded. \emph {NEI}: not enough information. \emph {NA}: not applicable.}}{93}{table.caption.49}%
+\contentsline {table}{\numberline {F.2}{\ignorespaces Prediction distribution under constrained decoding (evasion labels removed from candidate set). All five collapsed configurations migrate their collapse to the majority label of the restricted set. Accuracy is computed against the expert consensus label.}}{94}{table.caption.50}%
+\contentsline {table}{\numberline {F.3}{\ignorespaces Extended dominant-vs.-discriminative comparison. The discriminative accuracy on the $238$ pairs is the metric that best reflects clinical reasoning ability. Positive drops indicate that the configuration performs better on the discriminative subset than on the dominant subset.}}{95}{table.caption.51}%
+\contentsline {table}{\numberline {F.4}{\ignorespaces Prediction diversity and discriminative accuracy, sorted by diversity. Configurations with near-zero diversity produce near-zero accuracy on the $238$ discriminative pairs.}}{96}{table.caption.52}%

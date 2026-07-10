@@ -117,6 +117,7 @@
     |-- figures
         |-- courbes_risque_couverture.png
         |-- reliability_compare_AvsB.png
+        |-- reliability_diagrams_grid.pdf
     |-- main.aux
     |-- main.bbl
     |-- main.bcf

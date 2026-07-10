@@ -188,17 +188,41 @@ scales is a natural direction for future work, and the methodology
 proposed here is directly transferable to 70B-scale configurations 
 provided that the computational budget is available.
 
-\subsection{Prompt Space}
+\subsection{Prompt Space and Prompt-Driven Effects}
 \label{subsec:conc-limitations-prompts}
 
 Only two prompt variants were evaluated in the present study: a 
-minimal Prompt~A and an enriched Prompt~B. The space of possible 
-prompts is much larger, encompassing chain-of-thought designs, 
-role-based framings, and few-shot examples selected through active 
-learning. The enriched-prompt paradox (F3) documented here is thus 
-specific to the two prompts tested; it may or may not generalize to 
-other prompt families. A systematic study of the calibration effect 
-of prompt design is a promising direction for follow-up work.
+minimal Prompt~A and an enriched Prompt~B, both reproduced verbatim 
+in Appendix~\ref{app:prompts}. The space of possible prompts is much 
+larger, encompassing chain-of-thought designs, role-based framings, 
+and few-shot examples selected through active learning. The 
+enriched-prompt paradox (F3) documented here is thus specific to the 
+two prompts tested; it may or may not generalize to other prompt 
+families. A systematic study of the calibration effect of prompt 
+design is a promising direction for follow-up work.
+
+The choice of prompt is not neutral, and it is legitimate to ask 
+whether the failure modes documented here are properties of the 
+models or artifacts of the prompt design. Three observations argue 
+against a purely prompt-driven interpretation. First, Hypothesis~H2 
+is tested through paired comparisons within the same prompt (Base 
+versus Instruct on Prompt~A, Base versus Instruct on Prompt~B), 
+which cancels out any systematic effect of the prompt on the ECE 
+difference. Second, mode collapse affects only five of the twelve 
+configurations, whereas a prompt-driven artifact would be expected to 
+affect all models exposed to that prompt in a similar way; the 
+observed heterogeneity across models sharing the same prompt is 
+incompatible with a single prompt-level cause. Third, mode collapse 
+persists under constrained decoding (Finding~F8): removing the 
+evasion labels from the softmax candidate set does not restore 
+reasoning ability, indicating that the collapse is not a mere 
+reaction to prompt affordances. That said, the specific proportion of 
+collapsed configurations, the magnitude of the enriched-prompt 
+paradox (F3), and the direction of the inclusion/exclusion asymmetry 
+(F4) may depend on the particular prompts tested here. Their exact 
+quantitative values should be interpreted as characteristic of the 
+present experimental setup rather than as universal constants of the 
+underlying models.
 
 % ----------------------------------------------------------------------------
 \section{Future Work}

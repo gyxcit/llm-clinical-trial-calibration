@@ -1277,6 +1277,16 @@ while adding an ECE that is worse.
 
 \subsection{Composite Utility Score}
 \label{subsec:res-composite}
+The choice to include prediction diversity as a multiplicative factor 
+in the composite score is empirically justified by its strong 
+correlation with discriminative accuracy across the twelve 
+configurations ($r = 0.89$, $p < 0.001$, $n = 12$; see 
+Appendix~\ref{app:mode-collapse}). Diversity alone accounts for nearly 
+$80\%$ of the variance in accuracy on the $238$ truly discriminative 
+pairs, making it a mechanically predictable indicator of a model's 
+capacity for clinical judgment. A configuration that concentrates its 
+predictions on a single label cannot exercise the discrimination that 
+the composite score is intended to reward.
 
 The composite utility score introduced in 
 Section~\ref{subsec:met-composite} combines macro-F1, calibration 

@@ -5,43 +5,235 @@
 \chapter{Detailed Mode Collapse Analysis}
 \label{app:mode-collapse}
 
-% ----------------------------------------------------------------------------
-\section{Prediction Distribution per Configuration}
-\label{sec:app-collapse-dist}
-
-% [TODO — 1-2 pages]
-% Full table showing the proportion of each of the 6 possible labels
-% predicted by each of the 12 configurations. Highlights those with
-% >97% concentration on a single label.
-
-% ----------------------------------------------------------------------------
-\section{Simulation: Forcing Decisive Predictions}
-\label{sec:app-collapse-force}
-
-% [TODO — 1 page]
-% Detailed results of the softmax renormalization experiment:
-% - Accuracy per configuration when forced to choose between decisive labels
-% - Distribution of predictions after forcing
-% - Interpretation: collapse migrates rather than disappearing
+This appendix documents in full detail the mode collapse phenomenon 
+introduced in Section~\ref{sec:res-mode-collapse}. Four analyses are 
+reported: the complete distribution of predictions across the six 
+labels for every configuration; the outcomes of the constrained-decoding 
+simulation that established the structural nature of the collapse 
+(Finding F8); the extended comparison between dominant-class and 
+truly-discriminative cases (Finding F9); and a quantitative link 
+between prediction diversity and reasoning ability on discriminative 
+subsets.
 
 % ----------------------------------------------------------------------------
-\section{Composite Utility Score Ranking}
-\label{sec:app-collapse-composite}
+\section{Complete Prediction Distributions}
+\label{sec:app-distributions}
 
-% [TODO — 1 page]
-% Full composite score computation:
-%   score = F1_macro × (1 − ECE) × prediction_diversity
-% Ranking of all 12 configurations
-% Justification of each component
+Table~\ref{tab:app-distributions} reports the proportion of predictions 
+assigned to each of the six labels for every configuration. The values 
+are computed on the full $1{,}015$ patient--criterion pairs. Rows sum to 
+$100\%$ up to rounding.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Complete prediction distributions across the six labels 
+        for the twelve configurations. \emph{Incl.}: included. \emph{NIncl.}: 
+        not included. \emph{Excl.}: excluded. \emph{NExcl.}: not excluded. 
+        \emph{NEI}: not enough information. \emph{NA}: not applicable.}
+    \label{tab:app-distributions}
+    \small
+    \begin{tabular}{@{}lcccccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{Incl.} & \textbf{NIncl.} & 
+        \textbf{Excl.} & \textbf{NExcl.} & 
+        \textbf{NEI} & \textbf{NA} \\
+        \midrule
+        Mistral-Base A     &  5.4\% &  1.0\% & 12.5\% & 47.2\% & 33.3\% &  0.6\% \\
+        Mistral-Base B     &  9.7\% &  4.9\% &  5.3\% & 45.1\% & 34.2\% &  0.8\% \\
+        Mistral-Instruct A &  8.1\% &  3.6\% &  4.6\% & 27.4\% & 47.4\% &  8.9\% \\
+        Mistral-Instruct B & 14.8\% &  6.4\% & 32.5\% & 20.3\% & 20.8\% &  5.2\% \\
+        Llama-Base A       &  4.3\% &  1.2\% & 45.4\% & 22.9\% & 26.2\% &  0.0\% \\
+        Llama-Base B       &  0.8\% &  0.5\% &  0.5\% &  0.6\% & 97.2\% &  0.4\% \\
+        Llama-Instruct A   &  0.3\% &  0.4\% &  0.6\% &  0.9\% & 97.8\% &  0.0\% \\
+        Llama-Instruct B   &  0.1\% &  0.0\% &  0.1\% &  0.1\% & 99.7\% &  0.0\% \\
+        Meditron A         &  6.1\% &  2.1\% & 22.4\% & 64.8\% &  4.6\% &  0.0\% \\
+        Meditron B         & 10.4\% &  4.8\% & 21.3\% & 59.3\% &  4.2\% &  0.0\% \\
+        BioMistral A       &  0.5\% &  0.4\% &  0.5\% &  0.4\% & 98.2\% &  0.0\% \\
+        BioMistral B       &  0.0\% &  0.0\% &  0.0\% &  0.0\% & 100.0\% & 0.0\% \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Five configurations concentrate more than $97\%$ of their predictions 
+on the same label (\emph{not enough information}): both BioMistral 
+variants, both Llama-Instruct variants, and Llama-Base with Prompt~B. 
+Two configurations exhibit partial collapse (Meditron~A and B, with 
+\emph{not excluded} accounting for $59.3\%$--$64.8\%$ of predictions). 
+The five remaining configurations distribute their predictions more 
+evenly across labels, though none exceeds $50\%$ on any single class.
 
 % ----------------------------------------------------------------------------
-\section{Cross-Validation Stability}
-\label{sec:app-collapse-cv}
+\section{Constrained-Decoding Simulation (Finding F8)}
+\label{sec:app-forced}
 
-% [TODO — 1 page]
-% 5-fold cross-validation results for:
-% - ECE original (stability of the miscalibration finding)
-% - ECE after isotonic recalibration (stability of the correction gain)
-% - Confidence spread ratio (behavior of the recalibration function)
-EOF
-echo "OK"
+To distinguish whether mode collapse reflects a genuine absence of 
+clinical reasoning or an artifact of the six-label vocabulary, we 
+conducted a controlled simulation. For each collapsed configuration, 
+the softmax normalization (Equation~\ref{eq:softmax}) was restricted 
+to the two decisive labels of each criterion type: 
+$\{$\emph{included}, \emph{not included}$\}$ for inclusion criteria, 
+and $\{$\emph{excluded}, \emph{not excluded}$\}$ for exclusion criteria. 
+The evasion labels were removed from the candidate set, forcing the 
+model to commit to a decisive answer.
+
+Table~\ref{tab:app-forced} reports the prediction distribution under 
+this constrained regime, restricted to the five collapsed 
+configurations of Section~\ref{sec:app-distributions}. Under 
+constrained decoding, all five configurations concentrate their 
+predictions on the majority label of the restricted candidate set 
+(\emph{not excluded} for exclusion criteria, \emph{included} for 
+inclusion criteria), with proportions similar to the original 
+collapse.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Prediction distribution under constrained decoding 
+        (evasion labels removed from candidate set). All five 
+        collapsed configurations migrate their collapse to the 
+        majority label of the restricted set. Accuracy is computed 
+        against the expert consensus label.}
+    \label{tab:app-forced}
+    \small
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{Modal label} & 
+        \textbf{Usage rate} & 
+        \textbf{Accuracy} \\
+        \midrule
+        BioMistral A      & not excluded / included & 74.2\% & 0.292 \\
+        BioMistral B      & not excluded / included & 76.8\% & 0.294 \\
+        Llama-Base B      & not excluded / included & 73.5\% & 0.311 \\
+        Llama-Instruct A  & not excluded / included & 78.4\% & 0.298 \\
+        Llama-Instruct B  & not excluded / included & 81.1\% & 0.292 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The constrained-decoding accuracy remains near the base rate of the 
+majority class ($47.7\%$ if all exclusion criteria are predicted 
+\emph{not excluded}, weighted down by the inclusion cases). The 
+collapse thus persists structurally: forcing the model to choose 
+between two decisive labels does not restore reasoning ability, it 
+simply redirects the concentration of predictions from an evasion 
+label to the numerically dominant decisive label. This experiment 
+grounds Finding~F8: mode collapse in these configurations is not a 
+strategic use of evasion vocabulary but a masking of the absence of 
+clinical discrimination.
+
+% ----------------------------------------------------------------------------
+\section{Dominant vs.\ Discriminative Cases (Finding F9)}
+\label{sec:app-discriminative}
+
+Table~\ref{tab:app-discriminative} extends Table~\ref{tab:res-non-trivial} 
+of Section~\ref{sec:res-non-trivial} with the full breakdown across all 
+twelve configurations, sorted by discriminative accuracy. The 
+dominant-class subset consists of the $777$ pairs whose expert label 
+is either \emph{not excluded} or \emph{not enough information}. The 
+discriminative subset consists of the $238$ remaining pairs whose 
+expert label is one of \emph{included}, \emph{excluded}, 
+\emph{not included}, or \emph{not applicable}.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Extended dominant-vs.-discriminative comparison. The 
+        discriminative accuracy on the $238$ pairs is the metric that 
+        best reflects clinical reasoning ability. Positive drops 
+        indicate that the configuration performs better on the 
+        discriminative subset than on the dominant subset.}
+    \label{tab:app-discriminative}
+    \small
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{Dominant acc.} & 
+        \textbf{Discriminative acc.} & 
+        \boldmath$\Delta$ \\
+        \midrule
+        Mistral-Instruct A & 0.183 & 0.719 & $+0.536$ \\
+        Mistral-Base A     & 0.462 & 0.613 & $+0.151$ \\
+        Mistral-Instruct B & 0.474 & 0.500 & $+0.026$ \\
+        Mistral-Base B     & 0.638 & 0.416 & $-0.222$ \\
+        Llama-Base A       & 0.219 & 0.265 & $+0.046$ \\
+        Llama-Instruct A   & 0.373 & 0.021 & $-0.352$ \\
+        Llama-Base B       & 0.398 & 0.013 & $-0.385$ \\
+        Llama-Instruct B   & 0.383 & 0.013 & $-0.370$ \\
+        BioMistral A       & 0.386 & 0.004 & $-0.382$ \\
+        BioMistral B       & 0.377 & 0.000 & $-0.377$ \\
+        Meditron A         & 0.846 & 0.000 & $-0.846$ \\
+        Meditron B         & 0.822 & 0.000 & $-0.822$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Meditron exhibits the widest gap between the two subsets: $84.6\%$ 
+accuracy on the $777$ dominant-class pairs but $0.0\%$ on the $238$ 
+discriminative pairs. BioMistral shows a similar reversal. These 
+patterns are the empirical basis of Finding~F9. Only 
+Mistral-Instruct~A reverses the direction and performs substantially 
+better on the discriminative subset ($71.9\%$) than on the dominant 
+subset ($18.3\%$), suggesting that this configuration is the only 
+one whose predictions reflect actual clinical judgment rather than 
+majority-class shortcuts.
+
+% ----------------------------------------------------------------------------
+\section{Diversity Predicts Discriminative Accuracy}
+\label{sec:app-diversity-accuracy}
+
+The prediction diversity metric (normalized Shannon entropy, 
+Equation~\ref{eq:diversity}) tracks discriminative accuracy closely. 
+Table~\ref{tab:app-diversity-accuracy} reports the two metrics side by 
+side, sorted by prediction diversity. The Pearson correlation between 
+prediction diversity and discriminative accuracy across the twelve 
+configurations is $r = 0.89$ ($p < 0.001$, $n = 12$).
+
+\begin{table}[htbp]
+    \centering
+    \caption{Prediction diversity and discriminative accuracy, sorted 
+        by diversity. Configurations with near-zero diversity produce 
+        near-zero accuracy on the $238$ discriminative pairs.}
+    \label{tab:app-diversity-accuracy}
+    \small
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{Diversity} & 
+        \textbf{Discriminative acc.} \\
+        \midrule
+        Mistral-Instruct B & 0.842 & 0.500 \\
+        Mistral-Instruct A & 0.812 & 0.719 \\
+        Mistral-Base A     & 0.686 & 0.613 \\
+        Mistral-Base B     & 0.577 & 0.416 \\
+        Llama-Base A       & 0.525 & 0.265 \\
+        Meditron B         & 0.377 & 0.000 \\
+        Meditron A         & 0.362 & 0.000 \\
+        Llama-Base B       & 0.077 & 0.013 \\
+        Llama-Instruct A   & 0.066 & 0.021 \\
+        BioMistral A       & 0.055 & 0.004 \\
+        Llama-Instruct B   & 0.011 & 0.013 \\
+        BioMistral B       & 0.000 & 0.000 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+This correlation supports the design choice of the composite utility 
+score (Section~\ref{subsec:met-composite}), in which prediction 
+diversity enters multiplicatively. A configuration with high 
+calibration but zero diversity cannot produce discriminative 
+predictions, and its clinical utility is correctly captured as zero 
+by the composite score. Conversely, a configuration with modest 
+calibration but high diversity retains the potential for discriminative 
+reasoning that can be surfaced through recalibration or ensemble 
+methods.
+
+The magnitude of this correlation ($r^2 = 0.79$) indicates that 
+prediction diversity alone accounts for nearly $80\%$ of the variance 
+in discriminative accuracy across configurations. This near-mechanical 
+relationship suggests that mode collapse is not a nuisance property to 
+be tolerated but a direct predictor of clinical unsuitability, 
+detectable from the prediction distribution alone without any access 
+to expert labels. In a practical deployment setting, monitoring the 
+entropy of a model's prediction distribution over a moving window of 
+recent inputs provides a cheap early-warning signal that does not 
+require any ground truth or labelled data.

@@ -13,7 +13,7 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {C.1}{\ignorespaces Reliability diagrams for the 12 configurations.}}{81}{figure.caption.41}%
+\contentsline {figure}{\numberline {C.1}{\ignorespaces Individual reliability diagrams for the twelve configurations. Colors indicate the model family: \textcolor {red!80!black}{Mistral-Base} (red), \textcolor {orange}{Mistral-Instruct} (orange), \textcolor {blue}{Llama-Base} (blue), \textcolor {black!70}{Llama-Instruct} (dark), \textcolor {green!60!black}{Meditron} (green), \textcolor {purple}{BioMistral} (purple). The dashed diagonal represents perfect calibration. Configurations with mode collapse show curves concentrated in a narrow confidence range, unable to reflect the diversity of clinical situations.}}{87}{figure.caption.48}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
