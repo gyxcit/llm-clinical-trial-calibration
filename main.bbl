@@ -19,35 +19,6 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global/global}
-    \entry{collins2024tripod}{article}{}{}
-      \true{moreauthor}
-      \true{morelabelname}
-      \name{author}{1}{}{%
-        {{hash=9def305c11110011d8cc0d756fbeb2b5}{%
-           family={Collins},
-           familyi={C\bibinitperiod},
-           given={Gary\bibnamedelima S.},
-           giveni={G\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
-      }
-      \strng{namehash}{b3e1281f327874be9ec40f59a497d3f7}
-      \strng{fullhash}{b3e1281f327874be9ec40f59a497d3f7}
-      \strng{fullhashraw}{b3e1281f327874be9ec40f59a497d3f7}
-      \strng{bibnamehash}{b3e1281f327874be9ec40f59a497d3f7}
-      \strng{authorbibnamehash}{b3e1281f327874be9ec40f59a497d3f7}
-      \strng{authornamehash}{b3e1281f327874be9ec40f59a497d3f7}
-      \strng{authorfullhash}{b3e1281f327874be9ec40f59a497d3f7}
-      \strng{authorfullhashraw}{b3e1281f327874be9ec40f59a497d3f7}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{BMJ}
-      \field{title}{{TRIPOD+AI} statement: updated guidance for reporting clinical prediction models that use regression or machine learning methods}
-      \field{volume}{385}
-      \field{year}{2024}
-      \field{pages}{e078378}
-      \range{pages}{-1}
-    \endentry
     \entry{jin2024trialgpt}{article}{}{}
       \true{moreauthor}
       \true{morelabelname}
@@ -71,8 +42,8 @@
       \strng{authornamehash}{4fadf3ab637d9e1313bdb92966cb24b0}
       \strng{authorfullhash}{4fadf3ab637d9e1313bdb92966cb24b0}
       \strng{authorfullhashraw}{4fadf3ab637d9e1313bdb92966cb24b0}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Nature Communications}
@@ -81,6 +52,35 @@
       \field{year}{2024}
       \field{pages}{9074}
       \range{pages}{1}
+    \endentry
+    \entry{collins2024tripod}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=9def305c11110011d8cc0d756fbeb2b5}{%
+           family={Collins},
+           familyi={C\bibinitperiod},
+           given={Gary\bibnamedelima S.},
+           giveni={G\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \strng{namehash}{b3e1281f327874be9ec40f59a497d3f7}
+      \strng{fullhash}{b3e1281f327874be9ec40f59a497d3f7}
+      \strng{fullhashraw}{b3e1281f327874be9ec40f59a497d3f7}
+      \strng{bibnamehash}{b3e1281f327874be9ec40f59a497d3f7}
+      \strng{authorbibnamehash}{b3e1281f327874be9ec40f59a497d3f7}
+      \strng{authornamehash}{b3e1281f327874be9ec40f59a497d3f7}
+      \strng{authorfullhash}{b3e1281f327874be9ec40f59a497d3f7}
+      \strng{authorfullhashraw}{b3e1281f327874be9ec40f59a497d3f7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{BMJ}
+      \field{title}{{TRIPOD+AI} statement: updated guidance for reporting clinical prediction models that use regression or machine learning methods}
+      \field{volume}{385}
+      \field{year}{2024}
+      \field{pages}{e078378}
+      \range{pages}{-1}
     \endentry
     \entry{vancalster2019calibration}{article}{}{}
       \name{author}{5}{}{%
@@ -120,8 +120,8 @@
       \strng{authornamehash}{bb5108d26ba2a4a77fbddb7283e2c5c8}
       \strng{authorfullhash}{f89c241b1262961bde7f1969454699a1}
       \strng{authorfullhashraw}{f89c241b1262961bde7f1969454699a1}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{BMC Medicine}
@@ -163,8 +163,8 @@
       \strng{authornamehash}{547bfeee06898c4c9e40e79d24151898}
       \strng{authorfullhash}{90e9bdb8626bd5df1b234cb2e6da41ff}
       \strng{authorfullhashraw}{90e9bdb8626bd5df1b234cb2e6da41ff}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{arXiv preprint arXiv:2207.05221}
@@ -194,8 +194,8 @@
       \strng{authornamehash}{bc30483f77d1f9f483a5770cc9c6c2ed}
       \strng{authorfullhash}{bc30483f77d1f9f483a5770cc9c6c2ed}
       \strng{authorfullhashraw}{bc30483f77d1f9f483a5770cc9c6c2ed}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{arXiv preprint arXiv:2311.16079}

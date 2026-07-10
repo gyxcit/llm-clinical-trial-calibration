@@ -1,7 +1,7 @@
 % ============================================================================
 %   CHAPTER 3 — PROJECT CONTEXT AND SCOPE
 %   Aivancity: 5-8 pages
-%   ADAPTED for a PURELY ACADEMIC/RESEARCH context (no company internship)
+%   Purely academic research framework (no company internship)
 % ============================================================================
 
 \chapter{Project Context and Scope}
@@ -11,20 +11,69 @@
 \section{Academic Research Framework}
 \label{sec:ctx-framework}
 
-% [TODO — 1 page]
-% - Aivancity's research environment
-% - The PGE5 program structure
-% - The relationship with the academic supervisor (Dr. Kar)
-% - Nature of the research: pure academic, no industrial partner
+This thesis was conducted within the Final Year Project (\emph{Projet de 
+Fin d'\'Etudes}, PFE) of the PGE5 program at aivancity, from March to 
+September 2026. Unlike most PFE projects at aivancity, which are 
+structured around a six-month industry internship in a host company, the 
+present project is a purely academic research contribution. This choice 
+was made in agreement with the academic supervisor, Dr.\ Anuradha Kar, 
+after a preliminary review of the literature identified a specific 
+methodological gap --- the systematic auditing of large language model 
+calibration in clinical trial matching --- that could be addressed with 
+academic resources alone, without requiring hospital or industry partners.
+
+The academic framing has three practical consequences for the study. 
+First, the research question and the four pre-registered hypotheses 
+were formulated to be testable with publicly available datasets and 
+open-source models, avoiding any dependency on proprietary systems or 
+restricted patient data. Second, the study operates on a purely 
+retrospective basis: no prospective clinical validation is performed, 
+and no recommendations for real patient enrollment are made. Third, the 
+computational budget is limited to what a single graduate student can 
+access on free-tier cloud platforms, which caps the model sizes at 
+seven to nine billion parameters and shapes several of the design 
+choices described in Chapter~\ref{chap:methodology}.
+
+Regular supervision meetings with Dr.\ Kar were held throughout the 
+project. Progress was formalized through monthly reports covering the 
+scoping phase (March), the state of the art review (April), the 
+experimental pipeline design (May), the execution of the twelve model 
+runs (June), the extended analyses on mode collapse and truly 
+discriminative cases (July), and the writing phase (August--September).
 
 % ----------------------------------------------------------------------------
-\section{Project Origin and Evolution}
+\section{Origin and Evolution of the Research Question}
 \label{sec:ctx-origin}
 
-% [TODO — 1 page]
-% - Initial topic: patient-reported uncertainty in trial matching
-% - Reformulation after literature review: focus on LLM calibration
-% - Justification: measurable, testable, addresses a documented gap
+The initial research question, formulated during the scoping phase, 
+focused on patient-reported uncertainty communication in clinical trial 
+matching: how do LLMs express uncertainty to end users, and does this 
+communication align with what patients expect? A month of preliminary 
+literature review, however, revealed that this framing conflated two 
+distinct research questions --- the human factors of uncertainty 
+communication, and the underlying probabilistic reliability of the 
+model outputs --- and that only the second could be rigorously 
+addressed within the scope of a Master's thesis.
+
+The question was therefore reformulated to focus exclusively on the 
+probabilistic reliability of LLM outputs. This reformulation offered 
+three advantages. First, it aligned the study with an established 
+research tradition on classifier calibration, providing well-defined 
+metrics (ECE, Brier score, reliability diagrams) and clear evaluation 
+thresholds (Van Calster's $0.05$). Second, it made the hypotheses 
+testable with pre-registered statistical procedures, protecting the 
+analysis against confirmation bias. Third, it identified a specific 
+methodological gap in the medical LLM literature: while several papers 
+had evaluated the accuracy of medical LLMs on clinical benchmarks, no 
+systematic audit of their calibration had been performed for the 
+clinical trial matching task. This gap became the specific target of 
+the study.
+
+The final research question --- ``Are the eligibility scores produced 
+by LLM-based patient--trial matching systems probabilistically reliable, 
+and does RLHF post-training affect this reliability?'' --- is a 
+narrower, more falsifiable version of the initial intent, and the 
+tradeoff is a deliberate methodological choice.
 
 % ----------------------------------------------------------------------------
 \section{Dataset: TrialGPT-Criterion-Annotations}
@@ -33,33 +82,84 @@
 \subsection{Dataset Description}
 \label{subsec:ctx-desc}
 
-% [TODO — 1.5 pages]
-% - 1,015 patient-criterion pairs
-% - Annotated by 3 physicians + GPT-4
-% - 6-level ordinal eligibility labels
-% - Provenance: Jin et al. 2024, TrialGPT (Nature Comm 15:9074)
-% - Public availability, no patient data (synthetic notes)
+The empirical foundation of this study is the 
+TrialGPT-Criterion-Annotations dataset, released by Jin 
+et~al.~\cite{jin2024trialgpt} alongside their TrialGPT system in 
+\emph{Nature Communications}. The dataset comprises 1{,}015 
+patient--criterion pairs, where each pair associates a synthetic 
+patient note with a single eligibility criterion drawn from a real 
+clinical trial listed on ClinicalTrials.gov. Each pair is annotated 
+independently by three physicians (whose consensus label serves as 
+the ground truth) and by GPT-4 (used as an automated second opinion). 
+Both annotation sources apply the same six-level ordinal scale, 
+described in detail in Section~\ref{subsec:met-data-composition}.
+
+The dataset is publicly available under a CC BY 4.0 license, hosted on 
+Zenodo alongside the TrialGPT source code. Its release supports the 
+reproducibility of the original TrialGPT evaluation and, by extension, 
+the present audit.
 
 \subsection{Justification of the Single-Dataset Choice}
 \label{subsec:ctx-single}
 
-% [TODO — 0.5 page]
-% Explain the choice: TrialGPT-Criterion is the ONLY public dataset with
-% - Expert (physician) annotations at the criterion-level (not trial-level)
-% - Multi-level ordinal labels (6 levels)
-% - Explicit criterion_type (inclusion vs exclusion)
-% Other datasets (TREC CT, SIGIR, n2c2) either operate at trial-level or use
-% only 3 levels, and thus cannot support fine-grained calibration analysis.
+An important scoping decision of this study is the deliberate reliance 
+on a single benchmark. Three alternatives were considered and rejected 
+during the design phase. First, the TREC Clinical Trials 2021--2022 
+tracks provide relevance judgments for patient--trial pairs, but they 
+operate at the trial level rather than the criterion level and use 
+only three ordinal grades (definitely relevant, possibly relevant, 
+irrelevant). Adapting the calibration protocol to this coarser 
+granularity would preclude the fine-grained analysis of inclusion 
+versus exclusion criteria that motivates several of our findings. 
+Second, the SIGIR 2016 clinical trial task shares the same limitations 
+as TREC. Third, hospital-derived cohorts (n2c2, MIMIC-derived 
+subsets) would provide realistic patient data but require 
+institutional partnerships and ethics approval that fall outside the 
+academic scope of the project.
+
+TrialGPT-Criterion-Annotations is, to our knowledge, the only publicly 
+available benchmark that combines per-criterion granularity, a 
+six-level ordinal scale, and an explicit inclusion/exclusion typology. 
+These properties are jointly essential for the calibration analysis 
+described in Chapter~\ref{chap:methodology}. External validation on 
+other datasets, when feasible, is discussed as future work in 
+Chapter~\ref{chap:conclusion}.
 
 % ----------------------------------------------------------------------------
 \section{Ethical Considerations}
 \label{sec:ctx-ethics}
 
-% [TODO — 0.5 page]
-% - No real patient data (dataset uses synthetic notes)
-% - Public data, CC BY 4.0
-% - No IRB/CER approval required
-% - Reproducibility commitments
+The ethical framework of this study is straightforward due to the 
+nature of the dataset. TrialGPT-Criterion-Annotations contains no 
+real patient data: all clinical notes were synthesized by the 
+original authors from publicly available templates on 
+ClinicalTrials.gov, using clinical concept substitution to produce 
+notes that are semantically realistic yet fully non-identifying. No 
+personal health information is processed at any stage of the 
+pipeline, and no institutional review board approval or ethics 
+committee clearance was required.
+
+The absence of real patient data does not eliminate all ethical 
+considerations. The results reported in Chapter~\ref{chap:results} 
+concern models that could plausibly be deployed in real clinical 
+screening workflows, and the mode collapse behaviors documented in 
+Section~\ref{sec:res-mode-collapse} would translate into systematic 
+screening failures if left undetected in production. The methodology 
+described in this thesis is therefore intended as a template for 
+pre-deployment audits rather than as a certification of the models 
+themselves for clinical use. Practitioners integrating LLMs into 
+recruitment workflows retain full responsibility for validating the 
+models on their own populations and for maintaining human oversight 
+of eligibility decisions.
+
+Beyond patient data, the study also complies with the licensing terms 
+of the models under evaluation. All six models are released under 
+permissive open-source licenses (Apache 2.0 for Mistral, custom 
+research licenses for Llama-3.1 and Meditron, MIT for BioMistral) 
+that permit non-commercial evaluation and redistribution of 
+inference outputs. The prediction files archived in the project 
+repository (Appendix~\ref{app:code}) fall within the scope of these 
+licenses.
 
 % ----------------------------------------------------------------------------
 \section{Constraints and Resources}
@@ -68,41 +168,71 @@
 \subsection{Computational Constraints}
 \label{subsec:ctx-compute}
 
-% [TODO — 0.5 page]
-% - Kaggle free-tier T4 GPU (30h/week quota)
-% - 4-bit quantization (bitsandbytes NF4) mandatory to fit 7-9B models
-% - No 70B model runs feasible
+All experiments were performed on the Kaggle free-tier compute 
+environment, which provides access to a single Tesla~T4 GPU with 
+16~GB of memory and a weekly quota of 30~GPU-hours. This constraint 
+shaped two important design choices. First, the model sizes are 
+capped at seven to nine billion parameters, which excludes larger 
+medical LLMs such as Meditron-70B or Med42-v2-70B from the 
+evaluation. Second, all models are quantized to 4-bit NF4 precision, 
+which reduces the memory footprint from approximately 14~GB per 
+model (in half-precision) to approximately 4~GB. The justification 
+of these choices and their potential impact on the results are 
+discussed in Sections~\ref{sec:met-models} and~\ref{sec:met-infrastructure}.
 
 \subsection{Model Access Constraints}
 \label{subsec:ctx-access}
 
-% [TODO — 0.5 page]
-% - HuggingFace license approvals (Llama-3.1, Gemma)
-% - Some models excluded due to licensing (e.g., some CC-BY-NC-only medical
-%   LLMs)
+Access to the six selected models is subject to licensing terms that 
+occasionally require prior approval. Llama-3.1 requires acceptance of 
+Meta's community license through the HuggingFace hub, which was 
+obtained during the setup phase. Gemma and Med42-v2, considered but 
+excluded from the final selection, are subject to more restrictive 
+licenses that complicate reproducibility and were partly responsible 
+for their exclusion (Section~\ref{subsec:met-excluded}). All models 
+retained in the final evaluation are freely accessible for research 
+use without additional approval.
 
 \subsection{Time Constraints}
 \label{subsec:ctx-time}
 
-% [TODO — 0.5 page]
-% - PFE conducted from March to September 2026 (6 months)
-% - Design phase (March-April), experimental phase (May-July), writing phase
-%   (August-September)
+The PFE was conducted over six months, from March to September 2026. 
+The scoping phase (March) established the research question and the 
+literature review. The design phase (April--May) formalized the 
+pre-registered hypotheses and the experimental matrix. The execution 
+phase (June--July) ran the twelve model configurations and the 
+downstream analyses. The writing phase (August--September) produced 
+the present manuscript. The time constraint precludes external 
+validation on additional datasets, prospective clinical validation, 
+and extension to larger model scales; these directions are discussed 
+in Chapter~\ref{chap:conclusion}.
 
 % ----------------------------------------------------------------------------
 \section{Scope of This Work}
 \label{sec:ctx-scope}
 
-% [TODO — 1 page]
-% What IS in scope:
-%   - Systematic calibration audit on 12 LLM configurations
-%   - Comparison of RLHF vs no-RLHF, generalist vs medical, prompt A vs B
-%   - Post-hoc recalibration and conformal prediction
-%   - Statistical analysis of pre-registered hypotheses
-%
-% What is NOT in scope (explicitly deferred):
-%   - Multi-agent debate architectures (see future work)
-%   - Fine-tuning or continued pretraining
-%   - 70B models
-%   - Multiple datasets validation
-%   - Prospective clinical validation
+The scope of this thesis is delimited both by what it includes and by 
+what it deliberately excludes. Within scope, the study contributes: a 
+systematic calibration audit of twelve LLM configurations on a 
+single well-characterized benchmark; a pre-registered test of the 
+effect of RLHF post-training on calibration in the clinical domain; 
+a comparison between generalist and medically specialized open-source 
+models; a documentation of two novel failure modes (mode collapse 
+and complete failure on discriminative cases) that had not been 
+previously reported for these models; and an evaluation of post-hoc 
+recalibration and conformal prediction as practical remedies.
+
+Explicitly out of scope, and deferred to future work in 
+Chapter~\ref{chap:conclusion}, are: external validation on independent 
+benchmarks such as TREC Clinical Trials; prospective clinical 
+validation involving real patient enrollment; extension to model sizes 
+above nine billion parameters; extension to multi-agent debate 
+architectures as a mitigation for mode collapse; fine-tuning or 
+continued pretraining of the evaluated models; and multilingual 
+evaluation on non-English clinical text.
+
+This delimitation is intended to make the contribution of the thesis 
+falsifiable and specific, rather than exhaustive. The methodology 
+proposed here can be extended in each of the excluded directions, and 
+several such extensions are outlined as concrete research programs in 
+Chapter~\ref{chap:conclusion}.
