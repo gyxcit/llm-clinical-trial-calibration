@@ -211,3 +211,205 @@ formalized by Geifman and
 El-Yaniv~\cite{geifman2017selective, geifman2019selectivenet} through 
 risk--coverage curves, which are used in Section~\ref{sec:res-h3h4} to 
 test Hypothesis H4.
+
+% ----------------------------------------------------------------------------
+\section{Large Language Models: Alignment and Calibration}
+\label{sec:sota-llm-calib}
+
+The calibration of large language models raises questions that differ 
+qualitatively from those of traditional classifiers. LLMs are not trained 
+end-to-end for classification but for next-token prediction, and their 
+class probabilities in downstream tasks are extracted through prompting 
+strategies rather than through a dedicated output layer. This structural 
+difference has motivated a dedicated research thread on the calibration 
+of LLMs and, in particular, on the effect of post-training alignment 
+procedures.
+
+\subsection{RLHF and Its Effect on Calibration}
+\label{subsec:sota-rlhf}
+
+Reinforcement learning from human feedback (RLHF), introduced at scale 
+by Ouyang et al.~\cite{ouyang2022training} in the development of 
+InstructGPT, has become the dominant paradigm for aligning large 
+language models with human preferences. The procedure consists of three 
+stages: supervised fine-tuning on demonstration data, training of a 
+reward model from human preference judgments, and reinforcement 
+learning of the base model to maximize the reward. RLHF has 
+demonstrably improved user-facing metrics such as helpfulness, 
+truthfulness, and adherence to safety guidelines.
+
+The calibration cost of this alignment procedure was first documented 
+by Kadavath et al.~\cite{kadavath2022know} in a systematic study of 
+Anthropic's Claude family. Using general question-answering benchmarks 
+(TriviaQA, Lambada, TruthfulQA), the authors showed that base models 
+produce well-calibrated confidence estimates on multiple-choice 
+questions, while their RLHF-aligned counterparts systematically shift 
+probability mass toward the model's top prediction, degrading 
+calibration. Kadavath and colleagues attribute this effect to the 
+alignment reward signal, which incentivizes confident, assertive 
+answers regardless of their actual reliability --- because human 
+raters, on average, prefer confident responses.
+
+This finding has been replicated in several follow-up studies and is 
+now considered a robust property of RLHF-based alignment. However, no 
+prior work has systematically extended this observation to the clinical 
+domain, where the trade-off between assertiveness and reliability 
+carries substantially higher stakes. The central pre-registered 
+contribution of the present thesis (Hypothesis H2, tested in 
+Section~\ref{sec:res-h2}) is precisely this extension: we replicate 
+Kadavath's finding on two independent open-source model families 
+(Mistral-7B and Llama-3.1-8B) applied to clinical trial matching, and 
+show that the effect not only persists but is quantitatively amplified 
+in this domain.
+
+\subsection{Uncertainty Elicitation and Verbalized Confidence}
+\label{subsec:sota-verbalized}
+
+An alternative to log-probability-based calibration is verbalized 
+confidence elicitation, where the model is prompted to explicitly 
+report its confidence in a natural-language format (e.g., ``I am 80\% 
+sure that...''). This approach has been studied in general LLMs and 
+was applied in the clinical domain by Wornow et 
+al.~\cite{wornow2024zeroshot}, whose zero-shot clinical trial matching 
+system asks GPT-4 to output a confidence score alongside each criterion 
+label. Verbalized confidence is attractive for its interpretability, 
+but it introduces two complications: the elicited scores are not 
+necessarily connected to the model's internal probability estimates, 
+and they are typically not calibrated against ground truth. The 
+present thesis avoids verbalized confidence in favor of direct 
+log-probability scoring (Section~\ref{sec:met-scoring}), which produces 
+proper probability distributions suitable for standard calibration 
+analysis.
+
+% ----------------------------------------------------------------------------
+\section{Medical Large Language Models}
+\label{sec:sota-medllms}
+
+The rise of general-purpose LLMs has been paralleled by a growing 
+ecosystem of medically specialized models. These models are typically 
+built by continued pretraining, instruction tuning, or model merging 
+on top of a general-purpose base, using biomedical corpora such as 
+PubMed abstracts, clinical guidelines, or medical textbooks. This 
+section reviews the four open-source medical LLMs most relevant to 
+the present study.
+
+\subsection{Meditron}
+\label{subsec:sota-meditron}
+
+Meditron~\cite{chen2023meditron}, released by EPFL in late 2023, 
+represents the first open-source medical LLM to be developed at scale. 
+The 7B and 70B versions are built by continued pretraining of Llama-2 
+on the GAP-Replay corpus, which consists of 48{,}000 clinical practice 
+guidelines and a curated subset of PubMed abstracts totaling 
+approximately 46 billion tokens. Meditron reports strong performance 
+on established medical QA benchmarks (MedQA, PubMedQA, MedMCQA) but 
+does not report calibration metrics. Notably, no official 
+instruction-tuned or RLHF-aligned version of Meditron-7B has been 
+released, which makes it the ideal candidate to isolate the effect of 
+medical pretraining without any confound from post-training alignment 
+(Section~\ref{sec:met-models}).
+
+\subsection{BioMistral}
+\label{subsec:sota-biomistral}
+
+BioMistral~\cite{labrak2024biomistral}, released in early 2024, takes 
+a different construction path: it is built by continued pretraining 
+of Mistral-7B-Instruct-v0.1 on the PubMed Central Open Access subset 
+(3 billion tokens), and then combined with the original Mistral through 
+several merging strategies (DARE, TIES, SLERP). BioMistral is the only 
+open-source medical LLM to date whose original publication reports ECE 
+values on medical QA tasks, providing an external validation point for 
+calibration measurement methodology. Because BioMistral inherits its 
+alignment from Mistral-Instruct, it represents the ``medical + RLHF'' 
+corner of the two-by-two matrix used in the present study.
+
+\subsection{Med42, HuatuoGPT-o1, and the Broader Ecosystem}
+\label{subsec:sota-others}
+
+The medical LLM ecosystem has expanded rapidly since 2024. 
+Med42-v2~\cite{christophe2024med42}, released by M42 Health, is 
+available in 8B and 70B parameter versions and uses a full 
+supervised-fine-tuning-plus-DPO pipeline on top of Llama-3. However, 
+the base variant of Med42-v2 is not publicly released, which precludes 
+a Base-versus-Instruct comparison of the form required for testing 
+Hypothesis H2. HuatuoGPT-o1~\cite{chen2024huatuogpt}, released in late 
+2024, extends the reasoning capabilities of medical LLMs through 
+verification-based multi-step training, but its primary training 
+corpus is Chinese, which introduces a language confound with the 
+English-only benchmark used here. Other medical LLMs considered but 
+excluded from the final selection include OpenBioLLM (redundant 
+architecture with BioMistral), Aloe-70B (memory budget), and various 
+proprietary systems (GPT-4-Medical, Med-PaLM) for which the underlying 
+weights are not available for calibration audits.
+
+The comparative characteristics of the six models selected for the 
+present study are summarized in Table~\ref{tab:met-models} of 
+Chapter~\ref{chap:methodology}. Two properties are shared across all 
+current open-source medical LLMs: they are evaluated primarily on 
+multiple-choice medical QA benchmarks, and calibration is not reported. 
+The present thesis contributes to filling this gap by applying 
+standard calibration protocols to four representative medical and 
+generalist configurations on a common downstream task.
+
+% ----------------------------------------------------------------------------
+\section{Positioning of This Work}
+\label{sec:sota-positioning}
+
+The three research threads reviewed above --- clinical trial matching, 
+probabilistic calibration, and medical LLMs --- have developed largely 
+in parallel. Table~\ref{tab:sota-comparison} places the present thesis 
+in the intersection of these threads, alongside the closest prior works.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Comparative positioning of the closest prior works. 
+        A checkmark indicates that the corresponding aspect is 
+        systematically addressed; a dash indicates that it is not.}
+    \label{tab:sota-comparison}
+    \small
+    \begin{tabular}{@{}p{3cm}p{2.2cm}p{2cm}ccc@{}}
+        \toprule
+        \textbf{Work} & 
+        \textbf{Domain} & 
+        \textbf{Models} & 
+        \textbf{RLHF} & 
+        \textbf{Calib.} & 
+        \textbf{Recalib.} \\
+        \midrule
+        Jin et al.\ 2024 (TrialGPT) & Trial matching & GPT-4 & --- & --- & --- \\
+        Kadavath et al.\ 2022 & General QA & Anthropic & \checkmark & \checkmark & --- \\
+        Labrak et al.\ 2024 (BioMistral) & Medical QA & BioMistral & --- & \checkmark & --- \\
+        Unlu et al.\ 2024 (RECTIFIER) & Trial matching & GPT-4 & --- & --- & --- \\
+        Nievas et al.\ 2024 (Trial-LLaMA) & Trial matching & Llama & --- & --- & --- \\
+        Chen et al.\ 2025 (scoping review) & Trial matching & 24 LLMs & --- & --- & --- \\
+        \midrule
+        \textbf{This work} & 
+        \textbf{Trial matching} & 
+        \textbf{6 LLMs} & 
+        \textbf{\checkmark} & 
+        \textbf{\checkmark} & 
+        \textbf{\checkmark} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Three specific gaps in the literature are addressed by this thesis. 
+First, no prior LLM-based clinical trial matching system reports 
+calibration metrics, as documented by the Chen et 
+al.~\cite{chen2025scoping} scoping review across 24 published systems. 
+The present study is, to our knowledge, the first to conduct a 
+systematic calibration audit in this domain. Second, no prior work has 
+tested the RLHF-degrades-calibration hypothesis of Kadavath et 
+al.~\cite{kadavath2022know} outside general-purpose question answering. 
+The present study extends this finding to the clinical domain across 
+two independent model families. Third, the standard evaluation 
+protocol for medical LLMs --- multiple-choice medical QA --- masks two 
+failure modes that are exposed here: mode collapse in evasion labels 
+and complete failure on truly discriminative cases. The methodology 
+and findings of this thesis are intended to make these failure modes 
+detectable in future medical LLM evaluations.
+
+The specific contributions of this work, summarized as four 
+pre-registered hypotheses and nine original findings, are presented in 
+Chapter~\ref{chap:results} and synthesized in 
+Chapter~\ref{chap:conclusion}.

@@ -1169,6 +1169,80 @@
       \field{title}{{SelectiveNet}: A Deep Neural Network with an Integrated Reject Option}
       \field{year}{2019}
     \endentry
+    \entry{ouyang2022training}{inproceedings}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{}{%
+        {{hash=6e3708cf33f22d79419d7e79124060a8}{%
+           family={Ouyang},
+           familyi={O\bibinitperiod},
+           given={Long},
+           giveni={L\bibinitperiod}}}%
+        {{hash=495187f3a2c93ddb8083bd18a5702527}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Jeffrey},
+           giveni={J\bibinitperiod}}}%
+        {{hash=214803c09eda269a0ed928d7e5a93461}{%
+           family={Jiang},
+           familyi={J\bibinitperiod},
+           given={Xu},
+           giveni={X\bibinitperiod}}}%
+        {{hash=a7cf026a14a6ceae41b01945420f7d80}{%
+           family={Almeida},
+           familyi={A\bibinitperiod},
+           given={Diogo},
+           giveni={D\bibinitperiod}}}%
+        {{hash=903519c9a374fdda1e6f9e0acb86e8e5}{%
+           family={Wainwright},
+           familyi={W\bibinitperiod},
+           given={Carroll\bibnamedelima L.},
+           giveni={C\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=2321e04943bcadb0275819652b980521}{%
+           family={Mishkin},
+           familyi={M\bibinitperiod},
+           given={Pamela},
+           giveni={P\bibinitperiod}}}%
+        {{hash=6396eaa69e1c798e2c8c503e9ce9067b}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Chong},
+           giveni={C\bibinitperiod}}}%
+        {{hash=abe4801e322e893b23785fd6d0800b5c}{%
+           family={Agarwal},
+           familyi={A\bibinitperiod},
+           given={Sandhini},
+           giveni={S\bibinitperiod}}}%
+        {{hash=57e47da21cfc9e3fa6c754e47b5adcab}{%
+           family={Slama},
+           familyi={S\bibinitperiod},
+           given={Katarina},
+           giveni={K\bibinitperiod}}}%
+        {{hash=143fa59d90387ae4a6aa650dcf1c7ceb}{%
+           family={Ray},
+           familyi={R\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{13d52a5bcb04f48fa855da0c9fb052de}
+      \strng{fullhash}{04517af87cb5e6ca69092b1b2ac2a408}
+      \strng{fullhashraw}{04517af87cb5e6ca69092b1b2ac2a408}
+      \strng{bibnamehash}{04517af87cb5e6ca69092b1b2ac2a408}
+      \strng{authorbibnamehash}{04517af87cb5e6ca69092b1b2ac2a408}
+      \strng{authornamehash}{13d52a5bcb04f48fa855da0c9fb052de}
+      \strng{authorfullhash}{04517af87cb5e6ca69092b1b2ac2a408}
+      \strng{authorfullhashraw}{04517af87cb5e6ca69092b1b2ac2a408}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Advances in Neural Information Processing Systems (NeurIPS)}
+      \field{title}{Training Language Models to Follow Instructions with Human Feedback}
+      \field{year}{2022}
+      \verb{doi}
+      \verb 10.48550/arXiv.2203.02155
+      \endverb
+    \endentry
     \entry{kadavath2022know}{article}{}{}
       \true{moreauthor}
       \true{morelabelname}
@@ -1237,8 +1311,8 @@
       \strng{authorfullhash}{7ac43bca55593c4b4cb2a4a23ed46575}
       \strng{authorfullhashraw}{7ac43bca55593c4b4cb2a4a23ed46575}
       \field{extraname}{2}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{arXiv preprint arXiv:2311.16079}
@@ -1289,8 +1363,8 @@
       \strng{authornamehash}{e282febebc165762e873c56cafb212a0}
       \strng{authorfullhash}{dc1a2ecca20e86fe26f1cf2e0f2c384d}
       \strng{authorfullhashraw}{dc1a2ecca20e86fe26f1cf2e0f2c384d}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Findings of the Association for Computational Linguistics: ACL 2024}
@@ -1330,8 +1404,8 @@
       \strng{authornamehash}{7df5dd3a0e67b2b9a6b9cb50645b5963}
       \strng{authorfullhash}{5689b0426b6731da58136b7b52905448}
       \strng{authorfullhashraw}{5689b0426b6731da58136b7b52905448}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{arXiv preprint arXiv:2408.06142}
@@ -1370,8 +1444,8 @@
       \strng{authorfullhash}{2149db867cc19dec5b103eae679cd33d}
       \strng{authorfullhashraw}{2149db867cc19dec5b103eae679cd33d}
       \field{extraname}{3}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{arXiv preprint arXiv:2412.18925}
@@ -1412,8 +1486,8 @@
       \strng{authornamehash}{a50dbcd4c24eb2e86d45d36ef4076dc0}
       \strng{authorfullhash}{1bf24d73d3c3884f634a1b420205ff86}
       \strng{authorfullhashraw}{1bf24d73d3c3884f634a1b420205ff86}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Advances in Neural Information Processing Systems (NeurIPS)}
@@ -1452,80 +1526,6 @@
       \range{pages}{8}
       \verb{doi}
       \verb 10.1037/h0026256
-      \endverb
-    \endentry
-    \entry{ouyang2022training}{inproceedings}{}{}
-      \true{moreauthor}
-      \true{morelabelname}
-      \name{author}{10}{}{%
-        {{hash=6e3708cf33f22d79419d7e79124060a8}{%
-           family={Ouyang},
-           familyi={O\bibinitperiod},
-           given={Long},
-           giveni={L\bibinitperiod}}}%
-        {{hash=495187f3a2c93ddb8083bd18a5702527}{%
-           family={Wu},
-           familyi={W\bibinitperiod},
-           given={Jeffrey},
-           giveni={J\bibinitperiod}}}%
-        {{hash=214803c09eda269a0ed928d7e5a93461}{%
-           family={Jiang},
-           familyi={J\bibinitperiod},
-           given={Xu},
-           giveni={X\bibinitperiod}}}%
-        {{hash=a7cf026a14a6ceae41b01945420f7d80}{%
-           family={Almeida},
-           familyi={A\bibinitperiod},
-           given={Diogo},
-           giveni={D\bibinitperiod}}}%
-        {{hash=903519c9a374fdda1e6f9e0acb86e8e5}{%
-           family={Wainwright},
-           familyi={W\bibinitperiod},
-           given={Carroll\bibnamedelima L.},
-           giveni={C\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
-        {{hash=2321e04943bcadb0275819652b980521}{%
-           family={Mishkin},
-           familyi={M\bibinitperiod},
-           given={Pamela},
-           giveni={P\bibinitperiod}}}%
-        {{hash=6396eaa69e1c798e2c8c503e9ce9067b}{%
-           family={Zhang},
-           familyi={Z\bibinitperiod},
-           given={Chong},
-           giveni={C\bibinitperiod}}}%
-        {{hash=abe4801e322e893b23785fd6d0800b5c}{%
-           family={Agarwal},
-           familyi={A\bibinitperiod},
-           given={Sandhini},
-           giveni={S\bibinitperiod}}}%
-        {{hash=57e47da21cfc9e3fa6c754e47b5adcab}{%
-           family={Slama},
-           familyi={S\bibinitperiod},
-           given={Katarina},
-           giveni={K\bibinitperiod}}}%
-        {{hash=143fa59d90387ae4a6aa650dcf1c7ceb}{%
-           family={Ray},
-           familyi={R\bibinitperiod},
-           given={Alex},
-           giveni={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{13d52a5bcb04f48fa855da0c9fb052de}
-      \strng{fullhash}{04517af87cb5e6ca69092b1b2ac2a408}
-      \strng{fullhashraw}{04517af87cb5e6ca69092b1b2ac2a408}
-      \strng{bibnamehash}{04517af87cb5e6ca69092b1b2ac2a408}
-      \strng{authorbibnamehash}{04517af87cb5e6ca69092b1b2ac2a408}
-      \strng{authornamehash}{13d52a5bcb04f48fa855da0c9fb052de}
-      \strng{authorfullhash}{04517af87cb5e6ca69092b1b2ac2a408}
-      \strng{authorfullhashraw}{04517af87cb5e6ca69092b1b2ac2a408}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{Advances in Neural Information Processing Systems (NeurIPS)}
-      \field{title}{Training Language Models to Follow Instructions with Human Feedback}
-      \field{year}{2022}
-      \verb{doi}
-      \verb 10.48550/arXiv.2203.02155
       \endverb
     \endentry
   \enddatalist
