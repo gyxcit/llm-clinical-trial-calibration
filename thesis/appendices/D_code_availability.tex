@@ -17,16 +17,16 @@ Section~\ref{sec:met-reproducibility}.
 The complete project is archived in a public GitHub repository:
 
 \begin{center}
-    \url{https://github.com/RegisLikassi/llm-clinical-trial-calibration}
+    \url{https://github.com/gyxcit/llm-clinical-trial-calibration}
 \end{center}
 
-The repository is organized into four top-level directories, each 
+The repository is organized into three top-level directories, each 
 serving a distinct purpose:
 
 \begin{itemize}
     \item \texttt{thesis/} contains the \LaTeX{} sources of this 
     manuscript, including the main file, all chapters, appendices, 
-    and the bibliography.
+    the bibliography, and the figures embedded in the document.
     \item \texttt{code/} contains the Kaggle notebook used for the 
     twelve model runs and the Python scripts that perform the 
     downstream analyses (calibration audit, hypothesis tests, 
@@ -35,10 +35,11 @@ serving a distinct purpose:
     \item \texttt{data/} contains the raw prediction files (twelve 
     Parquet files, one per configuration) and the CSV outputs of 
     every downstream analysis reported in Chapter~\ref{chap:results}.
-    \item \texttt{docs/} contains the monthly progress reports 
-    submitted during the project, the defense slides, and this 
-    appendix in standalone form.
 \end{itemize}
+
+The repository is released under an MIT license 
+(\texttt{LICENSE}~file at the root), which permits redistribution 
+and derivative use for research purposes.
 
 % ----------------------------------------------------------------------------
 \section{Data Availability}
@@ -55,17 +56,19 @@ TrialGPT repository:
 \end{center}
 
 The twelve prediction files produced during this study are stored in 
-the \texttt{data/predictions/} subdirectory of the project 
-repository, one Parquet file per configuration. Each file contains, 
-for the $1{,}015$ patient--criterion pairs, the following columns: 
-the annotation identifier, the criterion type, the predicted label, 
-the associated confidence, the expert consensus label, the GPT-4 
-label, and the full softmax distribution over the six candidate 
-labels. All downstream analysis outputs --- calibration metrics, 
-permutation-test results, recalibration comparisons, conformal 
-prediction sets, mode collapse statistics, and composite utility 
-scores --- are archived as CSV files in the \texttt{data/analyses/} 
-subdirectory.
+the \texttt{data/} subdirectory of the project repository, one 
+Parquet file per configuration. Each file contains, for the $1{,}015$ 
+patient--criterion pairs, the following columns: the annotation 
+identifier, the criterion type, the predicted label, the associated 
+confidence, the expert consensus label, the GPT-4 label, and the 
+full softmax distribution over the six candidate labels 
+(\texttt{p\_included}, \texttt{p\_not\_included}, \texttt{p\_excluded}, 
+\texttt{p\_not\_excluded}, \texttt{p\_not\_enough\_information}, 
+\texttt{p\_not\_applicable}). All downstream analysis outputs --- 
+calibration metrics, permutation-test results, recalibration 
+comparisons, conformal prediction sets, mode collapse statistics, and 
+composite utility scores --- are also archived as CSV files in the 
+same directory.
 
 % ----------------------------------------------------------------------------
 \section{Reproducing the Experiments}
@@ -74,19 +77,19 @@ subdirectory.
 Independent reproduction of the pipeline follows five steps:
 
 \begin{enumerate}
-    \item Clone the repository and install the Python dependencies 
-    listed in \texttt{code/requirements.txt}.
+    \item Clone the repository and install the Python dependencies.
     \item Download the TrialGPT-Criterion-Annotations dataset from 
-    the URL above and place it in the \texttt{data/raw/} directory.
+    the URL above and place it in the input directory expected by 
+    the notebook.
     \item Obtain access to the six selected models from the 
     HuggingFace Hub. Llama-3.1 requires acceptance of Meta's 
     community license, obtained through the HuggingFace interface.
     \item Execute the Kaggle notebook (or its local equivalent) to 
     produce the twelve prediction files. Random seeds are fixed at 
-    $42$ throughout the pipeline.
-    \item Execute the analysis scripts in the order documented in 
-    the notebook's \texttt{README.md} to reproduce every table and 
-    figure of Chapter~\ref{chap:results}.
+    $42$ throughout the pipeline to ensure exact reproducibility.
+    \item Execute the analysis cells in the order documented in the 
+    notebook to reproduce every table and figure of 
+    Chapter~\ref{chap:results}.
 \end{enumerate}
 
 % ----------------------------------------------------------------------------
@@ -95,11 +98,11 @@ Independent reproduction of the pipeline follows five steps:
 
 The twelve model runs require a GPU with at least $16$~GB of memory 
 (a Tesla~T4 or equivalent) and approximately ten to fifteen hours of 
-GPU time. The downstream analyses run on CPU and complete in a few 
-minutes on standard hardware. All experiments reported in this 
-thesis were performed on the Kaggle free-tier compute environment, 
-which is publicly accessible and imposes no barriers to independent 
-replication.
+GPU time in total. The downstream analyses run on CPU and complete 
+in a few minutes on standard hardware. All experiments reported in 
+this thesis were performed on the Kaggle free-tier compute 
+environment, which is publicly accessible and imposes no barriers to 
+independent replication.
 
 % ----------------------------------------------------------------------------
 \section{Software Versions}
@@ -108,16 +111,14 @@ replication.
 The pipeline was tested with the following software versions:
 
 \begin{itemize}
-    \item Python 3.10
-    \item PyTorch 2.1 with CUDA 12.1
-    \item \texttt{transformers} 4.44
-    \item \texttt{bitsandbytes} 0.43 (for 4-bit NF4 quantization)
-    \item \texttt{scikit-learn} 1.5
-    \item \texttt{numpy} 1.26, \texttt{pandas} 2.2, \texttt{scipy} 1.13
-    \item \texttt{matplotlib} 3.9 (for figure generation)
+    \item Python 3.12.13
+    \item PyTorch 2.10.0 with CUDA 12.8
+    \item \texttt{transformers} 5.0.0
+    \item \texttt{scikit-learn} 1.6.1
+    \item \texttt{numpy} 2.4.6, \texttt{pandas} 2.3.3, \texttt{scipy} 1.16.3
+    \item \texttt{matplotlib} 3.10.0
+    \item \texttt{bitsandbytes} (for 4-bit NF4 quantization; version compatible with the PyTorch build listed above)
 \end{itemize}
 
-The exact version pinning is available in 
-\texttt{code/requirements.txt} at the head of the repository. The 
-commit hashes of the notebook and analysis scripts at the time of 
-submission are recorded in \texttt{docs/submission\_commits.txt}.
+Version pinning is documented in the notebook itself, in the cell 
+that installs the dependencies.

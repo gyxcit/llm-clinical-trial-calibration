@@ -1,0 +1,15 @@
+model,accuracy_difficile
+mistral_instruct_A,0.565
+llama_instruct_B,0.5574
+BASELINE_AlwaysNEI,0.5518
+llama_instruct_A,0.5518
+biomistral_B,0.5518
+llama_base_B,0.5499
+mistral_base_B,0.5461
+biomistral_A,0.5443
+mistral_instruct_B,0.5047
+llama_base_A,0.4388
+meditron_B,0.3597
+meditron_A,0.3277
+mistral_base_A,0.2881
+BASELINE_Majority,0.0

@@ -1,0 +1,12 @@
+{
+  "model": "llama_base_A",
+  "n": 1015,
+  "accuracy": 0.22955665024630542,
+  "ece": 0.12406075496978947,
+  "ece_ci_low": 0.0995312084000686,
+  "ece_ci_high": 0.14848026932386926,
+  "brier": 0.18744489630390498,
+  "mean_confidence": 0.3536174052160949,
+  "mean_overconfidence": 0.12406075496978948,
+  "h1_supportee": true
+}

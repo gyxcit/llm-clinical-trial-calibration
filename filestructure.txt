@@ -1,7 +1,97 @@
 |-- .claude
     |-- settings.local.json
 |-- .gitignore
+|-- code
+    |-- trial-calibration-audit.ipynb
+|-- data
+    |-- analyse_cas_difficiles.csv
+    |-- analyse_cas_non_triviaux.csv
+    |-- analyse_distribution_predictions.csv
+    |-- analyse_f1_macro.csv
+    |-- baselines_naives.csv
+    |-- biais_esquive.csv
+    |-- biomistral_A_predictions.csv
+    |-- biomistral_A_predictions.parquet
+    |-- biomistral_B_predictions.csv
+    |-- biomistral_B_predictions.parquet
+    |-- calib_biomistral_A.json
+    |-- calib_biomistral_A_bins.csv
+    |-- calib_biomistral_B.json
+    |-- calib_biomistral_B_bins.csv
+    |-- calib_Llama-3.1-8B-Base.json
+    |-- calib_Llama-3.1-8B-Base_bins.csv
+    |-- calib_Llama-3.1-8B-Instruct.json
+    |-- calib_Llama-3.1-8B-Instruct_bins.csv
+    |-- calib_llama_base_A.json
+    |-- calib_llama_base_A_bins.csv
+    |-- calib_llama_base_B.json
+    |-- calib_llama_base_B_bins.csv
+    |-- calib_llama_instruct_A.json
+    |-- calib_llama_instruct_A_bins.csv
+    |-- calib_llama_instruct_B.json
+    |-- calib_llama_instruct_B_bins.csv
+    |-- calib_meditron_A.json
+    |-- calib_meditron_A_bins.csv
+    |-- calib_meditron_B.json
+    |-- calib_meditron_B_bins.csv
+    |-- calib_Mistral-7B-Base.json
+    |-- calib_Mistral-7B-Base_bins.csv
+    |-- calib_Mistral-7B-Instruct.json
+    |-- calib_Mistral-7B-Instruct_bins.csv
+    |-- calib_mistral_base_A.json
+    |-- calib_mistral_base_A_bins.csv
+    |-- calib_mistral_base_B.json
+    |-- calib_mistral_base_B_bins.csv
+    |-- calib_mistral_instruct_A.json
+    |-- calib_mistral_instruct_A_bins.csv
+    |-- calib_mistral_instruct_B.json
+    |-- calib_mistral_instruct_B_bins.csv
+    |-- comparaison_distributions_forcees.csv
+    |-- comparaison_dominants_vs_non_triviaux.csv
+    |-- courbes_risque_couverture.png
+    |-- ece_par_label.csv
+    |-- ece_par_longueur.csv
+    |-- ece_stratifie.csv
+    |-- h3_ordinal_audit.csv
+    |-- h4_classification_selective.csv
+    |-- kappa_expert_gpt4.csv
+    |-- llama_base_A_predictions.csv
+    |-- llama_base_A_predictions.parquet
+    |-- llama_base_B_predictions.csv
+    |-- llama_base_B_predictions.parquet
+    |-- llama_instruct_A_predictions.csv
+    |-- llama_instruct_A_predictions.parquet
+    |-- llama_instruct_B_predictions.csv
+    |-- llama_instruct_B_predictions.parquet
+    |-- meditron_A_predictions.csv
+    |-- meditron_A_predictions.parquet
+    |-- meditron_B_predictions.csv
+    |-- meditron_B_predictions.parquet
+    |-- mistral_base_A_predictions.csv
+    |-- mistral_base_A_predictions.parquet
+    |-- mistral_base_B_predictions.csv
+    |-- mistral_base_B_predictions.parquet
+    |-- mistral_instruct_A_predictions.csv
+    |-- mistral_instruct_A_predictions.parquet
+    |-- mistral_instruct_B_predictions.csv
+    |-- mistral_instruct_B_predictions.parquet
+    |-- P2_confusion_matrix.png
+    |-- P2_resultats.json
+    |-- predictions_conformes.csv
+    |-- recalibration_post_hoc.csv
+    |-- recap_calibration_tous_modeles.csv
+    |-- reliability_compare_AvsB.png
+    |-- reliability_Llama-3.1-8B-Base.png
+    |-- reliability_Llama-3.1-8B-Instruct.png
+    |-- reliability_Mistral-7B-Base.png
+    |-- reliability_Mistral-7B-Instruct.png
+    |-- score_composite_utilite.csv
+    |-- simulation_force_trancher.csv
+    |-- tous_tests_hypotheses.csv
+    |-- verification_robustesse_recalibration.csv
+    |-- verification_robustesse_recalibration_detail.csv
 |-- LICENSE
+|-- results
 |-- thesis
     |-- appendices
         |-- A_detailed_tables.tex

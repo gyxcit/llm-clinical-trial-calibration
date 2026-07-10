@@ -1,0 +1,13 @@
+model,orig_label_dominant,orig_%_dominant,forcee_label_dominant,forcee_%_dominant,sortie_evasion
+biomistral_A,not enough information,98.1%,not excluded,71.5%,True
+biomistral_B,not enough information,100.0%,not excluded,73.9%,True
+llama_base_A,excluded,52.0%,excluded,71.5%,False
+llama_base_B,not enough information,96.9%,not excluded,74.1%,True
+llama_instruct_A,not enough information,97.5%,excluded,66.3%,True
+llama_instruct_B,not enough information,100.0%,not excluded,74.1%,True
+meditron_A,not excluded,74.1%,not excluded,74.1%,False
+meditron_B,not excluded,68.8%,not excluded,74.1%,False
+mistral_base_A,not excluded,54.1%,not excluded,54.1%,False
+mistral_base_B,not excluded,46.3%,not excluded,74.1%,False
+mistral_instruct_A,not enough information,50.4%,not excluded,45.6%,True
+mistral_instruct_B,excluded,37.2%,excluded,37.3%,False

@@ -1,0 +1,12 @@
+{
+  "model": "Mistral-7B-Instruct",
+  "n": 1015,
+  "accuracy": 0.4798029556650246,
+  "ece": 0.2529742965557305,
+  "ece_ci_low": 0.22915307091227893,
+  "ece_ci_high": 0.2870402647364022,
+  "brier": 0.3527441186986589,
+  "mean_confidence": 0.7281550421503377,
+  "mean_overconfidence": 0.24835208648531307,
+  "h1_supportee": true
+}

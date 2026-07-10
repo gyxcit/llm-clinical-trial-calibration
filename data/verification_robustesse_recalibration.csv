@@ -1,0 +1,13 @@
+model,ece_orig_mean,ece_orig_std,ece_iso_mean,ece_iso_std,gain_ece_mean,confidence_spread_ratio_mean,prop_below_threshold,comportement
+biomistral_A,0.1553,0.0195,0.0388,0.0184,0.1165,0.8292,0.6,écrase (-)
+biomistral_B,0.1966,0.022,0.0419,0.0163,0.1546,0.8667,0.6,stable
+llama_base_A,0.125,0.0258,0.0546,0.0248,0.0705,3.3374,0.6,étale (+)
+llama_base_B,0.1509,0.011,0.0507,0.0254,0.1003,3.9103,0.6,étale (+)
+llama_instruct_A,0.5133,0.0129,0.0465,0.0173,0.4668,1.6403,0.6,étale (+)
+llama_instruct_B,0.6033,0.0108,0.0663,0.0277,0.537,2.1942,0.4,étale (+)
+meditron_A,0.1895,0.0469,0.0543,0.0465,0.1352,1.3872,0.6,étale (+)
+meditron_B,0.2396,0.0343,0.0462,0.0318,0.1934,0.203,0.6,écrase (-)
+mistral_base_A,0.1337,0.0401,0.0792,0.0285,0.0545,2.7596,0.2,étale (+)
+mistral_base_B,0.1891,0.0329,0.0789,0.0105,0.1102,3.5777,0.0,étale (+)
+mistral_instruct_A,0.3222,0.0376,0.0573,0.0149,0.265,0.7915,0.4,écrase (-)
+mistral_instruct_B,0.2777,0.0246,0.0448,0.0256,0.2329,0.1765,0.4,écrase (-)

@@ -1,0 +1,14 @@
+,excluded,included,not applicable,not enough information,not excluded,not included
+expert,0.01,0.148,0.054,0.289,0.477,0.023
+biomistral_A,0.0,0.0,0.0,0.982,0.014,0.004
+biomistral_B,0.0,0.0,0.0,1.0,0.0,0.0
+llama_base_A,0.454,0.095,0.0,0.451,0.0,0.0
+llama_base_B,0.0,0.0,0.004,0.972,0.024,0.0
+llama_instruct_A,0.017,0.0,0.0,0.978,0.001,0.004
+llama_instruct_B,0.0,0.0,0.003,0.997,0.0,0.0
+meditron_A,0.0,0.0,0.0,0.352,0.648,0.0
+meditron_B,0.0,0.0,0.0,0.407,0.593,0.0
+mistral_base_A,0.177,0.292,0.006,0.008,0.472,0.045
+mistral_base_B,0.0,0.139,0.007,0.451,0.403,0.0
+mistral_instruct_A,0.16,0.157,0.089,0.474,0.016,0.105
+mistral_instruct_B,0.325,0.118,0.052,0.222,0.272,0.011

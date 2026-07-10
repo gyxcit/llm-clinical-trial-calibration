@@ -1,0 +1,13 @@
+model,accuracy_globale,accuracy_cas_dominants,accuracy_cas_non_triviaux,chute_performance
+mistral_instruct_A,0.3084,0.1828,0.7185,-0.5357
+mistral_base_A,0.4995,0.4646,0.6134,-0.1488
+mistral_instruct_B,0.4798,0.4736,0.5,-0.0264
+mistral_base_B,0.5862,0.6384,0.416,0.2224
+llama_base_A,0.2296,0.2188,0.2647,-0.0459
+llama_instruct_A,0.2897,0.3719,0.021,0.3509
+llama_base_B,0.3084,0.399,0.0126,0.3864
+llama_instruct_B,0.2916,0.3771,0.0126,0.3645
+biomistral_A,0.2956,0.3848,0.0042,0.3806
+biomistral_B,0.2887,0.3771,0.0,0.3771
+meditron_B,0.6305,0.8237,0.0,0.8237
+meditron_A,0.6483,0.8468,0.0,0.8468

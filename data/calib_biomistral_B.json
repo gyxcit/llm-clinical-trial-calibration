@@ -1,0 +1,12 @@
+{
+  "model": "biomistral_B",
+  "n": 1015,
+  "accuracy": 0.28866995073891627,
+  "ece": 0.19439442674514695,
+  "ece_ci_low": 0.16646778100523457,
+  "ece_ci_high": 0.22175703754639392,
+  "brier": 0.2441098086251998,
+  "mean_confidence": 0.4830643774840632,
+  "mean_overconfidence": 0.19439442674514695,
+  "h1_supportee": true
+}

@@ -1,0 +1,13 @@
+comparaison,hypothese,ece_a,ece_b,delta,p_value,supportee
+Mistral-Base (A) vs Mistral-Instruct (A),"H2 (Mistral, prompt A)",0.13323859522495365,0.3222266283822177,0.18898803315726406,0.0,True
+Mistral-Base (B) vs Mistral-Instruct (B),"H2 (Mistral, prompt B)",0.18904480496650847,0.2529742965557305,0.06392949158922204,0.003,True
+Llama-Base (A) vs Llama-Instruct (A),"H2 (Llama, prompt A)",0.12406075496978947,0.5103545764984169,0.3862938215286274,0.0,True
+Llama-Base (B) vs Llama-Instruct (B),"H2 (Llama, prompt B)",0.15056867805020563,0.601585296427675,0.45101661837746937,0.0,True
+mistral_instruct (B) vs mistral_instruct (A),Effet prompt (mistral_instruct),0.2529742965557305,0.3222266283822177,0.06925233182648721,0.001,True
+mistral_base (B) vs mistral_base (A),Effet prompt (mistral_base),0.18904480496650847,0.13323859522495365,-0.05580620974155481,0.994,False
+llama_instruct (B) vs llama_instruct (A),Effet prompt (llama_instruct),0.601585296427675,0.5103545764984169,-0.09123071992925813,1.0,False
+llama_base (B) vs llama_base (A),Effet prompt (llama_base),0.15056867805020563,0.12406075496978947,-0.026507923080416163,0.884,False
+meditron (B) vs meditron (A),Effet prompt (meditron),0.2313214961531127,0.1815581061569928,-0.0497633899961199,0.995,False
+biomistral (B) vs biomistral (A),Effet prompt (biomistral),0.19439442674514695,0.15525742892561287,-0.039136997819534086,0.968,False
+Meditron-7B (B) vs Llama-Base (B),H5 (vs Llama-Base),0.2313214961531127,0.15056867805020563,-0.08075281810290708,1.0,False
+BioMistral (B) vs Mistral-Instruct (B),H5 (vs Mistral-Instruct),0.19439442674514695,0.2529742965557305,0.05857986981058355,0.01,False

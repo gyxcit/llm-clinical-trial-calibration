@@ -1,0 +1,12 @@
+{
+  "model": "mistral_instruct_A",
+  "n": 1015,
+  "accuracy": 0.3083743842364532,
+  "ece": 0.3222266283822177,
+  "ece_ci_low": 0.2971386801719372,
+  "ece_ci_high": 0.35015226639330094,
+  "brier": 0.3107521810115477,
+  "mean_confidence": 0.630601012618671,
+  "mean_overconfidence": 0.3222266283822177,
+  "h1_supportee": true
+}

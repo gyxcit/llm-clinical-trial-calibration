@@ -143,18 +143,26 @@
 \contentsline {chapter}{Bibliography}{69}{chapter*.36}%
 \contentsline {chapter}{\numberline {A}Detailed Results Tables}{73}{appendix.A}%
 \contentsline {chapter}{\numberline {B}Full Prompt Specifications}{74}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Prompt A --- Generic (Baseline)}{74}{section.B.1}%
-\contentsline {section}{\numberline {B.2}Prompt B --- Adapted with Expert Guidance}{74}{section.B.2}%
-\contentsline {chapter}{\numberline {C}Individual Reliability Diagrams}{75}{appendix.C}%
-\contentsline {chapter}{\numberline {D}Code and Data Availability}{76}{appendix.D}%
-\contentsline {section}{\numberline {D.1}Repository}{76}{section.D.1}%
-\contentsline {section}{\numberline {D.2}Data Availability}{76}{section.D.2}%
-\contentsline {section}{\numberline {D.3}Reproducing the Experiments}{77}{section.D.3}%
-\contentsline {section}{\numberline {D.4}Computational Requirements}{77}{section.D.4}%
-\contentsline {section}{\numberline {D.5}Software Versions}{78}{section.D.5}%
-\contentsline {chapter}{\numberline {E}Generative AI Usage Declaration}{79}{appendix.E}%
-\contentsline {chapter}{\numberline {F}Detailed Mode Collapse Analysis}{81}{appendix.F}%
-\contentsline {section}{\numberline {F.1}Prediction Distribution per Configuration}{81}{section.F.1}%
-\contentsline {section}{\numberline {F.2}Simulation: Forcing Decisive Predictions}{81}{section.F.2}%
-\contentsline {section}{\numberline {F.3}Composite Utility Score Ranking}{81}{section.F.3}%
-\contentsline {section}{\numberline {F.4}Cross-Validation Stability}{81}{section.F.4}%
+\contentsline {section}{\numberline {B.1}Prompt A --- Generic Baseline}{74}{section.B.1}%
+\contentsline {subsection}{\numberline {B.1.1}Prompt A for Instruct Models}{74}{subsection.B.1.1}%
+\contentsline {subsection}{\numberline {B.1.2}Prompt A for Base Models}{75}{subsection.B.1.2}%
+\contentsline {section}{\numberline {B.2}Prompt B --- Adapted with Expert Guidance}{75}{section.B.2}%
+\contentsline {subsection}{\numberline {B.2.1}Prompt B for Instruct Models}{75}{subsection.B.2.1}%
+\contentsline {paragraph}{Guidance block for inclusion criteria.}{76}{paragraph*.37}%
+\contentsline {paragraph}{Guidance block for exclusion criteria.}{77}{paragraph*.38}%
+\contentsline {subsection}{\numberline {B.2.2}Prompt B for Base Models}{78}{subsection.B.2.2}%
+\contentsline {paragraph}{Few-shot block for inclusion criteria.}{79}{paragraph*.39}%
+\contentsline {paragraph}{Few-shot block for exclusion criteria.}{79}{paragraph*.40}%
+\contentsline {chapter}{\numberline {C}Individual Reliability Diagrams}{81}{appendix.C}%
+\contentsline {chapter}{\numberline {D}Code and Data Availability}{82}{appendix.D}%
+\contentsline {section}{\numberline {D.1}Repository}{82}{section.D.1}%
+\contentsline {section}{\numberline {D.2}Data Availability}{82}{section.D.2}%
+\contentsline {section}{\numberline {D.3}Reproducing the Experiments}{83}{section.D.3}%
+\contentsline {section}{\numberline {D.4}Computational Requirements}{83}{section.D.4}%
+\contentsline {section}{\numberline {D.5}Software Versions}{84}{section.D.5}%
+\contentsline {chapter}{\numberline {E}Generative AI Usage Declaration}{85}{appendix.E}%
+\contentsline {chapter}{\numberline {F}Detailed Mode Collapse Analysis}{87}{appendix.F}%
+\contentsline {section}{\numberline {F.1}Prediction Distribution per Configuration}{87}{section.F.1}%
+\contentsline {section}{\numberline {F.2}Simulation: Forcing Decisive Predictions}{87}{section.F.2}%
+\contentsline {section}{\numberline {F.3}Composite Utility Score Ranking}{87}{section.F.3}%
+\contentsline {section}{\numberline {F.4}Cross-Validation Stability}{87}{section.F.4}%

@@ -5,17 +5,38 @@
 \chapter{Full Prompt Specifications}
 \label{app:prompts}
 
+This appendix reproduces verbatim the four prompt variants used in the 
+study, in the exact form applied to the models during inference. Two 
+prompts are described (Prompt~A and Prompt~B), each with two 
+formulations depending on the target model class 
+(instruction-tuned or base). The dynamic fields \texttt{\{note\}}, 
+\texttt{\{criterion\}}, and \texttt{\{criterion\_type\}} are substituted 
+at query time with the content of each patient--criterion pair. All 
+patient notes are truncated to $1{,}500$ characters before insertion to 
+control for context-window variability across models.
+
 % ----------------------------------------------------------------------------
-\section{Prompt A --- Generic (Baseline)}
+\section{Prompt A --- Generic Baseline}
 \label{sec:app-prompt-a}
 
-% [TODO — verbatim prompt A for INSTRUCT models]
-\begin{lstlisting}[caption={Prompt A for Instruct models},
-                   label={lst:prompt-a-instruct}]
+Prompt~A is a minimalist prompt containing only the classification 
+instruction, the input note, the criterion text, and the list of 
+candidate labels. It does not define the labels, does not provide 
+examples, and does not include reasoning rules.
+
+\subsection{Prompt A for Instruct Models}
+
+For instruction-tuned models, Prompt~A is wrapped in the model's native 
+chat template via \texttt{tokenizer.apply\_chat\_template} with the 
+generation prompt enabled.
+
+\begin{lstlisting}[caption={Prompt A for Instruct models (user 
+    message before chat-template wrapping)}, 
+    label={lst:prompt-a-instruct}, breaklines=true, basicstyle=\ttfamily\small]
 Classify whether this patient meets the eligibility criterion.
 
 Patient: {note}
-Criterion ({type}): {criterion}
+Criterion ({criterion_type}): {criterion}
 
 Choose exactly one label from: included, not included, excluded,
 not excluded, not enough information, not applicable.
@@ -23,12 +44,232 @@ not excluded, not enough information, not applicable.
 Answer:
 \end{lstlisting}
 
-% [TODO — verbatim prompt A for BASE models]
+\subsection{Prompt A for Base Models}
+
+For base models, no chat template is applied. Instead, a single 
+few-shot example is embedded in the prompt to establish the desired 
+input--output pattern by demonstration.
+
+\begin{lstlisting}[caption={Prompt A for Base models}, 
+    label={lst:prompt-a-base}, breaklines=true, basicstyle=\ttfamily\small]
+Task: Classify whether a patient meets one eligibility criterion.
+Choose exactly one label from: included, not included, excluded,
+not excluded, not enough information, not applicable.
+
+Example:
+Patient note: 65-year-old male with type 2 diabetes.
+Criterion (inclusion): diabetes
+Final label: included
+
+Now classify:
+Patient note: {note}
+Criterion ({criterion_type}): {criterion}
+Final label:
+\end{lstlisting}
 
 % ----------------------------------------------------------------------------
 \section{Prompt B --- Adapted with Expert Guidance}
 \label{sec:app-prompt-b}
 
-% [TODO — full verbatim prompt B for INSTRUCT models]
+Prompt~B is an adapted prompt containing definitions of the labels, 
+one worked example per label, and a critical inference rule for 
+exclusion criteria. The prompt varies structurally between inclusion 
+and exclusion criteria: two dedicated guidance blocks (one per 
+criterion type) are inserted into a common frame. This design 
+addresses the tendency of language models to over-use ``not enough 
+information'' for exclusion criteria whose target condition is not 
+explicitly discussed in the patient note.
 
-% [TODO — full verbatim prompt B for BASE models with few-shot examples]
+\subsection{Prompt B for Instruct Models}
+
+For instruction-tuned models, Prompt~B is again wrapped in the 
+model's native chat template. The full prompt is constructed by 
+concatenating the criterion-type-specific guidance block with the 
+common frame shown below.
+
+\begin{lstlisting}[caption={Prompt B for Instruct models --- common 
+    frame}, label={lst:prompt-b-instruct-frame}, 
+    breaklines=true, basicstyle=\ttfamily\small]
+You are an expert clinical trial coordinator. Classify whether a
+patient meets one eligibility criterion, based only on the patient
+note.
+
+{guidance block for inclusion or exclusion, see below}
+
+KEY DISTINCTION:
+- Use "not enough information" ONLY when the note is silent and you
+  cannot reasonably assume the answer.
+- If the note gives ANY evidence (even indirect) about the patient's
+  status, use a decisive label (included/not included or
+  excluded/not excluded).
+
+---
+PATIENT NOTE:
+{note}
+
+CRITERION ({criterion_type}):
+{criterion}
+---
+
+Reason about whether the note addresses this criterion, then give
+your final label.
+Final label:
+\end{lstlisting}
+
+\paragraph{Guidance block for inclusion criteria.}
+The following block replaces the placeholder in the common frame when 
+the criterion type is \emph{inclusion}.
+
+\begin{lstlisting}[caption={Prompt B for Instruct models --- inclusion 
+    guidance}, label={lst:prompt-b-instruct-incl}, 
+    breaklines=true, basicstyle=\ttfamily\small]
+You are evaluating an INCLUSION criterion. To join the trial, the
+patient SHOULD satisfy it.
+
+Choose exactly ONE label:
+
+- "included" - The patient note contains information showing the
+  patient MEETS this inclusion criterion.
+  Example: criterion "Type 2 diabetes", note says "patient has T2DM"
+  -> included.
+
+- "not included" - The patient note contains information showing the
+  patient does NOT meet this inclusion criterion.
+  Example: criterion "age over 65", note says "45-year-old patient"
+  -> not included.
+
+- "not enough information" - The note does NOT mention anything that
+  lets you decide. The information is simply missing.
+  Example: criterion "HbA1c between 7 and 10", note never mentions
+  HbA1c -> not enough information.
+
+- "not applicable" - The criterion concerns a different population
+  or context and cannot logically apply to this patient.
+  Example: criterion "for pediatric patients only", note describes
+  an adult -> not applicable.
+\end{lstlisting}
+
+\paragraph{Guidance block for exclusion criteria.}
+The following block replaces the placeholder in the common frame when 
+the criterion type is \emph{exclusion}. This block contains the 
+critical inference rule for exclusion criteria referenced in 
+Section~\ref{subsec:met-prompt-b} of Chapter~\ref{chap:methodology}.
+
+\begin{lstlisting}[caption={Prompt B for Instruct models --- exclusion 
+    guidance}, label={lst:prompt-b-instruct-excl}, 
+    breaklines=true, basicstyle=\ttfamily\small]
+You are evaluating an EXCLUSION criterion. To join the trial, the
+patient should NOT have the condition described.
+
+Choose exactly ONE label:
+
+- "excluded" - The note shows the patient HAS the excluding
+  condition. They ARE excluded.
+  Example: criterion "pregnancy", note says "patient is pregnant"
+  -> excluded.
+
+- "not excluded" - The patient does NOT have the excluding
+  condition, so they can join (FAVORABLE).
+  This includes TWO cases:
+  (a) The note explicitly says the patient does not have it
+      ("no history of cancer").
+  (b) The note describes the patient's relevant conditions but does
+      NOT mention this one - for a specific medical condition,
+      absence of mention means the patient does not have it.
+  Example: criterion "history of stroke", note details the
+  patient's history with no stroke mentioned -> not excluded.
+
+- "not enough information" - Use this RARELY, only when the
+  criterion needs a specific measurement or detail that the note
+  genuinely cannot address and that cannot be assumed absent.
+  Example: criterion "ejection fraction below 40%", note never
+  measures ejection fraction -> not enough information.
+
+- "not applicable" - The criterion targets a different population
+  and cannot logically apply.
+  Example: criterion "pregnant women excluded", patient is male
+  -> not applicable.
+
+CRUCIAL RULE FOR EXCLUSION CRITERIA:
+If the criterion names a specific disease, condition, or medical
+history, and the note does NOT mention it, the default is
+"not excluded" (the patient most likely does not have it). Reserve
+"not enough information" only for criteria requiring a specific lab
+value or measurement that is truly missing.
+\end{lstlisting}
+
+\subsection{Prompt B for Base Models}
+
+For base models, the enriched-guidance structure of the instruct 
+version is replaced with a set of few-shot examples. Three examples 
+are provided for inclusion criteria, and four for exclusion criteria; 
+the additional exclusion example encodes the inference rule for 
+exclusion criteria by demonstration.
+
+\begin{lstlisting}[caption={Prompt B for Base models --- common 
+    frame}, label={lst:prompt-b-base-frame}, 
+    breaklines=true, basicstyle=\ttfamily\small]
+Task: Classify whether a patient meets one eligibility criterion,
+based only on the patient note. Choose exactly one label from:
+included, not included, excluded, not excluded, not enough
+information, not applicable.
+
+{few-shot block for inclusion or exclusion, see below}
+
+Now classify this case:
+Patient note: {note}
+Criterion ({criterion_type}): {criterion}
+Final label:
+\end{lstlisting}
+
+\paragraph{Few-shot block for inclusion criteria.}
+
+\begin{lstlisting}[caption={Prompt B for Base models --- inclusion 
+    few-shot examples}, label={lst:prompt-b-base-incl}, 
+    breaklines=true, basicstyle=\ttfamily\small]
+Example 1:
+Patient note: 65-year-old male with type 2 diabetes, HbA1c 8.5%.
+Criterion (inclusion): Type 2 diabetes mellitus
+Final label: included
+
+Example 2:
+Patient note: 45-year-old female, no diabetes history.
+Criterion (inclusion): age over 65
+Final label: not included
+
+Example 3:
+Patient note: 50-year-old patient with hypertension.
+Criterion (inclusion): HbA1c between 7 and 10
+Final label: not enough information
+\end{lstlisting}
+
+\paragraph{Few-shot block for exclusion criteria.}
+The fourth example (Example~3, ``history of stroke'') encodes the 
+exclusion-inference rule of Prompt~B: when the criterion names a 
+specific condition that the note does not mention, the model should 
+default to ``not excluded'' rather than to ``not enough information''.
+
+\begin{lstlisting}[caption={Prompt B for Base models --- exclusion 
+    few-shot examples}, label={lst:prompt-b-base-excl}, 
+    breaklines=true, basicstyle=\ttfamily\small]
+Example 1:
+Patient note: 30-year-old female, 12 weeks pregnant.
+Criterion (exclusion): pregnancy
+Final label: excluded
+
+Example 2:
+Patient note: 55-year-old male with hypertension and diabetes,
+no cancer history.
+Criterion (exclusion): history of cancer
+Final label: not excluded
+
+Example 3:
+Patient note: 60-year-old male with hypertension. Otherwise healthy.
+Criterion (exclusion): history of stroke
+Final label: not excluded
+
+Example 4:
+Patient note: 70-year-old male with chronic kidney disease.
+Criterion (exclusion): ejection fraction below 40%
+Final label: not enough information
+\end{lstlisting}

@@ -1,0 +1,12 @@
+{
+  "model": "mistral_base_B",
+  "n": 1015,
+  "accuracy": 0.5862068965517241,
+  "ece": 0.18904480496650847,
+  "ece_ci_low": 0.16095407839625928,
+  "ece_ci_high": 0.21826639552862181,
+  "brier": 0.26851072118323566,
+  "mean_confidence": 0.3971620915852157,
+  "mean_overconfidence": -0.18904480496650847,
+  "h1_supportee": true
+}

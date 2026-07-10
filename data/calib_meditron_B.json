@@ -1,0 +1,12 @@
+{
+  "model": "meditron_B",
+  "n": 1015,
+  "accuracy": 0.6305418719211823,
+  "ece": 0.2313214961531127,
+  "ece_ci_low": 0.2036259428613585,
+  "ece_ci_high": 0.25885585080006435,
+  "brier": 0.2834146702634403,
+  "mean_confidence": 0.47352669421087934,
+  "mean_overconfidence": -0.15701517771030293,
+  "h1_supportee": true
+}

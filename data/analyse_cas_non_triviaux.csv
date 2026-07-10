@@ -1,0 +1,13 @@
+model,n_cas_non_triviaux,accuracy_non_trivial,f1_macro_non_trivial,ece_non_trivial,prop_predit_non_trivial,accuracy_quand_ose_predire,n_fois_ose
+mistral_instruct_A,238,0.7185,0.4489,0.0542,0.8613,0.8341,205
+mistral_instruct_B,238,0.5,0.3009,0.2434,0.6387,0.7829,152
+mistral_base_A,238,0.6134,0.2362,0.2047,0.8235,0.7449,196
+llama_base_A,238,0.2647,0.1694,0.1053,0.395,0.6702,94
+mistral_base_B,238,0.416,0.137,0.1348,0.4622,0.9,110
+llama_instruct_A,238,0.021,0.1128,0.8017,0.021,1.0,5
+llama_base_B,238,0.0126,0.0207,0.4225,0.0126,1.0,3
+llama_instruct_B,238,0.0126,0.0207,0.8365,0.0126,1.0,3
+biomistral_A,238,0.0042,0.016,0.4701,0.0084,0.5,2
+biomistral_B,238,0.0,0.0,0.4793,0.0,0.0,0
+meditron_B,238,0.0,0.0,0.5505,0.0,0.0,0
+meditron_A,238,0.0,0.0,0.4767,0.0,0.0,0
