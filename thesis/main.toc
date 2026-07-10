@@ -147,13 +147,14 @@
 \contentsline {section}{\numberline {B.2}Prompt B --- Adapted with Expert Guidance}{74}{section.B.2}%
 \contentsline {chapter}{\numberline {C}Individual Reliability Diagrams}{75}{appendix.C}%
 \contentsline {chapter}{\numberline {D}Code and Data Availability}{76}{appendix.D}%
-\contentsline {section}{\numberline {D.1}Repository Structure}{76}{section.D.1}%
+\contentsline {section}{\numberline {D.1}Repository}{76}{section.D.1}%
 \contentsline {section}{\numberline {D.2}Data Availability}{76}{section.D.2}%
-\contentsline {section}{\numberline {D.3}Reproducing the Experiments}{76}{section.D.3}%
-\contentsline {section}{\numberline {D.4}Computational Requirements}{76}{section.D.4}%
-\contentsline {chapter}{\numberline {E}Generative AI Usage Declaration}{77}{appendix.E}%
-\contentsline {chapter}{\numberline {F}Detailed Mode Collapse Analysis}{79}{appendix.F}%
-\contentsline {section}{\numberline {F.1}Prediction Distribution per Configuration}{79}{section.F.1}%
-\contentsline {section}{\numberline {F.2}Simulation: Forcing Decisive Predictions}{79}{section.F.2}%
-\contentsline {section}{\numberline {F.3}Composite Utility Score Ranking}{79}{section.F.3}%
-\contentsline {section}{\numberline {F.4}Cross-Validation Stability}{79}{section.F.4}%
+\contentsline {section}{\numberline {D.3}Reproducing the Experiments}{77}{section.D.3}%
+\contentsline {section}{\numberline {D.4}Computational Requirements}{77}{section.D.4}%
+\contentsline {section}{\numberline {D.5}Software Versions}{78}{section.D.5}%
+\contentsline {chapter}{\numberline {E}Generative AI Usage Declaration}{79}{appendix.E}%
+\contentsline {chapter}{\numberline {F}Detailed Mode Collapse Analysis}{81}{appendix.F}%
+\contentsline {section}{\numberline {F.1}Prediction Distribution per Configuration}{81}{section.F.1}%
+\contentsline {section}{\numberline {F.2}Simulation: Forcing Decisive Predictions}{81}{section.F.2}%
+\contentsline {section}{\numberline {F.3}Composite Utility Score Ranking}{81}{section.F.3}%
+\contentsline {section}{\numberline {F.4}Cross-Validation Stability}{81}{section.F.4}%

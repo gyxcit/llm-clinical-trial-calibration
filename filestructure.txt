@@ -1,42 +1,43 @@
 |-- .claude
     |-- settings.local.json
 |-- .gitignore
-|-- appendices
-    |-- A_detailed_tables.tex
-    |-- B_prompts.tex
-    |-- C_reliability_diagrams.tex
-    |-- D_code_availability.tex
-    |-- E_ai_declaration.tex
-    |-- F_mode_collapse.tex
-|-- bibliography
-    |-- references.bib
-|-- chapters
-    |-- 00_coverpage.tex
-    |-- 01_acknowledgements.tex
-    |-- 02_abstract.tex
-    |-- 03_resume_fr.tex
-    |-- 04_abbreviations.tex
-    |-- 05_introduction.tex
-    |-- 06_state_of_the_art.tex
-    |-- 07_project_context.tex
-    |-- 08_methodology.tex
-    |-- 09_results.tex
-    |-- 10_conclusion.tex
-|-- figures
-    |-- courbes_risque_couverture.png
-    |-- reliability_compare_AvsB.png
 |-- LICENSE
-|-- main.aux
-|-- main.bbl
-|-- main.bcf
-|-- main.blg
-|-- main.lof
-|-- main.log
-|-- main.lot
-|-- main.out
-|-- main.pdf
-|-- main.run.xml
-|-- main.synctex.gz
-|-- main.tex
-|-- main.toc
-|-- README.md
+|-- thesis
+    |-- appendices
+        |-- A_detailed_tables.tex
+        |-- B_prompts.tex
+        |-- C_reliability_diagrams.tex
+        |-- D_code_availability.tex
+        |-- E_ai_declaration.tex
+        |-- F_mode_collapse.tex
+    |-- bibliography
+        |-- references.bib
+    |-- chapters
+        |-- 00_coverpage.tex
+        |-- 01_acknowledgements.tex
+        |-- 02_abstract.tex
+        |-- 03_resume_fr.tex
+        |-- 04_abbreviations.tex
+        |-- 05_introduction.tex
+        |-- 06_state_of_the_art.tex
+        |-- 07_project_context.tex
+        |-- 08_methodology.tex
+        |-- 09_results.tex
+        |-- 10_conclusion.tex
+    |-- figures
+        |-- courbes_risque_couverture.png
+        |-- reliability_compare_AvsB.png
+    |-- main.aux
+    |-- main.bbl
+    |-- main.bcf
+    |-- main.blg
+    |-- main.lof
+    |-- main.log
+    |-- main.lot
+    |-- main.out
+    |-- main.pdf
+    |-- main.run.xml
+    |-- main.synctex.gz
+    |-- main.tex
+    |-- main.toc
+    |-- README.md
