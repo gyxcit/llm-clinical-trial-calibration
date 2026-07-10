@@ -1,27 +1,207 @@
 % ============================================================================
 %   BIBLIOGRAPHY — references.bib
-%   IEEE style recommended by Aivancity
-%   Minimum required: 20 references (8 peer-reviewed, 6 conferences A*/A/B,
-%                                     2 books/chapters, 4 others)
+%   Master's Thesis: Auditing the Calibration of LLMs in Clinical Trial Matching
+%   Régis Likassi — Aivancity 2025-2026
+%
+%   Organized by theme:
+%     1. Reporting Standards
+%     2. Clinical Trial Matching — Pre-LLM Systems
+%     3. Clinical Trial Matching — LLM-Based Systems
+%     4. Probabilistic Calibration — Foundations
+%     5. Probabilistic Calibration — Modern Methods and Metrics
+%     6. Selective Classification and Conformal Prediction
+%     7. Large Language Models — Alignment and Calibration
+%     8. Medical Large Language Models
+%     9. Efficient Inference and Quantization
+%    10. Statistical Methods
 % ============================================================================
 
+
 % ============================================================================
-%   CORE REFERENCES FOR CALIBRATION
+%   1. REPORTING STANDARDS
 % ============================================================================
 
-@article{guo2017calibration,
-    title = {On Calibration of Modern Neural Networks},
-    author = {Guo, Chuan and Pleiss, Geoff and Sun, Yu and Weinberger, Kilian Q.},
-    journal = {Proceedings of the 34th International Conference on Machine Learning (ICML)},
-    year = {2017},
-    volume = {70},
-    pages = {1321--1330}
+@article{collins2024tripod,
+    title = {{TRIPOD+AI} Statement: Updated Guidance for Reporting Clinical Prediction Models That Use Regression or Machine Learning Methods},
+    author = {Collins, Gary S. and Moons, Karel G. M. and Dhiman, Paula and others},
+    journal = {BMJ},
+    volume = {385},
+    pages = {e078378},
+    year = {2024},
+    doi = {10.1136/bmj-2023-078378}
+}
+
+
+% ============================================================================
+%   2. CLINICAL TRIAL MATCHING — PRE-LLM SYSTEMS
+% ============================================================================
+
+@article{weng2011elixr,
+    title = {{EliXR}: An Approach to Eligibility Criteria Extraction and Representation},
+    author = {Weng, Chunhua and Wu, Xiaoying and Luo, Zhihui and others},
+    journal = {Journal of the American Medical Informatics Association (JAMIA)},
+    volume = {18},
+    pages = {i116--i124},
+    year = {2011}
+}
+
+@article{kang2017eliie,
+    title = {{EliIE}: An Open-Source Information Extraction System for Clinical Trial Eligibility Criteria},
+    author = {Kang, Tian and Zhang, Shuang and Tang, Youlan and others},
+    journal = {Journal of the American Medical Informatics Association (JAMIA)},
+    volume = {24},
+    number = {6},
+    pages = {1062--1071},
+    year = {2017}
+}
+
+@article{yuan2019criteria2query,
+    title = {{Criteria2Query}: A Natural Language Interface to Clinical Databases for Cohort Definition},
+    author = {Yuan, Chi and Ryan, Patrick B. and Ta, Casey and others},
+    journal = {Journal of the American Medical Informatics Association (JAMIA)},
+    volume = {26},
+    number = {4},
+    pages = {294--305},
+    year = {2019}
+}
+
+@inproceedings{zhang2020deepenroll,
+    title = {{DeepEnroll}: Patient-Trial Matching with Deep Embedding and Entailment Prediction},
+    author = {Zhang, Xingyao and Xiao, Cao and Glass, Lucas M. and Sun, Jimeng},
+    booktitle = {Proceedings of The Web Conference (WWW)},
+    year = {2020},
+    doi = {10.1145/3366423.3380181}
+}
+
+@inproceedings{gao2020compose,
+    title = {{COMPOSE}: Cross-Modal Pseudo-Siamese Network for Patient Trial Matching},
+    author = {Gao, Junyi and Xiao, Cao and Glass, Lucas M. and Sun, Jimeng},
+    booktitle = {Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining (KDD)},
+    year = {2020},
+    doi = {10.1145/3394486.3403123}
+}
+
+
+% ============================================================================
+%   3. CLINICAL TRIAL MATCHING — LLM-BASED SYSTEMS
+% ============================================================================
+
+@article{jin2024trialgpt,
+    title = {Matching Patients to Clinical Trials with Large Language Models},
+    author = {Jin, Qiao and Wang, Zifeng and others},
+    journal = {Nature Communications},
+    volume = {15},
+    pages = {9074},
+    year = {2024},
+    doi = {10.1038/s41467-024-53081-z}
+}
+
+@article{unlu2024rectifier,
+    title = {Retrieval-Augmented Generation-Enabled {GPT-4} for Clinical Trial Screening},
+    author = {Unlu, Ozan and Shin, Jiyeon and Mailly, Charlotte J. and others},
+    journal = {NEJM AI},
+    volume = {1},
+    number = {7},
+    year = {2024},
+    doi = {10.1056/AIoa2400181}
+}
+
+@article{gupta2024oncollm,
+    title = {A Framework for Clinical Trial Matching Using {OncoLLM}},
+    author = {Gupta, Aakash and others},
+    journal = {npj Digital Medicine},
+    volume = {7},
+    pages = {305},
+    year = {2024},
+    doi = {10.1038/s41746-024-01274-7}
+}
+
+@article{nievas2024triallama,
+    title = {Distilling Large Language Models for Matching Patients to Clinical Trials},
+    author = {Nievas, Miguel and Basu, Aditya and Wang, Yuejia and Singh, Harish},
+    journal = {Journal of the American Medical Informatics Association (JAMIA)},
+    volume = {31},
+    number = {9},
+    pages = {1953--1963},
+    year = {2024},
+    doi = {10.1093/jamia/ocae073}
+}
+
+@article{wornow2024zeroshot,
+    title = {Zero-Shot Clinical Trial Patient Matching with {LLMs}},
+    author = {Wornow, Michael and others},
+    journal = {NEJM AI},
+    year = {2024},
+    doi = {10.1056/AIcs2400360}
+}
+
+@article{callies2025multimodal,
+    title = {A Multimodal Pipeline for Clinical Trial Recruitment},
+    author = {Callies, Elliot and others},
+    journal = {Communications Medicine},
+    year = {2025},
+    doi = {10.1038/s43856-025-01256-0}
+}
+
+@article{chen2025scoping,
+    title = {Large Language Models for Clinical Trial Matching: A Scoping Review},
+    author = {Chen, Hao and Li, Ming and He, Yi and others},
+    journal = {JCO Clinical Cancer Informatics},
+    volume = {9},
+    pages = {e2500071},
+    year = {2025},
+    doi = {10.1200/CCI-25-00071}
+}
+
+@article{abdallah2026trialmatchai,
+    title = {{TrialMatchAI}: An Open-Source End-to-End {RAG} Pipeline for Clinical Trial Matching},
+    author = {Abdallah, Abdelrahman and others},
+    journal = {Nature Communications},
+    year = {2026},
+    doi = {10.1038/s41467-026-70509-w}
+}
+
+
+% ============================================================================
+%   4. PROBABILISTIC CALIBRATION — FOUNDATIONS
+% ============================================================================
+
+@article{brier1950,
+    title = {Verification of Forecasts Expressed in Terms of Probability},
+    author = {Brier, Glenn W.},
+    journal = {Monthly Weather Review},
+    volume = {78},
+    number = {1},
+    pages = {1--3},
+    year = {1950},
+    doi = {10.1175/1520-0493(1950)078<0001:VOFEIT>2.0.CO;2}
+}
+
+@incollection{platt1999,
+    title = {Probabilistic Outputs for Support Vector Machines and Comparisons to Regularized Likelihood Methods},
+    author = {Platt, John C.},
+    booktitle = {Advances in Large Margin Classifiers},
+    publisher = {MIT Press},
+    year = {1999}
+}
+
+@inproceedings{zadrozny2002isotonic,
+    title = {Transforming Classifier Scores into Accurate Multiclass Probability Estimates},
+    author = {Zadrozny, Bianca and Elkan, Charles},
+    booktitle = {Proceedings of the 8th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD)},
+    year = {2002}
+}
+
+@inproceedings{niculescu2005,
+    title = {Predicting Good Probabilities with Supervised Learning},
+    author = {Niculescu-Mizil, Alexandru and Caruana, Rich},
+    booktitle = {Proceedings of the 22nd International Conference on Machine Learning (ICML)},
+    year = {2005}
 }
 
 @article{vancalster2019calibration,
-    title = {Calibration: the {Achilles} heel of predictive analytics},
-    author = {Van Calster, Ben and McLernon, David J. and van Smeden, Maarten
-              and Wynants, Laure and Steyerberg, Ewout W.},
+    title = {Calibration: The {Achilles} Heel of Predictive Analytics},
+    author = {Van Calster, Ben and McLernon, David J. and van Smeden, Maarten and Wynants, Laure and Steyerberg, Ewout W.},
     journal = {BMC Medicine},
     volume = {17},
     number = {1},
@@ -30,119 +210,191 @@
     doi = {10.1186/s12916-019-1466-7}
 }
 
-@article{collins2024tripod,
-    title = {{TRIPOD+AI} statement: updated guidance for reporting clinical
-             prediction models that use regression or machine learning methods},
-    author = {Collins, Gary S. and others},
-    journal = {BMJ},
-    volume = {385},
-    pages = {e078378},
-    year = {2024}
+
+% ============================================================================
+%   5. PROBABILISTIC CALIBRATION — MODERN METHODS AND METRICS
+% ============================================================================
+
+@inproceedings{guo2017calibration,
+    title = {On Calibration of Modern Neural Networks},
+    author = {Guo, Chuan and Pleiss, Geoff and Sun, Yu and Weinberger, Kilian Q.},
+    booktitle = {Proceedings of the 34th International Conference on Machine Learning (ICML)},
+    volume = {70},
+    pages = {1321--1330},
+    year = {2017}
 }
 
-% ============================================================================
-%   RLHF AND LLM CALIBRATION
-% ============================================================================
-
-@article{kadavath2022know,
-    title = {Language Models (Mostly) Know What They Know},
-    author = {Kadavath, Saurav and Conerly, Tom and Askell, Amanda and
-              others},
-    journal = {arXiv preprint arXiv:2207.05221},
-    year = {2022}
+@inproceedings{kull2017beta,
+    title = {Beta Calibration: A Well-Founded and Easily Implemented Improvement on Logistic Calibration for Binary Classifiers},
+    author = {Kull, Meelis and Silva Filho, Telmo and Flach, Peter},
+    booktitle = {Artificial Intelligence and Statistics (AISTATS)},
+    year = {2017}
 }
 
-@article{ouyang2022training,
-    title = {Training language models to follow instructions with human feedback},
-    author = {Ouyang, Long and Wu, Jeffrey and Jiang, Xu and others},
-    journal = {Advances in Neural Information Processing Systems},
-    year = {2022}
+@inproceedings{nixon2019measuring,
+    title = {Measuring Calibration in Deep Learning},
+    author = {Nixon, Jeremy and Dusenberry, Michael W. and Zhang, Linchuan and Jerfel, Ghassen and Tran, Dustin},
+    booktitle = {CVPR Workshops},
+    year = {2019}
 }
 
-% ============================================================================
-%   CLINICAL TRIAL MATCHING WITH LLMs
-% ============================================================================
-
-@article{jin2024trialgpt,
-    title = {Matching patients to clinical trials with large language models},
-    author = {Jin, Qiao and Wang, Zifeng and others},
-    journal = {Nature Communications},
-    volume = {15},
-    pages = {9074},
-    year = {2024}
+@inproceedings{kumar2019verified,
+    title = {Verified Uncertainty Calibration},
+    author = {Kumar, Ananya and Liang, Percy and Ma, Tengyu},
+    booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+    year = {2019}
 }
 
-@article{nievas2024triallama,
-    title = {Distilling large language models for matching patients to clinical trials},
-    author = {Nievas, Miguel and others},
-    journal = {Journal of the American Medical Informatics Association (JAMIA)},
-    volume = {31},
-    number = {9},
-    pages = {1953--1963},
-    year = {2024}
+@inproceedings{kull2019dirichlet,
+    title = {Beyond Temperature Scaling: Obtaining Well-Calibrated Multi-class Probabilities with {Dirichlet} Calibration},
+    author = {Kull, Meelis and Perello-Nieto, Miquel and Kängsepp, Markus and Silva Filho, Telmo and Song, Hao and Flach, Peter},
+    booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+    year = {2019}
 }
 
+@inproceedings{muller2019labelsmoothing,
+    title = {When Does Label Smoothing Help?},
+    author = {Müller, Rafael and Kornblith, Simon and Hinton, Geoffrey},
+    booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+    year = {2019}
+}
+
+@inproceedings{mukhoti2020focal,
+    title = {Calibrating Deep Neural Networks Using Focal Loss},
+    author = {Mukhoti, Jishnu and Kulharia, Viveka and Sanyal, Amartya and Golodetz, Stuart and Torr, Philip and Dokania, Puneet},
+    booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+    year = {2020}
+}
+
+@article{gupta2021distributionfree,
+    title = {Distribution-Free Calibration Guarantees for Histogram Binning without Sample Splitting},
+    author = {Gupta, Chirag and Ramdas, Aaditya},
+    journal = {arXiv preprint arXiv:2105.04656},
+    year = {2021}
+}
+
+
 % ============================================================================
-%   MEDICAL LLMs
+%   6. SELECTIVE CLASSIFICATION AND CONFORMAL PREDICTION
 % ============================================================================
 
-@article{chen2023meditron,
-    title = {Meditron-70B: Scaling Medical Pretraining for Large Language Models},
-    author = {Chen, Zeming and Cano, Alejandro Hern{\'a}ndez and others},
-    journal = {arXiv preprint arXiv:2311.16079},
+@book{vovk2005,
+    title = {Algorithmic Learning in a Random World},
+    author = {Vovk, Vladimir and Gammerman, Alexander and Shafer, Glenn},
+    publisher = {Springer},
+    address = {New York},
+    year = {2005},
+    isbn = {978-0-387-00152-4}
+}
+
+@inproceedings{geifman2017selective,
+    title = {Selective Classification for Deep Neural Networks},
+    author = {Geifman, Yonatan and El-Yaniv, Ran},
+    booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+    year = {2017}
+}
+
+@inproceedings{geifman2019selectivenet,
+    title = {{SelectiveNet}: A Deep Neural Network with an Integrated Reject Option},
+    author = {Geifman, Yonatan and El-Yaniv, Ran},
+    booktitle = {Proceedings of the 36th International Conference on Machine Learning (ICML)},
+    year = {2019}
+}
+
+@article{angelopoulos2023conformal,
+    title = {Conformal Prediction: A Gentle Introduction},
+    author = {Angelopoulos, Anastasios N. and Bates, Stephen},
+    journal = {Foundations and Trends in Machine Learning},
+    volume = {16},
+    number = {4},
+    pages = {494--591},
     year = {2023}
 }
 
+
+% ============================================================================
+%   7. LARGE LANGUAGE MODELS — ALIGNMENT AND CALIBRATION
+% ============================================================================
+
+@inproceedings{ouyang2022training,
+    title = {Training Language Models to Follow Instructions with Human Feedback},
+    author = {Ouyang, Long and Wu, Jeffrey and Jiang, Xu and Almeida, Diogo and Wainwright, Carroll L. and Mishkin, Pamela and Zhang, Chong and Agarwal, Sandhini and Slama, Katarina and Ray, Alex and others},
+    booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+    year = {2022},
+    doi = {10.48550/arXiv.2203.02155}
+}
+
+@article{kadavath2022know,
+    title = {Language Models (Mostly) Know What They Know},
+    author = {Kadavath, Saurav and Conerly, Tom and Askell, Amanda and others},
+    journal = {arXiv preprint arXiv:2207.05221},
+    year = {2022},
+    doi = {10.48550/arXiv.2207.05221}
+}
+
+
+% ============================================================================
+%   8. MEDICAL LARGE LANGUAGE MODELS
+% ============================================================================
+
+@article{chen2023meditron,
+    title = {{MEDITRON-70B}: Scaling Medical Pretraining for Large Language Models},
+    author = {Chen, Zeming and Cano, Alejandro Hernández and Romanou, Angelika and others},
+    journal = {arXiv preprint arXiv:2311.16079},
+    year = {2023},
+    doi = {10.48550/arXiv.2311.16079}
+}
+
 @inproceedings{labrak2024biomistral,
-    title = {{BioMistral}: A Collection of Open-Source Pretrained Large
-             Language Models for Medical Domains},
-    author = {Labrak, Yanis and others},
+    title = {{BioMistral}: A Collection of Open-Source Pretrained Large Language Models for Medical Domains},
+    author = {Labrak, Yanis and Bazoge, Adrien and Morin, Emmanuel and Gourraud, Pierre-Antoine and Rouvier, Mickael and Dufour, Richard},
     booktitle = {Findings of the Association for Computational Linguistics: ACL 2024},
-    year = {2024}
+    pages = {5848--5864},
+    year = {2024},
+    doi = {10.18653/v1/2024.findings-acl.348}
 }
 
 @article{christophe2024med42,
     title = {{Med42-v2}: A Suite of Clinical {LLMs}},
-    author = {Christophe, Cl{\'e}ment and others},
+    author = {Christophe, Clément and Kanithi, Praveen K. and Munjal, Prateek and others},
     journal = {arXiv preprint arXiv:2408.06142},
-    year = {2024}
+    year = {2024},
+    doi = {10.48550/arXiv.2408.06142}
 }
 
 @article{chen2024huatuogpt,
     title = {{HuatuoGPT-o1}: Towards Medical Complex Reasoning with {LLMs}},
-    author = {Chen, Junying and others},
+    author = {Chen, Junying and Cai, Zhenyang and Ji, Ke and others},
     journal = {arXiv preprint arXiv:2412.18925},
-    year = {2024}
+    year = {2024},
+    doi = {10.48550/arXiv.2412.18925}
 }
 
+
 % ============================================================================
-%   MULTI-AGENT DEBATE (for Future Work section)
+%   9. EFFICIENT INFERENCE AND QUANTIZATION
 % ============================================================================
 
-@article{du2023debate,
-    title = {Improving Factuality and Reasoning in Language Models through
-             Multiagent Debate},
-    author = {Du, Yilun and Li, Shuang and Torralba, Antonio and
-              Tenenbaum, Joshua B. and Mordatch, Igor},
-    journal = {arXiv preprint arXiv:2305.14325},
-    year = {2023}
+@inproceedings{dettmers2023qlora,
+    title = {{QLoRA}: Efficient Finetuning of Quantized {LLMs}},
+    author = {Dettmers, Tim and Pagnoni, Artidoro and Holtzman, Ari and Zettlemoyer, Luke},
+    booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+    year = {2023},
+    doi = {10.48550/arXiv.2305.14314}
 }
 
-@article{khan2024debate,
-    title = {Debating with More Persuasive {LLMs} Leads to More Truthful Answers},
-    author = {Khan, Akbir and others},
-    journal = {arXiv preprint arXiv:2402.06782},
-    year = {2024}
+
+% ============================================================================
+%   10. STATISTICAL METHODS
+% ============================================================================
+
+@article{cohen1968,
+    title = {Weighted Kappa: Nominal Scale Agreement Provision for Scaled Disagreement or Partial Credit},
+    author = {Cohen, Jacob},
+    journal = {Psychological Bulletin},
+    volume = {70},
+    number = {4},
+    pages = {213--220},
+    year = {1968},
+    doi = {10.1037/h0026256}
 }
-
-% ============================================================================
-%   MORE REFERENCES TO BE ADDED [TODO]
-% ============================================================================
-
-% Add:
-% - BERT, ClinicalBERT, BioBERT references
-% - Older calibration papers (Platt 1999, Zadrozny & Elkan 2002)
-% - Conformal prediction (Vovk et al. 2005, Angelopoulos & Bates 2023)
-% - Cohen 1968 (weighted kappa)
-% - Recent scoping reviews on medical AI calibration
-% - Population-relevant TREC CT papers if cited

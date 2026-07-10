@@ -6,147 +6,208 @@
 \chapter{State of the Art}
 \label{chap:sota}
 
+This chapter reviews the state of the art at the intersection of three 
+research areas that jointly frame the present study: patient--clinical 
+trial matching, probabilistic calibration of classifiers, and the 
+evaluation of medically specialized large language models. Rather than 
+surveying each area in isolation, we organize the review around the 
+specific gap that motivates this thesis --- the absence of systematic 
+calibration audits in LLM-based clinical trial matching --- and use 
+each section to build the position of this work with respect to the 
+closest prior contributions. Section~\ref{sec:sota-positioning} closes 
+the chapter with a comparative table and an explicit statement of the 
+contribution.
+
 % ----------------------------------------------------------------------------
 \section{Patient--Clinical Trial Matching}
 \label{sec:sota-matching}
 
-\subsection{Clinical Context and Need}
+\subsection{Clinical Context and Recruitment Bottlenecks}
 \label{subsec:sota-clinical}
 
-% [TODO — 1 page]
-% - Statistics on clinical trial recruitment
-% - The manual review process and its cost
-% - The need for automation
+Clinical trial recruitment is one of the most persistent bottlenecks in 
+translational medicine. Despite widespread interest from patients and 
+physicians, less than 5\% of adult cancer patients enroll in a clinical 
+trial, and 80\% of trials fail to meet their recruitment 
+targets~\cite{jin2024trialgpt}. The mismatch between patients and 
+appropriate trials is caused, in part, by the sheer volume of open 
+studies (over 400{,}000 registered on ClinicalTrials.gov at the time of 
+writing) and the complexity of their eligibility criteria, which 
+combine numeric thresholds, medical history requirements, and drug 
+exclusions in dozens of criteria per trial. Manual screening of a 
+patient against this space of criteria is labor-intensive and 
+error-prone, and automating even a fraction of this process would 
+substantially accelerate recruitment.
 
-\subsection{Pre-LLM Approaches}
+Automated matching systems have thus been a topic of active research 
+for over a decade. The field has passed through three distinct waves, 
+each corresponding to a different technological substrate.
+
+\subsection{Pre-LLM Approaches: Rule-Based and Embedding Systems}
 \label{subsec:sota-prelm}
 
-% [TODO — 1 page]
-% - Rule-based systems
-% - NER and information extraction (BioBERT, ClinicalBERT)
-% - Neural retrieval (DoSSIER, TREC CT approaches)
+The first wave of matching systems relied on structured information 
+extraction. EliXR~\cite{weng2011elixr}, EliIE~\cite{kang2017eliie}, and 
+Criteria2Query~\cite{yuan2019criteria2query} transformed free-text 
+eligibility criteria into structured OMOP or SQL queries, matched 
+against structured electronic health records. These systems produce 
+deterministic Boolean outputs (match or no match) and provide no 
+probability estimates or uncertainty quantification. They perform well 
+on criteria that map cleanly to structured concepts (age, diagnoses, 
+laboratory values) but struggle with criteria requiring nuanced 
+interpretation.
 
-\subsection{LLM-based Approaches}
-\label{subsec:sota-llmapproach}
+The second wave introduced end-to-end neural matching. 
+DeepEnroll~\cite{zhang2020deepenroll} encoded criteria with BERT and 
+patient EHRs with hierarchical embeddings, framing matching as textual 
+entailment and reporting PR-AUC and F1 scores. 
+COMPOSE~\cite{gao2020compose} added a cross-modal pseudo-siamese 
+network with a composite inclusion/exclusion loss, achieving 98.0\% 
+patient--criterion AUC and 83.7\% patient--trial accuracy. Neither 
+system reported calibration metrics. This omission is not accidental: 
+the primary evaluation targets of these systems were discrimination 
+metrics (AUC, F1) rather than the reliability of the probabilistic 
+outputs.
 
-% [TODO — 2 pages]
-% - TrialGPT (Jin et al. 2024, Nature Communications 15:9074)
-% - OncoLLM / PRISM (Triomics, npj Digital Medicine 2024)
-% - LLM-Match (Wang et al. 2025)
-% - Trial-LLaMA (Nievas et al. JAMIA 2024)
+\subsection{The LLM Wave: 2023--2026}
+\label{subsec:sota-llmwave}
+
+The third and current wave dates from the release of GPT-4 and the 
+subsequent proliferation of open-source large language models. The 
+most influential system in this wave is 
+TrialGPT~\cite{jin2024trialgpt}, published in \emph{Nature 
+Communications} in 2024. TrialGPT is a three-module pipeline: a 
+retrieval stage recovers more than 90\% of relevant trials in less 
+than 6\% of the collection using a hybrid BM25 and MedCPT retriever; a 
+matching stage emits a per-criterion ordinal label 
+(``included / not included / no relevant information''); and a ranking 
+stage aggregates criterion labels into trial-level scores. TrialGPT 
+reports a criterion-level accuracy of 87.3\% and correlation patterns 
+against the ground truth, but does not report any calibration 
+metric --- no ECE, no Brier score, no reliability diagram, and no 
+monotonicity check across the ordinal scale.
+
+TrialGPT is not an isolated case. RECTIFIER~\cite{unlu2024rectifier}, 
+published in \emph{NEJM AI}, applies a retrieval-augmented GPT-4 to 
+the COPILOT-HF heart-failure trial and reports 97.9--100\% accuracy 
+with Matthews correlation coefficients between 0.837 and 1.00. The 
+system has been deployed clinically at Mass General Brigham, yet its 
+outputs are reported only as accuracy and MCC, without probabilistic 
+reliability assessment. PRISM and its variant 
+OncoLLM~\cite{gupta2024oncollm}, published in \emph{npj Digital 
+Medicine}, introduce a weighted-tier scoring method with concept-level 
+importance and report top-$k$ accuracy and nDCG (68\% vs.\ 62.6\% for 
+GPT-3.5) but again omit calibration. Trial-LLaMA distills open-source 
+Llama on synthetic criterion labels~\cite{nievas2024triallama} and 
+reports accuracy alone. Zero-shot matching approaches by Wornow et 
+al.~\cite{wornow2024zeroshot} achieve 0.93 micro-F1 on the n2c2 2018 
+dataset and elicit a self-declared confidence per criterion --- the 
+closest any published system comes to uncertainty quantification --- 
+but the self-declared confidence is never calibrated against ground 
+truth. More recent systems including 
+TrialMatchAI~\cite{abdallah2026trialmatchai}, multimodal pipelines by 
+Callies et al.~\cite{callies2025multimodal}, and cross-modal trial-site 
+selectors extend the scope of matching but continue the pattern of 
+accuracy-only reporting.
+
+The definitive scoping review of the field, published by Chen et 
+al.~\cite{chen2025scoping} in \emph{JCO Clinical Cancer Informatics}, 
+screened 2{,}357 papers and included 24 LLM-based matching systems, 
+of which 21 were published in 2024. The review confirms that 
+\emph{none} of these systems reports calibration metrics: no ECE, no 
+Brier score, no reliability diagram, no calibration-in-the-large, and 
+no slope. This gap defines the primary methodological opportunity 
+addressed by the present thesis.
 
 % ----------------------------------------------------------------------------
 \section{Probabilistic Calibration of Classifiers}
 \label{sec:sota-calibration}
 
-\subsection{Definitions and Metrics}
-\label{subsec:sota-metrics}
+\subsection{Foundations and the Modern Miscalibration Problem}
+\label{subsec:sota-foundations}
 
-% [TODO — 1.5 pages]
-% - Perfect calibration definition
-% - Expected Calibration Error (ECE) — Guo et al. 2017 (ICML)
-% - Brier score
-% - Reliability diagrams
+Probability calibration --- the requirement that predicted 
+probabilities match empirical accuracies --- has a long history in 
+statistical prediction. Historical foundations include Platt 
+scaling~\cite{platt1999} for logistic regression outputs, isotonic 
+regression~\cite{zadrozny2002isotonic} for non-parametric monotone 
+calibration, and the systematic comparisons of Niculescu-Mizil and 
+Caruana~\cite{niculescu2005}. For decades, calibration was treated as 
+a solved problem: shallow classifiers such as logistic regression, 
+naïve Bayes, and calibrated support vector machines were well 
+calibrated after appropriate post-hoc correction.
+
+This picture changed with the rise of deep learning. Guo, Pleiss, Sun, 
+and Weinberger~\cite{guo2017calibration} showed in 2017 that modern 
+deep neural networks, despite their superior accuracy, are 
+\emph{systematically overconfident} relative to shallower architectures: 
+a network with 85\% accuracy may assign 99\% confidence to its 
+predictions, including its errors. This paper introduced the Expected 
+Calibration Error (ECE) as the standard metric for measuring 
+miscalibration in modern classifiers, and demonstrated the 
+effectiveness of temperature scaling, a single-parameter post-hoc 
+method that does not modify argmax predictions.
+
+Since 2017, the calibration literature has expanded rapidly. 
+Alternative metrics have been proposed to address specific limitations 
+of ECE: adaptive-ECE, class-wise ECE, and the more refined estimators 
+of Nixon et al.~\cite{nixon2019measuring} and Kumar, Liang, and 
+Ma~\cite{kumar2019verified}. The Brier score~\cite{brier1950} provides 
+a joint measure of calibration and sharpness. Beyond ECE, 
+distribution-free confidence intervals for calibration have been 
+studied by Gupta and Ramdas~\cite{gupta2021distributionfree}.
 
 \subsection{Clinical Importance of Calibration}
 \label{subsec:sota-clinical-calib}
 
-% [TODO — 1 page]
-% - Van Calster et al. 2019 (BMC Medicine 17:230) — threshold 0.05
-% - TRIPOD+AI (Collins et al. 2024, BMJ 385:e078378)
-% - Chen et al. 2025 scoping review on calibration in medical AI
+The clinical importance of calibration has been argued particularly 
+forcefully by Van Calster et al.~\cite{vancalster2019calibration}, 
+whose 2019 \emph{BMC Medicine} article titled ``Calibration: the 
+Achilles heel of predictive analytics'' establishes calibration as a 
+prerequisite for clinical deployment of any predictive model. Van 
+Calster and colleagues distinguish four progressive levels of 
+calibration --- calibration in the large, weak calibration, moderate 
+calibration, and strong calibration --- and argue that most published 
+clinical prediction models fail even the weakest level. They also 
+introduce the threshold ECE $< 0.05$ as a practical benchmark for 
+clinically usable calibration, which the present thesis adopts as the 
+rejection criterion for Hypothesis H1 (Section~\ref{sec:met-hypotheses}).
+
+The 2024 update of the TRIPOD guidelines, known as 
+TRIPOD+AI~\cite{collins2024tripod}, formalizes calibration as a 
+required reporting element for any AI-based clinical prediction model. 
+Under TRIPOD+AI, a paper introducing a clinical AI model must report 
+calibration curves, calibration-in-the-large, and calibration slopes; 
+failure to do so is now grounds for methodological rejection by 
+several leading medical journals. This regulatory shift makes the 
+absence of calibration reporting in LLM-based trial matching systems 
+increasingly untenable.
 
 \subsection{Recalibration Methods}
 \label{subsec:sota-recalibration}
 
-% [TODO — 1 page]
-% - Temperature scaling (Guo et al. 2017)
-% - Isotonic regression
-% - Platt scaling
-% - Beta calibration
-% - Dirichlet calibration
+Post-hoc recalibration methods apply a monotone transformation to 
+uncorrected confidences after the classifier has been trained. The 
+three methods evaluated in the present thesis --- temperature scaling, 
+isotonic regression, and Platt scaling --- represent the classical 
+choices; more elaborate methods include beta 
+calibration~\cite{kull2017beta}, Dirichlet 
+calibration~\cite{kull2019dirichlet}, and the matrix/vector scaling 
+family. Intrinsic methods, which modify the training objective itself, 
+include label smoothing~\cite{muller2019labelsmoothing} and focal 
+loss~\cite{mukhoti2020focal}. Distribution-free calibration approaches 
+combine post-hoc scaling with conformal 
+guarantees~\cite{gupta2021distributionfree}.
 
-% ----------------------------------------------------------------------------
-\section{Calibration of Large Language Models}
-\label{sec:sota-llm-calib}
-
-\subsection{The RLHF Effect on Calibration}
-\label{subsec:sota-rlhf}
-
-% [TODO — 1.5 pages]
-% KEY REFERENCE: Kadavath et al. 2022 (arXiv:2207.05221) — RLHF degrades
-% calibration in QA tasks. The gap our work fills: extension to clinical.
-
-\subsection{Calibration of Medical LLMs}
-\label{subsec:sota-medcalib}
-
-% [TODO — 1 page]
-% KEY REFERENCE: Labrak et al. 2024 (ACL Findings, arXiv:2402.10373)
-% BioMistral — the ONLY published ECE benchmark on medical LLMs, in multilingual
-% Their finding: pretrain on biomed does NOT fix calibration, but model
-% merging (DARE/TIES/SLERP) does.
-
-\subsection{Identified Gap}
-\label{subsec:sota-gap}
-
-% [TODO — 0.5 page]
-% Justify the originality of this work:
-% - No systematic RLHF audit in clinical trial matching
-% - No comparison across generalist vs medical LLMs on calibration in trial
-%   matching specifically
-
-% ----------------------------------------------------------------------------
-\section{Open-Source Medical LLMs}
-\label{sec:sota-medllms}
-
-\subsection{The Meditron Family}
-\label{subsec:sota-meditron}
-
-% [TODO — 0.5 page]
-% Chen et al. 2023, Meditron: 46K clinical guidelines + PubMed
-
-\subsection{BioMistral and Model Merges}
-\label{subsec:sota-biomistral}
-
-% [TODO — 0.5 page]
-% Labrak et al. 2024 — Mistral-Instruct + PubMed Central Open Access
-
-\subsection{Other Open-Source Medical LLMs}
-\label{subsec:sota-others}
-
-% [TODO — 1 page]
-% - Med42-v1/v2 (Christophe et al. 2024)
-% - OpenBioLLM
-% - HuatuoGPT-o1 (Chen et al. 2024)
-% - Aloe (HPAI-BSC)
-% Brief mention of others (comparison table)
-
-% ----------------------------------------------------------------------------
-\section{Positioning of This Work}
-\label{sec:sota-positioning}
-
-% [TODO — 1 page]
-% Comparative table of approaches (Aivancity recommendation)
-% Explicit statement of what this work adds:
-%   - First systematic audit combining RLHF effect + prompt effect
-%     + medical specialization on trial matching calibration
-%   - 12 configurations tested on the same protocol
-%   - Contribution beyond H1-H4: 5 original findings
-
-\begin{table}[htbp]
-    \centering
-    \caption{Comparative positioning of related works and this thesis.}
-    \label{tab:sota-comparison}
-    % [TODO: fill this table]
-    \small
-    \begin{tabular}{@{}p{2.5cm}p{2.2cm}p{1.7cm}ccc@{}}
-        \toprule
-        \textbf{Work} & \textbf{Domain} & \textbf{Models} & \textbf{RLHF} & \textbf{Calib.} & \textbf{Recalib.} \\
-        \midrule
-        Jin et al.\ 2024 & Trial matching & GPT-4 & --- & --- & --- \\
-        Kadavath 2022 & QA & Anthropic & \checkmark & \checkmark & --- \\
-        Labrak et al.\ 2024 & Med QA & BioMistral & --- & \checkmark & --- \\
-        \textbf{This work} & \textbf{Trial matching} & \textbf{6 LLMs} & \textbf{\checkmark} & \textbf{\checkmark} & \textbf{\checkmark} \\
-        \bottomrule
-    \end{tabular}
-\end{table}
+Complementary to point-estimate calibration, split conformal 
+prediction~\cite{vovk2005, angelopoulos2023conformal} produces 
+prediction sets with a guaranteed marginal coverage of $1 - \alpha$ 
+without any distributional assumption on the underlying model. The 
+guarantees hold under exchangeability of calibration and test data, 
+which is satisfied in the present study by the split protocol 
+described in Section~\ref{subsec:met-data-split}. Selective 
+classification --- the option to abstain from prediction --- has been 
+formalized by Geifman and 
+El-Yaniv~\cite{geifman2017selective, geifman2019selectivenet} through 
+risk--coverage curves, which are used in Section~\ref{sec:res-h3h4} to 
+test Hypothesis H4.
