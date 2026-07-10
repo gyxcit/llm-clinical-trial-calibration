@@ -10,86 +10,208 @@
 \section{Macro Context: AI in Healthcare}
 \label{sec:intro-macro}
 
-% [TODO — 0.5-1 page]
-% - AI transformation of healthcare
-% - The specific role of LLMs since 2022
-% - Societal stakes: efficiency, accessibility, safety, trust
+Artificial intelligence has moved from a peripheral tool to a central 
+component of many medical workflows over the past decade. The 
+transformation has been particularly rapid since 2022, driven by the 
+release of general-purpose large language models capable of processing 
+free-text clinical documentation and by the emergence of medically 
+specialized variants trained on biomedical corpora. Applications now 
+range from automated summarization of patient records to differential 
+diagnosis, from radiology report generation to the identification of 
+adverse drug interactions.
+
+This expansion carries both promise and risk. On the one hand, LLM-based 
+tools address longstanding bottlenecks in clinical practice, where the 
+volume of unstructured text and the complexity of medical reasoning 
+have historically limited the reach of algorithmic support. On the 
+other hand, the confidence that clinicians and patients place in these 
+tools depends critically on the reliability of the underlying 
+probabilistic outputs. A model that is accurate on average but 
+overconfident on the cases where it is wrong is worse than a model that 
+is less accurate but honestly uncertain: the former induces misplaced 
+trust, while the latter enables appropriate deference to human 
+judgment. This asymmetry between accuracy and reliability motivates the 
+present thesis.
 
 % ----------------------------------------------------------------------------
 \section{Micro Context: Clinical Trial Matching}
 \label{sec:intro-micro}
 
-% [TODO — 0.5-1 page]
-% - The clinical trial matching problem: what it is, why it matters
-% - Current bottleneck: manual review, low enrollment rates
-% - LLM-based approaches: TrialGPT (Jin et al. 2024) as the reference
+Among the many applications of AI in healthcare, patient matching to 
+clinical trials occupies a particularly consequential position. Clinical 
+trials are the mechanism through which new therapies are evaluated and 
+made available to patients, and their success depends on the timely 
+recruitment of suitable participants. Despite the substantial resources 
+invested in recruitment, less than $5\%$ of adult cancer patients enroll 
+in a clinical trial, and $80\%$ of trials fail to meet their recruitment 
+targets~\cite{jin2024trialgpt}. The bottleneck lies partly in the sheer 
+volume of open studies --- over $400{,}000$ trials are currently 
+registered on ClinicalTrials.gov --- and partly in the complexity of 
+their eligibility criteria, which combine numeric thresholds, medical 
+history requirements, and drug exclusions in dozens of criteria per 
+trial. Manual screening at this scale is labor-intensive and 
+error-prone.
+
+Since 2023, the release of GPT-4 and the proliferation of open-source 
+LLMs have prompted a wave of LLM-based matching systems, of which 
+TrialGPT~\cite{jin2024trialgpt} in \emph{Nature Communications} is the 
+most influential example. These systems report high accuracy on 
+per-criterion eligibility classification and are beginning to be 
+deployed in real recruitment workflows. A scoping review published in 
+2025~\cite{chen2025scoping} identified twenty-four such systems 
+published in 2024 alone. Yet the same review noted a striking common 
+feature: none of these systems reports calibration metrics. No Expected 
+Calibration Error, no Brier score, no reliability diagram, no 
+calibration-in-the-large. The probabilistic reliability of LLM-based 
+trial matching thus remains empirically undocumented at a moment when 
+the technology is transitioning from research prototype to clinical 
+deployment.
 
 % ----------------------------------------------------------------------------
 \section{Problem Statement}
 \label{sec:intro-problem}
 
-% [TODO — 0.5 page]
-% - LLMs produce eligibility scores, but ARE THESE SCORES RELIABLE?
-% - The specific problem of calibration
-% - Why calibration matters clinically (Van Calster 2019, TRIPOD+AI)
-% - The gap: no systematic audit of LLM calibration in trial matching
+The absence of calibration reporting in LLM-based clinical trial 
+matching is not a minor omission. Van Calster et 
+al.~\cite{vancalster2019calibration}, in their influential BMC Medicine 
+article, describe calibration as ``the Achilles heel of predictive 
+analytics'' and argue that calibration is a prerequisite for the 
+clinical deployment of any predictive model. The 2024 update of the 
+TRIPOD guidelines, TRIPOD+AI~\cite{collins2024tripod}, formalizes this 
+requirement: any AI-based clinical prediction model must report 
+calibration curves, calibration-in-the-large, and calibration slopes. 
+Failing to do so is grounds for methodological rejection by several 
+leading medical journals.
+
+The problem addressed in this thesis is therefore the following: 
+LLM-based patient--trial matching systems are being deployed in 
+clinical settings without any systematic audit of the probabilistic 
+reliability of their outputs. This deployment carries three specific 
+risks. First, overconfident predictions on wrong labels may direct 
+patients toward inappropriate trials, or exclude patients from trials 
+in which they would have been eligible. Second, the presence of 
+systematic biases in evasion labels --- when a model reports 
+``not enough information'' rather than committing to a decision --- may 
+be undetectable through the standard accuracy metrics used to evaluate 
+these systems. Third, the effect of common LLM post-training 
+procedures, in particular reinforcement learning from human 
+feedback~\cite{ouyang2022training}, on the calibration of medical 
+predictions remains empirically undocumented. The present thesis 
+addresses these risks through a systematic audit of twelve 
+open-source LLM configurations.
 
 % ----------------------------------------------------------------------------
 \section{Research Question and Hypotheses}
 \label{sec:intro-question}
 
-% [TODO — 0.5-1 page]
-% Main research question:
-%   "Are the eligibility scores produced by LLM-based patient-trial matching
-%    systems probabilistically reliable, and does RLHF post-training affect
-%    this reliability?"
-%
-% Pre-registered falsifiable hypotheses:
-%   H1: Current LLM pipelines are poorly calibrated (ECE > 0.05).
-%   H2: RLHF post-training degrades calibration
-%       [ECE(Instruct) > ECE(Base), permutation test with Bonferroni].
-%   H3: LLM scores exhibit ordinal validity (C-index > 0.70).
-%   H4: Selective abstention improves clinical quality
-%       [F1@80% coverage > F1@100% + 0.02].
+The main research question addressed in this work is stated as follows:
+
+\begin{quote}
+\itshape
+Are the eligibility scores produced by large language models in 
+patient--clinical trial matching probabilistically reliable, and does 
+reinforcement learning from human feedback affect this reliability?
+\end{quote}
+
+This question is decomposed into four falsifiable hypotheses, each 
+associated with a numerical rejection threshold defined prior to the 
+experimental phase:
+
+\begin{itemize}
+    \item \textbf{H1} predicts that current LLM pipelines are systematically 
+    miscalibrated, with Expected Calibration Error exceeding the clinical 
+    threshold of $0.05$.
+    \item \textbf{H2} predicts that reinforcement learning from human 
+    feedback degrades calibration, extending a finding of Kadavath et 
+    al.~\cite{kadavath2022know} from general question answering to the 
+    clinical domain. This is the central pre-registered contribution of 
+    the thesis.
+    \item \textbf{H3} predicts that model scores respect the ordinal 
+    structure of the eligibility labels, with a concordance index above 
+    $0.70$.
+    \item \textbf{H4} predicts that confidence-based selective 
+    classification improves macro-F1 by at least $0.02$ when coverage is 
+    restricted to the top $80\%$ most confident cases.
+\end{itemize}
+
+The pre-registration of these hypotheses, together with the fixed 
+rejection thresholds, aligns the study with the reporting standards of 
+TRIPOD+AI~\cite{collins2024tripod} and protects the analysis against 
+post-hoc adjustment of the criteria to fit the observed results.
 
 % ----------------------------------------------------------------------------
 \section{Contributions}
 \label{sec:intro-contributions}
 
-% [TODO — 0.5 page]
-% List the 9 original contributions:
-%   1. Systematic calibration audit of 12 LLM configurations, with
-%      cross-validation and comparison against naïve baselines
-%   2. Empirical demonstration that RLHF significantly degrades calibration
-%      across two independent model families (H2, main pre-registered
-%      contribution, extending Kadavath 2022 to the clinical domain)
-%   3. The enriched-prompt paradox: expert prompts degrade calibration in
-%      5 out of 6 models
-%   4. Systematic inclusion/exclusion asymmetry in LLM predictions
-%   5. Model-specific evasion biases: GPT-4 over-uses "not applicable",
-%      open-source LLMs over-use "not enough information"
-%   6. Post-hoc isotonic recalibration brings 11 of 12 configurations below
-%      the calibration threshold, robustly across cross-validation folds
-%   7. Discovery of mode collapse: 5 of 12 configurations predict "not
-%      enough information" in more than 97% of cases
-%   8. Structural nature of mode collapse: forcing decisive labels does not
-%      restore reasoning
-%   9. Complete failure of medical LLMs on truly discriminative cases,
-%      hidden by aggregate metrics
+The thesis contributes to the calibration and clinical AI communities 
+along three complementary directions.
+
+The first contribution is methodological: the study provides a 
+reusable protocol for auditing the calibration of LLM-based clinical 
+prediction pipelines. The protocol combines a pre-registered 
+hypothesis-testing framework, a log-probability scoring pipeline that 
+produces well-defined probability distributions, a double-prompt 
+design that treats prompt engineering as an experimental variable, and 
+a composite utility score that integrates calibration, discrimination, 
+and prediction diversity. Every design element is documented in 
+Chapter~\ref{chap:methodology} and archived for independent 
+reproduction (Appendix~\ref{app:code}).
+
+The second contribution is confirmatory: the study tests the 
+pre-registered hypothesis that RLHF degrades calibration on two 
+independent model families (Mistral-7B and Llama-3.1-8B) and two 
+independent prompt designs. All four permutation tests reject the null 
+hypothesis at Bonferroni-corrected significance ($p < 0.003$), 
+extending to the clinical domain a finding previously documented only 
+in general question answering.
+
+The third contribution is exploratory: the study documents nine 
+original findings that emerged from the deeper analysis. Three of 
+these deserve particular emphasis. The enriched-prompt paradox (F3) 
+shows that expert prompt engineering degrades calibration in five of 
+six models. Mode collapse (F7 and F8) affects five of the twelve 
+configurations, which concentrate more than $97\%$ of their 
+predictions on a single label, and this collapse persists under 
+constrained decoding. Complete failure on truly discriminative cases 
+(F9) reveals that the two medical LLMs tested achieve accuracy at or 
+below $0.4\%$ on the $238$ pairs requiring a genuine clinical decision 
+--- despite their apparent superiority on global accuracy. These 
+three findings jointly demonstrate that global accuracy and ECE, 
+taken in isolation, are insufficient to characterize the clinical 
+usability of an LLM classifier.
 
 % ----------------------------------------------------------------------------
 \section{Structure of the Thesis}
 \label{sec:intro-structure}
 
-% [TODO — 0.5 page]
-% One sentence per chapter:
-%   Chapter 2 reviews the state of the art on clinical trial matching,
-%     LLM calibration, and the effect of RLHF on model behavior.
-%   Chapter 3 describes the project context, the dataset used, and the
-%     scientific constraints.
-%   Chapter 4 details the experimental methodology, including model
-%     selection, prompt design, metrics, and statistical analysis plan.
-%   Chapter 5 presents the results structured around the four
-%     pre-registered hypotheses and five original findings.
-%   Chapter 6 discusses the implications, limitations, and future work,
-%     including a proposed multi-agent debate extension.
+The remainder of this thesis is organized as follows.
+
+Chapter~\ref{chap:sota} reviews the state of the art at the 
+intersection of clinical trial matching, probabilistic calibration, 
+and medical large language models, and identifies the specific gap 
+that motivates this work.
+
+Chapter~\ref{chap:context} describes the academic framework of the 
+project, the origin and evolution of the research question, the 
+TrialGPT-Criterion-Annotations benchmark used as the empirical 
+foundation, and the ethical and computational constraints that shape 
+the study.
+
+Chapter~\ref{chap:methodology} presents the experimental design in 
+full detail: the four pre-registered hypotheses, the data preparation, 
+the model and prompt selection, the log-probability scoring pipeline, 
+the evaluation metrics, and the statistical analysis plan.
+
+Chapter~\ref{chap:results} reports the empirical findings organized 
+around the four pre-registered hypotheses and the nine original 
+findings. The chapter begins with the pre-LLM audit of the dataset, 
+proceeds through the calibration audit and the RLHF effect, and closes 
+with the composite utility score that synthesizes the twelve 
+configurations into a single clinical ranking.
+
+Chapter~\ref{chap:conclusion} summarizes the outcomes, answers the 
+research question, discusses the limitations of the study, and 
+proposes four directions for future work, including external 
+validation on independent datasets, multi-agent adversarial debate as 
+a mitigation for mode collapse, and mechanistic investigation of the 
+origin of mode collapse in medical LLMs.

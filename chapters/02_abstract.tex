@@ -1,53 +1,52 @@
 % ============================================================================
-%   ABSTRACT (English)
-%   Aivancity: 250-300 words, at least 5 keywords, self-contained, no citations
-%   Structure: context → problem → method → results → conclusion
+%   ABSTRACT (English) — Aivancity: 250-300 words, ≥5 keywords, self-contained
 % ============================================================================
 
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
 \markboth{Abstract}{}
 
-% --- DRAFT ABSTRACT — refine at the very end of writing ---
+Patient matching to clinical trials is a bottleneck in translational 
+medicine, and recent large language model (LLM) systems such as TrialGPT 
+aim to automate the assessment of patient eligibility against inclusion 
+and exclusion criteria. Beyond raw accuracy, however, the probabilistic 
+reliability of these systems has not been systematically audited. A 
+recent scoping review of twenty-four LLM-based matching systems 
+identified zero that report calibration metrics. This omission is 
+consequential: an overconfident model that misclassifies with high 
+confidence is clinically worse than an accurate but honestly uncertain 
+one.
 
-% CONTEXT: Clinical trial matching is a bottleneck in medical research, and
-% recent LLM-based systems (TrialGPT) aim to automate the assessment of
-% patient eligibility against inclusion/exclusion criteria.
+We conducted the first systematic calibration audit of open-source LLMs 
+in this domain. Twelve configurations (six models crossed with two 
+prompt variants) were evaluated on the 1{,}015 patient--criterion pairs 
+of TrialGPT-Criterion-Annotations. Four pre-registered hypotheses were 
+tested with permutation tests and Bonferroni correction, and stability 
+was verified through five-fold cross-validation and comparison to 
+naive baselines. Probability distributions were extracted through 
+direct log-probability scoring rather than free-form generation.
 
-% PROBLEM: Beyond raw accuracy, the probabilistic reliability (calibration)
-% of these systems has not been systematically audited, particularly across
-% base vs.\ RLHF-aligned models, and across generalist vs.\ medically
-% specialized architectures. Moreover, aggregate metrics may hide degenerate
-% behaviors on the cases that matter most clinically.
+All twelve configurations exhibit Expected Calibration Error above the 
+clinical threshold of $0.05$, with values ranging from $0.124$ to 
+$0.602$. Reinforcement learning from human feedback significantly 
+degrades calibration on both the Mistral-7B and Llama-3.1-8B families 
+(all four tests, $p < 0.003$). Three novel findings emerge from deeper 
+analysis: enriched expert prompts degrade calibration in five of six 
+models; five configurations exhibit mode collapse, predicting a single 
+label in more than $97\%$ of cases; on the $238$ pairs requiring 
+truly discriminative decisions, both medical LLMs tested (Meditron and 
+BioMistral) achieve accuracy at or below $0.4\%$. Post-hoc isotonic 
+recalibration brings eleven of twelve configurations below the 
+calibration threshold but cannot restore reasoning to collapsed models.
 
-% METHOD: We evaluated 12 configurations (6 open-source LLMs $\times$ 2 prompt
-% variants) on 1,015 patient-criterion pairs from TrialGPT-Criterion-Annotations,
-% computing Expected Calibration Error (ECE), Brier score, C-index, macro-F1,
-% and a composite utility score combining calibration, discrimination, and
-% prediction diversity. Four pre-registered hypotheses were tested with
-% permutation tests and Bonferroni correction. Stability was verified with
-% 5-fold cross-validation and comparison to naïve baselines.
-
-% RESULTS: All 12 configurations exhibit ECE well above the well-calibrated
-% threshold (0.05, Van Calster 2019), with values ranging from 0.12 to 0.63.
-% RLHF significantly degrades calibration in both Mistral-7B and Llama-3.1-8B
-% families ($p < 0.003$ after Bonferroni). Two novel findings emerge from
-% deeper analysis: (i) five of the twelve configurations exhibit
-% \emph{mode collapse}, predicting ``not enough information'' in more than 97\%
-% of cases; (ii) on the 23\% of cases requiring a truly discriminative
-% decision, both medical LLMs (Meditron, BioMistral) achieve 0\% accuracy
-% despite their apparent superiority on global metrics. Isotonic post-hoc
-% recalibration brings 11 of 12 configurations below the calibration threshold
-% without retraining.
-
-% CONCLUSION: Aggregate calibration and accuracy metrics can mask complete
-% failure of open-source medical LLMs on clinically decisive cases. A
-% responsible evaluation protocol must combine calibration, prediction
-% diversity, and stratified analysis by case difficulty.
+Aggregate calibration and accuracy metrics can mask complete failure of 
+open-source medical LLMs on clinically decisive cases. A responsible 
+evaluation protocol must combine calibration, prediction diversity, and 
+stratified analysis by case difficulty.
 
 \vspace{0.5cm}
-\noindent\textbf{Keywords:} large language models, calibration, clinical trial
-matching, RLHF, medical AI, mode collapse, expected calibration error,
-conformal prediction
+\noindent\textbf{Keywords:} large language models, calibration, 
+clinical trial matching, RLHF, medical AI, mode collapse, expected 
+calibration error.
 
 \cleardoublepage

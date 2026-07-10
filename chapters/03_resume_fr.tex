@@ -8,50 +8,54 @@
 
 \selectlanguage{french}
 
-% --- BROUILLON — à affiner en fin de rédaction ---
+L'appariement patient--essai clinique est un goulot d'étranglement de 
+la recherche médicale, et les systèmes récents fondés sur les grands 
+modèles de langage (LLM) tels que TrialGPT visent à automatiser 
+l'évaluation de l'éligibilité des patients face aux critères 
+d'inclusion et d'exclusion. Au-delà de la précision brute, la 
+fiabilité probabiliste de ces systèmes n'a cependant pas fait l'objet 
+d'un audit systématique. Une revue de portée récente portant sur 
+vingt-quatre systèmes LLM d'appariement n'en identifie aucun qui 
+rapporte des métriques de calibration. Cette omission est lourde de 
+conséquences : un modèle sur-confiant qui se trompe avec certitude 
+est cliniquement pire qu'un modèle moins précis mais honnêtement 
+incertain.
 
-% CONTEXTE : L'appariement patient--essai clinique est un goulot d'étranglement
-% de la recherche médicale, et les systèmes récents fondés sur les LLM
-% (TrialGPT) visent à automatiser l'évaluation de l'éligibilité des patients
-% face aux critères d'inclusion et d'exclusion.
+Nous avons mené le premier audit systématique de la calibration des 
+LLM open source dans ce domaine. Douze configurations (six modèles 
+croisés avec deux variantes de prompt) ont été évaluées sur les 
+1\,015 paires patient--critère de TrialGPT-Criterion-Annotations. 
+Quatre hypothèses pré-enregistrées ont été testées par tests de 
+permutation avec correction de Bonferroni, et la stabilité a été 
+vérifiée par validation croisée 5-fold et comparaison à des baselines 
+naïves. Les distributions de probabilité sont extraites par scoring 
+direct des log-probabilités plutôt que par génération libre.
 
-% PROBLÈME : Au-delà de la précision brute, la fiabilité probabiliste
-% (calibration) de ces systèmes n'a pas fait l'objet d'un audit systématique,
-% en particulier entre modèles de base et modèles alignés par RLHF, et entre
-% architectures généralistes et médicales. De plus, les métriques agrégées
-% peuvent masquer des comportements dégénérés sur les cas les plus décisifs
-% cliniquement.
+Les douze configurations présentent un ECE au-dessus du seuil 
+clinique de $0{,}05$, avec des valeurs entre $0{,}124$ et $0{,}602$. 
+L'apprentissage par renforcement avec rétroaction humaine (RLHF) 
+dégrade significativement la calibration sur les familles Mistral-7B 
+et Llama-3.1-8B (quatre tests, $p < 0{,}003$). Trois découvertes 
+originales émergent de l'analyse approfondie : les prompts enrichis 
+dégradent la calibration dans cinq modèles sur six ; cinq 
+configurations présentent un effondrement de mode, prédisant un 
+label unique dans plus de $97\%$ des cas ; sur les $238$ paires 
+nécessitant une décision véritablement discriminante, les deux LLM 
+médicaux testés (Meditron et BioMistral) atteignent une exactitude 
+inférieure ou égale à $0{,}4\%$. La recalibration isotonic post-hoc 
+ramène onze des douze configurations sous le seuil de calibration 
+mais ne peut pas restaurer le raisonnement des modèles effondrés.
 
-% MÉTHODE : Nous avons évalué 12 configurations (6 LLM open source $\times$ 2
-% variantes de prompt) sur 1\,015 paires patient-critère issues de
-% TrialGPT-Criterion-Annotations, en calculant l'Expected Calibration Error
-% (ECE), le score de Brier, le C-index, le F1 macro et un score composite
-% d'utilité clinique combinant calibration, discrimination et diversité
-% prédictive. Quatre hypothèses pré-enregistrées ont été testées par
-% permutation avec correction de Bonferroni, la stabilité étant vérifiée par
-% validation croisée 5-fold et comparaison à des baselines naïves.
-
-% RÉSULTATS : Les 12 configurations présentent un ECE largement au-dessus du
-% seuil de bonne calibration (0,05, Van Calster 2019), entre 0,12 et 0,63. Le
-% RLHF dégrade significativement la calibration sur les familles Mistral-7B et
-% Llama-3.1-8B ($p < 0,003$ après Bonferroni). Deux découvertes originales
-% émergent d'une analyse approfondie : (i) cinq configurations sur douze
-% souffrent d'un \emph{mode collapse}, prédisant « not enough information » dans
-% plus de 97\,\% des cas ; (ii) sur les 23\,\% de cas exigeant une véritable
-% décision, les deux LLM médicaux (Meditron, BioMistral) atteignent 0\,\%
-% d'exactitude malgré leur supériorité apparente sur les métriques globales.
-% La recalibration isotonic post-hoc ramène 11 modèles sur 12 sous le seuil de
-% bonne calibration sans ré-entraînement.
-
-% CONCLUSION : Les métriques agrégées de calibration et d'exactitude peuvent
-% masquer un échec complet des LLM médicaux open source sur les cas
-% cliniquement décisifs. Un protocole d'évaluation responsable doit combiner
-% calibration, diversité prédictive et analyse stratifiée par difficulté de cas.
+Les métriques agrégées de calibration et d'exactitude peuvent 
+masquer un échec complet des LLM médicaux open source sur les cas 
+cliniquement décisifs. Un protocole d'évaluation responsable doit 
+combiner calibration, diversité prédictive et analyse stratifiée par 
+difficulté de cas.
 
 \vspace{0.5cm}
-\noindent\textbf{Mots-clés :} grands modèles de langage, calibration,
-appariement d'essais cliniques, RLHF, IA médicale, mode collapse,
-expected calibration error, prédiction conforme
+\noindent\textbf{Mots-clés :} grands modèles de langage, calibration, 
+appariement d'essais cliniques, RLHF, IA médicale, mode collapse, 
+expected calibration error.
 
 \selectlanguage{english}
 \cleardoublepage

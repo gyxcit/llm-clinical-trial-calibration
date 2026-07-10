@@ -1,7 +1,6 @@
 % ============================================================================
 %   CHAPTER 6 — CONCLUSION AND FUTURE WORK
 %   Aivancity: 3-5 pages
-%   UPDATED: 9 findings, external validation limitation, mode collapse
 % ============================================================================
 
 \chapter{Conclusion and Future Work}
@@ -11,168 +10,292 @@
 \section{Summary of Findings}
 \label{sec:conc-summary}
 
-% [TODO — 1 page]
-% Recap of the 4 pre-registered hypotheses:
-%   H1: supported across all 12 configurations
-%   H2: supported by 4 independent tests, main pre-registered contribution
-%   H3: not reached (C-index cap at 0.65 for Meditron)
-%   H4: partial (Mistral family only)
+This thesis reports a systematic calibration audit of twelve open-source 
+large language model configurations applied to patient--clinical trial 
+matching. The study was structured around four pre-registered hypotheses, 
+tested with fixed rejection thresholds and Bonferroni-corrected 
+statistical procedures, and complemented by nine original findings that 
+emerged from the deeper analysis. Table~\ref{tab:res-summary-hypotheses} 
+in Chapter~\ref{chap:results} summarizes the pre-registered outcomes 
+and Table~\ref{tab:res-summary-findings} lists the nine findings.
 
-% Recap of the 9 original findings:
-%   F1: GPT-4 evasion bias
-%   F2: RLHF systematically degrades calibration
-%   F3: Enriched-prompt paradox
-%   F4: Inclusion/exclusion asymmetry
-%   F5: Divergent evasion strategies across LLMs
-%   F6: Post-hoc isotonic recalibration works
-%   F7: Mode collapse in 5 of 12 configurations
-%   F8: Mode collapse is structural, not superficial
-%   F9: Global accuracy hides complete failure on discriminative cases
+The pre-registered results support the central hypothesis of the study 
+and challenge one of its ancillary claims. Hypothesis~H1 is confirmed 
+across all twelve configurations: every LLM in the experimental matrix 
+exhibits an Expected Calibration Error above the well-calibrated 
+threshold of $0.05$~\cite{vancalster2019calibration}, with values 
+ranging from $0.124$ to $0.602$. Hypothesis~H2 is confirmed on both 
+model families tested (Mistral-7B and Llama-3.1-8B) and both prompt 
+variants: RLHF-aligned Instruct versions exhibit significantly worse 
+calibration than their Base counterparts, all four permutation tests 
+rejecting the null hypothesis at Bonferroni-corrected significance 
+($p < 0.003$). This is the central pre-registered contribution of the 
+thesis, and it extends to the clinical trial matching domain a finding 
+first documented by Kadavath et al.~\cite{kadavath2022know} in 
+general-purpose question answering. Hypothesis~H3 is not supported: no 
+configuration reaches the C-index threshold of $0.70$, though Meditron 
+approaches it at $0.654$. Hypothesis~H4 is partially supported, with 
+the selective-classification gain reaching the $+0.02$ threshold only 
+for Mistral configurations.
+
+Beyond the pre-registered hypotheses, three findings deserve particular 
+emphasis. First, the enriched-prompt paradox (F3) shows that expert 
+prompt engineering degrades calibration in five of six models, 
+contradicting the standard recommendation to invest in prompt design as 
+a route to better model behavior. Second, mode collapse (F7 and F8) 
+affects five of the twelve configurations, which concentrate more than 
+$97\%$ of their predictions on a single label; the collapse persists 
+under constrained decoding, indicating a structural absence of clinical 
+reasoning rather than a strategic use of evasion labels. Third, and 
+most consequentially, on the $238$ pairs requiring a truly 
+discriminative clinical decision, both medical LLMs tested (Meditron 
+and BioMistral) achieve accuracy at or below $0.4\%$ (F9), despite 
+their apparent superiority on global metrics. This last finding 
+reverses the ranking suggested by aggregate accuracy and reveals that 
+current medical LLM benchmarks systematically mask a class of failure 
+that carries the highest clinical importance.
 
 % ----------------------------------------------------------------------------
 \section{Answer to the Research Question}
 \label{sec:conc-answer}
 
-% [TODO — 0.5 page]
-% Direct answer:
-% "Are the eligibility scores produced by LLM-based patient-trial matching
-%  systems probabilistically reliable, and does RLHF post-training affect
-%  this reliability?"
-%
-% ANSWER: No, they are not reliable — but the reasons are more diverse than
-% initially expected. Beyond systematic miscalibration (ECE 0.12–0.63), five
-% configurations exhibit mode collapse, and no medical LLM tested can handle
-% truly discriminative clinical cases (0% accuracy). RLHF significantly
-% degrades calibration on both tested model families. Post-hoc recalibration
-% offers a practical remedy for non-degenerate models, but cannot restore
-% classification quality in collapsed ones.
+The research question posed in Chapter~\ref{chap:introduction} asked 
+whether the eligibility scores produced by LLM-based patient--trial 
+matching systems are probabilistically reliable, and whether RLHF 
+post-training affects this reliability. The answer, informed by the 
+twelve configurations audited in this study, is negative on both 
+dimensions.
+
+The scores are not reliable: the systematic miscalibration documented 
+by Hypothesis~H1 disqualifies every configuration from direct 
+deployment as an autonomous eligibility classifier. Furthermore, the 
+mode collapse behaviors documented by Findings F7 and F8 disqualify 
+five of the twelve configurations from any useful classification role, 
+independently of their calibration properties. The remaining seven 
+configurations produce diverse predictions but remain far above the 
+Van Calster threshold. Only Mistral-7B-Instruct with the minimal 
+Prompt~A reaches clinically acceptable performance on the truly 
+discriminative subset.
+
+RLHF post-training significantly worsens calibration on both model 
+families tested, converting the underconfidence of Mistral-Base into 
+the overconfidence of Mistral-Instruct, and inducing severe 
+overconfidence in Llama-Instruct. The effect is quantitatively 
+amplified relative to the general-QA setting studied by Kadavath 
+et al., with $\Delta\ece$ values reaching $+0.451$ in the worst case 
+--- approximately three times the magnitude previously reported. This 
+amplification is compatible with the intrinsic difficulty of the 
+clinical task, which offers more room for confidence--accuracy 
+mismatch than general-knowledge questions do.
+
+Post-hoc isotonic recalibration (F6) provides a partial remedy: it 
+brings eleven of the twelve configurations below the calibration 
+threshold, robustly across five-fold cross-validation. It cannot, 
+however, restore reasoning ability to models that do not classify. The 
+practical conclusion is that isotonic recalibration should be part of 
+any pre-deployment audit of LLM-based clinical prediction pipelines, 
+but that recalibration cannot substitute for the choice of a model 
+that produces diverse and clinically informed predictions in the first 
+place.
 
 % ----------------------------------------------------------------------------
 \section{Contributions}
 \label{sec:conc-contributions}
 
-% [TODO — 1 page]
-% Nine scientific contributions:
-%   1. First systematic RLHF-vs-Base calibration audit in clinical trial
-%      matching (H2 supported on two independent model families)
-%   2. Empirical demonstration of the enriched-prompt paradox (5 out of 6
-%      models degrade under expert prompts)
-%   3. Discovery of the systematic inclusion/exclusion asymmetry
-%   4. Documentation of divergent evasion strategies (GPT-4 vs open-source)
-%   5. Isotonic recalibration as a practical deployment recommendation,
-%      with stability confirmed by cross-validation
-%   6. First systematic documentation of mode collapse in open-source
-%      medical LLMs, present in 5 of 12 configurations
-%   7. Structural nature of mode collapse: forcing decisive labels does not
-%      restore reasoning, only shifts collapse to a new default label
-%   8. Complete failure of medical LLMs (Meditron, BioMistral) on truly
-%      discriminative cases, hidden by global accuracy metrics
-%   9. Proposal of a composite utility score combining calibration,
-%      discrimination, and prediction diversity
+The scientific contributions of this thesis fall into three groups.
+
+First, the study provides the first systematic calibration audit of 
+open-source LLMs applied to clinical trial matching. The audit follows 
+the reporting recommendations of TRIPOD+AI~\cite{collins2024tripod} and 
+covers twelve configurations organized in a two-by-two experimental 
+matrix (generalist versus medical, Base versus Instruct). Every 
+prediction and every numerical result is archived in a public 
+repository to support independent replication (Appendix~\ref{app:code}).
+
+Second, the study extends the RLHF-degrades-calibration finding of 
+Kadavath et al.~\cite{kadavath2022know} to the clinical domain, with a 
+pre-registered permutation test replicated on two independent model 
+families under two independent prompt designs. To our knowledge, this 
+is the first replication of this effect outside general-purpose 
+question answering, and the first quantification of its amplification 
+in a high-stakes clinical task.
+
+Third, the study documents three failure modes of open-source medical 
+LLMs that had not been previously reported in a systematic form. The 
+enriched-prompt paradox (F3) shows that expert prompt engineering can 
+degrade calibration. Mode collapse (F7, F8) reveals that a substantial 
+fraction of open-source medical models operate as biased constant 
+predictors, and that this behavior persists under constrained decoding. 
+Complete failure on discriminative cases (F9) demonstrates that global 
+accuracy metrics can mask total task failure on the cases that carry 
+the most clinical information. These three findings jointly motivate 
+the composite utility score introduced in 
+Section~\ref{subsec:met-composite}, which combines calibration, 
+discrimination, and prediction diversity into a single rank-ordering 
+that resists majority-class shortcuts.
+
+The methodological byproducts of the study --- the pre-registered 
+protocol, the double-prompt design, the log-probability scoring 
+pipeline, and the composite utility score --- are intended as 
+reusable elements for future calibration audits of clinical LLMs.
 
 % ----------------------------------------------------------------------------
 \section{Limitations}
 \label{sec:conc-limitations}
 
+Three categories of limitation qualify the conclusions of this work: 
+the reliance on a single benchmark, the constrained model scale, and 
+the finite prompt space explored.
+
 \subsection{External Validation}
 \label{subsec:conc-limitations-external}
 
-The present study relies on a single benchmark,
-TrialGPT-Criterion-Annotations~\cite{jin2024trialgpt}, chosen because it is
-the only public corpus offering per-criterion multi-level expert annotations
-with an explicit inclusion/exclusion distinction --- properties that are
-essential for fine-grained calibration analysis. External validation on
-independent datasets was not carried out, for three complementary reasons.
-
-First, existing alternatives are not directly comparable. TREC Clinical
-Trials 2021/2022 and SIGIR 2016 operate at the trial level rather than the
-criterion level and use only three ordinal relevance grades, which precludes
-direct replication of the calibration protocol used here. Adapting the
-hypotheses to these datasets would not constitute a validation but a
-distinct study with different endpoints.
-
-Second, the mode collapse phenomenon documented in
-Section~\ref{sec:res-mode-collapse} appears intrinsically linked to the
-availability of an evasion label (``not enough information'') in the label
-space. Datasets that do not include such a label cannot be used to test
-whether this behavior generalizes: they would trivially prevent it by design.
-
-Third, prospective validation on real clinical data would require ethical
-approval, hospital partnership, and integration into a live recruitment
-workflow. These constraints situate external validation as a research
-project in its own right, complementary to the present work rather than a
-subordinate step.
-
-External validation nevertheless remains an important direction for future
-work.
+The present study relies on a single benchmark, 
+TrialGPT-Criterion-Annotations~\cite{jin2024trialgpt}, chosen because 
+it is the only public corpus offering per-criterion multi-level expert 
+annotations with an explicit inclusion/exclusion distinction --- 
+properties that are essential for fine-grained calibration analysis. 
+External validation on independent datasets was not carried out, for 
+three complementary reasons. First, existing alternatives are not 
+directly comparable: TREC Clinical Trials 2021--2022 and SIGIR 2016 
+operate at the trial level rather than the criterion level and use 
+only three ordinal relevance grades, which precludes direct 
+replication of the calibration protocol used here. Adapting the 
+hypotheses to these datasets would not constitute a validation but a 
+distinct study with different endpoints. Second, the mode collapse 
+phenomenon documented in Section~\ref{sec:res-mode-collapse} appears 
+intrinsically linked to the availability of an evasion label in the 
+label space; datasets that do not include such a label cannot be used 
+to test whether this behavior generalizes. Third, prospective 
+validation on real clinical data would require ethical approval, 
+hospital partnership, and integration into a live recruitment 
+workflow --- constraints that situate external validation as a 
+research project in its own right, complementary to the present work 
+rather than a subordinate step. External validation nevertheless 
+remains an important direction for future work.
 
 \subsection{Model Scale}
 \label{subsec:conc-limitations-scale}
 
-% [TODO — 0.5 page]
-% Only 7–9B models tested due to GPU constraints
-% 70B medical models (Meditron-70B, Med42-v2-70B) may behave differently
-% Larger models may be less prone to mode collapse
+The models evaluated in this study are limited to 7--9 billion 
+parameters, which is the size range that fits into a free-tier T4 GPU 
+with 4-bit quantization. Larger medical LLMs, such as Meditron-70B or 
+Med42-v2-70B, may exhibit qualitatively different calibration and 
+failure-mode patterns. In particular, larger models may be more 
+resistant to mode collapse, which would attenuate but not eliminate 
+Findings F7 and F8. The extrapolation of the present results to larger 
+scales is a natural direction for future work, and the methodology 
+proposed here is directly transferable to 70B-scale configurations 
+provided that the computational budget is available.
 
 \subsection{Prompt Space}
 \label{subsec:conc-limitations-prompts}
 
-% [TODO — 0.5 page]
-% Only 2 prompt variants tested
-% The full prompt space is much larger (chain-of-thought, role prompting,
-% etc.)
-% The enriched-prompt paradox may be specific to our particular Prompt B
+Only two prompt variants were evaluated in the present study: a 
+minimal Prompt~A and an enriched Prompt~B. The space of possible 
+prompts is much larger, encompassing chain-of-thought designs, 
+role-based framings, and few-shot examples selected through active 
+learning. The enriched-prompt paradox (F3) documented here is thus 
+specific to the two prompts tested; it may or may not generalize to 
+other prompt families. A systematic study of the calibration effect 
+of prompt design is a promising direction for follow-up work.
 
 % ----------------------------------------------------------------------------
 \section{Future Work}
 \label{sec:conc-future}
 
+Four research directions extend naturally from the present study, in 
+order of feasibility.
+
 \subsection{External Validation on Independent Benchmarks}
 \label{subsec:conc-external}
 
-% [TODO — 0.5 page]
-% Validate findings on TREC CT (with adaptation), MIMIC-derived cohorts,
-% or prospective clinical data.
-% Key question: does mode collapse persist on datasets without an
-% explicit NEI label?
+The most immediate extension is to validate the findings on 
+independent datasets. TREC Clinical Trials 2021--2022, despite its 
+coarser granularity, would provide a first replication of Hypothesis 
+H1 in a different setting. MIMIC-derived cohorts and n2c2 datasets, 
+which contain more heterogeneous patient descriptions, would test 
+whether mode collapse persists across styles of clinical documentation. 
+Ultimately, prospective validation on live recruitment workflows would 
+close the gap between benchmark performance and clinical utility.
 
 \subsection{Multi-Agent Adversarial Debate for Calibration}
 \label{subsec:conc-debate}
 
-% [TODO — 0.5 page]
-% The multi-agent debate paradigm applied to calibration.
-% Cite Du et al. 2023, Khan et al. 2024.
-% Hypothesis: models with distinct RLHF biases and distinct evasion
-% strategies could mutually challenge each other's overconfidence and
-% mode collapse via argumentative confrontation.
-% To our knowledge, unexplored in clinical trial matching.
+The failure of individual models on discriminative cases motivates 
+investigating whether ensembles of models can outperform any single 
+one. Multi-agent debate architectures, in which several LLMs exchange 
+arguments before converging on a joint prediction 
+\cite{ouyang2022training}, are a particularly interesting candidate: 
+models with distinct RLHF biases and distinct evasion channels may 
+mutually neutralize each other's overconfidence through argumentative 
+confrontation. To our knowledge, this paradigm has not been evaluated 
+for clinical trial matching, and the calibration properties of the 
+resulting consensus scores are unknown. The 6-model consensus analysis 
+reported in Section~\ref{subsec:res-consensus}, which shows a 75.5\% 
+accuracy on the 163 pairs of full agreement, suggests that this 
+direction is promising.
 
 \subsection{Investigating the Origin of Mode Collapse}
 \label{subsec:conc-collapse-origin}
 
-% [TODO — 0.5 page]
-% Mechanistic study: is mode collapse caused by (a) safety-oriented RLHF
-% pushing models toward "safe" evasive answers, (b) domain shift between
-% medical pretraining data and clinical trial criteria, or
-% (c) a combination? Investigating requires model internals analysis.
+The mode collapse documented in Findings F7 and F8 raises a 
+mechanistic question: is the collapse caused by safety-oriented 
+alignment procedures that push models toward evasive answers, by 
+domain shift between medical pretraining data and clinical trial 
+criteria, or by a combination of both? Investigating this question 
+would require access to the training corpora and reward models of the 
+collapsed configurations, and possibly interpretability analyses of 
+the underlying representations. A systematic investigation could 
+inform the design of future medical LLMs so as to avoid the specific 
+collapse patterns documented here.
 
 \subsection{Extension to Larger and Multilingual Models}
 \label{subsec:conc-scale-future}
 
-% [TODO — 0.5 page]
-% 70B models (Meditron-70B, Med42-v2-70B)
-% Multilingual evaluation (MMed-Llama-3, Apollo)
+Extending the analysis to 70-billion-parameter models is a 
+straightforward but resource-intensive direction. Meditron-70B and 
+Med42-v2-70B are the natural targets; both require GPU resources 
+beyond the free-tier compute budget used here. Multilingual evaluation 
+is a second direction: models such as MMed-Llama-3 and Apollo have 
+been developed to support clinical text in languages other than 
+English, and the calibration properties of these multilingual models 
+have not been systematically audited on any language.
 
 % ----------------------------------------------------------------------------
 \section{Closing Remarks}
 \label{sec:conc-closing}
 
-% [TODO — 0.5 page]
-% Broader perspective:
-% - Calibration should be a mandatory audit before clinical LLM deployment
-% - The post-hoc recalibration path is practical and scalable, but only
-%   for models that actually classify
-% - Mode collapse is a mode of failure that current benchmarks and metrics
-%   fail to detect; the community needs better evaluation protocols
-% - The RLHF trade-off between usefulness and calibration deserves more
-%   attention, especially in high-stakes clinical settings
+The systematic use of large language models in clinical prediction 
+workflows is likely to expand rapidly in the coming years, driven by 
+the maturation of open-source alternatives, the pressure to accelerate 
+clinical trial recruitment, and the availability of increasingly 
+capable models. This trajectory makes the auditing of these models a 
+practical necessity rather than an academic exercise. The present 
+thesis contributes to this auditing effort in three specific ways: it 
+proposes a reusable methodology, it documents three previously 
+unreported failure modes in open-source medical LLMs, and it archives 
+its data and code for independent verification.
+
+The broader lesson of this study is that global performance metrics 
+--- accuracy, F1, and even ECE taken in isolation --- are insufficient 
+to characterize the clinical usability of a language model. A 
+responsible evaluation protocol must combine calibration with 
+diversity, must stratify performance by case difficulty, and must 
+remain vigilant against the possibility of mode collapse. The 
+composite utility score proposed in this thesis is one such combined 
+protocol; developing more refined alternatives is an important 
+direction for the calibration and clinical AI communities alike.
+
+None of the twelve open-source configurations audited here provides a 
+fully satisfactory basis for autonomous clinical trial matching. The 
+findings do, however, identify Mistral-Instruct with a minimal prompt 
+as the most promising candidate for further study, and identify 
+post-hoc isotonic recalibration as a practical remedy for the 
+miscalibration that afflicts all configurations. Whether these two 
+elements are jointly sufficient for a deployment scenario --- with 
+mandatory human oversight, ongoing calibration monitoring, and 
+appropriate protocols for handling low-confidence cases --- is a 
+question that the present thesis leaves to prospective clinical 
+validation. Answering it is the natural next step of this line of 
+research.

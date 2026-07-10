@@ -4,156 +4,156 @@
 \contentsline {chapter}{Résumé}{iii}{chapter*.3}%
 \babel@toc {french}{}\relax 
 \babel@toc {english}{}\relax 
-\contentsline {chapter}{List of Abbreviations}{xiii}{chapter*.7}%
+\contentsline {chapter}{List of Abbreviations}{xiv}{chapter*.7}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Macro Context: AI in Healthcare}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Micro Context: Clinical Trial Matching}{1}{section.1.2}%
-\contentsline {section}{\numberline {1.3}Problem Statement}{1}{section.1.3}%
-\contentsline {section}{\numberline {1.4}Research Question and Hypotheses}{1}{section.1.4}%
-\contentsline {section}{\numberline {1.5}Contributions}{1}{section.1.5}%
-\contentsline {section}{\numberline {1.6}Structure of the Thesis}{1}{section.1.6}%
-\contentsline {chapter}{\numberline {2}State of the Art}{2}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Patient--Clinical Trial Matching}{2}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Clinical Context and Recruitment Bottlenecks}{2}{subsection.2.1.1}%
-\contentsline {subsection}{\numberline {2.1.2}Pre-LLM Approaches: Rule-Based and Embedding Systems}{3}{subsection.2.1.2}%
-\contentsline {subsection}{\numberline {2.1.3}The LLM Wave: 2023--2026}{3}{subsection.2.1.3}%
-\contentsline {section}{\numberline {2.2}Probabilistic Calibration of Classifiers}{4}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Foundations and the Modern Miscalibration Problem}{4}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Clinical Importance of Calibration}{5}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Recalibration Methods}{5}{subsection.2.2.3}%
-\contentsline {section}{\numberline {2.3}Large Language Models: Alignment and Calibration}{6}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}RLHF and Its Effect on Calibration}{6}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Uncertainty Elicitation and Verbalized Confidence}{7}{subsection.2.3.2}%
-\contentsline {section}{\numberline {2.4}Medical Large Language Models}{7}{section.2.4}%
-\contentsline {subsection}{\numberline {2.4.1}Meditron}{7}{subsection.2.4.1}%
-\contentsline {subsection}{\numberline {2.4.2}BioMistral}{7}{subsection.2.4.2}%
-\contentsline {subsection}{\numberline {2.4.3}Med42, HuatuoGPT-o1, and the Broader Ecosystem}{8}{subsection.2.4.3}%
-\contentsline {section}{\numberline {2.5}Positioning of This Work}{8}{section.2.5}%
-\contentsline {chapter}{\numberline {3}Project Context and Scope}{10}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Academic Research Framework}{10}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Origin and Evolution of the Research Question}{11}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Dataset: TrialGPT-Criterion-Annotations}{11}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Dataset Description}{11}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Justification of the Single-Dataset Choice}{12}{subsection.3.3.2}%
-\contentsline {section}{\numberline {3.4}Ethical Considerations}{12}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Constraints and Resources}{13}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Computational Constraints}{13}{subsection.3.5.1}%
-\contentsline {subsection}{\numberline {3.5.2}Model Access Constraints}{13}{subsection.3.5.2}%
-\contentsline {subsection}{\numberline {3.5.3}Time Constraints}{13}{subsection.3.5.3}%
-\contentsline {section}{\numberline {3.6}Scope of This Work}{14}{section.3.6}%
-\contentsline {chapter}{\numberline {4}Methodology and Technical Approach}{15}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Overview of the Experimental Design}{15}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Research Question and Pre-registered Hypotheses}{16}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Data Preparation}{17}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Dataset Composition}{18}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Label Distribution}{18}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}Textual Characteristics}{18}{subsection.4.3.3}%
-\contentsline {subsection}{\numberline {4.3.4}Split for Recalibration Analysis}{19}{subsection.4.3.4}%
-\contentsline {subsection}{\numberline {4.3.5}Ethical and Reproducibility Considerations}{20}{subsection.4.3.5}%
-\contentsline {section}{\numberline {4.4}Model Selection}{21}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Selection Criteria}{21}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}The Six Selected Models}{21}{subsection.4.4.2}%
-\contentsline {subsection}{\numberline {4.4.3}Excluded Models}{23}{subsection.4.4.3}%
-\contentsline {section}{\numberline {4.5}Prompt Design}{23}{section.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}Rationale for Two Prompt Variants}{23}{subsection.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}Prompt A: Generic Baseline}{24}{subsection.4.5.2}%
-\contentsline {subsection}{\numberline {4.5.3}Prompt B: Adapted with Expert Guidance}{24}{subsection.4.5.3}%
-\contentsline {subsection}{\numberline {4.5.4}Adaptations for Base vs.\ Instruct Models}{25}{subsection.4.5.4}%
-\contentsline {section}{\numberline {4.6}Scoring Pipeline: Log-Probability Extraction}{26}{section.4.6}%
-\contentsline {subsection}{\numberline {4.6.1}Principle of Log-Probability Scoring}{26}{subsection.4.6.1}%
-\contentsline {subsection}{\numberline {4.6.2}Restriction of the Candidate Set by Criterion Type}{26}{subsection.4.6.2}%
-\contentsline {subsection}{\numberline {4.6.3}Algorithmic Summary}{27}{subsection.4.6.3}%
-\contentsline {subsection}{\numberline {4.6.4}Implementation Notes}{27}{subsection.4.6.4}%
-\contentsline {section}{\numberline {4.7}Quantization and Infrastructure}{28}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Evaluation Metrics}{28}{section.4.8}%
-\contentsline {subsection}{\numberline {4.8.1}Expected Calibration Error (ECE)}{28}{subsection.4.8.1}%
-\contentsline {subsection}{\numberline {4.8.2}Brier Score}{29}{subsection.4.8.2}%
-\contentsline {subsection}{\numberline {4.8.3}Classification Metrics}{29}{subsection.4.8.3}%
-\contentsline {subsection}{\numberline {4.8.4}C-index for Ordinal Validity}{29}{subsection.4.8.4}%
-\contentsline {subsection}{\numberline {4.8.5}Weighted Kappa for Expert-Model Agreement}{30}{subsection.4.8.5}%
-\contentsline {subsection}{\numberline {4.8.6}Overconfidence and Prediction Diversity}{30}{subsection.4.8.6}%
-\contentsline {subsection}{\numberline {4.8.7}Composite Utility Score}{31}{subsection.4.8.7}%
-\contentsline {subsection}{\numberline {4.8.8}Reliability Diagrams}{31}{subsection.4.8.8}%
-\contentsline {subsection}{\numberline {4.8.9}Bootstrap Confidence Intervals}{31}{subsection.4.8.9}%
-\contentsline {section}{\numberline {4.9}Statistical Analysis Plan}{31}{section.4.9}%
-\contentsline {subsection}{\numberline {4.9.1}Pre-registration of Hypotheses}{32}{subsection.4.9.1}%
-\contentsline {subsection}{\numberline {4.9.2}Permutation Tests}{32}{subsection.4.9.2}%
-\contentsline {subsection}{\numberline {4.9.3}Bonferroni Correction}{32}{subsection.4.9.3}%
-\contentsline {subsection}{\numberline {4.9.4}Post-hoc Recalibration Methods}{32}{subsection.4.9.4}%
-\contentsline {subsection}{\numberline {4.9.5}Conformal Prediction}{33}{subsection.4.9.5}%
-\contentsline {section}{\numberline {4.10}Reproducibility}{33}{section.4.10}%
-\contentsline {subsection}{\numberline {4.10.1}Code Availability}{33}{subsection.4.10.1}%
-\contentsline {subsection}{\numberline {4.10.2}Deterministic Pipeline}{34}{subsection.4.10.2}%
-\contentsline {subsection}{\numberline {4.10.3}Data and Prediction Archives}{34}{subsection.4.10.3}%
-\contentsline {subsection}{\numberline {4.10.4}Prompt Verbatim}{34}{subsection.4.10.4}%
-\contentsline {subsection}{\numberline {4.10.5}Computational Requirements}{34}{subsection.4.10.5}%
-\contentsline {subsection}{\numberline {4.10.6}Reporting Standards}{35}{subsection.4.10.6}%
-\contentsline {chapter}{\numberline {5}Results and Analysis}{36}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Chapter Overview}{36}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Pre-LLM Audit and Expert Agreement}{37}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Expert-GPT-4 Agreement}{37}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Ground Truth Choice}{38}{subsection.5.2.2}%
-\contentsline {section}{\numberline {5.3}Calibration Audit: H1 Supported Across All Configurations}{38}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Overall Calibration Results}{39}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}Direction of the Miscalibration}{39}{subsection.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}Reliability Diagrams}{40}{subsection.5.3.3}%
-\contentsline {section}{\numberline {5.4}The Effect of RLHF: H2 Supported}{41}{section.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}Paired Comparison of ECE}{41}{subsection.5.4.1}%
-\contentsline {subsection}{\numberline {5.4.2}Mechanism: From Underconfidence to Overconfidence}{42}{subsection.5.4.2}%
-\contentsline {subsection}{\numberline {5.4.3}Comparison to Prior Work}{43}{subsection.5.4.3}%
-\contentsline {section}{\numberline {5.5}The Enriched-Prompt Paradox}{43}{section.5.5}%
-\contentsline {subsection}{\numberline {5.5.1}Effect of Prompt Enrichment Across Models}{44}{subsection.5.5.1}%
-\contentsline {subsection}{\numberline {5.5.2}Interpretation}{44}{subsection.5.5.2}%
-\contentsline {section}{\numberline {5.6}Mode Collapse in Medical and RLHF-Aligned LLMs}{45}{section.5.6}%
-\contentsline {subsection}{\numberline {5.6.1}Prediction Distribution Analysis}{45}{subsection.5.6.1}%
-\contentsline {subsection}{\numberline {5.6.2}Structural Persistence Under Constrained Decoding}{46}{subsection.5.6.2}%
-\contentsline {section}{\numberline {5.7}Performance on Truly Discriminative Cases}{46}{section.5.7}%
-\contentsline {subsection}{\numberline {5.7.1}Comparison of Global vs.\ Discriminative Accuracy}{47}{subsection.5.7.1}%
-\contentsline {subsection}{\numberline {5.7.2}Implications for Model Evaluation}{48}{subsection.5.7.2}%
-\contentsline {section}{\numberline {5.8}Systematic Inclusion vs.\ Exclusion Asymmetry}{48}{section.5.8}%
-\contentsline {section}{\numberline {5.9}Model-Specific Evasion Biases}{49}{section.5.9}%
-\contentsline {section}{\numberline {5.10}Ordinal Validity (H3) and Selective Classification (H4)}{50}{section.5.10}%
-\contentsline {subsection}{\numberline {5.10.1}H3: Ordinal Validity Not Reached}{50}{subsection.5.10.1}%
-\contentsline {subsection}{\numberline {5.10.2}H4: Selective Classification Partially Supported}{51}{subsection.5.10.2}%
-\contentsline {section}{\numberline {5.11}Post-hoc Recalibration}{53}{section.5.11}%
-\contentsline {subsection}{\numberline {5.11.1}Comparison of Recalibration Methods}{53}{subsection.5.11.1}%
-\contentsline {subsection}{\numberline {5.11.2}Robustness under Cross-Validation}{54}{subsection.5.11.2}%
-\contentsline {subsection}{\numberline {5.11.3}Interpretive Caveats}{54}{subsection.5.11.3}%
-\contentsline {section}{\numberline {5.12}Conformal Prediction and Inter-Model Consensus}{55}{section.5.12}%
-\contentsline {subsection}{\numberline {5.12.1}Conformal Prediction Sets}{55}{subsection.5.12.1}%
-\contentsline {subsection}{\numberline {5.12.2}Inter-Model Consensus}{55}{subsection.5.12.2}%
-\contentsline {section}{\numberline {5.13}Baselines and Composite Utility Score}{56}{section.5.13}%
-\contentsline {subsection}{\numberline {5.13.1}Comparison with Naïve Baselines}{56}{subsection.5.13.1}%
-\contentsline {subsection}{\numberline {5.13.2}Composite Utility Score}{57}{subsection.5.13.2}%
-\contentsline {section}{\numberline {5.14}Summary of Results}{58}{section.5.14}%
-\contentsline {chapter}{\numberline {6}Conclusion and Future Work}{59}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Summary of Findings}{59}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Answer to the Research Question}{59}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Contributions}{59}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Limitations}{59}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}External Validation}{59}{subsection.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}Model Scale}{60}{subsection.6.4.2}%
-\contentsline {subsection}{\numberline {6.4.3}Prompt Space}{60}{subsection.6.4.3}%
-\contentsline {section}{\numberline {6.5}Future Work}{60}{section.6.5}%
-\contentsline {subsection}{\numberline {6.5.1}External Validation on Independent Benchmarks}{60}{subsection.6.5.1}%
-\contentsline {subsection}{\numberline {6.5.2}Multi-Agent Adversarial Debate for Calibration}{60}{subsection.6.5.2}%
-\contentsline {subsection}{\numberline {6.5.3}Investigating the Origin of Mode Collapse}{60}{subsection.6.5.3}%
-\contentsline {subsection}{\numberline {6.5.4}Extension to Larger and Multilingual Models}{60}{subsection.6.5.4}%
-\contentsline {section}{\numberline {6.6}Closing Remarks}{60}{section.6.6}%
-\contentsline {chapter}{Bibliography}{61}{chapter*.36}%
-\contentsline {chapter}{\numberline {A}Detailed Results Tables}{65}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Full Prompt Specifications}{66}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Prompt A --- Generic (Baseline)}{66}{section.B.1}%
-\contentsline {section}{\numberline {B.2}Prompt B --- Adapted with Expert Guidance}{66}{section.B.2}%
-\contentsline {chapter}{\numberline {C}Individual Reliability Diagrams}{67}{appendix.C}%
-\contentsline {chapter}{\numberline {D}Code and Data Availability}{68}{appendix.D}%
-\contentsline {section}{\numberline {D.1}Repository Structure}{68}{section.D.1}%
-\contentsline {section}{\numberline {D.2}Data Availability}{68}{section.D.2}%
-\contentsline {section}{\numberline {D.3}Reproducing the Experiments}{68}{section.D.3}%
-\contentsline {section}{\numberline {D.4}Computational Requirements}{68}{section.D.4}%
-\contentsline {chapter}{\numberline {E}Generative AI Usage Declaration}{69}{appendix.E}%
-\contentsline {chapter}{\numberline {F}Detailed Mode Collapse Analysis}{71}{appendix.F}%
-\contentsline {section}{\numberline {F.1}Prediction Distribution per Configuration}{71}{section.F.1}%
-\contentsline {section}{\numberline {F.2}Simulation: Forcing Decisive Predictions}{71}{section.F.2}%
-\contentsline {section}{\numberline {F.3}Composite Utility Score Ranking}{71}{section.F.3}%
-\contentsline {section}{\numberline {F.4}Cross-Validation Stability}{71}{section.F.4}%
+\contentsline {section}{\numberline {1.3}Problem Statement}{2}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Research Question and Hypotheses}{3}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Contributions}{3}{section.1.5}%
+\contentsline {section}{\numberline {1.6}Structure of the Thesis}{4}{section.1.6}%
+\contentsline {chapter}{\numberline {2}State of the Art}{6}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Patient--Clinical Trial Matching}{6}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Clinical Context and Recruitment Bottlenecks}{6}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Pre-LLM Approaches: Rule-Based and Embedding Systems}{7}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}The LLM Wave: 2023--2026}{7}{subsection.2.1.3}%
+\contentsline {section}{\numberline {2.2}Probabilistic Calibration of Classifiers}{8}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Foundations and the Modern Miscalibration Problem}{8}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Clinical Importance of Calibration}{9}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Recalibration Methods}{9}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Large Language Models: Alignment and Calibration}{10}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}RLHF and Its Effect on Calibration}{10}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Uncertainty Elicitation and Verbalized Confidence}{11}{subsection.2.3.2}%
+\contentsline {section}{\numberline {2.4}Medical Large Language Models}{11}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Meditron}{11}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}BioMistral}{11}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Med42, HuatuoGPT-o1, and the Broader Ecosystem}{12}{subsection.2.4.3}%
+\contentsline {section}{\numberline {2.5}Positioning of This Work}{12}{section.2.5}%
+\contentsline {chapter}{\numberline {3}Project Context and Scope}{14}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Academic Research Framework}{14}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Origin and Evolution of the Research Question}{15}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Dataset: TrialGPT-Criterion-Annotations}{15}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Dataset Description}{15}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Justification of the Single-Dataset Choice}{16}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Ethical Considerations}{16}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Constraints and Resources}{17}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Computational Constraints}{17}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Model Access Constraints}{17}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}Time Constraints}{17}{subsection.3.5.3}%
+\contentsline {section}{\numberline {3.6}Scope of This Work}{18}{section.3.6}%
+\contentsline {chapter}{\numberline {4}Methodology and Technical Approach}{19}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Overview of the Experimental Design}{19}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Research Question and Pre-registered Hypotheses}{20}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Data Preparation}{21}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Dataset Composition}{22}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Label Distribution}{22}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Textual Characteristics}{22}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Split for Recalibration Analysis}{23}{subsection.4.3.4}%
+\contentsline {subsection}{\numberline {4.3.5}Ethical and Reproducibility Considerations}{24}{subsection.4.3.5}%
+\contentsline {section}{\numberline {4.4}Model Selection}{25}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Selection Criteria}{25}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}The Six Selected Models}{25}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Excluded Models}{27}{subsection.4.4.3}%
+\contentsline {section}{\numberline {4.5}Prompt Design}{27}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Rationale for Two Prompt Variants}{27}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Prompt A: Generic Baseline}{28}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Prompt B: Adapted with Expert Guidance}{28}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Adaptations for Base vs.\ Instruct Models}{29}{subsection.4.5.4}%
+\contentsline {section}{\numberline {4.6}Scoring Pipeline: Log-Probability Extraction}{30}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Principle of Log-Probability Scoring}{30}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}Restriction of the Candidate Set by Criterion Type}{30}{subsection.4.6.2}%
+\contentsline {subsection}{\numberline {4.6.3}Algorithmic Summary}{31}{subsection.4.6.3}%
+\contentsline {subsection}{\numberline {4.6.4}Implementation Notes}{31}{subsection.4.6.4}%
+\contentsline {section}{\numberline {4.7}Quantization and Infrastructure}{32}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Evaluation Metrics}{32}{section.4.8}%
+\contentsline {subsection}{\numberline {4.8.1}Expected Calibration Error (ECE)}{32}{subsection.4.8.1}%
+\contentsline {subsection}{\numberline {4.8.2}Brier Score}{33}{subsection.4.8.2}%
+\contentsline {subsection}{\numberline {4.8.3}Classification Metrics}{33}{subsection.4.8.3}%
+\contentsline {subsection}{\numberline {4.8.4}C-index for Ordinal Validity}{33}{subsection.4.8.4}%
+\contentsline {subsection}{\numberline {4.8.5}Weighted Kappa for Expert-Model Agreement}{34}{subsection.4.8.5}%
+\contentsline {subsection}{\numberline {4.8.6}Overconfidence and Prediction Diversity}{34}{subsection.4.8.6}%
+\contentsline {subsection}{\numberline {4.8.7}Composite Utility Score}{35}{subsection.4.8.7}%
+\contentsline {subsection}{\numberline {4.8.8}Reliability Diagrams}{35}{subsection.4.8.8}%
+\contentsline {subsection}{\numberline {4.8.9}Bootstrap Confidence Intervals}{35}{subsection.4.8.9}%
+\contentsline {section}{\numberline {4.9}Statistical Analysis Plan}{35}{section.4.9}%
+\contentsline {subsection}{\numberline {4.9.1}Pre-registration of Hypotheses}{36}{subsection.4.9.1}%
+\contentsline {subsection}{\numberline {4.9.2}Permutation Tests}{36}{subsection.4.9.2}%
+\contentsline {subsection}{\numberline {4.9.3}Bonferroni Correction}{36}{subsection.4.9.3}%
+\contentsline {subsection}{\numberline {4.9.4}Post-hoc Recalibration Methods}{36}{subsection.4.9.4}%
+\contentsline {subsection}{\numberline {4.9.5}Conformal Prediction}{37}{subsection.4.9.5}%
+\contentsline {section}{\numberline {4.10}Reproducibility}{37}{section.4.10}%
+\contentsline {subsection}{\numberline {4.10.1}Code Availability}{37}{subsection.4.10.1}%
+\contentsline {subsection}{\numberline {4.10.2}Deterministic Pipeline}{38}{subsection.4.10.2}%
+\contentsline {subsection}{\numberline {4.10.3}Data and Prediction Archives}{38}{subsection.4.10.3}%
+\contentsline {subsection}{\numberline {4.10.4}Prompt Verbatim}{38}{subsection.4.10.4}%
+\contentsline {subsection}{\numberline {4.10.5}Computational Requirements}{38}{subsection.4.10.5}%
+\contentsline {subsection}{\numberline {4.10.6}Reporting Standards}{39}{subsection.4.10.6}%
+\contentsline {chapter}{\numberline {5}Results and Analysis}{40}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Chapter Overview}{40}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Pre-LLM Audit and Expert Agreement}{41}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Expert-GPT-4 Agreement}{41}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Ground Truth Choice}{42}{subsection.5.2.2}%
+\contentsline {section}{\numberline {5.3}Calibration Audit: H1 Supported Across All Configurations}{42}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Overall Calibration Results}{43}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Direction of the Miscalibration}{43}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Reliability Diagrams}{44}{subsection.5.3.3}%
+\contentsline {section}{\numberline {5.4}The Effect of RLHF: H2 Supported}{45}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Paired Comparison of ECE}{45}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Mechanism: From Underconfidence to Overconfidence}{46}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Comparison to Prior Work}{47}{subsection.5.4.3}%
+\contentsline {section}{\numberline {5.5}The Enriched-Prompt Paradox}{47}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Effect of Prompt Enrichment Across Models}{48}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Interpretation}{48}{subsection.5.5.2}%
+\contentsline {section}{\numberline {5.6}Mode Collapse in Medical and RLHF-Aligned LLMs}{49}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Prediction Distribution Analysis}{49}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Structural Persistence Under Constrained Decoding}{50}{subsection.5.6.2}%
+\contentsline {section}{\numberline {5.7}Performance on Truly Discriminative Cases}{50}{section.5.7}%
+\contentsline {subsection}{\numberline {5.7.1}Comparison of Global vs.\ Discriminative Accuracy}{51}{subsection.5.7.1}%
+\contentsline {subsection}{\numberline {5.7.2}Implications for Model Evaluation}{52}{subsection.5.7.2}%
+\contentsline {section}{\numberline {5.8}Systematic Inclusion vs.\ Exclusion Asymmetry}{52}{section.5.8}%
+\contentsline {section}{\numberline {5.9}Model-Specific Evasion Biases}{53}{section.5.9}%
+\contentsline {section}{\numberline {5.10}Ordinal Validity (H3) and Selective Classification (H4)}{54}{section.5.10}%
+\contentsline {subsection}{\numberline {5.10.1}H3: Ordinal Validity Not Reached}{54}{subsection.5.10.1}%
+\contentsline {subsection}{\numberline {5.10.2}H4: Selective Classification Partially Supported}{55}{subsection.5.10.2}%
+\contentsline {section}{\numberline {5.11}Post-hoc Recalibration}{57}{section.5.11}%
+\contentsline {subsection}{\numberline {5.11.1}Comparison of Recalibration Methods}{57}{subsection.5.11.1}%
+\contentsline {subsection}{\numberline {5.11.2}Robustness under Cross-Validation}{58}{subsection.5.11.2}%
+\contentsline {subsection}{\numberline {5.11.3}Interpretive Caveats}{58}{subsection.5.11.3}%
+\contentsline {section}{\numberline {5.12}Conformal Prediction and Inter-Model Consensus}{59}{section.5.12}%
+\contentsline {subsection}{\numberline {5.12.1}Conformal Prediction Sets}{59}{subsection.5.12.1}%
+\contentsline {subsection}{\numberline {5.12.2}Inter-Model Consensus}{59}{subsection.5.12.2}%
+\contentsline {section}{\numberline {5.13}Baselines and Composite Utility Score}{60}{section.5.13}%
+\contentsline {subsection}{\numberline {5.13.1}Comparison with Naïve Baselines}{60}{subsection.5.13.1}%
+\contentsline {subsection}{\numberline {5.13.2}Composite Utility Score}{61}{subsection.5.13.2}%
+\contentsline {section}{\numberline {5.14}Summary of Results}{62}{section.5.14}%
+\contentsline {chapter}{\numberline {6}Conclusion and Future Work}{63}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Summary of Findings}{63}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Answer to the Research Question}{64}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Contributions}{65}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Limitations}{65}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}External Validation}{65}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Model Scale}{66}{subsection.6.4.2}%
+\contentsline {subsection}{\numberline {6.4.3}Prompt Space}{66}{subsection.6.4.3}%
+\contentsline {section}{\numberline {6.5}Future Work}{66}{section.6.5}%
+\contentsline {subsection}{\numberline {6.5.1}External Validation on Independent Benchmarks}{67}{subsection.6.5.1}%
+\contentsline {subsection}{\numberline {6.5.2}Multi-Agent Adversarial Debate for Calibration}{67}{subsection.6.5.2}%
+\contentsline {subsection}{\numberline {6.5.3}Investigating the Origin of Mode Collapse}{67}{subsection.6.5.3}%
+\contentsline {subsection}{\numberline {6.5.4}Extension to Larger and Multilingual Models}{67}{subsection.6.5.4}%
+\contentsline {section}{\numberline {6.6}Closing Remarks}{68}{section.6.6}%
+\contentsline {chapter}{Bibliography}{69}{chapter*.36}%
+\contentsline {chapter}{\numberline {A}Detailed Results Tables}{73}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Full Prompt Specifications}{74}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Prompt A --- Generic (Baseline)}{74}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Prompt B --- Adapted with Expert Guidance}{74}{section.B.2}%
+\contentsline {chapter}{\numberline {C}Individual Reliability Diagrams}{75}{appendix.C}%
+\contentsline {chapter}{\numberline {D}Code and Data Availability}{76}{appendix.D}%
+\contentsline {section}{\numberline {D.1}Repository Structure}{76}{section.D.1}%
+\contentsline {section}{\numberline {D.2}Data Availability}{76}{section.D.2}%
+\contentsline {section}{\numberline {D.3}Reproducing the Experiments}{76}{section.D.3}%
+\contentsline {section}{\numberline {D.4}Computational Requirements}{76}{section.D.4}%
+\contentsline {chapter}{\numberline {E}Generative AI Usage Declaration}{77}{appendix.E}%
+\contentsline {chapter}{\numberline {F}Detailed Mode Collapse Analysis}{79}{appendix.F}%
+\contentsline {section}{\numberline {F.1}Prediction Distribution per Configuration}{79}{section.F.1}%
+\contentsline {section}{\numberline {F.2}Simulation: Forcing Decisive Predictions}{79}{section.F.2}%
+\contentsline {section}{\numberline {F.3}Composite Utility Score Ranking}{79}{section.F.3}%
+\contentsline {section}{\numberline {F.4}Cross-Validation Stability}{79}{section.F.4}%
