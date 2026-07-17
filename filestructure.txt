@@ -90,6 +90,7 @@
     |-- tous_tests_hypotheses.csv
     |-- verification_robustesse_recalibration.csv
     |-- verification_robustesse_recalibration_detail.csv
+|-- error.txt
 |-- LICENSE
 |-- results
 |-- thesis
@@ -116,8 +117,16 @@
         |-- 10_conclusion.tex
     |-- figures
         |-- courbes_risque_couverture.png
+        |-- quadrant_diagnostic_en.pdf
+        |-- quadrant_diagnostic_en.png
+        |-- quadrant_diagnostic_fr.pdf
+        |-- quadrant_diagnostic_fr.png
         |-- reliability_compare_AvsB.png
         |-- reliability_diagrams_grid.pdf
+        |-- rethreshold_gains_en.pdf
+        |-- rethreshold_gains_en.png
+        |-- rethreshold_gains_fr.pdf
+        |-- rethreshold_gains_fr.png
     |-- main.aux
     |-- main.bbl
     |-- main.bcf

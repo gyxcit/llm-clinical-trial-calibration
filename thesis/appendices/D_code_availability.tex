@@ -30,8 +30,11 @@ serving a distinct purpose:
     \item \texttt{code/} contains the Kaggle notebook used for the 
     twelve model runs and the Python scripts that perform the 
     downstream analyses (calibration audit, hypothesis tests, 
-    recalibration, conformal prediction, mode collapse analysis, and 
-    composite utility scoring).
+    recalibration, conformal prediction, mode collapse analysis, 
+    composite utility scoring, the signal-to-prior mechanistic 
+    analysis, the out-of-fold re-thresholding, and the TREC external 
+    replication), together with the figure-generation script that 
+    produces the diagrams in both French and English.
     \item \texttt{data/} contains the raw prediction files (twelve 
     Parquet files, one per configuration) and the CSV outputs of 
     every downstream analysis reported in Chapter~\ref{chap:results}.
@@ -55,6 +58,15 @@ TrialGPT repository:
     \url{https://github.com/ncbi-nlp/TrialGPT}
 \end{center}
 
+The external validation corpus is derived from the TREC Clinical 
+Trials 2021--2022 tracks~\cite{roberts2021trec, roberts2022trec}, whose 
+topics and relevance judgements are publicly available from the 
+National Institute of Standards and Technology (NIST). The scripts that 
+sample the topics, decompose trials into patient--criterion pairs, and 
+score them with the log-probability pipeline are included in the 
+\texttt{code/} directory, and the resulting TREC prediction files are 
+archived alongside the primary prediction files in \texttt{data/}.
+
 The twelve prediction files produced during this study are stored in 
 the \texttt{data/} subdirectory of the project repository, one 
 Parquet file per configuration. Each file contains, for the $1{,}015$ 
@@ -66,9 +78,13 @@ full softmax distribution over the six candidate labels
 \texttt{p\_not\_excluded}, \texttt{p\_not\_enough\_information}, 
 \texttt{p\_not\_applicable}). All downstream analysis outputs --- 
 calibration metrics, permutation-test results, recalibration 
-comparisons, conformal prediction sets, mode collapse statistics, and 
-composite utility scores --- are also archived as CSV files in the 
-same directory.
+comparisons, conformal prediction sets, mode collapse statistics, 
+composite utility scores, the signal-to-prior diagnostic, the 
+out-of-fold re-thresholding gains, and the TREC replication --- are 
+also archived as CSV files in the same directory. Each numerical value 
+reported in Chapter~\ref{chap:results} and in Appendices~\ref{app:tables} 
+and~\ref{app:mode-collapse} can be traced to a specific row of one of 
+these files.
 
 % ----------------------------------------------------------------------------
 \section{Reproducing the Experiments}
@@ -91,6 +107,21 @@ Independent reproduction of the pipeline follows five steps:
     notebook to reproduce every table and figure of 
     Chapter~\ref{chap:results}.
 \end{enumerate}
+
+All data splits used by the downstream analyses are deterministic and 
+seeded, so that any reviewer reproduces the exact partitions used here. 
+The post-hoc recalibration (Section~\ref{subsec:met-recalibration}) uses 
+a $70/30$ split stratified by criterion type with \texttt{random\_state} 
+$=42$. The stability analyses --- the five-fold cross-validation of 
+isotonic recalibration and the out-of-fold cross-validation that fits 
+the re-thresholding decision boundary 
+(Section~\ref{subsec:met-rethreshold}) --- use a 
+\texttt{KFold} splitter with $k=5$, \texttt{shuffle=True}, and the same 
+seed $42$. The bootstrap confidence intervals throughout the thesis draw 
+$1{,}000$ resamples under the same seed. Because the splitter, the 
+number of folds, and the seed are all fixed and recorded in the 
+notebook, the fold assignments, the fitted thresholds, and the resulting 
+confidence intervals are bit-exact reproducible across independent runs.
 
 % ----------------------------------------------------------------------------
 \section{Computational Requirements}

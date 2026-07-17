@@ -144,7 +144,7 @@ post-hoc adjustment of the criteria to fit the observed results.
 \label{sec:intro-contributions}
 
 The thesis contributes to the calibration and clinical AI communities 
-along three complementary directions.
+along four complementary directions.
 
 The first contribution is methodological: the study provides a 
 reusable protocol for auditing the calibration of LLM-based clinical 
@@ -165,7 +165,7 @@ hypothesis at Bonferroni-corrected significance ($p < 0.003$),
 extending to the clinical domain a finding previously documented only 
 in general question answering.
 
-The third contribution is exploratory: the study documents nine 
+The third contribution is exploratory: the study documents twelve 
 original findings that emerged from the deeper analysis. Three of 
 these deserve particular emphasis. The enriched-prompt paradox (F3) 
 shows that expert prompt engineering degrades calibration in five of 
@@ -179,6 +179,20 @@ below $0.4\%$ on the $238$ pairs requiring a genuine clinical decision
 three findings jointly demonstrate that global accuracy and ECE, 
 taken in isolation, are insufficient to characterize the clinical 
 usability of an LLM classifier.
+
+The fourth contribution is mechanistic: a deeper analysis of the 
+log-probabilities reinterprets mode collapse as a property of the 
+decision rule rather than a loss of knowledge. The study shows that 
+the discriminative signal survives collapse (area under the curve up 
+to $0.91$) but is masked by a response prior, identifies a scalar 
+signal-to-prior ratio that predicts collapse across configurations 
+(F11), and demonstrates that a simple re-thresholding rule recovers up 
+to $+0.79$ macro-F1 where monotone recalibration provably cannot (F10). 
+The same analysis separates recoverable collapse from an irrecoverable 
+corruption of the signal, and both the collapse and its mechanism 
+replicate on the independent TREC Clinical Trials corpus (F12). This 
+contribution turns a descriptive failure mode into a diagnosable and 
+often correctable property of the decoding step.
 
 % ----------------------------------------------------------------------------
 \section{Structure of the Thesis}
@@ -203,15 +217,15 @@ the model and prompt selection, the log-probability scoring pipeline,
 the evaluation metrics, and the statistical analysis plan.
 
 Chapter~\ref{chap:results} reports the empirical findings organized 
-around the four pre-registered hypotheses and the nine original 
+around the four pre-registered hypotheses and the twelve original 
 findings. The chapter begins with the pre-LLM audit of the dataset, 
-proceeds through the calibration audit and the RLHF effect, and closes 
-with the composite utility score that synthesizes the twelve 
-configurations into a single clinical ranking.
+proceeds through the calibration audit and the RLHF effect, documents 
+mode collapse and its reinterpretation as a decoding artefact, and 
+closes with an external replication on the TREC Clinical Trials corpus.
 
 Chapter~\ref{chap:conclusion} summarizes the outcomes, answers the 
 research question, discusses the limitations of the study, and 
-proposes four directions for future work, including external 
-validation on independent datasets, multi-agent adversarial debate as 
-a mitigation for mode collapse, and mechanistic investigation of the 
-origin of mode collapse in medical LLMs.
+proposes future directions, including broader external validation 
+beyond the TREC replication reported here, multi-agent adversarial 
+debate as a mitigation for mode collapse, and mechanistic 
+investigation of the origin of the response prior in medical LLMs.

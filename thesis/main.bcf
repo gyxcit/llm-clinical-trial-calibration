@@ -2426,41 +2426,49 @@
     <bcf:citekey order="48" intorder="1">chen2025scoping</bcf:citekey>
     <bcf:citekey order="49" intorder="1">kadavath2022know</bcf:citekey>
     <bcf:citekey order="50" intorder="1">jin2024trialgpt</bcf:citekey>
-    <bcf:citekey order="51" intorder="1">collins2024tripod</bcf:citekey>
-    <bcf:citekey order="52" intorder="1">jin2024trialgpt</bcf:citekey>
-    <bcf:citekey order="53" intorder="1">collins2024tripod</bcf:citekey>
-    <bcf:citekey order="54" intorder="1">vancalster2019calibration</bcf:citekey>
-    <bcf:citekey order="55" intorder="1">kadavath2022know</bcf:citekey>
-    <bcf:citekey order="56" intorder="1">vancalster2019calibration</bcf:citekey>
-    <bcf:citekey order="57" intorder="1">jin2024trialgpt</bcf:citekey>
+    <bcf:citekey order="51" intorder="1">roberts2021trec</bcf:citekey>
+    <bcf:citekey order="51" intorder="2">roberts2022trec</bcf:citekey>
+    <bcf:citekey order="52" intorder="1">collins2024tripod</bcf:citekey>
+    <bcf:citekey order="53" intorder="1">jin2024trialgpt</bcf:citekey>
+    <bcf:citekey order="54" intorder="1">collins2024tripod</bcf:citekey>
+    <bcf:citekey order="55" intorder="1">vancalster2019calibration</bcf:citekey>
+    <bcf:citekey order="56" intorder="1">kadavath2022know</bcf:citekey>
+    <bcf:citekey order="57" intorder="1">vancalster2019calibration</bcf:citekey>
     <bcf:citekey order="58" intorder="1">jin2024trialgpt</bcf:citekey>
-    <bcf:citekey order="59" intorder="1">chen2023meditron</bcf:citekey>
-    <bcf:citekey order="60" intorder="1">labrak2024biomistral</bcf:citekey>
-    <bcf:citekey order="61" intorder="1">christophe2024med42</bcf:citekey>
-    <bcf:citekey order="62" intorder="1">chen2024huatuogpt</bcf:citekey>
-    <bcf:citekey order="63" intorder="1">dettmers2023qlora</bcf:citekey>
-    <bcf:citekey order="64" intorder="1">dettmers2023qlora</bcf:citekey>
-    <bcf:citekey order="65" intorder="1">guo2017calibration</bcf:citekey>
-    <bcf:citekey order="66" intorder="1">brier1950</bcf:citekey>
-    <bcf:citekey order="67" intorder="1">vancalster2019calibration</bcf:citekey>
-    <bcf:citekey order="68" intorder="1">cohen1968</bcf:citekey>
-    <bcf:citekey order="69" intorder="1">collins2024tripod</bcf:citekey>
-    <bcf:citekey order="70" intorder="1">guo2017calibration</bcf:citekey>
-    <bcf:citekey order="71" intorder="1">vovk2005</bcf:citekey>
-    <bcf:citekey order="72" intorder="1">collins2024tripod</bcf:citekey>
-    <bcf:citekey order="73" intorder="1">cohen1968</bcf:citekey>
-    <bcf:citekey order="74" intorder="1">jin2024trialgpt</bcf:citekey>
-    <bcf:citekey order="75" intorder="1">vancalster2019calibration</bcf:citekey>
-    <bcf:citekey order="76" intorder="1">kadavath2022know</bcf:citekey>
-    <bcf:citekey order="77" intorder="1">ouyang2022training</bcf:citekey>
+    <bcf:citekey order="59" intorder="1">roberts2021trec</bcf:citekey>
+    <bcf:citekey order="59" intorder="2">roberts2022trec</bcf:citekey>
+    <bcf:citekey order="60" intorder="1">jin2024trialgpt</bcf:citekey>
+    <bcf:citekey order="61" intorder="1">chen2023meditron</bcf:citekey>
+    <bcf:citekey order="62" intorder="1">labrak2024biomistral</bcf:citekey>
+    <bcf:citekey order="63" intorder="1">christophe2024med42</bcf:citekey>
+    <bcf:citekey order="64" intorder="1">chen2024huatuogpt</bcf:citekey>
+    <bcf:citekey order="65" intorder="1">dettmers2023qlora</bcf:citekey>
+    <bcf:citekey order="66" intorder="1">dettmers2023qlora</bcf:citekey>
+    <bcf:citekey order="67" intorder="1">guo2017calibration</bcf:citekey>
+    <bcf:citekey order="68" intorder="1">brier1950</bcf:citekey>
+    <bcf:citekey order="69" intorder="1">vancalster2019calibration</bcf:citekey>
+    <bcf:citekey order="70" intorder="1">cohen1968</bcf:citekey>
+    <bcf:citekey order="71" intorder="1">collins2024tripod</bcf:citekey>
+    <bcf:citekey order="72" intorder="1">guo2017calibration</bcf:citekey>
+    <bcf:citekey order="73" intorder="1">vovk2005</bcf:citekey>
+    <bcf:citekey order="74" intorder="1">collins2024tripod</bcf:citekey>
+    <bcf:citekey order="75" intorder="1">cohen1968</bcf:citekey>
+    <bcf:citekey order="76" intorder="1">jin2024trialgpt</bcf:citekey>
+    <bcf:citekey order="77" intorder="1">vancalster2019calibration</bcf:citekey>
     <bcf:citekey order="78" intorder="1">kadavath2022know</bcf:citekey>
-    <bcf:citekey order="79" intorder="1">vancalster2019calibration</bcf:citekey>
+    <bcf:citekey order="79" intorder="1">ouyang2022training</bcf:citekey>
     <bcf:citekey order="80" intorder="1">kadavath2022know</bcf:citekey>
-    <bcf:citekey order="81" intorder="1">collins2024tripod</bcf:citekey>
-    <bcf:citekey order="82" intorder="1">kadavath2022know</bcf:citekey>
-    <bcf:citekey order="83" intorder="1">jin2024trialgpt</bcf:citekey>
-    <bcf:citekey order="84" intorder="1">ouyang2022training</bcf:citekey>
-    <bcf:citekey order="85" intorder="1">jin2024trialgpt</bcf:citekey>
+    <bcf:citekey order="81" intorder="1">roberts2021trec</bcf:citekey>
+    <bcf:citekey order="81" intorder="2">roberts2022trec</bcf:citekey>
+    <bcf:citekey order="82" intorder="1">vancalster2019calibration</bcf:citekey>
+    <bcf:citekey order="83" intorder="1">kadavath2022know</bcf:citekey>
+    <bcf:citekey order="84" intorder="1">collins2024tripod</bcf:citekey>
+    <bcf:citekey order="85" intorder="1">kadavath2022know</bcf:citekey>
+    <bcf:citekey order="86" intorder="1">jin2024trialgpt</bcf:citekey>
+    <bcf:citekey order="87" intorder="1">ouyang2022training</bcf:citekey>
+    <bcf:citekey order="88" intorder="1">jin2024trialgpt</bcf:citekey>
+    <bcf:citekey order="89" intorder="1">roberts2021trec</bcf:citekey>
+    <bcf:citekey order="89" intorder="2">roberts2022trec</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

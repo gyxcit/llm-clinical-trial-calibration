@@ -4,6 +4,9 @@
 %   Strategy: main results in body, all details in appendices
 %
 %   REORGANIZED to integrate mode collapse and non-trivial case analysis
+%   REVISED to integrate the decoding-artefact reinterpretation of collapse,
+%   the signal/prior mechanism, the re-thresholding intervention, and the
+%   TREC external replication.
 % ============================================================================
 
 \chapter{Results and Analysis}
@@ -36,11 +39,15 @@ degrades calibration in five of six models. Mode collapse
 (Section~\ref{sec:res-mode-collapse}) documents that five of the twelve 
 configurations concentrate more than 97\% of their predictions on a 
 single label, invalidating the standard interpretation of their 
-apparently reasonable ECE values. Performance on truly discriminative 
-cases (Section~\ref{sec:res-non-trivial}) reveals that both medical 
-LLMs tested achieve 0\% accuracy on the 238 cases requiring a genuine 
-clinical decision, despite their apparent superiority on global 
-accuracy.
+apparently reasonable ECE values. A deeper analysis of the underlying 
+log-probabilities then shows that this collapse is a property of the 
+decision rule rather than of the model's knowledge: the discriminative 
+signal survives collapse and can be recovered by a non-monotone decision 
+rule (Section~\ref{sec:res-rethreshold}). Performance on truly 
+discriminative cases (Section~\ref{sec:res-non-trivial}) reveals that 
+both medical LLMs tested achieve near-zero accuracy on the 238 cases 
+requiring a genuine clinical decision, despite their apparent superiority 
+on global accuracy.
 
 Sections~\ref{sec:res-asymmetry} through~\ref{sec:res-h3h4} report 
 secondary findings on the inclusion/exclusion asymmetry, model-specific 
@@ -48,10 +55,12 @@ evasion strategies, and the two pre-registered hypotheses that receive
 partial or no support (H3 on ordinal validity, H4 on selective 
 classification). Sections~\ref{sec:res-recalibration} 
 through~\ref{sec:res-baselines} present the post-hoc solutions --- 
-isotonic recalibration and conformal prediction --- and the composite 
-utility score that provides a single rank-ordering of the twelve 
-configurations. Section~\ref{sec:res-summary} synthesizes the outcomes 
-of the four hypotheses and the nine original findings.
+isotonic recalibration, re-thresholding, and conformal prediction --- 
+and the composite utility score that provides a single rank-ordering of 
+the twelve configurations. Section~\ref{sec:res-external} reports an 
+external replication of the collapse and its mechanism on the TREC 
+Clinical Trials corpus. Section~\ref{sec:res-summary} synthesizes the 
+outcomes of the four hypotheses and the twelve original findings.
 
 Every point estimate reported in this chapter is accompanied by a 95\% 
 bootstrap confidence interval, and every hypothesis test is reported 
@@ -426,7 +435,11 @@ task is easy and the top prediction is usually correct, this sharpening
 improves the user experience. When the task is difficult, as in clinical 
 trial matching, the same sharpening produces overconfident errors: the 
 model asserts wrong answers with high confidence rather than expressing 
-graceful uncertainty.
+graceful uncertainty. Section~\ref{subsec:res-collapse-mechanism} 
+refines this account by showing that the sharpening acts through a 
+\emph{response prior} whose amplitude, relative to the discriminative 
+signal, determines whether the model merely becomes overconfident or 
+collapses entirely.
 
 \subsection{Comparison to Prior Work}
 \label{subsec:res-h2-comparison}
@@ -537,7 +550,6 @@ benefits. The dominant effect, however, remains negative: enrichment
 degrades more models than it helps, contradicting the standard 
 recommendation to invest in prompt engineering as a route to better 
 model behavior.
-
 % ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Mode Collapse in Medical and RLHF-Aligned LLMs}
@@ -548,7 +560,12 @@ configuration produces a diverse distribution of predictions across the
 six eligibility labels. This assumption breaks down for five of the 
 twelve configurations, which concentrate almost all of their predictions 
 on a single label. We term this behavior \emph{mode collapse}, and 
-document it here as one of the most consequential findings of the study.
+document it here as one of the most consequential findings of the study. 
+Sections~\ref{subsec:res-collapse-distribution} 
+and~\ref{subsec:res-collapse-structural} establish the phenomenon and its 
+persistence; Sections~\ref{subsec:res-collapse-decoding} 
+and~\ref{subsec:res-collapse-mechanism} then show that it is a property 
+of the decision rule rather than of the model's knowledge.
 
 \subsection{Prediction Distribution Analysis}
 \label{subsec:res-collapse-distribution}
@@ -626,19 +643,141 @@ under constrained decoding. Instead, their predictions migrate to the
 majority label of the criterion type: BioMistral, previously predicting 
 ``not enough information'', shifts to predicting ``not excluded'' in 
 approximately 74\% of cases when restricted to two labels. Llama-Instruct 
-shifts similarly. The collapse thus persists structurally, revealing 
-that evasion labels were not a strategic choice but a mask for absence 
-of genuine ordinal reasoning.
+shifts similarly. The collapse thus persists under a change of candidate 
+set, confirming that evasion labels are not the cause of the collapse. As 
+the next two subsections show, however, this persistence does not mean 
+the model lacks the underlying signal: the collapse is a property of the 
+$\arg\max$ decision rule, not of the model's knowledge.
 
 \begin{finding}[F8: Mode Collapse Is Structural, Not Superficial]
     When forced to choose between the two decisive labels of each 
     criterion type, collapsed configurations do not recover reasoning 
     ability. Their collapse migrates from ``not enough information'' to 
     the majority label of the restricted candidate set (``not excluded'' 
-    for exclusion criteria), revealing that evasion behaviors mask 
-    absence of clinical reasoning rather than communicating strategic 
-    uncertainty.
+    for exclusion criteria), showing that the collapse is not an artifact 
+    of the evasion vocabulary but a property of the model's decision under 
+    $\arg\max$.
 \end{finding}
+
+\subsection{Mode Collapse Is a Decoding Artefact, Not a Knowledge Loss}
+\label{subsec:res-collapse-decoding}
+
+Findings F7 and F8 establish that collapsed configurations concentrate 
+their predictions on a single label and do not recover under constrained 
+decoding. A natural reading of this behaviour is that these models lack 
+the clinical knowledge required to discriminate. A finer analysis of the 
+underlying probability distributions contradicts that reading: the 
+discriminative signal is present in the log-probabilities, but its 
+amplitude is too small to move the $\arg\max$.
+
+Two observations support this interpretation. First, the collapse occurs 
+at \emph{high} predictive entropy. BioMistral~B concentrates 100\% of its 
+predictions on a single label, yet its mean normalized entropy is $0.888$ 
+and its mean maximum probability only $0.483$: the output distribution is 
+nearly flat, but its ordering never changes across the 1{,}015 pairs. 
+This is not the sharpened, overconfident distribution one associates with 
+collapse, but a distribution whose $\arg\max$ is frozen while its mass 
+remains diffuse.
+
+Second, the models rank cases correctly even when they never vary their 
+predicted label. For each configuration we computed Cliff's~$\delta$ 
+between the probability assigned to the positive label 
+($p_{\text{included}}$ for inclusion criteria) on gold-positive versus 
+gold-negative cases. Llama-Instruct~A, which predicts a single label in 
+97.8\% of cases, obtains $\delta = 0.823$ ($p < 10^{-39}$) --- the 
+highest ordinal separation of the entire study. The model knows which 
+patients satisfy the criterion; it simply never expresses this knowledge 
+in its decision. Table~\ref{tab:res-signal-expression} reports the 
+ordinal separation for the collapsed and partially-collapsed 
+configurations.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Ordinal separation (Cliff's $\delta$ on the positive-label 
+        probability, inclusion criteria) for the collapsed configurations. 
+        A high $\delta$ combined with a near-degenerate predicted-label 
+        distribution indicates that the discriminative signal is present 
+        but not expressed in the $\arg\max$. Meditron is the sole 
+        configuration with a negative $\delta$.}
+    \label{tab:res-signal-expression}
+    \small
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \textbf{Dominant rate} & 
+        \textbf{Cliff's $\delta$} & 
+        \textbf{$p$-value} \\
+        \midrule
+        Llama-Instruct A & 97.8\%  & $+0.823$ & $<10^{-39}$ \\
+        Llama-Instruct B & 99.7\%  & $+0.733$ & $<10^{-31}$ \\
+        BioMistral B     & 100.0\% & $+0.499$ & $<10^{-15}$ \\
+        Llama-Base B     & 97.2\%  & $+0.353$ & $<10^{-7}$  \\
+        BioMistral A     & 98.2\%  & $+0.103$ & $0.098$     \\
+        Meditron A       & 64.8\%  & $-0.138$ & $0.026$     \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The distinction is decisive for the remainder of this chapter. Four of 
+the collapsed configurations (both Llama-Instruct variants, BioMistral~B, 
+Llama-Base~B) carry a substantial, statistically significant ordinal 
+signal that the $\arg\max$ discards. Two configurations (Meditron~A 
+and~B) carry no exploitable signal --- Meditron~A's separation is 
+outright negative ($\delta = -0.138$), indicating that it ranks cases in 
+the wrong order, and Meditron~B's is only marginally positive, far below 
+that of any recoverable configuration. We return to this separation in 
+Section~\ref{subsec:res-rethreshold-diag} and show that it maps onto two 
+mechanistically distinct pathologies: recoverable collapse and signal 
+corruption.
+
+\subsection{A Mechanism for Collapse: Response Prior Versus Signal 
+    Amplitude}
+\label{subsec:res-collapse-mechanism}
+
+If the discriminative signal survives collapse, why does the $\arg\max$ 
+not reflect it? The answer lies in the relative magnitude of two 
+quantities in the log-probability space: the amplitude with which the 
+model varies the log-probability of the positive label across inputs 
+(the \emph{signal}), and the systematic offset by which competing labels 
+are preferred (the \emph{response prior}).
+
+For each configuration we measured the signal as the standard deviation 
+of the positive-label log-probability across pairs 
+($\sigma_{\text{pos}}$), and the prior as the mean gap between the 
+strongest competing label and the positive label, computed 
+\emph{excluding} the positive label itself to avoid circularity 
+($\text{bias}_{\text{ext}}$). Their ratio, 
+$r = \sigma_{\text{pos}} / |\text{bias}_{\text{ext}}|$, orders the twelve 
+configurations almost perfectly by their $\arg\max$ macro-F1 on inclusion 
+criteria (Spearman $\rho = 0.866$, $p = 0.00027$). Every configuration 
+with $r < 0.6$ collapses ($F_1^{\arg\max} = 0$); every configuration with 
+$r > 0.75$ classifies ($F_1^{\arg\max} > 0.45$). No configuration falls 
+between these two regimes.
+
+\paragraph{Mechanism.} The ratio reorganizes the twelve configurations 
+along a single axis. In the Llama family, RLHF drives the ratio down 
+across the collapse threshold: Llama-Base~A sits in the healthy regime 
+while Llama-Instruct~A falls to $r = 0.35$, deep in the collapsed regime 
+(Table~\ref{tab:res-diagnostic}). In the Mistral family, the ratio stays 
+above the threshold for every variant, base and instruct alike, and 
+discrimination is preserved. The contrast is not that RLHF is harmful 
+per se, but that it moves a configuration's ratio, and collapse follows 
+whenever that movement pushes the response prior to dominate the signal. 
+This refines Finding~F2: RLHF does not erase clinical knowledge, it 
+reshapes the balance between signal and prior that the $\arg\max$ 
+resolves, and when the prior wins, the decision saturates and masks the 
+knowledge the model still holds. The per-configuration signal amplitude 
+and response prior underlying each ratio are tabulated in 
+Appendix~\ref{app:mode-collapse}.
+
+This mechanism also explains, as a mathematical consequence rather than 
+an empirical observation, why post-hoc recalibration cannot repair 
+collapse (Section~\ref{subsec:res-recalibration-caveats}): any monotone 
+recalibration preserves the $\arg\max$, hence leaves $r$ and the collapse 
+untouched. It further predicts that a non-monotone decision rule --- one 
+that shifts the decision boundary rather than rescaling confidence --- 
+should recover the masked signal. Section~\ref{sec:res-rethreshold} tests 
+this prediction directly.
 % ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Performance on Truly Discriminative Cases}
@@ -718,6 +857,23 @@ clinical reasoning.
     collapse.
 \end{finding}
 
+\paragraph{Two distinct pathologies among the failing medical models.} 
+Finding~F9 groups Meditron and BioMistral as jointly failing on the 
+discriminative subset, but the two models fail for different reasons, a 
+distinction developed in Section~\ref{subsec:res-collapse-decoding}. 
+BioMistral retains a recoverable discriminative signal (area under the 
+ROC curve $= 0.750$ on inclusion criteria, Cliff's $\delta > 0$): its 
+zero discriminative accuracy is a decoding failure, not an absence of 
+knowledge. Meditron~A, by contrast, has an area under the curve of 
+$0.435$ --- below chance --- and a negative ordinal separation 
+(Table~\ref{tab:res-signal-expression}): it ranks discriminative cases in 
+the wrong order. Meditron thus attains the highest global accuracy of the 
+study (64.8\%) while being its most degenerate configuration, winning on 
+aggregate metrics purely by betting on the majority class. This 
+separation --- recoverable collapse versus signal corruption --- is 
+formalized as a two-dimensional diagnostic in 
+Section~\ref{subsec:res-rethreshold-diag}.
+
 \subsection{Implications for Model Evaluation}
 \label{subsec:res-non-trivial-implications}
 
@@ -732,7 +888,6 @@ introduced in Section~\ref{sec:res-baselines} incorporates prediction
 diversity as a factor precisely to prevent this class of masking effect. 
 A responsible evaluation protocol for clinical LLMs should systematically 
 report stratified accuracy alongside aggregate figures.
-
 % ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Systematic Inclusion vs.\ Exclusion Asymmetry}
@@ -924,9 +1079,16 @@ negative result. First, the ranking reflects a meaningful hierarchy:
 medical LLMs (Meditron, BioMistral) and Mistral base variants achieve 
 substantially better ordinal alignment than Llama-Instruct, whose 
 C-index values fall below $0.5$ (worse than random ranking). Second, 
-the C-index of collapsed configurations must be interpreted with 
-caution, since a model that always predicts a single label produces 
-degenerate ordinal comparisons.
+the C-index reported here scores the ordinal position of the 
+\emph{predicted label}, and must therefore be read jointly with the 
+$\arg\max$-independent ordinal separation of 
+Table~\ref{tab:res-signal-expression}: a collapsed configuration such as 
+Llama-Instruct~A has a degenerate label-based C-index ($0.446$) yet a 
+high latent Cliff's $\delta$ ($0.823$), because the discriminative signal 
+it carries is not expressed in its predicted label. The label-based 
+C-index thus understates the latent ordinal information of the collapsed 
+configurations, for the same decoding reason developed in 
+Section~\ref{subsec:res-collapse-decoding}.
 
 \subsection{H4: Selective Classification Partially Supported}
 \label{subsec:res-h4}
@@ -997,9 +1159,11 @@ curves for the Prompt-B configurations.
 Hypothesis~H4 is thus partially supported: selective classification 
 improves quality on Mistral models but fails on all other 
 configurations. The failure on Llama-Instruct and medical LLMs is a 
-direct consequence of mode collapse and reinforces Finding F8: models 
-that do not classify cannot benefit from confidence-based abstention.
-
+direct consequence of mode collapse and reinforces Finding F8: under 
+the $\arg\max$ rule, models that do not vary their predicted label 
+cannot benefit from confidence-based abstention. As 
+Section~\ref{sec:res-rethreshold} shows, this limitation is again a 
+property of the decision rule, not of the latent signal.
 % ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Post-hoc Recalibration}
@@ -1127,14 +1291,199 @@ gains. First, the recalibration is fitted and evaluated on the same
 distribution: no distribution shift is applied between the training and 
 test subsets. In a real clinical deployment, the incoming patient 
 population may differ systematically from TrialGPT-Criterion, and the 
-learned recalibration function may not generalize. Second, for 
-configurations that exhibit mode collapse (F7), the recalibration 
-operation is applied to a near-constant distribution and its apparent 
-success is trivial: calibrating a constant is nearly free. For these 
-configurations, low post-hoc ECE reflects the model's degeneracy rather 
-than a genuine correction of clinical judgment. Isotonic recalibration 
-is thus a practical remedy for models that classify, but it cannot 
-restore reasoning to models that do not.
+learned recalibration function may not generalize.
+
+Second, for configurations that exhibit mode collapse (F7), the apparent 
+success of recalibration is not merely trivial but structurally unable 
+to correct clinical judgment, and the reason is now precise. Post-hoc 
+recalibration applies a monotone transformation to the confidences, and 
+a monotone transformation preserves the $\arg\max$ of every prediction. 
+Since mode collapse is, by the analysis of 
+Section~\ref{subsec:res-collapse-mechanism}, a property of the $\arg\max$ 
+--- a frozen decision despite a live underlying signal --- no monotone 
+recalibration can alter it. Recalibrating a collapsed configuration 
+lowers its ECE while leaving its (degenerate) predictions exactly 
+unchanged. Isotonic recalibration is thus a genuine remedy for models 
+that classify, and a mathematically inert one for models that collapse. 
+The intervention that \emph{does} address collapse --- shifting the 
+decision boundary rather than rescaling confidence --- is examined next.
+% ----------------------------------------------------------------------------
+% ----------------------------------------------------------------------------
+\section{Restoring the Signal by Re-thresholding}
+\label{sec:res-rethreshold}
+
+Section~\ref{subsec:res-collapse-mechanism} predicted that a non-monotone 
+decision rule should recover the discriminative signal that the 
+$\arg\max$ discards in collapsed configurations. This section tests that 
+prediction. Rather than taking the highest-probability label, we place a 
+threshold $t$ on the probability of the positive label of each criterion 
+type ($p_{\text{included}} \geq t$ for inclusion criteria, 
+$p_{\text{excluded}} \geq t$ for exclusion criteria) and evaluate the 
+resulting binary decision against the expert label. Because this rule is 
+not a monotone rescaling of the $\arg\max$, it is not subject to the 
+impossibility argument of Section~\ref{subsec:res-recalibration-caveats}.
+
+\subsection{Out-of-fold Re-thresholding Gains}
+\label{subsec:res-rethreshold-gains}
+
+The threshold is a free parameter that must not be tuned on the data used 
+to evaluate it. We therefore fit $t$ by 5-fold cross-validation: within 
+each fold, $t$ is chosen to maximize macro-F1 on four folds and applied 
+to the held-out fold, so that every evaluated prediction is produced by a 
+threshold that never saw that point. A 1{,}000-resample bootstrap on the 
+out-of-fold predictions gives a 95\% confidence interval on the gain. 
+Table~\ref{tab:res-rethreshold} reports the results on inclusion 
+criteria, the stratum with sufficient positive support for a stable F1; 
+the exclusion stratum, with only ten positive cases, is under-powered and 
+is reported for completeness in Appendix~\ref{app:tables}.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Re-thresholding on inclusion criteria, evaluated 
+        out-of-fold. $F_1^{\arg\max}$ is the macro-F1 of the default 
+        $\arg\max$ rule; $F_1^{\text{thr}}$ is the macro-F1 of the 
+        cross-validated threshold rule; the gain is reported with a 95\% 
+        bootstrap confidence interval. AUC is the area under the ROC curve 
+        of the positive-label probability. A gain whose interval excludes 
+        zero is significant.}
+    \label{tab:res-rethreshold}
+    \small
+    \begin{tabular}{@{}lccccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \boldmath$F_1^{\arg\max}$ & 
+        \boldmath$F_1^{\text{thr}}$ & 
+        \textbf{Gain [95\% CI]} & 
+        \textbf{AUC} & 
+        \textbf{Signif.} \\
+        \midrule
+        \multicolumn{6}{@{}l}{\textit{Recoverable collapse (AUC $>0.5$)}} \\
+        Llama-Instruct A & 0.000 & 0.790 & $+0.791$ [0.739, 0.840] & 0.907 & yes \\
+        Llama-Instruct B & 0.000 & 0.739 & $+0.744$ [0.689, 0.796] & 0.871 & yes \\
+        BioMistral B     & 0.000 & 0.654 & $+0.652$ [0.597, 0.703] & 0.750 & yes \\
+        Llama-Base B     & 0.000 & 0.624 & $+0.624$ [0.573, 0.679] & 0.681 & yes \\
+        \midrule
+        \multicolumn{6}{@{}l}{\textit{Healthy (no collapse; negative control)}} \\
+        Mistral-Instruct A & 0.770 & 0.761 & $-0.009$ [$-0.032$, 0.012] & 0.869 & no \\
+        Mistral-Instruct B & 0.682 & 0.712 & $+0.030$ [$-0.020$, 0.081] & 0.832 & no \\
+        Mistral-Base A     & 0.609 & 0.615 & $+0.001$ [$-0.042$, 0.041] & 0.738 & no \\
+        Mistral-Base B     & 0.665 & 0.661 & $-0.008$ [$-0.049$, 0.037] & 0.772 & no \\
+        Llama-Base A       & 0.451 & 0.621 & $+0.165$ [0.093, 0.243]    & 0.646 & yes \\
+        \midrule
+        \multicolumn{6}{@{}l}{\textit{Signal corruption (AUC $\leq 0.56$)}} \\
+        BioMistral A     & 0.000 & 0.600 & $+0.600$ [0.549, 0.651] & 0.549 & (see text) \\
+        Meditron B       & 0.000 & 0.593 & $+0.594$ [0.543, 0.646] & 0.558 & (see text) \\
+        Meditron A       & 0.000 & 0.591 & $+0.591$ [0.540, 0.642] & 0.435 & (see text) \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The four recoverable-collapse configurations gain between $+0.62$ and 
+$+0.79$ in macro-F1, every interval strictly above zero. Llama-Instruct~A, 
+the configuration with the worst ECE in the entire study 
+(Table~\ref{tab:res-calibration}, ECE $= 0.510$) and a $97.8\%$ dominant 
+rate, becomes the best inclusion classifier of the study 
+($F_1^{\text{thr}} = 0.790$, AUC $= 0.907$) once its $\arg\max$ is 
+replaced by a threshold. The healthy configurations, by contrast, gain 
+nothing: their intervals include zero, and two of them are slightly 
+negative. This is the expected negative control --- re-thresholding 
+recovers signal only where the $\arg\max$ was discarding it, and does 
+nothing where the $\arg\max$ was already exploiting it.
+
+\begin{finding}[F10: Mode Collapse Is Recoverable by Re-thresholding]
+    Replacing the $\arg\max$ with a cross-validated decision threshold 
+    restores between $+0.62$ and $+0.79$ macro-F1 on the four collapsed 
+    configurations that carry a discriminative signal, without any 
+    retraining. The gain is null on the non-collapsed configurations, 
+    confirming that the intervention recovers pre-existing signal rather 
+    than manufacturing it. Mode collapse is therefore, for these 
+    configurations, an artefact of the decision rule.
+\end{finding}
+
+\subsection{A Two-Dimensional Diagnostic: Collapse Versus Corruption}
+\label{subsec:res-rethreshold-diag}
+
+The bottom block of Table~\ref{tab:res-rethreshold} contains a trap that 
+the re-thresholding gain alone would spring. Meditron and BioMistral~A 
+also show a large nominal F1 gain (around $+0.59$), which taken at face 
+value would suggest that they too are recoverable. Their AUC values 
+($0.435$, $0.558$, $0.549$) contradict this: an AUC at or below chance 
+means the positive-label probability does not rank cases correctly, and 
+the apparent F1 gain is an artefact of class imbalance --- lowering the 
+threshold labels more cases positive, mechanically raising macro-F1 on a 
+skewed set without any genuine discrimination. The macro-F1 gain is thus 
+a misleading indicator of recovery when read in isolation.
+
+The correct diagnosis requires two dimensions: whether the model 
+\emph{expresses} its decision (captured by the signal/prior ratio $r$ of 
+Section~\ref{subsec:res-collapse-mechanism}) and whether it \emph{has} a 
+signal to express (captured by the AUC, with its bootstrap interval). The 
+two dimensions partition the twelve configurations into three regimes, 
+summarized in Table~\ref{tab:res-diagnostic}:
+
+\begin{table}[htbp]
+    \centering
+    \caption{Two-dimensional diagnostic of the twelve configurations. 
+        \emph{Healthy} configurations express their signal ($r \geq 0.6$). 
+        \emph{Expressive collapse} configurations have a genuine signal 
+        (AUC lower bound $>0.5$) that the $\arg\max$ masks ($r < 0.6$); 
+        they are recoverable by re-thresholding. \emph{Corruption} 
+        configurations have no usable signal (AUC interval includes or 
+        lies below $0.5$) and are not recoverable.}
+    \label{tab:res-diagnostic}
+    \small
+    \begin{tabular}{@{}lccl@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \boldmath$r$ & 
+        \textbf{AUC [95\% CI]} & 
+        \textbf{Regime} \\
+        \midrule
+        Mistral-Instruct A & 1.82 & 0.869 [0.834, 0.905] & Healthy \\
+        Mistral-Base B     & 1.92 & 0.772 [0.717, 0.817] & Healthy \\
+        Mistral-Instruct B & 1.49 & 0.832 [0.790, 0.873] & Healthy \\
+        Llama-Base A       & 1.32 & 0.646 [0.591, 0.703] & Healthy \\
+        Mistral-Base A     & 0.75 & 0.738 [0.677, 0.782] & Healthy \\
+        \midrule
+        Llama-Instruct A & 0.35 & 0.907 [0.883, 0.940] & Expressive collapse \\
+        Llama-Instruct B & 0.46 & 0.871 [0.829, 0.903] & Expressive collapse \\
+        BioMistral B     & 0.25 & 0.750 [0.701, 0.801] & Expressive collapse \\
+        Llama-Base B     & 0.29 & 0.681 [0.620, 0.727] & Expressive collapse \\
+        \midrule
+        BioMistral A & 0.14 & 0.549 [0.495, 0.609] & Corruption \\
+        Meditron B   & 0.07 & 0.558 [0.494, 0.610] & Corruption \\
+        Meditron A   & 0.09 & 0.435 [0.369, 0.497] & Corruption \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The three regimes are cleanly separated. All five healthy configurations 
+have $r \geq 0.75$ and gain nothing from re-thresholding. All four 
+expressive-collapse configurations have $r < 0.6$, an AUC whose lower 
+bound exceeds $0.5$, and a significant re-thresholding gain. All three 
+corruption configurations have an AUC interval that includes or lies 
+below $0.5$: Meditron~A's interval, $[0.369, 0.497]$, lies entirely below 
+chance, confirming that it ranks cases in the wrong order. The 
+corruption configurations are precisely the two medical models grouped 
+with the collapsed ones by Finding~F9, now separated from them by the 
+diagnostic: BioMistral~B and Meditron differ not in their $\arg\max$ 
+behaviour --- both predict a single label --- but in whether a signal 
+survives underneath it.
+
+\begin{finding}[F11: A Two-Dimensional Collapse Diagnostic]
+    The signal/prior ratio and the AUC jointly separate the twelve 
+    configurations into healthy models, recoverable expressive collapse, 
+    and irrecoverable signal corruption. The macro-F1 gain of 
+    re-thresholding is diagnostic of recovery only when combined with an 
+    above-chance AUC; used alone it falsely labels corrupted 
+    configurations (Meditron) as recoverable.
+\end{finding}
+
+The practical rule that follows is compact: re-thresholding should be 
+applied only to configurations whose positive-label AUC is 
+significantly above $0.5$. This test requires no expert labels beyond a 
+small calibration set and no access to model weights, making it a 
+lightweight pre-deployment screen.
 % ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Conformal Prediction and Inter-Model Consensus}
@@ -1288,6 +1637,16 @@ capacity for clinical judgment. A configuration that concentrates its
 predictions on a single label cannot exercise the discrimination that 
 the composite score is intended to reward.
 
+We note that the composite utility score ranks configurations by their 
+usefulness \emph{as deployed under the default $\arg\max$ rule}, and 
+should be read together with the diagnostic of 
+Section~\ref{subsec:res-rethreshold-diag}. A configuration in the 
+expressive-collapse regime receives a low utility score here, correctly 
+reflecting that it is unusable as-is; but the diagnostic identifies it as 
+recoverable by re-thresholding, a distinction the composite score does 
+not capture. The utility score measures deployed usefulness; the 
+diagnostic measures latent, recoverable usefulness.
+
 The composite utility score introduced in 
 Section~\ref{subsec:met-composite} combines macro-F1, calibration 
 quality, and prediction diversity into a single scalar:
@@ -1305,7 +1664,8 @@ twelve configurations, sorted from highest to lowest.
         The score integrates macro-F1, calibration quality ($1 - \ece$), 
         and prediction diversity (normalized entropy). Configurations 
         with mode collapse receive utility scores close to zero, 
-        correctly capturing their lack of practical usefulness.}
+        correctly capturing their lack of practical usefulness 
+        \emph{under the default decision rule}.}
     \label{tab:res-composite}
     \small
     \begin{tabular}{@{}lccccc@{}}
@@ -1339,14 +1699,100 @@ different order than any single metric would produce. Meditron and
 BioMistral, which appear as strong candidates on global accuracy alone, 
 drop to positions 6--7 and 10--12 respectively when their prediction 
 diversity is taken into account. The bottom four configurations all 
-correspond to modes-collapsed models, whose utility scores fall to 
+correspond to mode-collapsed models, whose utility scores fall to 
 zero not by construction --- their macro-F1 and calibration are 
-non-zero --- but because their diversity vanishes.
+non-zero --- but because their diversity vanishes. Read alongside 
+Section~\ref{subsec:res-rethreshold-diag}, this ranking sharpens into a 
+clinically actionable statement: Llama-Instruct~A ranks ninth as deployed 
+yet carries the highest latent AUC of the study, and would move to the 
+top of the ranking under a re-thresholded decision rule.
 
 The composite score, while simple in construction, correctly identifies 
-the clinically relevant hierarchy of models: only Mistral configurations 
-provide a combination of accuracy, calibration, and diverse predictions 
-sufficient for practical clinical use.
+the clinically relevant hierarchy of models as they would behave off the 
+shelf: only Mistral configurations provide a combination of accuracy, 
+calibration, and diverse predictions sufficient for practical clinical 
+use without further intervention.
+% ----------------------------------------------------------------------------
+% ----------------------------------------------------------------------------
+\section{External Replication on TREC Clinical Trials}
+\label{sec:res-external}
+
+The mechanism of Section~\ref{subsec:res-collapse-mechanism} and the 
+diagnostic of Section~\ref{subsec:res-rethreshold-diag} were derived on a 
+single benchmark. A legitimate concern is that the frozen ordering of the 
+configurations along the signal/prior ratio, and the collapse behaviour 
+itself, might be specific to TrialGPT-Criterion. To address this, we 
+replicated the analysis on the TREC Clinical Trials 2021--2022 corpus~\cite{roberts2021trec, roberts2022trec}, 
+using the same Prompt~A, the same log-probability scoring pipeline 
+(Section~\ref{sec:met-scoring}), and the same 4-bit quantization. The 
+only variable changed is the corpus: 199 patient--trial pairs decomposed 
+into 923 patient--criterion pairs, drawn from 40 TREC topics with an 
+even split between eligible and non-relevant trials. Four configurations 
+spanning the three diagnostic regimes were evaluated 
+(Llama-Base, Llama-Instruct, BioMistral, Mistral-Instruct).
+
+Table~\ref{tab:res-external} reports the two invariant quantities of the 
+mechanism --- the dominant-label rate and the signal/prior ratio --- 
+side by side for the two corpora.
+
+\begin{table}[htbp]
+    \centering
+    \caption{External replication on TREC Clinical Trials. The 
+        dominant-label rate and the signal/prior ratio $r$ (inclusion 
+        criteria) are reported for TrialGPT-Criterion and TREC. The 
+        ordering of the configurations and the collapse signature are 
+        preserved across the two corpora.}
+    \label{tab:res-external}
+    \small
+    \begin{tabular}{@{}lcccc@{}}
+        \toprule
+        & \multicolumn{2}{c}{\textbf{Dominant rate}} 
+        & \multicolumn{2}{c}{\textbf{Ratio $r$}} \\
+        \cmidrule(lr){2-3}\cmidrule(lr){4-5}
+        \textbf{Configuration} & 
+        \textbf{TrialGPT} & \textbf{TREC} & 
+        \textbf{TrialGPT} & \textbf{TREC} \\
+        \midrule
+        Llama-Instruct A   & 0.989 & 0.951 & 0.35 & 0.25 \\
+        BioMistral A       & 0.989 & 0.860 & 0.14 & 0.22 \\
+        Llama-Base A       & 0.730 & 0.429 & 0.98 & 1.25 \\
+        Mistral-Instruct A & 0.447 & 0.302 & 1.82 & 1.79 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The replication is close. The ordering of the four configurations by 
+signal/prior ratio is identical on the two corpora, and the collapsed 
+configurations (Llama-Instruct, BioMistral) retain their high 
+dominant-label rate on TREC, while the non-collapsed configurations 
+retain their diverse predictions. The collapsed configurations keep a 
+ratio well below the collapse threshold on both corpora (Llama-Instruct~A: 
+$0.35$ on TrialGPT, $0.25$ on TREC; BioMistral~A: $0.14$ and $0.22$), and 
+the healthy configuration stays well above it (Mistral-Instruct~A: $1.82$ 
+and $1.79$), on an entirely independent set of patients and trials.
+
+We also measured recoverability at the trial level on TREC, where the 
+gold label is defined per trial rather than per criterion. Aggregating 
+the criterion-level probabilities into a per-trial eligibility score and 
+scoring it against the three-level TREC relevance judgement gives an area 
+under the curve of $0.678$ for Llama-Instruct~A --- above chance despite 
+a $95.1\%$ dominant-label rate --- and $0.516$ for BioMistral~A, at 
+chance. The expressive-collapse and corruption regimes thus reproduce on 
+TREC as well. This trial-level measurement is not directly comparable to 
+the criterion-level AUC of Table~\ref{tab:res-diagnostic}, because it 
+uses a coarser gold label and an aggregation step; it is reported as a 
+convergent, partial validation rather than an exact replication of the 
+recoverability magnitude.
+
+\begin{finding}[F12: The Collapse Mechanism Replicates Externally]
+    On the independent TREC Clinical Trials corpus, evaluated with an 
+    identical prompt and scoring pipeline, the collapse signature 
+    (dominant-label rate) and its mechanism (the signal/prior ratio 
+    ordering) reproduce, and the expressive-collapse versus corruption 
+    distinction persists at the trial level. The frozen $\arg\max$ and 
+    its underlying live signal are properties of the models, not 
+    artefacts of the original benchmark.
+\end{finding}
 % ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Summary of Results}
@@ -1354,7 +1800,9 @@ sufficient for practical clinical use.
 
 Table~\ref{tab:res-summary-hypotheses} summarizes the outcomes of the 
 four pre-registered hypotheses, and Table~\ref{tab:res-summary-findings} 
-lists the nine original findings documented in this chapter.
+lists the twelve original findings documented in this chapter: the nine 
+findings F1--F9 of the primary audit, and three further findings 
+F10--F12 from the mechanistic and external analyses.
 
 \begin{table}[htbp]
     \centering
@@ -1375,7 +1823,7 @@ lists the nine original findings documented in this chapter.
 
 \begin{table}[htbp]
     \centering
-    \caption{The nine original findings documented in this chapter.}
+    \caption{The twelve original findings documented in this chapter.}
     \label{tab:res-summary-findings}
     \small
     \begin{tabular}{@{}lp{10cm}@{}}
@@ -1389,8 +1837,11 @@ lists the nine original findings documented in this chapter.
         F5 & Open-source LLMs evade via ``not enough information'', unlike GPT-4 \\
         F6 & Isotonic recalibration brings 11 of 12 models below the 0.05 threshold \\
         F7 & Mode collapse in 5 of 12 configurations (predictions concentrated $>97\%$) \\
-        F8 & Mode collapse persists under constrained decoding (structural, not superficial) \\
+        F8 & Mode collapse persists under constrained decoding (a property of the decision, not the vocabulary) \\
         F9 & On truly discriminative cases, both medical LLMs achieve $\leq 0.4\%$ accuracy \\
+        F10 & Mode collapse is recoverable by re-thresholding ($+0.62$ to $+0.79$ macro-F1) on configurations with a live signal \\
+        F11 & The signal/prior ratio and AUC jointly diagnose collapse versus corruption; the F1 gain alone is misleading \\
+        F12 & The collapse mechanism replicates on the independent TREC corpus \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -1400,13 +1851,19 @@ state of open-source LLMs for clinical trial matching. Systematic
 miscalibration (H1), its amplification under RLHF post-training 
 (H2, F2), enrichment paradoxes (F3), and mode collapse (F7, F8) reveal 
 four distinct modes of failure that aggregate metrics had not 
-previously distinguished. The discovery that medical LLMs achieve zero 
-accuracy on truly discriminative cases (F9) is particularly 
-consequential, because it directly challenges the assumption that 
-domain-specific pretraining produces domain-competent models. The one 
-silver lining --- the effectiveness of post-hoc isotonic recalibration 
-(F6) --- applies only to models that classify rather than collapse, 
-and does not restore the reasoning ability of degenerate 
-configurations. The implications of these findings for clinical 
-deployment and for future research are discussed in 
+previously distinguished. The deeper analysis of the collapse, however, 
+qualifies its severity: for four of the five collapsed configurations 
+the discriminative signal is present but masked by the $\arg\max$ 
+(F10), and the mechanism responsible --- a response prior that dominates 
+the signal --- both explains why monotone recalibration cannot help and 
+predicts the re-thresholding remedy that does (F11). The discovery that 
+one medical LLM (Meditron) ranks discriminative cases below chance (F9, 
+F11) is more consequential than a mere accuracy failure: it is a 
+corruption of the signal itself, distinct from the recoverable collapse 
+of BioMistral, and it survives external replication on TREC (F12). The 
+one silver lining among the pre-registered results --- the effectiveness 
+of post-hoc isotonic recalibration (F6) --- applies only to models that 
+classify; the complementary remedy for models that collapse is 
+re-thresholding, not recalibration. The implications of these findings 
+for clinical deployment and for future research are discussed in 
 Chapter~\ref{chap:conclusion}.

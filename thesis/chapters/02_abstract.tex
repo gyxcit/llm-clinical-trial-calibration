@@ -9,44 +9,44 @@
 Patient matching to clinical trials is a bottleneck in translational 
 medicine, and recent large language model (LLM) systems such as TrialGPT 
 aim to automate the assessment of patient eligibility against inclusion 
-and exclusion criteria. Beyond raw accuracy, however, the probabilistic 
-reliability of these systems has not been systematically audited. A 
-recent scoping review of twenty-four LLM-based matching systems 
-identified zero that report calibration metrics. This omission is 
-consequential: an overconfident model that misclassifies with high 
-confidence is clinically worse than an accurate but honestly uncertain 
-one.
+and exclusion criteria. Beyond raw accuracy, however, their probabilistic 
+reliability has not been systematically audited: a recent scoping review 
+of twenty-four LLM-based matching systems found none that report 
+calibration metrics. Yet an overconfident model that misclassifies with 
+high confidence is clinically worse than an accurate but honestly 
+uncertain one.
 
 We conducted the first systematic calibration audit of open-source LLMs 
-in this domain. Twelve configurations (six models crossed with two 
-prompt variants) were evaluated on the 1{,}015 patient--criterion pairs 
-of TrialGPT-Criterion-Annotations. Four pre-registered hypotheses were 
-tested with permutation tests and Bonferroni correction, and stability 
-was verified through five-fold cross-validation and comparison to 
-naive baselines. Probability distributions were extracted through 
-direct log-probability scoring rather than free-form generation.
+in this domain: twelve configurations (six models $\times$ two prompts) 
+evaluated on the 1{,}015 patient--criterion pairs of 
+TrialGPT-Criterion-Annotations, using direct log-probability scoring and 
+four pre-registered hypotheses with Bonferroni-corrected permutation 
+tests.
 
-All twelve configurations exhibit Expected Calibration Error above the 
-clinical threshold of $0.05$, with values ranging from $0.124$ to 
-$0.602$. Reinforcement learning from human feedback significantly 
-degrades calibration on both the Mistral-7B and Llama-3.1-8B families 
-(all four tests, $p < 0.003$). Three novel findings emerge from deeper 
-analysis: enriched expert prompts degrade calibration in five of six 
-models; five configurations exhibit mode collapse, predicting a single 
-label in more than $97\%$ of cases; on the $238$ pairs requiring 
-truly discriminative decisions, both medical LLMs tested (Meditron and 
-BioMistral) achieve accuracy at or below $0.4\%$. Post-hoc isotonic 
-recalibration brings eleven of twelve configurations below the 
-calibration threshold but cannot restore reasoning to collapsed models.
+All twelve configurations exceed the clinical threshold of $0.05$ 
+(Expected Calibration Error from $0.124$ to $0.602$), and RLHF 
+significantly degrades calibration on both model families ($p < 0.003$). 
+Five configurations exhibit mode collapse, and both medical LLMs achieve 
+accuracy at or below $0.4\%$ on the $238$ discriminative cases. We then 
+show this collapse to be largely a decoding artefact rather than a 
+knowledge loss: the discriminative signal survives in the 
+log-probabilities (area under the curve up to $0.91$) but is masked by a 
+response prior. A single scalar, the signal-to-prior ratio, predicts 
+collapse and explains why monotone recalibration cannot repair it while a 
+simple re-thresholding rule restores up to $+0.79$ macro-F1. The analysis 
+separates recoverable collapse from irrecoverable corruption, and both 
+replicate on the independent TREC Clinical Trials corpus.
 
-Aggregate calibration and accuracy metrics can mask complete failure of 
-open-source medical LLMs on clinically decisive cases. A responsible 
-evaluation protocol must combine calibration, prediction diversity, and 
-stratified analysis by case difficulty.
+Aggregate metrics can thus mask complete failure on clinically decisive 
+cases, and can equally mask a recoverable signal beneath an apparent 
+failure. A responsible evaluation protocol must combine calibration, 
+prediction diversity, stratified analysis by case difficulty, and a 
+diagnostic distinguishing a collapsed decision rule from a corrupted 
+signal.
 
 \vspace{0.5cm}
 \noindent\textbf{Keywords:} large language models, calibration, 
 clinical trial matching, RLHF, medical AI, mode collapse, expected 
-calibration error.
+calibration error, re-thresholding.
 
 \cleardoublepage

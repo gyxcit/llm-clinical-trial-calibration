@@ -293,3 +293,50 @@ prediction distribution.
         \bottomrule
     \end{tabular}
 \end{table}
+% ----------------------------------------------------------------------------
+\section{Re-thresholding on Exclusion Criteria}
+\label{sec:app-rethreshold-excl}
+
+Section~\ref{sec:res-rethreshold} reports the out-of-fold re-thresholding 
+gains on inclusion criteria, the stratum with sufficient positive support 
+for a stable macro-F1. Table~\ref{tab:app-rethreshold-excl} reports the 
+corresponding results on exclusion criteria for completeness. This stratum 
+contains only ten gold-positive (\emph{excluded}) cases, so the estimates 
+are under-powered: the confidence intervals are wide and the 
+cross-validated threshold is unstable across folds. The results are 
+included for transparency but are not used to support any claim in the 
+main text, where the inclusion stratum is the reference.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Re-thresholding on exclusion criteria, evaluated 
+        out-of-fold. The exclusion stratum has only ten gold-positive 
+        cases; the wide confidence intervals and high threshold variance 
+        ($\sigma_t$) reflect this limited support. Reported for 
+        completeness only.}
+    \label{tab:app-rethreshold-excl}
+    \small
+    \begin{tabular}{@{}lccccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \boldmath$F_1^{\arg\max}$ & 
+        \boldmath$F_1^{\text{thr}}$ & 
+        \textbf{Gain [95\% CI]} & 
+        \textbf{AUC} & 
+        \boldmath$\sigma_t$ \\
+        \midrule
+        Llama-Instruct B   & 0.000 & 0.135 & [0.000, 0.279] & 0.592 & 0.00 \\
+        Llama-Instruct A   & 0.124 & 0.160 & [0.000, 0.179] & 0.700 & 0.01 \\
+        Llama-Base B       & 0.000 & 0.020 & [0.000, 0.123] & 0.691 & 0.01 \\
+        Meditron B         & 0.000 & 0.046 & [0.000, 0.107] & 0.566 & 0.00 \\
+        Llama-Base A       & 0.030 & 0.074 & [-0.017, 0.116] & 0.629 & 0.00 \\
+        BioMistral A       & 0.000 & 0.012 & [0.000, 0.118] & 0.584 & 0.03 \\
+        Meditron A         & 0.000 & 0.021 & [0.007, 0.061] & 0.500 & 0.01 \\
+        BioMistral B       & 0.000 & 0.025 & [0.009, 0.050] & 0.531 & 0.01 \\
+        Mistral-Base B     & 0.000 & 0.006 & [0.000, 0.056] & 0.445 & 0.05 \\
+        Mistral-Instruct B & 0.054 & 0.027 & [-0.060, 0.122] & 0.783 & 0.04 \\
+        Mistral-Instruct A & 0.067 & 0.032 & [-0.074, 0.107] & 0.713 & 0.14 \\
+        Mistral-Base A     & 0.029 & 0.010 & [-0.051, 0.022] & 0.597 & 0.03 \\
+        \bottomrule
+    \end{tabular}
+\end{table}

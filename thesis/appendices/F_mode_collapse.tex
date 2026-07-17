@@ -6,12 +6,14 @@
 \label{app:mode-collapse}
 
 This appendix documents in full detail the mode collapse phenomenon 
-introduced in Section~\ref{sec:res-mode-collapse}. Four analyses are 
+introduced in Section~\ref{sec:res-mode-collapse}. Five analyses are 
 reported: the complete distribution of predictions across the six 
 labels for every configuration; the outcomes of the constrained-decoding 
-simulation that established the structural nature of the collapse 
-(Finding F8); the extended comparison between dominant-class and 
-truly-discriminative cases (Finding F9); and a quantitative link 
+simulation that established the persistence of the collapse under a 
+change of candidate set (Finding F8); the mechanistic analysis that 
+reinterprets the collapse as a decoding artefact through the 
+signal-to-prior ratio; the extended comparison between dominant-class 
+and truly-discriminative cases (Finding F9); and a quantitative link 
 between prediction diversity and reasoning ability on discriminative 
 subsets.
 
@@ -114,13 +116,101 @@ collapse.
 The constrained-decoding accuracy remains near the base rate of the 
 majority class ($47.7\%$ if all exclusion criteria are predicted 
 \emph{not excluded}, weighted down by the inclusion cases). The 
-collapse thus persists structurally: forcing the model to choose 
-between two decisive labels does not restore reasoning ability, it 
-simply redirects the concentration of predictions from an evasion 
-label to the numerically dominant decisive label. This experiment 
-grounds Finding~F8: mode collapse in these configurations is not a 
-strategic use of evasion vocabulary but a masking of the absence of 
-clinical discrimination.
+collapse thus persists under a change of candidate set: forcing the 
+model to choose between two decisive labels does not restore a diverse 
+$\arg\max$, it simply redirects the concentration of predictions from an 
+evasion label to the numerically dominant decisive label. This 
+experiment grounds Finding~F8 --- the collapse is a property of the 
+model's decision, not of the evasion vocabulary. It does \emph{not}, 
+however, establish that the model lacks discriminative knowledge: the 
+constrained decoding still takes the $\arg\max$, which the next section 
+shows to be exactly the operation that masks a signal present in the 
+underlying probabilities. The distinction between a collapsed $\arg\max$ 
+and an absent signal is the subject of 
+Section~\ref{sec:app-mechanism}.
+
+% ----------------------------------------------------------------------------
+\section{The Signal-to-Prior Mechanism}
+\label{sec:app-mechanism}
+
+Section~\ref{subsec:res-collapse-mechanism} showed that mode collapse is 
+governed by the ratio between the amplitude with which a model varies the 
+positive-label log-probability across inputs (the signal, 
+$\sigma_{\text{pos}}$) and the systematic offset by which competing 
+labels are preferred (the response prior, $\text{bias}_{\text{ext}}$). 
+This appendix reports the underlying quantities for all twelve 
+configurations, together with the ordinal separation (Cliff's $\delta$) 
+that establishes the presence of a discriminative signal even under a 
+collapsed $\arg\max$.
+
+Table~\ref{tab:app-mechanism} reports, per configuration, the signal 
+amplitude, the response prior, their ratio $r$, and Cliff's $\delta$ 
+between the positive-label probability on gold-positive versus 
+gold-negative inclusion cases. The configurations are sorted by $r$.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Signal amplitude ($\sigma_{\text{pos}}$), response prior 
+        ($\text{bias}_{\text{ext}}$, in nats), their ratio 
+        $r = \sigma_{\text{pos}} / |\text{bias}_{\text{ext}}|$, and the 
+        ordinal separation (Cliff's $\delta$) on inclusion criteria. A 
+        high $\delta$ with a low $r$ is the signature of a live signal 
+        masked by the $\arg\max$; a negative $\delta$ (Meditron) indicates 
+        a corrupted signal. Sorted by $r$.}
+    \label{tab:app-mechanism}
+    \small
+    \begin{tabular}{@{}lcccc@{}}
+        \toprule
+        \textbf{Configuration} & 
+        \boldmath$\sigma_{\text{pos}}$ & 
+        \boldmath$\text{bias}_{\text{ext}}$ & 
+        \boldmath$r$ & 
+        \textbf{Cliff's $\delta$} \\
+        \midrule
+        Mistral-Base B     & 0.61 & $+0.32$ & 1.92 & $+0.539$ \\
+        Mistral-Instruct A & 5.85 & $+3.21$ & 1.82 & $+0.741$ \\
+        Mistral-Instruct B & 4.47 & $+2.99$ & 1.49 & $+0.665$ \\
+        Llama-Base A       & 0.21 & $+0.16$ & 1.32 & $+0.293$ \\
+        Mistral-Base A     & 0.28 & $-0.38$ & 0.75 & $+0.464$ \\
+        Llama-Instruct B   & 2.61 & $+5.69$ & 0.46 & $+0.733$ \\
+        Llama-Instruct A   & 1.42 & $+4.04$ & 0.35 & $+0.823$ \\
+        Llama-Base B       & 0.39 & $+1.34$ & 0.29 & $+0.353$ \\
+        BioMistral B       & 0.33 & $+1.29$ & 0.25 & $+0.499$ \\
+        BioMistral A       & 0.19 & $+1.35$ & 0.14 & $+0.103$ \\
+        Meditron A         & 0.19 & $+2.05$ & 0.09 & $-0.138$ \\
+        Meditron B         & 0.16 & $+2.47$ & 0.07 & $+0.110$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Two facts stand out from Table~\ref{tab:app-mechanism}. First, the 
+collapsed Llama-Instruct and BioMistral configurations combine a small 
+signal-to-prior ratio with a positive Cliff's $\delta$: the 
+discriminative ordering of the positive-label probability is preserved 
+even though the $\arg\max$ never varies. The discriminative information 
+is present --- it is simply not expressed at the decision step. Second, 
+the two Meditron configurations have the smallest ratios of the entire 
+study ($0.07$--$0.09$), and their ordinal separation collapses toward 
+zero: Meditron~A is outright negative ($\delta = -0.138$), ranking cases 
+in the wrong order, and Meditron~B is only marginally positive 
+($\delta = +0.110$), well below the separation of every recoverable 
+configuration. Neither carries a signal that a decision rule could 
+exploit. This is the empirical foundation of the 
+collapse-versus-corruption distinction developed in 
+Section~\ref{subsec:res-rethreshold-diag}: a low ratio combined with a 
+strong positive $\delta$ marks recoverable expressive collapse, whereas a 
+low ratio combined with a near-zero or negative $\delta$ marks 
+irrecoverable corruption. It is the discriminative separation, captured 
+in the main text by the AUC, that distinguishes the two regimes --- not 
+the ratio or the predicted-label distribution alone.
+
+The Spearman correlation between $r$ and the $\arg\max$ macro-F1 on 
+inclusion criteria is $\rho = 0.866$ ($p = 0.00027$, $n = 12$): the ratio 
+predicts, almost monotonically, whether a configuration classifies or 
+collapses. The separation is clean at $r \approx 0.6$ --- every 
+configuration above it classifies, every configuration below it collapses 
+--- which is the threshold used to delimit the healthy regime in 
+Section~\ref{subsec:res-rethreshold-diag}.
 
 % ----------------------------------------------------------------------------
 \section{Dominant vs.\ Discriminative Cases (Finding F9)}
@@ -229,11 +319,18 @@ methods.
 
 The magnitude of this correlation ($r^2 = 0.79$) indicates that 
 prediction diversity alone accounts for nearly $80\%$ of the variance 
-in discriminative accuracy across configurations. This near-mechanical 
-relationship suggests that mode collapse is not a nuisance property to 
-be tolerated but a direct predictor of clinical unsuitability, 
-detectable from the prediction distribution alone without any access 
-to expert labels. In a practical deployment setting, monitoring the 
-entropy of a model's prediction distribution over a moving window of 
-recent inputs provides a cheap early-warning signal that does not 
-require any ground truth or labelled data.
+in discriminative accuracy \emph{under the default $\arg\max$ rule}. 
+This near-mechanical relationship makes prediction entropy a cheap 
+early-warning signal for collapse, detectable from the prediction 
+distribution alone without any access to expert labels: monitoring the 
+entropy over a moving window of recent inputs flags a collapsed 
+configuration before any ground truth is available. It is important, 
+however, not to over-read the correlation as a verdict of clinical 
+unsuitability. Diversity measures whether the $\arg\max$ expresses a 
+signal, not whether a signal exists: as Section~\ref{sec:app-mechanism} 
+and the re-thresholding results (Section~\ref{sec:res-rethreshold}) show, 
+several near-zero-diversity configurations carry a strong latent signal 
+that a non-$\arg\max$ decision rule recovers. Low diversity is therefore 
+a reliable flag that a model is unusable \emph{as deployed}, and a 
+prompt to apply the signal/prior diagnostic --- not a conclusion that 
+the model is beyond repair.

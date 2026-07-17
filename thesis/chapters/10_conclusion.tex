@@ -1,6 +1,9 @@
 % ============================================================================
 %   CHAPTER 6 — CONCLUSION AND FUTURE WORK
 %   Aivancity: 3-5 pages
+%   REVISED to integrate the decoding-artefact reinterpretation, the
+%   re-thresholding remedy, the collapse/corruption taxonomy, and the
+%   TREC external replication.
 % ============================================================================
 
 \chapter{Conclusion and Future Work}
@@ -14,10 +17,10 @@ This thesis reports a systematic calibration audit of twelve open-source
 large language model configurations applied to patient--clinical trial 
 matching. The study was structured around four pre-registered hypotheses, 
 tested with fixed rejection thresholds and Bonferroni-corrected 
-statistical procedures, and complemented by nine original findings that 
+statistical procedures, and complemented by twelve original findings that 
 emerged from the deeper analysis. Table~\ref{tab:res-summary-hypotheses} 
 in Chapter~\ref{chap:results} summarizes the pre-registered outcomes 
-and Table~\ref{tab:res-summary-findings} lists the nine findings.
+and Table~\ref{tab:res-summary-findings} lists the twelve findings.
 
 The pre-registered results support the central hypothesis of the study 
 and challenge one of its ancillary claims. Hypothesis~H1 is confirmed 
@@ -38,22 +41,42 @@ approaches it at $0.654$. Hypothesis~H4 is partially supported, with
 the selective-classification gain reaching the $+0.02$ threshold only 
 for Mistral configurations.
 
-Beyond the pre-registered hypotheses, three findings deserve particular 
-emphasis. First, the enriched-prompt paradox (F3) shows that expert 
-prompt engineering degrades calibration in five of six models, 
-contradicting the standard recommendation to invest in prompt design as 
-a route to better model behavior. Second, mode collapse (F7 and F8) 
-affects five of the twelve configurations, which concentrate more than 
-$97\%$ of their predictions on a single label; the collapse persists 
-under constrained decoding, indicating a structural absence of clinical 
-reasoning rather than a strategic use of evasion labels. Third, and 
-most consequentially, on the $238$ pairs requiring a truly 
-discriminative clinical decision, both medical LLMs tested (Meditron 
-and BioMistral) achieve accuracy at or below $0.4\%$ (F9), despite 
-their apparent superiority on global metrics. This last finding 
-reverses the ranking suggested by aggregate accuracy and reveals that 
-current medical LLM benchmarks systematically mask a class of failure 
-that carries the highest clinical importance.
+Beyond the pre-registered hypotheses, the exploratory findings fall into 
+two waves. The first wave documents the failure modes themselves. The 
+enriched-prompt paradox (F3) shows that expert prompt engineering 
+degrades calibration in five of six models, contradicting the standard 
+recommendation to invest in prompt design as a route to better model 
+behavior. Mode collapse (F7 and F8) affects five of the twelve 
+configurations, which concentrate more than $97\%$ of their predictions 
+on a single label and do not recover the diversity of their predicted 
+labels under constrained decoding. Complete failure on truly 
+discriminative cases (F9) shows that both medical LLMs tested (Meditron 
+and BioMistral) achieve accuracy at or below $0.4\%$ on the $238$ pairs 
+requiring a genuine clinical decision, despite their apparent 
+superiority on global metrics.
+
+The second wave, developed through a mechanistic analysis of the 
+underlying log-probabilities, qualifies and explains these failures. The 
+mode collapse of four of the five affected configurations is not an 
+absence of clinical knowledge but a property of the $\arg\max$ decision 
+rule: the discriminative signal is present in the probabilities --- 
+Llama-Instruct~A obtains the highest ordinal separation of the entire 
+study while predicting a single label $97.8\%$ of the time --- but its 
+amplitude is too small to overcome a response prior installed by 
+post-training. A single scalar, the ratio of signal amplitude to prior 
+amplitude, orders the twelve configurations by their collapse behaviour 
+(F11) and explains, as a mathematical consequence, why monotone 
+recalibration cannot repair collapse while a non-monotone re-thresholding 
+rule can: the latter restores between $+0.62$ and $+0.79$ macro-F1 on the 
+collapsed configurations that carry a live signal, with no gain on the 
+non-collapsed ones (F10). The same analysis separates recoverable 
+collapse (BioMistral) from an irrecoverable corruption of the signal 
+(Meditron, whose discriminative AUC lies below chance), a distinction 
+that aggregate accuracy had merged under Finding~F9. Finally, both the 
+collapse signature and its signal/prior mechanism replicate on the 
+independent TREC Clinical Trials corpus under an identical prompt and 
+scoring pipeline (F12), confirming that these are properties of the 
+models rather than artefacts of the original benchmark.
 
 % ----------------------------------------------------------------------------
 \section{Answer to the Research Question}
@@ -64,18 +87,31 @@ whether the eligibility scores produced by LLM-based patient--trial
 matching systems are probabilistically reliable, and whether RLHF 
 post-training affects this reliability. The answer, informed by the 
 twelve configurations audited in this study, is negative on both 
-dimensions.
+dimensions as the systems stand --- but the mechanistic analysis 
+qualifies the nature of the failure.
 
-The scores are not reliable: the systematic miscalibration documented 
-by Hypothesis~H1 disqualifies every configuration from direct 
-deployment as an autonomous eligibility classifier. Furthermore, the 
-mode collapse behaviors documented by Findings F7 and F8 disqualify 
-five of the twelve configurations from any useful classification role, 
-independently of their calibration properties. The remaining seven 
-configurations produce diverse predictions but remain far above the 
-Van Calster threshold. Only Mistral-7B-Instruct with the minimal 
-Prompt~A reaches clinically acceptable performance on the truly 
-discriminative subset.
+The scores are not reliable as deployed: the systematic miscalibration 
+documented by Hypothesis~H1 disqualifies every configuration from direct 
+deployment as an autonomous eligibility classifier, and the mode 
+collapse of Findings F7 and F8 disqualifies five of the twelve 
+configurations from any useful classification role under the default 
+$\arg\max$ rule. Only Mistral-7B-Instruct with the minimal Prompt~A 
+reaches clinically acceptable performance on the truly discriminative 
+subset without further intervention.
+
+This unreliability, however, is not uniformly a matter of missing 
+knowledge. For four of the five collapsed configurations, the 
+discriminative signal is present but masked by the decision rule; the 
+unreliability is a decoding failure that a threshold rule recovers, not 
+an absence of clinical competence. The distinction matters for 
+deployment: a model in the expressive-collapse regime is unusable 
+off-the-shelf yet salvageable with a lightweight, weight-free 
+intervention, whereas a model in the corruption regime (Meditron) ranks 
+cases below chance and is salvageable by no post-hoc rule. The answer to 
+the research question is therefore layered: the scores are not reliable, 
+the RLHF-aligned scores are the least reliable of all, but the latent 
+discriminative information is, for several models, both present and 
+recoverable.
 
 RLHF post-training significantly worsens calibration on both model 
 families tested, converting the underconfidence of Mistral-Base into 
@@ -83,26 +119,35 @@ the overconfidence of Mistral-Instruct, and inducing severe
 overconfidence in Llama-Instruct. The effect is quantitatively 
 amplified relative to the general-QA setting studied by Kadavath 
 et al., with $\Delta\ece$ values reaching $+0.451$ in the worst case 
---- approximately three times the magnitude previously reported. This 
-amplification is compatible with the intrinsic difficulty of the 
-clinical task, which offers more room for confidence--accuracy 
-mismatch than general-knowledge questions do.
+--- approximately three times the magnitude previously reported. The 
+mechanistic analysis refines the account of \emph{how} RLHF does this: 
+it amplifies both the discriminative signal and a response prior, and 
+degrades calibration --- or, in the extreme, induces collapse --- 
+precisely when it raises the prior faster than the signal. In the Llama 
+family this ratio falls below one and the model collapses; in the 
+Mistral family it rises and discrimination is preserved. RLHF is thus 
+not uniformly harmful to reliability; it is harmful when it makes the 
+response prior dominate the signal the model still holds.
 
-Post-hoc isotonic recalibration (F6) provides a partial remedy: it 
-brings eleven of the twelve configurations below the calibration 
-threshold, robustly across five-fold cross-validation. It cannot, 
-however, restore reasoning ability to models that do not classify. The 
-practical conclusion is that isotonic recalibration should be part of 
-any pre-deployment audit of LLM-based clinical prediction pipelines, 
-but that recalibration cannot substitute for the choice of a model 
-that produces diverse and clinically informed predictions in the first 
-place.
+Post-hoc isotonic recalibration (F6) provides a partial remedy for the 
+models that classify: it brings eleven of the twelve configurations 
+below the calibration threshold, robustly across five-fold 
+cross-validation. It cannot, by construction, help the collapsed models, 
+because it is monotone and preserves their frozen $\arg\max$. The 
+complementary remedy for collapse is re-thresholding (F10), which is 
+mathematically capable of shifting the decision and empirically restores 
+substantial macro-F1 --- but only for the configurations whose signal 
+survives, identified by an above-chance AUC. The practical conclusion is 
+that a pre-deployment audit should combine both remedies with a 
+diagnostic that decides which applies: recalibration for the diverse 
+predictors, re-thresholding for the recoverable collapses, and rejection 
+for the corrupted models.
 
 % ----------------------------------------------------------------------------
 \section{Contributions}
 \label{sec:conc-contributions}
 
-The scientific contributions of this thesis fall into three groups.
+The scientific contributions of this thesis fall into four groups.
 
 First, the study provides the first systematic calibration audit of 
 open-source LLMs applied to clinical trial matching. The audit follows 
@@ -120,59 +165,78 @@ is the first replication of this effect outside general-purpose
 question answering, and the first quantification of its amplification 
 in a high-stakes clinical task.
 
-Third, the study documents three failure modes of open-source medical 
-LLMs that had not been previously reported in a systematic form. The 
-enriched-prompt paradox (F3) shows that expert prompt engineering can 
-degrade calibration. Mode collapse (F7, F8) reveals that a substantial 
-fraction of open-source medical models operate as biased constant 
-predictors, and that this behavior persists under constrained decoding. 
-Complete failure on discriminative cases (F9) demonstrates that global 
-accuracy metrics can mask total task failure on the cases that carry 
-the most clinical information. These three findings jointly motivate 
-the composite utility score introduced in 
-Section~\ref{subsec:met-composite}, which combines calibration, 
-discrimination, and prediction diversity into a single rank-ordering 
-that resists majority-class shortcuts.
+Third, the study documents the failure modes of open-source medical 
+LLMs that had not been previously reported in a systematic form: the 
+enriched-prompt paradox (F3), mode collapse and its persistence under 
+constrained decoding (F7, F8), and complete failure on discriminative 
+cases (F9). These findings jointly motivate the composite utility score 
+introduced in Section~\ref{subsec:met-composite}, which combines 
+calibration, discrimination, and prediction diversity into a single 
+rank-ordering that resists majority-class shortcuts.
+
+Fourth --- and this is the contribution that emerged from the deeper 
+analysis --- the study reinterprets mode collapse as a decoding 
+artefact rather than a knowledge loss, and turns this reinterpretation 
+into three usable results. It identifies a scalar mechanism, the 
+signal-to-prior ratio, that predicts collapse across configurations and 
+explains why recalibration fails where re-thresholding succeeds. It 
+proposes a two-dimensional diagnostic (signal/prior ratio crossed with 
+discriminative AUC) that separates recoverable collapse from 
+irrecoverable corruption, and shows that the re-thresholding F1 gain is 
+a misleading recovery indicator unless paired with an above-chance AUC. 
+And it validates both the collapse signature and its mechanism on the 
+independent TREC Clinical Trials corpus. Together these turn a 
+descriptive failure mode into a diagnosable, and often correctable, 
+property of the decision rule.
 
 The methodological byproducts of the study --- the pre-registered 
 protocol, the double-prompt design, the log-probability scoring 
-pipeline, and the composite utility score --- are intended as 
-reusable elements for future calibration audits of clinical LLMs.
+pipeline, the composite utility score, and the signal/prior diagnostic 
+--- are intended as reusable elements for future calibration audits of 
+clinical LLMs.
 
 % ----------------------------------------------------------------------------
 \section{Limitations}
 \label{sec:conc-limitations}
 
 Three categories of limitation qualify the conclusions of this work: 
-the reliance on a single benchmark, the constrained model scale, and 
-the finite prompt space explored.
+the reliance on a single primary benchmark, the constrained model 
+scale, and the finite prompt space explored.
 
 \subsection{External Validation}
 \label{subsec:conc-limitations-external}
 
-The present study relies on a single benchmark, 
+The primary analyses of this study rest on a single benchmark, 
 TrialGPT-Criterion-Annotations~\cite{jin2024trialgpt}, chosen because 
 it is the only public corpus offering per-criterion multi-level expert 
 annotations with an explicit inclusion/exclusion distinction --- 
-properties that are essential for fine-grained calibration analysis. 
-External validation on independent datasets was not carried out, for 
-three complementary reasons. First, existing alternatives are not 
-directly comparable: TREC Clinical Trials 2021--2022 and SIGIR 2016 
-operate at the trial level rather than the criterion level and use 
-only three ordinal relevance grades, which precludes direct 
-replication of the calibration protocol used here. Adapting the 
-hypotheses to these datasets would not constitute a validation but a 
-distinct study with different endpoints. Second, the mode collapse 
-phenomenon documented in Section~\ref{sec:res-mode-collapse} appears 
-intrinsically linked to the availability of an evasion label in the 
-label space; datasets that do not include such a label cannot be used 
-to test whether this behavior generalizes. Third, prospective 
-validation on real clinical data would require ethical approval, 
-hospital partnership, and integration into a live recruitment 
-workflow --- constraints that situate external validation as a 
-research project in its own right, complementary to the present work 
-rather than a subordinate step. External validation nevertheless 
-remains an important direction for future work.
+properties that are essential for the fine-grained calibration analysis 
+and the criterion-level signal/prior mechanism. To test whether the 
+central mechanistic findings depend on this benchmark, we conducted an 
+external replication on the TREC Clinical Trials 2021--2022 corpus 
+(Section~\ref{sec:res-external}), using an identical prompt and scoring 
+pipeline and changing only the corpus. The collapse signature and the 
+signal/prior ratio ordering reproduced, and the recoverable-collapse 
+versus corruption distinction persisted at the trial level (F12). This 
+replication substantially strengthens the external validity of the 
+mechanistic contributions.
+
+Two limitations of this external replication should nonetheless be 
+stated plainly. First, TREC provides relevance judgements at the trial 
+level and on a three-grade scale, not the six-level per-criterion 
+annotations of TrialGPT-Criterion; the trial-level recoverability we 
+report on TREC therefore required an aggregation step and is a 
+convergent, partial validation rather than an exact replication of the 
+criterion-level recovery magnitude. The pre-registered calibration 
+hypotheses H1--H4, which depend on the six-level scale, were not 
+re-tested on TREC. Second, external validation on real, prospectively 
+collected clinical data --- as opposed to the synthetic or 
+retrospective notes of both benchmarks --- would require ethical 
+approval, hospital partnership, and integration into a live recruitment 
+workflow, and remains a research project in its own right. The 
+mechanistic replication reported here closes the most immediate gap 
+(specificity to a single benchmark) but does not substitute for 
+prospective clinical validation.
 
 \subsection{Model Scale}
 \label{subsec:conc-limitations-scale}
@@ -181,11 +245,14 @@ The models evaluated in this study are limited to 7--9 billion
 parameters, which is the size range that fits into a free-tier T4 GPU 
 with 4-bit quantization. Larger medical LLMs, such as Meditron-70B or 
 Med42-v2-70B, may exhibit qualitatively different calibration and 
-failure-mode patterns. In particular, larger models may be more 
-resistant to mode collapse, which would attenuate but not eliminate 
-Findings F7 and F8. The extrapolation of the present results to larger 
-scales is a natural direction for future work, and the methodology 
-proposed here is directly transferable to 70B-scale configurations 
+failure-mode patterns. In particular, larger models may carry a larger 
+signal relative to their response prior, which under the mechanism of 
+Section~\ref{subsec:res-collapse-mechanism} would raise the 
+signal/prior ratio and attenuate collapse; whether this occurs is an 
+empirical question the present budget could not address. The 
+extrapolation of the results to larger scales is a natural direction 
+for future work, and the methodology --- including the signal/prior 
+diagnostic --- is directly transferable to 70B-scale configurations 
 provided that the computational budget is available.
 
 \subsection{Prompt Space and Prompt-Driven Effects}
@@ -203,7 +270,7 @@ design is a promising direction for follow-up work.
 
 The choice of prompt is not neutral, and it is legitimate to ask 
 whether the failure modes documented here are properties of the 
-models or artifacts of the prompt design. Three observations argue 
+models or artifacts of the prompt design. Four observations argue 
 against a purely prompt-driven interpretation. First, Hypothesis~H2 
 is tested through paired comparisons within the same prompt (Base 
 versus Instruct on Prompt~A, Base versus Instruct on Prompt~B), 
@@ -212,17 +279,19 @@ difference. Second, mode collapse affects only five of the twelve
 configurations, whereas a prompt-driven artifact would be expected to 
 affect all models exposed to that prompt in a similar way; the 
 observed heterogeneity across models sharing the same prompt is 
-incompatible with a single prompt-level cause. Third, mode collapse 
-persists under constrained decoding (Finding~F8): removing the 
-evasion labels from the softmax candidate set does not restore 
-reasoning ability, indicating that the collapse is not a mere 
-reaction to prompt affordances. That said, the specific proportion of 
-collapsed configurations, the magnitude of the enriched-prompt 
-paradox (F3), and the direction of the inclusion/exclusion asymmetry 
-(F4) may depend on the particular prompts tested here. Their exact 
-quantitative values should be interpreted as characteristic of the 
-present experimental setup rather than as universal constants of the 
-underlying models.
+incompatible with a single prompt-level cause. Third, the collapse is 
+governed by an internal quantity --- the signal-to-prior ratio 
+(Section~\ref{subsec:res-collapse-mechanism}) --- that varies across 
+models under the same prompt and predicts the collapse independently of 
+prompt content. Fourth, the collapse signature and its mechanism 
+replicate on an entirely different corpus under the same prompt (F12), 
+which a prompt artefact specific to TrialGPT-Criterion could not do. 
+That said, the specific proportion of collapsed configurations, the 
+magnitude of the enriched-prompt paradox (F3), and the direction of the 
+inclusion/exclusion asymmetry (F4) may depend on the particular prompts 
+tested here. Their exact quantitative values should be interpreted as 
+characteristic of the present experimental setup rather than as 
+universal constants of the underlying models.
 
 % ----------------------------------------------------------------------------
 \section{Future Work}
@@ -231,17 +300,35 @@ underlying models.
 Four research directions extend naturally from the present study, in 
 order of feasibility.
 
-\subsection{External Validation on Independent Benchmarks}
+\subsection{Broader and Prospective External Validation}
 \label{subsec:conc-external}
 
-The most immediate extension is to validate the findings on 
-independent datasets. TREC Clinical Trials 2021--2022, despite its 
-coarser granularity, would provide a first replication of Hypothesis 
-H1 in a different setting. MIMIC-derived cohorts and n2c2 datasets, 
-which contain more heterogeneous patient descriptions, would test 
-whether mode collapse persists across styles of clinical documentation. 
-Ultimately, prospective validation on live recruitment workflows would 
-close the gap between benchmark performance and clinical utility.
+The external replication on TREC (Section~\ref{sec:res-external}) 
+establishes that the collapse mechanism is not specific to 
+TrialGPT-Criterion. Three extensions would broaden this validation 
+further. First, re-testing the pre-registered calibration hypotheses 
+H1--H4 on a corpus with per-criterion multi-level annotations, were one 
+to become available, would extend the confirmatory results as well as 
+the mechanistic ones. Second, MIMIC-derived cohorts and n2c2 datasets, 
+which contain more heterogeneous and noisier patient descriptions, would 
+test whether the signal/prior mechanism survives realistic clinical 
+documentation styles. Third, and most demanding, prospective validation 
+on live recruitment workflows would close the gap between benchmark 
+performance and clinical utility.
+
+\subsection{Robust Re-thresholding and Prior Correction}
+\label{subsec:conc-rethreshold}
+
+The re-thresholding remedy of Section~\ref{sec:res-rethreshold} 
+recovers substantial macro-F1 but leaves two questions open. The 
+threshold itself is tuned per configuration and, for one collapsed 
+model, proved unstable across folds; a prior-correction rule that 
+subtracts the estimated response prior from the log-probabilities before 
+the $\arg\max$ --- a multi-class generalization of the binary threshold 
+--- would remove the free parameter and may transfer more robustly 
+across datasets. Characterizing the conditions under which such a 
+correction generalizes, and comparing it to the per-criterion threshold 
+used here, is a concrete and immediately feasible extension.
 
 \subsection{Multi-Agent Adversarial Debate for Calibration}
 \label{subsec:conc-debate}
@@ -253,38 +340,45 @@ arguments before converging on a joint prediction
 \cite{ouyang2022training}, are a particularly interesting candidate: 
 models with distinct RLHF biases and distinct evasion channels may 
 mutually neutralize each other's overconfidence through argumentative 
-confrontation. To our knowledge, this paradigm has not been evaluated 
-for clinical trial matching, and the calibration properties of the 
-resulting consensus scores are unknown. The 6-model consensus analysis 
-reported in Section~\ref{subsec:res-consensus}, which shows a 75.5\% 
-accuracy on the 163 pairs of full agreement, suggests that this 
-direction is promising.
+confrontation. The 6-model consensus analysis reported in 
+Section~\ref{subsec:res-consensus}, which shows a $75.5\%$ accuracy on 
+the $163$ pairs of full agreement, suggests that this direction is 
+promising. We note, however, that the re-thresholding results temper the 
+motivation: several models that appear useless under consensus voting 
+in fact carry a recoverable individual signal, so a debate among 
+re-thresholded models may be a more informative baseline than a debate 
+among their raw $\arg\max$ outputs.
 
-\subsection{Investigating the Origin of Mode Collapse}
+\subsection{Investigating the Origin of the Response Prior}
 \label{subsec:conc-collapse-origin}
 
-The mode collapse documented in Findings F7 and F8 raises a 
-mechanistic question: is the collapse caused by safety-oriented 
-alignment procedures that push models toward evasive answers, by 
-domain shift between medical pretraining data and clinical trial 
-criteria, or by a combination of both? Investigating this question 
-would require access to the training corpora and reward models of the 
-collapsed configurations, and possibly interpretability analyses of 
-the underlying representations. A systematic investigation could 
-inform the design of future medical LLMs so as to avoid the specific 
-collapse patterns documented here.
+The mechanistic analysis of this thesis identifies the \emph{proximal} 
+cause of mode collapse --- a response prior that dominates the 
+discriminative signal --- but leaves open its \emph{distal} cause. Why 
+does RLHF install a prior that grows faster than the signal in the 
+Llama family but not in the Mistral family, and why does continued 
+medical pretraining corrupt the signal outright in Meditron? Answering 
+this would require access to the training corpora and reward models of 
+the affected configurations, and interpretability analyses of how the 
+response prior is represented internally. Because the signal/prior ratio 
+gives a concrete, measurable target, such an investigation could be 
+framed as identifying which training interventions raise the prior 
+relative to the signal --- a sharper question than the original, purely 
+descriptive one of what causes collapse.
 
 \subsection{Extension to Larger and Multilingual Models}
 \label{subsec:conc-scale-future}
 
 Extending the analysis to 70-billion-parameter models is a 
 straightforward but resource-intensive direction. Meditron-70B and 
-Med42-v2-70B are the natural targets; both require GPU resources 
-beyond the free-tier compute budget used here. Multilingual evaluation 
-is a second direction: models such as MMed-Llama-3 and Apollo have 
-been developed to support clinical text in languages other than 
-English, and the calibration properties of these multilingual models 
-have not been systematically audited on any language.
+Med42-v2-70B are the natural targets, and the signal/prior diagnostic 
+provides a direct prediction to test: if larger models resist collapse, 
+their signal/prior ratio should exceed that of their 7B counterparts. 
+Multilingual evaluation is a second direction: models such as 
+MMed-Llama-3 and Apollo have been developed to support clinical text in 
+languages other than English, and the calibration properties of these 
+multilingual models have not been systematically audited on any 
+language.
 
 % ----------------------------------------------------------------------------
 \section{Closing Remarks}
@@ -296,30 +390,36 @@ the maturation of open-source alternatives, the pressure to accelerate
 clinical trial recruitment, and the availability of increasingly 
 capable models. This trajectory makes the auditing of these models a 
 practical necessity rather than an academic exercise. The present 
-thesis contributes to this auditing effort in three specific ways: it 
-proposes a reusable methodology, it documents three previously 
-unreported failure modes in open-source medical LLMs, and it archives 
-its data and code for independent verification.
+thesis contributes to this auditing effort in four specific ways: it 
+proposes a reusable methodology, it documents previously unreported 
+failure modes in open-source medical LLMs, it reinterprets the most 
+severe of these failures as a correctable property of the decision 
+rule, and it archives its data and code for independent verification.
 
 The broader lesson of this study is that global performance metrics 
 --- accuracy, F1, and even ECE taken in isolation --- are insufficient 
-to characterize the clinical usability of a language model. A 
-responsible evaluation protocol must combine calibration with 
-diversity, must stratify performance by case difficulty, and must 
-remain vigilant against the possibility of mode collapse. The 
-composite utility score proposed in this thesis is one such combined 
-protocol; developing more refined alternatives is an important 
-direction for the calibration and clinical AI communities alike.
+to characterize the clinical usability of a language model, and that 
+the predicted-label distribution can itself be misleading: a model that 
+predicts a single label may nonetheless carry a strong, recoverable 
+discriminative signal underneath it. A responsible evaluation protocol 
+must therefore combine calibration with diversity, must stratify 
+performance by case difficulty, must remain vigilant against mode 
+collapse, and must distinguish a collapse of the decision rule from a 
+corruption of the signal --- because the first is correctable and the 
+second is not.
 
 None of the twelve open-source configurations audited here provides a 
-fully satisfactory basis for autonomous clinical trial matching. The 
-findings do, however, identify Mistral-Instruct with a minimal prompt 
-as the most promising candidate for further study, and identify 
-post-hoc isotonic recalibration as a practical remedy for the 
-miscalibration that afflicts all configurations. Whether these two 
-elements are jointly sufficient for a deployment scenario --- with 
-mandatory human oversight, ongoing calibration monitoring, and 
-appropriate protocols for handling low-confidence cases --- is a 
-question that the present thesis leaves to prospective clinical 
+fully satisfactory basis for autonomous clinical trial matching as 
+deployed off the shelf. The findings do, however, identify 
+Mistral-Instruct with a minimal prompt as the most promising candidate 
+for direct use, identify post-hoc isotonic recalibration as a practical 
+remedy for the miscalibration of the models that classify, and identify 
+re-thresholding as a complementary remedy that restores substantial 
+discriminative performance to the models whose collapse masks a live 
+signal. Whether these elements are jointly sufficient for a deployment 
+scenario --- with mandatory human oversight, ongoing calibration 
+monitoring, a signal/prior screen to route each model to the 
+appropriate remedy, and protocols for handling low-confidence cases --- 
+is a question that the present thesis leaves to prospective clinical 
 validation. Answering it is the natural next step of this line of 
 research.

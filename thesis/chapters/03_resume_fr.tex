@@ -1,61 +1,49 @@
 % ============================================================================
-%   RÉSUMÉ (Français) — Aivancity: 250-300 mots, mots-clés, autonome
+%   RÉSUMÉ (Français) — Aivancity: 250-300 mots, ≥5 mots-clés
 % ============================================================================
 
 \chapter*{Résumé}
 \addcontentsline{toc}{chapter}{Résumé}
 \markboth{Résumé}{}
 
-\selectlanguage{french}
+L'appariement patient--essai clinique est un goulot d'étranglement de la 
+recherche médicale, et les systèmes récents fondés sur les grands modèles 
+de langage (LLM) tels que TrialGPT visent à automatiser l'évaluation de 
+l'éligibilité des patients face aux critères d'inclusion et d'exclusion. 
+Leur fiabilité probabiliste n'a cependant pas fait l'objet d'un audit 
+systématique : une revue récente de vingt-quatre systèmes n'en identifie 
+aucun qui rapporte des métriques de calibration --- alors qu'un modèle 
+sur-confiant qui se trompe avec certitude est cliniquement dangereux.
 
-L'appariement patient--essai clinique est un goulot d'étranglement de 
-la recherche médicale, et les systèmes récents fondés sur les grands 
-modèles de langage (LLM) tels que TrialGPT visent à automatiser 
-l'évaluation de l'éligibilité des patients face aux critères 
-d'inclusion et d'exclusion. Au-delà de la précision brute, la 
-fiabilité probabiliste de ces systèmes n'a cependant pas fait l'objet 
-d'un audit systématique. Une revue de portée récente portant sur 
-vingt-quatre systèmes LLM d'appariement n'en identifie aucun qui 
-rapporte des métriques de calibration. Cette omission est lourde de 
-conséquences : un modèle sur-confiant qui se trompe avec certitude 
-est cliniquement pire qu'un modèle moins précis mais honnêtement 
-incertain.
+Nous avons mené le premier audit systématique de la calibration des LLM 
+open source dans ce domaine : douze configurations (six modèles $\times$ 
+deux prompts) évaluées sur les 1{,}015 paires patient--critère de 
+TrialGPT-Criterion-Annotations, par scoring direct des log-probabilités 
+et quatre hypothèses pré-enregistrées (permutation, Bonferroni).
 
-Nous avons mené le premier audit systématique de la calibration des 
-LLM open source dans ce domaine. Douze configurations (six modèles 
-croisés avec deux variantes de prompt) ont été évaluées sur les 
-1\,015 paires patient--critère de TrialGPT-Criterion-Annotations. 
-Quatre hypothèses pré-enregistrées ont été testées par tests de 
-permutation avec correction de Bonferroni, et la stabilité a été 
-vérifiée par validation croisée 5-fold et comparaison à des baselines 
-naïves. Les distributions de probabilité sont extraites par scoring 
-direct des log-probabilités plutôt que par génération libre.
+Les douze configurations dépassent le seuil clinique de $0{,}05$ (ECE de 
+$0{,}124$ à $0{,}602$), et le RLHF dégrade significativement la 
+calibration sur les deux familles ($p < 0{,}003$). Cinq configurations 
+présentent un effondrement de mode, et les deux LLM médicaux atteignent 
+une exactitude $\leq 0{,}4\%$ sur les $238$ cas discriminants. Cet 
+effondrement est cependant largement un artefact de décodage : le signal 
+discriminant subsiste dans les log-probabilités (AUC jusqu'à $0{,}91$) 
+mais est masqué par un a priori de réponse. Un scalaire unique, le ratio 
+signal/a priori, prédit l'effondrement, explique pourquoi une 
+recalibration monotone ne peut le corriger, et justifie un re-seuillage 
+qui restaure jusqu'à $+0{,}79$ de macro-F1. L'analyse distingue enfin 
+l'effondrement récupérable de la corruption irrécupérable, distinction 
+qui se réplique sur le corpus indépendant TREC Clinical Trials.
 
-Les douze configurations présentent un ECE au-dessus du seuil 
-clinique de $0{,}05$, avec des valeurs entre $0{,}124$ et $0{,}602$. 
-L'apprentissage par renforcement avec rétroaction humaine (RLHF) 
-dégrade significativement la calibration sur les familles Mistral-7B 
-et Llama-3.1-8B (quatre tests, $p < 0{,}003$). Trois découvertes 
-originales émergent de l'analyse approfondie : les prompts enrichis 
-dégradent la calibration dans cinq modèles sur six ; cinq 
-configurations présentent un effondrement de mode, prédisant un 
-label unique dans plus de $97\%$ des cas ; sur les $238$ paires 
-nécessitant une décision véritablement discriminante, les deux LLM 
-médicaux testés (Meditron et BioMistral) atteignent une exactitude 
-inférieure ou égale à $0{,}4\%$. La recalibration isotonic post-hoc 
-ramène onze des douze configurations sous le seuil de calibration 
-mais ne peut pas restaurer le raisonnement des modèles effondrés.
-
-Les métriques agrégées de calibration et d'exactitude peuvent 
-masquer un échec complet des LLM médicaux open source sur les cas 
-cliniquement décisifs. Un protocole d'évaluation responsable doit 
-combiner calibration, diversité prédictive et analyse stratifiée par 
-difficulté de cas.
+Les métriques agrégées peuvent ainsi masquer un échec complet sur les 
+cas décisifs comme un signal récupérable sous une défaillance apparente. 
+Un protocole d'évaluation responsable doit combiner calibration, 
+diversité prédictive, analyse stratifiée par difficulté, et un diagnostic 
+distinguant une règle de décision effondrée d'un signal corrompu.
 
 \vspace{0.5cm}
 \noindent\textbf{Mots-clés :} grands modèles de langage, calibration, 
 appariement d'essais cliniques, RLHF, IA médicale, mode collapse, 
-expected calibration error.
+expected calibration error, re-seuillage.
 
-\selectlanguage{english}
 \cleardoublepage

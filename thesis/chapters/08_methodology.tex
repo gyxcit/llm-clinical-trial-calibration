@@ -381,6 +381,35 @@ Section~\ref{subsec:met-data-distribution}, and it is used to reveal
 model behavior on cases requiring genuine clinical decisions rather than 
 majority-class shortcuts.
 
+\subsection{External Validation Corpus}
+\label{subsec:met-data-external}
+
+To test whether the mechanistic findings of Chapter~\ref{chap:results} 
+generalize beyond the primary benchmark, we assembled a secondary corpus 
+from the TREC Clinical Trials 2021--2022 tracks~\cite{roberts2021trec, roberts2022trec}. TREC provides 
+patient--trial relevance judgements on a three-grade scale 
+(eligible, excluded, not relevant) rather than the six-level 
+per-criterion annotations of TrialGPT-Criterion; it is therefore not 
+suitable for re-testing the pre-registered calibration hypotheses, but 
+it is well suited to testing whether the collapse behaviour and its 
+signal-to-prior mechanism (Sections~\ref{sec:res-external} 
+and~\ref{subsec:res-collapse-mechanism}) are properties of the models 
+rather than of the primary benchmark.
+
+We sampled 40 topics with an even split between eligible and 
+non-relevant trials, drew five trials per topic, and decomposed each 
+trial's inclusion and exclusion criteria into individual 
+patient--criterion pairs using the same parsing rules as the primary 
+dataset, capping the number of criteria per trial to limit inference 
+cost. This yields 199 patient--trial pairs and 923 patient--criterion 
+pairs. The trial-level relevance grade is used as a coarse gold label 
+for the recoverability analysis, binarized as eligible versus the 
+remainder. The external corpus is scored with an identical pipeline --- 
+same Prompt~A, same log-probability scoring, same 4-bit quantization --- 
+so that the corpus is the only variable that differs from the primary 
+evaluation. The results of this replication are reported in 
+Section~\ref{sec:res-external}.
+
 \subsection{Ethical and Reproducibility Considerations}
 \label{subsec:met-data-ethics}
 
@@ -976,6 +1005,55 @@ to detecting the mode collapse behavior documented in
 Section~\ref{sec:res-mode-collapse}, which the calibration and 
 classification metrics can mask.
 
+\subsection{Signal Expression and the Signal-to-Prior Ratio}
+\label{subsec:met-signal-prior}
+
+The calibration and diversity metrics above characterize a model's 
+predicted-label distribution, but they cannot distinguish a model that 
+lacks discriminative knowledge from one that holds it yet fails to 
+express it in its $\arg\max$. To make this distinction, we define three 
+quantities computed from the log-probability of the positive label of 
+each criterion type ($p_{\text{included}}$ for inclusion criteria, 
+$p_{\text{excluded}}$ for exclusion criteria).
+
+The first is the ordinal separation, measured by Cliff's~$\delta$ 
+between the positive-label probability on gold-positive and 
+gold-negative cases. Cliff's~$\delta \in [-1, 1]$ is a non-parametric 
+effect size equal to $2A - 1$, where $A$ is the probability that a 
+random gold-positive case receives a higher positive-label probability 
+than a random gold-negative case; it is robust to the class imbalance of 
+the dataset and requires no distributional assumption. A high $\delta$ 
+combined with a degenerate predicted-label distribution is the signature 
+of a model whose signal is present but unexpressed.
+
+The second is the \emph{signal amplitude} $\sigma_{\text{pos}}$, defined 
+as the standard deviation across pairs of the positive-label 
+log-probability. Measured in log-probability space, it is not bounded by 
+the probability simplex and therefore captures the amplitude with which 
+the model varies its output in response to the input.
+
+The third is the \emph{response prior} $\text{bias}_{\text{ext}}$, 
+defined as the mean gap between the strongest competing label and the 
+positive label, computed over the competing labels only (excluding the 
+positive label itself) to avoid any circularity with the quantity it is 
+meant to predict. Their ratio,
+\begin{equation}
+    r = \frac{\sigma_{\text{pos}}}{\left|\text{bias}_{\text{ext}}\right|},
+    \label{eq:signal-prior}
+\end{equation}
+is the signal-to-prior ratio used in 
+Section~\ref{subsec:res-collapse-mechanism} to characterize the collapse 
+regime of each configuration.
+
+Finally, we report the area under the ROC curve (AUC) of the 
+positive-label probability against the binarized gold label. Because the 
+AUC is invariant to the decision threshold, it measures the 
+discriminative information carried by the probabilities independently of 
+whether the $\arg\max$ exploits it, and is the quantity that separates a 
+recoverable collapse from a corruption of the signal. All four 
+quantities are reported with 1{,}000-resample bootstrap confidence 
+intervals (Section~\ref{subsec:met-bootstrap}).
+
 \subsection{Composite Utility Score}
 \label{subsec:met-composite}
 
@@ -1088,6 +1166,41 @@ Each method is fitted on the 70\% training subset and evaluated on the
 whether the recalibration gains are stable across different data splits, 
 we additionally perform a 5-fold cross-validation, reporting the mean 
 and standard deviation of the ECE reduction over the five folds.
+
+\subsection{Re-thresholding and the Collapse Diagnostic}
+\label{subsec:met-rethreshold}
+
+Post-hoc recalibration applies a monotone transformation to the 
+confidences and therefore preserves the $\arg\max$ of every prediction. 
+To evaluate whether the discriminative signal masked by a collapsed 
+$\arg\max$ can be recovered, we complement recalibration with a 
+non-monotone decision rule: instead of predicting the 
+highest-probability label, we place a threshold $t$ on the 
+positive-label probability of each criterion type and predict the 
+positive class when the probability exceeds $t$.
+
+To avoid tuning the threshold on the data used to evaluate it, $t$ is 
+fitted by 5-fold cross-validation: within each fold, $t$ is chosen to 
+maximize macro-F1 on the four training folds and applied to the held-out 
+fold, so that every evaluated prediction is produced by a threshold that 
+never observed it. The macro-F1 gain of the threshold rule over the 
+$\arg\max$ rule is reported with a 1{,}000-resample bootstrap confidence 
+interval on the out-of-fold predictions; a gain whose interval excludes 
+zero is deemed significant. The non-collapsed configurations serve as a 
+negative control: a valid recovery procedure should yield no gain where 
+the $\arg\max$ already exploits the signal.
+
+Because a threshold rule mechanically raises macro-F1 on an imbalanced 
+label set even in the absence of genuine discrimination, the macro-F1 
+gain is not interpreted in isolation. Each configuration is instead 
+placed on a two-dimensional diagnostic that crosses the signal-to-prior 
+ratio $r$ (Section~\ref{subsec:met-signal-prior}), which measures 
+whether the model expresses its decision, with the positive-label AUC 
+and its bootstrap interval, which measures whether a genuine signal is 
+present. The two axes partition the configurations into healthy models, 
+recoverable expressive collapse, and irrecoverable signal corruption; 
+the partition and its use are reported in 
+Section~\ref{subsec:res-rethreshold-diag}.
 
 \subsection{Conformal Prediction}
 \label{subsec:met-conformal}

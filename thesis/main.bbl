@@ -1455,6 +1455,106 @@
       \verb 10.48550/arXiv.2412.18925
       \endverb
     \endentry
+    \entry{roberts2021trec}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{hash=9e08803164e3e7a18cc132f12f4fadf9}{%
+           family={Roberts},
+           familyi={R\bibinitperiod},
+           given={Kirk},
+           giveni={K\bibinitperiod}}}%
+        {{hash=816ae5f44667f334ebb297c2de7d6a33}{%
+           family={Demner-Fushman},
+           familyi={D\bibinithyphendelim F\bibinitperiod},
+           given={Dina},
+           giveni={D\bibinitperiod}}}%
+        {{hash=f13b7b0549ebe341faaf24632ca6083d}{%
+           family={Voorhees},
+           familyi={V\bibinitperiod},
+           given={Ellen\bibnamedelima M.},
+           giveni={E\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=0d3212403a7f11cdadf0f2800b616931}{%
+           family={Bedrick},
+           familyi={B\bibinitperiod},
+           given={Steven},
+           giveni={S\bibinitperiod}}}%
+        {{hash=a6aae62b2bdd073c502e9a3a108a7a6f}{%
+           family={Hersh},
+           familyi={H\bibinitperiod},
+           given={William\bibnamedelima R.},
+           giveni={W\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {National Institute of Standards}%
+        {Technology (NIST)}%
+      }
+      \strng{namehash}{30b78a8d9b98976a0f30789366c7e25a}
+      \strng{fullhash}{fb29763789443cbd4f528495189a93c2}
+      \strng{fullhashraw}{fb29763789443cbd4f528495189a93c2}
+      \strng{bibnamehash}{fb29763789443cbd4f528495189a93c2}
+      \strng{authorbibnamehash}{fb29763789443cbd4f528495189a93c2}
+      \strng{authornamehash}{30b78a8d9b98976a0f30789366c7e25a}
+      \strng{authorfullhash}{fb29763789443cbd4f528495189a93c2}
+      \strng{authorfullhashraw}{fb29763789443cbd4f528495189a93c2}
+      \field{extraname}{1}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the Thirtieth Text REtrieval Conference (TREC 2021)}
+      \field{series}{NIST Special Publication 500-335}
+      \field{title}{Overview of the {TREC} 2021 Clinical Trials Track}
+      \field{year}{2021}
+    \endentry
+    \entry{roberts2022trec}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{hash=9e08803164e3e7a18cc132f12f4fadf9}{%
+           family={Roberts},
+           familyi={R\bibinitperiod},
+           given={Kirk},
+           giveni={K\bibinitperiod}}}%
+        {{hash=816ae5f44667f334ebb297c2de7d6a33}{%
+           family={Demner-Fushman},
+           familyi={D\bibinithyphendelim F\bibinitperiod},
+           given={Dina},
+           giveni={D\bibinitperiod}}}%
+        {{hash=f13b7b0549ebe341faaf24632ca6083d}{%
+           family={Voorhees},
+           familyi={V\bibinitperiod},
+           given={Ellen\bibnamedelima M.},
+           giveni={E\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=0d3212403a7f11cdadf0f2800b616931}{%
+           family={Bedrick},
+           familyi={B\bibinitperiod},
+           given={Steven},
+           giveni={S\bibinitperiod}}}%
+        {{hash=a6aae62b2bdd073c502e9a3a108a7a6f}{%
+           family={Hersh},
+           familyi={H\bibinitperiod},
+           given={William\bibnamedelima R.},
+           giveni={W\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {National Institute of Standards}%
+        {Technology (NIST)}%
+      }
+      \strng{namehash}{30b78a8d9b98976a0f30789366c7e25a}
+      \strng{fullhash}{fb29763789443cbd4f528495189a93c2}
+      \strng{fullhashraw}{fb29763789443cbd4f528495189a93c2}
+      \strng{bibnamehash}{fb29763789443cbd4f528495189a93c2}
+      \strng{authorbibnamehash}{fb29763789443cbd4f528495189a93c2}
+      \strng{authornamehash}{30b78a8d9b98976a0f30789366c7e25a}
+      \strng{authorfullhash}{fb29763789443cbd4f528495189a93c2}
+      \strng{authorfullhashraw}{fb29763789443cbd4f528495189a93c2}
+      \field{extraname}{2}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the Thirty-First Text REtrieval Conference (TREC 2022)}
+      \field{series}{NIST Special Publication 500-338}
+      \field{title}{Overview of the {TREC} 2022 Clinical Trials Track}
+      \field{year}{2022}
+    \endentry
     \entry{dettmers2023qlora}{inproceedings}{}{}
       \name{author}{4}{}{%
         {{hash=67a40f4e13f66c2e43ce4d7d64b9d9a4}{%
@@ -1513,8 +1613,8 @@
       \strng{authornamehash}{eaad07ee1c6ef93a9308150f12c3c2eb}
       \strng{authorfullhash}{eaad07ee1c6ef93a9308150f12c3c2eb}
       \strng{authorfullhashraw}{eaad07ee1c6ef93a9308150f12c3c2eb}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Psychological Bulletin}
