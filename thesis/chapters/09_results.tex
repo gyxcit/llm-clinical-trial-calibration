@@ -423,7 +423,24 @@ the mean overconfidence in the positive direction, by amounts ranging
 from $+0.316$ to $+0.577$. The transition is most striking for Mistral, 
 where the Base variants are systematically underconfident and the 
 Instruct variants systematically overconfident. In effect, RLHF converts 
-model modesty into model over-assertion.
+model modesty into model over-assertion 
+(Figure~\ref{fig:res-rlhf-shift}).
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.78\textwidth]{rlhf_shift_en.pdf}
+    \caption{Effect of RLHF post-training on the direction of 
+    miscalibration. Each arrow connects the mean overconfidence of a 
+    Base variant (hollow marker) to that of its RLHF-aligned Instruct 
+    counterpart (filled marker), for the four Base--Instruct pairs of 
+    Hypothesis~H2. The dashed line marks perfect agreement between 
+    confidence and accuracy: points below it correspond to 
+    underconfident models, points above to overconfident ones. Every 
+    arrow points upward, and in the Mistral family the transition 
+    crosses the line entirely --- from systematic underconfidence to 
+    systematic overconfidence.}
+    \label{fig:res-rlhf-shift}
+\end{figure}
 
 This finding has a natural mechanistic interpretation. RLHF training 
 optimizes for outputs that human raters prefer, and prior work has shown 
@@ -610,7 +627,25 @@ Five configurations exhibit severe mode collapse (usage rate above 97\%
 on the modal label). Two additional configurations exhibit partial 
 collapse (Meditron A and B, with usage rates of 64.8\% and 59.3\%). The 
 remaining five configurations produce more diverse predictions, though 
-none of them exceeds 50\% of the majority class distribution.
+none of them exceeds 50\% of the majority class distribution. 
+Figure~\ref{fig:res-distribution} makes the contrast immediate: the 
+collapsed configurations appear as near-monochrome bars, while the 
+functioning ones spread their predictions across the label space.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{prediction_distribution_en.pdf}
+    \caption{Distribution of predicted labels across the six eligibility 
+    labels, for each of the twelve configurations, sorted by increasing 
+    prediction entropy. The five collapsed configurations at the bottom 
+    assign nearly all their predictions to a single label 
+    (``not enough information''), producing near-monochrome bars. The 
+    functioning configurations at the top distribute their predictions 
+    across several labels. This visual contrast is what the diversity 
+    metric of Equation~\ref{eq:diversity} quantifies, and what the 
+    aggregate ECE values of Table~\ref{tab:res-calibration} conceal.}
+    \label{fig:res-distribution}
+\end{figure}
 
 \begin{finding}[F7: Mode Collapse in Five of Twelve Configurations]
     Five open-source configurations --- both BioMistral variants, all 
@@ -778,6 +813,59 @@ untouched. It further predicts that a non-monotone decision rule --- one
 that shifts the decision boundary rather than rescaling confidence --- 
 should recover the masked signal. Section~\ref{sec:res-rethreshold} tests 
 this prediction directly.
+
+\paragraph{An approximate threshold for collapse.} The empirical 
+separation at $r \approx 0.6$ is not arbitrary: a simple normal 
+approximation predicts a threshold of the same order. Write 
+$D = s_{\text{pos}} - s_{\text{comp}}$ for the log-probability margin 
+between the positive label and its strongest competitor. The $\arg\max$ 
+selects the positive label exactly when $D > 0$. By the definitions of 
+Section~\ref{subsec:met-signal-prior}, $\mathbb{E}[D] = -\text{bias}_{\text{ext}}$ 
+and, if the competing label's log-probability varies little relative to 
+the positive one, $\operatorname{Var}(D) \approx \sigma_{\text{pos}}^2$. 
+Approximating $D$ as normal then gives
+\[
+    \Pr(\hat{y} = \text{positive}) 
+    = \Pr(D > 0) 
+    \approx \Phi\!\left(-\frac{\text{bias}_{\text{ext}}}{\sigma_{\text{pos}}}\right)
+    = \Phi(-1/r),
+\]
+where $\Phi$ is the standard normal cumulative distribution function. A 
+configuration ceases to function as a classifier once it predicts the 
+positive label less often than its base rate in the data 
+($74/1{,}015 = 0.073$ for inclusion criteria). Setting 
+$\Phi(-1/r) < 0.073$ gives $1/r > 1.454$, that is $r < 0.688$. The 
+observed empirical threshold ($r < 0.6$) is close to this approximation. 
+The gap is expected: the normal approximation ignores the skewness of 
+the log-probability distribution and treats the competing label as 
+having negligible variance. The derivation is offered as an 
+order-of-magnitude account of why the threshold falls near $0.6$--$0.7$, 
+not as an exact prediction.
+
+\paragraph{On the direction of causation.} The correlation between $r$ 
+and collapse is strong, but a correlation alone does not establish that 
+the response prior \emph{causes} the collapse. Two readings are 
+compatible with the association. Under the first, a large prior 
+saturates the decision boundary and freezes the $\arg\max$. Under the 
+second, the causal arrow runs the other way, or the association is a 
+measurement artefact: a configuration whose $\arg\max$ is frozen for some 
+independent reason might, by construction, exhibit an inflated measured 
+prior.
+
+The re-thresholding experiment of Section~\ref{sec:res-rethreshold} 
+discriminates between the two. If the association were a measurement 
+artefact of a degenerate model, moving the decision boundary would 
+recover nothing, because there would be no signal underneath to recover. 
+The observation that re-thresholding restores between $+0.62$ and 
+$+0.79$ macro-F1 on precisely the configurations with a high measured 
+prior, and nothing on the others, is what an intervention on the 
+decision rule should produce if the prior is the obstacle and the signal 
+is intact. This is an intervention on the decision, not on the prior 
+itself, so it does not close the question completely; a direct causal 
+test would require manipulating the prior during post-training --- for 
+instance by penalizing its magnitude in the alignment objective --- and 
+observing whether collapse disappears. We return to this in 
+Section~\ref{subsec:conc-collapse-origin}.
 % ----------------------------------------------------------------------------
 % ----------------------------------------------------------------------------
 \section{Performance on Truly Discriminative Cases}
@@ -1379,7 +1467,8 @@ is reported for completeness in Appendix~\ref{app:tables}.
 \end{table}
 
 The four recoverable-collapse configurations gain between $+0.62$ and 
-$+0.79$ in macro-F1, every interval strictly above zero. Llama-Instruct~A, 
+$+0.79$ in macro-F1, every interval strictly above zero 
+(Figure~\ref{fig:res-rethreshold}). Llama-Instruct~A, 
 the configuration with the worst ECE in the entire study 
 (Table~\ref{tab:res-calibration}, ECE $= 0.510$) and a $97.8\%$ dominant 
 rate, becomes the best inclusion classifier of the study 
@@ -1390,6 +1479,23 @@ negative. This is the expected negative control --- re-thresholding
 recovers signal only where the $\arg\max$ was discarding it, and does 
 nothing where the $\arg\max$ was already exploiting it.
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{rethreshold_gains_en.pdf}
+    \caption{Macro-F1 before and after re-thresholding on inclusion 
+    criteria, evaluated out-of-fold. Each configuration is drawn as a 
+    segment running from its $\arg\max$ macro-F1 (hollow marker) to its 
+    re-thresholded macro-F1 (filled marker), with the 95\% bootstrap 
+    interval of the gain. Colours follow the diagnostic regimes of 
+    Figure~\ref{fig:res-quadrant}. The four expressive-collapse 
+    configurations move from zero to between $0.62$ and $0.79$; the 
+    healthy configurations barely move, which is the negative control. 
+    The corruption configurations also move, but 
+    Section~\ref{subsec:res-rethreshold-diag} shows this movement to be 
+    an artefact of class imbalance rather than a genuine recovery.}
+    \label{fig:res-rethreshold}
+\end{figure}
+
 \begin{finding}[F10: Mode Collapse Is Recoverable by Re-thresholding]
     Replacing the $\arg\max$ with a cross-validated decision threshold 
     restores between $+0.62$ and $+0.79$ macro-F1 on the four collapsed 
@@ -1399,6 +1505,32 @@ nothing where the $\arg\max$ was already exploiting it.
     than manufacturing it. Mode collapse is therefore, for these 
     configurations, an artefact of the decision rule.
 \end{finding}
+
+\paragraph{Stability of the fitted threshold.} A recovery procedure that 
+depended on a threshold varying widely between folds would be of little 
+practical use, since a deployment would have to commit to a single value. 
+We therefore report the dispersion of the cross-validated threshold 
+across the five folds. In absolute terms the threshold is remarkably 
+stable for every collapsed configuration: its standard deviation across 
+folds does not exceed $0.005$ (Llama-Instruct~A: mean $0.028$, 
+$\sigma_t = 0.005$; BioMistral~B: mean $0.125$, $\sigma_t = 0.005$), 
+against $0.019$ to $0.116$ for the healthy configurations, whose 
+thresholds sit an order of magnitude higher (means of $0.10$ to $0.40$). 
+The decision boundary that recovers the signal is therefore reproducible 
+from one calibration subset to another.
+
+Two properties of these thresholds deserve comment. First, the collapsed 
+configurations require thresholds far below $0.5$ --- as low as $0.006$ 
+for Llama-Instruct~B --- which is the same phenomenon as the collapse 
+itself seen from the decision side: the response prior has compressed the 
+positive-label probability into a narrow band near zero, so the boundary 
+that separates positive from negative cases must be placed inside that 
+band. Second, the coefficient of variation is a misleading summary in 
+this regime, since it divides an already small dispersion by an even 
+smaller mean; Llama-Instruct~B has a coefficient of variation of $0.69$ 
+despite a fold-to-fold standard deviation of only $0.004$ in absolute 
+terms. We therefore report the absolute dispersion, which is the quantity 
+that matters for a deployment committing to a fixed boundary.
 
 \subsection{A Two-Dimensional Diagnostic: Collapse Versus Corruption}
 \label{subsec:res-rethreshold-diag}
@@ -1419,7 +1551,8 @@ The correct diagnosis requires two dimensions: whether the model
 Section~\ref{subsec:res-collapse-mechanism}) and whether it \emph{has} a 
 signal to express (captured by the AUC, with its bootstrap interval). The 
 two dimensions partition the twelve configurations into three regimes, 
-summarized in Table~\ref{tab:res-diagnostic}:
+summarized in Table~\ref{tab:res-diagnostic} and visualized in 
+Figure~\ref{fig:res-quadrant}:
 
 \begin{table}[htbp]
     \centering
@@ -1456,6 +1589,25 @@ summarized in Table~\ref{tab:res-diagnostic}:
         \bottomrule
     \end{tabular}
 \end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{quadrant_diagnostic_en.pdf}
+    \caption{Two-dimensional diagnostic of the twelve configurations. The 
+    horizontal axis is the signal-to-prior ratio $r$ (log scale), which 
+    measures whether a configuration expresses its decision; the vertical 
+    axis is the area under the ROC curve of the positive-label 
+    probability, which measures whether a discriminative signal is 
+    present. Error bars are 95\% bootstrap confidence intervals on the 
+    AUC. The dashed lines mark the collapse threshold ($r \approx 0.6$) 
+    and the chance level (AUC $= 0.5$). The three shaded regions 
+    correspond to the three regimes: healthy configurations, expressive 
+    collapse (recoverable by re-thresholding), and signal corruption 
+    (irrecoverable). Llama-Instruct~A occupies the upper-left corner: the 
+    highest discriminative signal of the study, entirely unexpressed by 
+    its $\arg\max$.}
+    \label{fig:res-quadrant}
+\end{figure}
 
 The three regimes are cleanly separated. All five healthy configurations 
 have $r \geq 0.75$ and gain nothing from re-thresholding. All four 
@@ -1761,7 +1913,8 @@ side by side for the two corpora.
     \end{tabular}
 \end{table}
 
-The replication is close. The ordering of the four configurations by 
+The replication is close (Figure~\ref{fig:res-trec}). The ordering of the 
+four configurations by 
 signal/prior ratio is identical on the two corpora, and the collapsed 
 configurations (Llama-Instruct, BioMistral) retain their high 
 dominant-label rate on TREC, while the non-collapsed configurations 
@@ -1770,6 +1923,20 @@ ratio well below the collapse threshold on both corpora (Llama-Instruct~A:
 $0.35$ on TrialGPT, $0.25$ on TREC; BioMistral~A: $0.14$ and $0.22$), and 
 the healthy configuration stays well above it (Mistral-Instruct~A: $1.82$ 
 and $1.79$), on an entirely independent set of patients and trials.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{trec_replication_en.pdf}
+    \caption{External replication on TREC Clinical Trials. Left panel: 
+    the signal-to-prior ratio $r$ for the four configurations evaluated 
+    on both corpora, with the collapse threshold marked by the dashed 
+    line. Right panel: the dominant-label rate on both corpora. The 
+    ordering of the configurations, and the position of each 
+    configuration relative to the collapse threshold, are preserved 
+    across the two corpora despite an entirely independent set of 
+    patients and trials.}
+    \label{fig:res-trec}
+\end{figure}
 
 We also measured recoverability at the trial level on TREC, where the 
 gold label is defined per trial rather than per criterion. Aggregating 

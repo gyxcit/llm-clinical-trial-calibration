@@ -1,0 +1,121 @@
+=====================================================================
+1. TOUS LES PARQUET / CSV SOUS /kaggle
+======================================================================
+
+/kaggle/input/notebooks/rgislikassi/llm-clinical-next-experimentation/
+    A_diagnostic_bidimensionnel.csv  (1 Ko)
+    A_mecanisme_logits.csv  (1 Ko)
+    P2_mecanistique.csv  (0 Ko)
+    P5_confusion_effectifs.csv  (0 Ko)
+    P5_confusion_par_type_erreur.csv  (0 Ko)
+    P6_covariation_gold.csv  (0 Ko)
+    P6_input_sensitivity.csv  (0 Ko)
+    P6_signal_expression.csv  (1 Ko)
+    P6_signal_vs_marge.csv  (1 Ko)
+    P8_reseuillage.csv  (1 Ko)
+    P8_reseuillage_final.csv  (2 Ko)
+    P8_reseuillage_honnete.csv  (1 Ko)
+    trec_biomistral_A_0_500.parquet  (27 Ko)
+    trec_biomistral_A_500_923.parquet  (24 Ko)
+    trec_llama_base_A_0_500.parquet  (27 Ko)
+    trec_llama_base_A_500_923.parquet  (24 Ko)
+    trec_llama_instruct_A_0_500.parquet  (28 Ko)
+    trec_llama_instruct_A_500_923.parquet  (25 Ko)
+    trec_mistral_instruct_A_0_500.parquet  (28 Ko)
+    trec_mistral_instruct_A_500_923.parquet  (25 Ko)
+    trec_predictions_all.parquet  (147 Ko)
+    trec_replication.csv  (0 Ko)
+    trec_validation_reduced.parquet  (86 Ko)
+    trec_validation_set.parquet  (174 Ko)
+
+/kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/
+    analyse_cas_difficiles.csv  (0 Ko)
+    analyse_cas_non_triviaux.csv  (0 Ko)
+    analyse_distribution_predictions.csv  (0 Ko)
+    analyse_f1_macro.csv  (0 Ko)
+    baselines_naives.csv  (0 Ko)
+    biais_esquive.csv  (0 Ko)
+    biomistral_A_predictions.csv  (167 Ko)
+    biomistral_A_predictions.parquet  (50 Ko)
+    biomistral_B_predictions.csv  (167 Ko)
+    biomistral_B_predictions.parquet  (50 Ko)
+    calib_Llama-3.1-8B-Base_bins.csv  (0 Ko)
+    calib_Llama-3.1-8B-Instruct_bins.csv  (0 Ko)
+    calib_Mistral-7B-Base_bins.csv  (0 Ko)
+    calib_Mistral-7B-Instruct_bins.csv  (0 Ko)
+    calib_biomistral_A_bins.csv  (0 Ko)
+    calib_biomistral_B_bins.csv  (0 Ko)
+    calib_llama_base_A_bins.csv  (0 Ko)
+    calib_llama_base_B_bins.csv  (0 Ko)
+    calib_llama_instruct_A_bins.csv  (0 Ko)
+    calib_llama_instruct_B_bins.csv  (0 Ko)
+    calib_meditron_A_bins.csv  (0 Ko)
+    calib_meditron_B_bins.csv  (0 Ko)
+    calib_mistral_base_A_bins.csv  (0 Ko)
+    calib_mistral_base_B_bins.csv  (0 Ko)
+    calib_mistral_instruct_A_bins.csv  (0 Ko)
+    ... et 37 autres
+
+======================================================================
+2. CANDIDATS 'PRÉDICTIONS' (nom contenant pred/proba/scores)
+======================================================================
+    /kaggle/input/notebooks/rgislikassi/llm-clinical-next-experimentation/trec_predictions_all.parquet
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/mistral_base_B_predictions.csv
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/mistral_base_B_predictions.parquet
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/llama_base_B_predictions.csv
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/analyse_distribution_predictions.csv
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/meditron_A_predictions.parquet
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/mistral_instruct_A_predictions.parquet
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/mistral_base_A_predictions.csv
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/llama_instruct_A_predictions.parquet
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/biomistral_A_predictions.parquet
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/mistral_instruct_B_predictions.csv
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/llama_base_A_predictions.parquet
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/llama_instruct_A_predictions.csv
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/mistral_base_A_predictions.parquet
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/biomistral_A_predictions.csv
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/meditron_A_predictions.csv
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/mistral_instruct_B_predictions.parquet
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/meditron_B_predictions.csv
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/meditron_B_predictions.parquet
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/llama_instruct_B_predictions.parquet
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/mistral_instruct_A_predictions.csv
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/llama_base_A_predictions.csv
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/biomistral_B_predictions.csv
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/biomistral_B_predictions.parquet
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/llama_instruct_B_predictions.csv
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/llama_base_B_predictions.parquet
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/score_composite_utilite.csv
+    /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/predictions_conformes.csv
+
+======================================================================
+3. STRUCTURE DES 3 PREMIERS CANDIDATS
+======================================================================
+
+### /kaggle/input/notebooks/rgislikassi/llm-clinical-next-experimentation/trec_predictions_all.parquet
+colonnes : ['config', 'topic_key', 'nctid', 'criterion_type', 'gold_trial', 'pred', 'confidence', 'p_included', 'p_not_included', 'p_not_enough_information', 'p_not_applicable', 'p_excluded', 'p_not_excluded']
+lignes   : 3692
+configs  : ['biomistral_A', 'llama_base_A', 'llama_instruct_A', 'mistral_instruct_A']
+labels (pred) : ['excluded', 'included', 'not applicable', 'not enough information', 'not excluded', 'not included']
+               config topic_key        nctid criterion_type  gold_trial            pred  confidence    p_included  p_not_included  p_not_enough_information  p_not_applicable  p_excluded  p_not_excluded
+0  mistral_instruct_A   2021_57  NCT00597623      inclusion           0  not applicable    0.549905  1.512087e-08        0.228564                  0.221531          0.549905         NaN             NaN
+1  mistral_instruct_A   2021_57  NCT00597623      inclusion           0        included    0.664467  6.644667e-01        0.008364                  0.179773          0.147396         NaN             NaN
+2  mistral_instruct_A   2021_57  NCT00597623      exclusion           0        excluded    0.707117           NaN             NaN                  0.045204          0.089900    0.707117        0.157779
+
+### /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/mistral_base_B_predictions.csv
+colonnes : ['annotation_id', 'criterion_type', 'pred', 'confidence', 'expert', 'gpt4', 'p_included', 'p_not_included', 'p_excluded', 'p_not_excluded', 'p_not_enough_information', 'p_not_applicable']
+lignes   : 200
+labels (pred) : ['included', 'not enough information', 'not excluded']
+   annotation_id criterion_type                    pred  confidence                  expert                    gpt4  p_included  p_not_included  p_excluded  p_not_excluded  p_not_enough_information  p_not_applicable
+0              0      inclusion  not enough information    0.383478  not enough information  not enough information    0.283886        0.171514         NaN             NaN                  0.383478          0.161123
+1              1      inclusion  not enough information    0.342597                included                included    0.187938        0.177242         NaN             NaN                  0.342597          0.292223
+2              2      inclusion                included    0.354028                included                included    0.354028        0.193991         NaN             NaN                  0.318652          0.133328
+
+### /kaggle/input/notebooks/rgislikassi/trial-calibration-audit/results/mistral_base_B_predictions.parquet
+colonnes : ['annotation_id', 'criterion_type', 'pred', 'confidence', 'expert', 'gpt4', 'p_included', 'p_not_included', 'p_excluded', 'p_not_excluded', 'p_not_enough_information', 'p_not_applicable']
+lignes   : 1015
+labels (pred) : ['included', 'not applicable', 'not enough information', 'not excluded']
+   annotation_id criterion_type                    pred  confidence                  expert                    gpt4  p_included  p_not_included  p_excluded  p_not_excluded  p_not_enough_information  p_not_applicable
+0              0      inclusion  not enough information    0.383478  not enough information  not enough information    0.283886        0.171514         NaN             NaN                  0.383478          0.161123
+1              1      inclusion  not enough information    0.342597                included                included    0.187938        0.177242         NaN             NaN                  0.342597          0.292223
+2              2      inclusion                included    0.354028                included                included    0.354028        0.193991         NaN             NaN                  0.318652          0.133328

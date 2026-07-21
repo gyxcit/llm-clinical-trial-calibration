@@ -2,7 +2,7 @@
 \contentsline {chapter}{Acknowledgements}{i}{chapter*.1}%
 \contentsline {chapter}{Abstract}{ii}{chapter*.2}%
 \contentsline {chapter}{Résumé}{iii}{chapter*.3}%
-\contentsline {chapter}{List of Abbreviations}{xvi}{chapter*.7}%
+\contentsline {chapter}{List of Abbreviations}{xviii}{chapter*.7}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Macro Context: AI in Healthcare}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Micro Context: Clinical Trial Matching}{1}{section.1.2}%
@@ -102,86 +102,90 @@
 \contentsline {subsection}{\numberline {5.4.1}Paired Comparison of ECE}{47}{subsection.5.4.1}%
 \contentsline {subsection}{\numberline {5.4.2}Mechanism: From Underconfidence to Overconfidence}{48}{subsection.5.4.2}%
 \contentsline {subsection}{\numberline {5.4.3}Comparison to Prior Work}{49}{subsection.5.4.3}%
-\contentsline {section}{\numberline {5.5}The Enriched-Prompt Paradox}{49}{section.5.5}%
+\contentsline {section}{\numberline {5.5}The Enriched-Prompt Paradox}{50}{section.5.5}%
 \contentsline {subsection}{\numberline {5.5.1}Effect of Prompt Enrichment Across Models}{50}{subsection.5.5.1}%
-\contentsline {subsection}{\numberline {5.5.2}Interpretation}{50}{subsection.5.5.2}%
+\contentsline {subsection}{\numberline {5.5.2}Interpretation}{51}{subsection.5.5.2}%
 \contentsline {section}{\numberline {5.6}Mode Collapse in Medical and RLHF-Aligned LLMs}{51}{section.5.6}%
-\contentsline {subsection}{\numberline {5.6.1}Prediction Distribution Analysis}{51}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.1}Prediction Distribution Analysis}{52}{subsection.5.6.1}%
 \contentsline {subsection}{\numberline {5.6.2}Structural Persistence Under Constrained Decoding}{52}{subsection.5.6.2}%
-\contentsline {subsection}{\numberline {5.6.3}Mode Collapse Is a Decoding Artefact, Not a Knowledge Loss}{53}{subsection.5.6.3}%
-\contentsline {subsection}{\numberline {5.6.4}A Mechanism for Collapse: Response Prior Versus Signal Amplitude}{54}{subsection.5.6.4}%
-\contentsline {paragraph}{Mechanism.}{54}{paragraph*.23}%
-\contentsline {section}{\numberline {5.7}Performance on Truly Discriminative Cases}{55}{section.5.7}%
-\contentsline {subsection}{\numberline {5.7.1}Comparison of Global vs.\ Discriminative Accuracy}{55}{subsection.5.7.1}%
-\contentsline {paragraph}{Two distinct pathologies among the failing medical models.}{56}{paragraph*.25}%
-\contentsline {subsection}{\numberline {5.7.2}Implications for Model Evaluation}{56}{subsection.5.7.2}%
-\contentsline {section}{\numberline {5.8}Systematic Inclusion vs.\ Exclusion Asymmetry}{56}{section.5.8}%
-\contentsline {section}{\numberline {5.9}Model-Specific Evasion Biases}{58}{section.5.9}%
-\contentsline {section}{\numberline {5.10}Ordinal Validity (H3) and Selective Classification (H4)}{59}{section.5.10}%
-\contentsline {subsection}{\numberline {5.10.1}H3: Ordinal Validity Not Reached}{59}{subsection.5.10.1}%
-\contentsline {subsection}{\numberline {5.10.2}H4: Selective Classification Partially Supported}{60}{subsection.5.10.2}%
-\contentsline {section}{\numberline {5.11}Post-hoc Recalibration}{60}{section.5.11}%
-\contentsline {subsection}{\numberline {5.11.1}Comparison of Recalibration Methods}{62}{subsection.5.11.1}%
-\contentsline {subsection}{\numberline {5.11.2}Robustness under Cross-Validation}{62}{subsection.5.11.2}%
-\contentsline {subsection}{\numberline {5.11.3}Interpretive Caveats}{63}{subsection.5.11.3}%
-\contentsline {section}{\numberline {5.12}Restoring the Signal by Re-thresholding}{64}{section.5.12}%
-\contentsline {subsection}{\numberline {5.12.1}Out-of-fold Re-thresholding Gains}{64}{subsection.5.12.1}%
-\contentsline {subsection}{\numberline {5.12.2}A Two-Dimensional Diagnostic: Collapse Versus Corruption}{65}{subsection.5.12.2}%
-\contentsline {section}{\numberline {5.13}Conformal Prediction and Inter-Model Consensus}{66}{section.5.13}%
-\contentsline {subsection}{\numberline {5.13.1}Conformal Prediction Sets}{66}{subsection.5.13.1}%
-\contentsline {subsection}{\numberline {5.13.2}Inter-Model Consensus}{67}{subsection.5.13.2}%
-\contentsline {section}{\numberline {5.14}Baselines and Composite Utility Score}{67}{section.5.14}%
-\contentsline {subsection}{\numberline {5.14.1}Comparison with Naïve Baselines}{68}{subsection.5.14.1}%
-\contentsline {subsection}{\numberline {5.14.2}Composite Utility Score}{68}{subsection.5.14.2}%
-\contentsline {section}{\numberline {5.15}External Replication on TREC Clinical Trials}{70}{section.5.15}%
-\contentsline {section}{\numberline {5.16}Summary of Results}{71}{section.5.16}%
-\contentsline {chapter}{\numberline {6}Conclusion and Future Work}{73}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Summary of Findings}{73}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Answer to the Research Question}{74}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Contributions}{75}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Limitations}{76}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}External Validation}{77}{subsection.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}Model Scale}{77}{subsection.6.4.2}%
-\contentsline {subsection}{\numberline {6.4.3}Prompt Space and Prompt-Driven Effects}{78}{subsection.6.4.3}%
-\contentsline {section}{\numberline {6.5}Future Work}{78}{section.6.5}%
-\contentsline {subsection}{\numberline {6.5.1}Broader and Prospective External Validation}{78}{subsection.6.5.1}%
-\contentsline {subsection}{\numberline {6.5.2}Robust Re-thresholding and Prior Correction}{79}{subsection.6.5.2}%
-\contentsline {subsection}{\numberline {6.5.3}Multi-Agent Adversarial Debate for Calibration}{79}{subsection.6.5.3}%
-\contentsline {subsection}{\numberline {6.5.4}Investigating the Origin of the Response Prior}{79}{subsection.6.5.4}%
-\contentsline {subsection}{\numberline {6.5.5}Extension to Larger and Multilingual Models}{80}{subsection.6.5.5}%
-\contentsline {section}{\numberline {6.6}Closing Remarks}{80}{section.6.6}%
-\contentsline {chapter}{Bibliography}{82}{chapter*.42}%
-\contentsline {chapter}{\numberline {A}Detailed Results Tables}{86}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Complete Calibration Metrics}{86}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Permutation Test Detailed Outputs}{86}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Stratified ECE by Criterion Type}{87}{section.A.3}%
-\contentsline {section}{\numberline {A.4}Post-hoc Recalibration Comparison}{87}{section.A.4}%
-\contentsline {section}{\numberline {A.5}Recalibration Cross-Validation Detail}{87}{section.A.5}%
-\contentsline {section}{\numberline {A.6}Conformal Prediction Detailed Results}{88}{section.A.6}%
-\contentsline {section}{\numberline {A.7}Composite Utility Score Components}{89}{section.A.7}%
-\contentsline {section}{\numberline {A.8}Re-thresholding on Exclusion Criteria}{89}{section.A.8}%
-\contentsline {chapter}{\numberline {B}Full Prompt Specifications}{91}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Prompt A --- Generic Baseline}{91}{section.B.1}%
-\contentsline {subsection}{\numberline {B.1.1}Prompt A for Instruct Models}{91}{subsection.B.1.1}%
-\contentsline {subsection}{\numberline {B.1.2}Prompt A for Base Models}{92}{subsection.B.1.2}%
-\contentsline {section}{\numberline {B.2}Prompt B --- Adapted with Expert Guidance}{92}{section.B.2}%
-\contentsline {subsection}{\numberline {B.2.1}Prompt B for Instruct Models}{92}{subsection.B.2.1}%
-\contentsline {paragraph}{Guidance block for inclusion criteria.}{93}{paragraph*.51}%
-\contentsline {paragraph}{Guidance block for exclusion criteria.}{94}{paragraph*.52}%
-\contentsline {subsection}{\numberline {B.2.2}Prompt B for Base Models}{95}{subsection.B.2.2}%
-\contentsline {paragraph}{Few-shot block for inclusion criteria.}{96}{paragraph*.53}%
-\contentsline {paragraph}{Few-shot block for exclusion criteria.}{96}{paragraph*.54}%
-\contentsline {chapter}{\numberline {C}Individual Reliability Diagrams}{98}{appendix.C}%
-\contentsline {chapter}{\numberline {D}Code and Data Availability}{100}{appendix.D}%
-\contentsline {section}{\numberline {D.1}Repository}{100}{section.D.1}%
-\contentsline {section}{\numberline {D.2}Data Availability}{100}{section.D.2}%
-\contentsline {section}{\numberline {D.3}Reproducing the Experiments}{101}{section.D.3}%
-\contentsline {section}{\numberline {D.4}Computational Requirements}{102}{section.D.4}%
-\contentsline {section}{\numberline {D.5}Software Versions}{102}{section.D.5}%
-\contentsline {chapter}{\numberline {E}Generative AI Usage Declaration}{103}{appendix.E}%
-\contentsline {chapter}{\numberline {F}Detailed Mode Collapse Analysis}{105}{appendix.F}%
-\contentsline {section}{\numberline {F.1}Complete Prediction Distributions}{105}{section.F.1}%
-\contentsline {section}{\numberline {F.2}Constrained-Decoding Simulation (Finding F8)}{106}{section.F.2}%
-\contentsline {section}{\numberline {F.3}The Signal-to-Prior Mechanism}{107}{section.F.3}%
-\contentsline {section}{\numberline {F.4}Dominant vs.\ Discriminative Cases (Finding F9)}{108}{section.F.4}%
-\contentsline {section}{\numberline {F.5}Diversity Predicts Discriminative Accuracy}{109}{section.F.5}%
+\contentsline {subsection}{\numberline {5.6.3}Mode Collapse Is a Decoding Artefact, Not a Knowledge Loss}{54}{subsection.5.6.3}%
+\contentsline {subsection}{\numberline {5.6.4}A Mechanism for Collapse: Response Prior Versus Signal Amplitude}{55}{subsection.5.6.4}%
+\contentsline {paragraph}{Mechanism.}{56}{paragraph*.25}%
+\contentsline {paragraph}{An approximate threshold for collapse.}{56}{paragraph*.26}%
+\contentsline {paragraph}{On the direction of causation.}{57}{paragraph*.27}%
+\contentsline {section}{\numberline {5.7}Performance on Truly Discriminative Cases}{57}{section.5.7}%
+\contentsline {subsection}{\numberline {5.7.1}Comparison of Global vs.\ Discriminative Accuracy}{57}{subsection.5.7.1}%
+\contentsline {paragraph}{Two distinct pathologies among the failing medical models.}{58}{paragraph*.29}%
+\contentsline {subsection}{\numberline {5.7.2}Implications for Model Evaluation}{59}{subsection.5.7.2}%
+\contentsline {section}{\numberline {5.8}Systematic Inclusion vs.\ Exclusion Asymmetry}{59}{section.5.8}%
+\contentsline {section}{\numberline {5.9}Model-Specific Evasion Biases}{60}{section.5.9}%
+\contentsline {section}{\numberline {5.10}Ordinal Validity (H3) and Selective Classification (H4)}{61}{section.5.10}%
+\contentsline {subsection}{\numberline {5.10.1}H3: Ordinal Validity Not Reached}{61}{subsection.5.10.1}%
+\contentsline {subsection}{\numberline {5.10.2}H4: Selective Classification Partially Supported}{62}{subsection.5.10.2}%
+\contentsline {section}{\numberline {5.11}Post-hoc Recalibration}{63}{section.5.11}%
+\contentsline {subsection}{\numberline {5.11.1}Comparison of Recalibration Methods}{64}{subsection.5.11.1}%
+\contentsline {subsection}{\numberline {5.11.2}Robustness under Cross-Validation}{64}{subsection.5.11.2}%
+\contentsline {subsection}{\numberline {5.11.3}Interpretive Caveats}{65}{subsection.5.11.3}%
+\contentsline {section}{\numberline {5.12}Restoring the Signal by Re-thresholding}{66}{section.5.12}%
+\contentsline {subsection}{\numberline {5.12.1}Out-of-fold Re-thresholding Gains}{66}{subsection.5.12.1}%
+\contentsline {paragraph}{Stability of the fitted threshold.}{67}{paragraph*.39}%
+\contentsline {subsection}{\numberline {5.12.2}A Two-Dimensional Diagnostic: Collapse Versus Corruption}{68}{subsection.5.12.2}%
+\contentsline {section}{\numberline {5.13}Conformal Prediction and Inter-Model Consensus}{70}{section.5.13}%
+\contentsline {subsection}{\numberline {5.13.1}Conformal Prediction Sets}{70}{subsection.5.13.1}%
+\contentsline {subsection}{\numberline {5.13.2}Inter-Model Consensus}{71}{subsection.5.13.2}%
+\contentsline {section}{\numberline {5.14}Baselines and Composite Utility Score}{72}{section.5.14}%
+\contentsline {subsection}{\numberline {5.14.1}Comparison with Naïve Baselines}{72}{subsection.5.14.1}%
+\contentsline {subsection}{\numberline {5.14.2}Composite Utility Score}{72}{subsection.5.14.2}%
+\contentsline {section}{\numberline {5.15}External Replication on TREC Clinical Trials}{74}{section.5.15}%
+\contentsline {section}{\numberline {5.16}Summary of Results}{76}{section.5.16}%
+\contentsline {chapter}{\numberline {6}Conclusion and Future Work}{78}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Summary of Findings}{78}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Answer to the Research Question}{79}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Contributions}{80}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Limitations}{81}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}External Validation}{82}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Model Scale}{82}{subsection.6.4.2}%
+\contentsline {subsection}{\numberline {6.4.3}Prompt Space and Prompt-Driven Effects}{83}{subsection.6.4.3}%
+\contentsline {section}{\numberline {6.5}Future Work}{83}{section.6.5}%
+\contentsline {subsection}{\numberline {6.5.1}Broader and Prospective External Validation}{83}{subsection.6.5.1}%
+\contentsline {paragraph}{A protocol for prospective validation.}{84}{paragraph*.50}%
+\contentsline {subsection}{\numberline {6.5.2}Robust Re-thresholding and Prior Correction}{85}{subsection.6.5.2}%
+\contentsline {subsection}{\numberline {6.5.3}Multi-Agent Adversarial Debate for Calibration}{85}{subsection.6.5.3}%
+\contentsline {subsection}{\numberline {6.5.4}Investigating the Origin of the Response Prior}{85}{subsection.6.5.4}%
+\contentsline {subsection}{\numberline {6.5.5}Extension to Larger and Multilingual Models}{86}{subsection.6.5.5}%
+\contentsline {section}{\numberline {6.6}Closing Remarks}{86}{section.6.6}%
+\contentsline {chapter}{Bibliography}{88}{chapter*.51}%
+\contentsline {chapter}{\numberline {A}Detailed Results Tables}{92}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Complete Calibration Metrics}{92}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Permutation Test Detailed Outputs}{92}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Stratified ECE by Criterion Type}{93}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Post-hoc Recalibration Comparison}{93}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Recalibration Cross-Validation Detail}{93}{section.A.5}%
+\contentsline {section}{\numberline {A.6}Conformal Prediction Detailed Results}{94}{section.A.6}%
+\contentsline {section}{\numberline {A.7}Composite Utility Score Components}{95}{section.A.7}%
+\contentsline {section}{\numberline {A.8}Re-thresholding on Exclusion Criteria}{95}{section.A.8}%
+\contentsline {chapter}{\numberline {B}Full Prompt Specifications}{97}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Prompt A --- Generic Baseline}{97}{section.B.1}%
+\contentsline {subsection}{\numberline {B.1.1}Prompt A for Instruct Models}{97}{subsection.B.1.1}%
+\contentsline {subsection}{\numberline {B.1.2}Prompt A for Base Models}{98}{subsection.B.1.2}%
+\contentsline {section}{\numberline {B.2}Prompt B --- Adapted with Expert Guidance}{98}{section.B.2}%
+\contentsline {subsection}{\numberline {B.2.1}Prompt B for Instruct Models}{98}{subsection.B.2.1}%
+\contentsline {paragraph}{Guidance block for inclusion criteria.}{99}{paragraph*.60}%
+\contentsline {paragraph}{Guidance block for exclusion criteria.}{100}{paragraph*.61}%
+\contentsline {subsection}{\numberline {B.2.2}Prompt B for Base Models}{101}{subsection.B.2.2}%
+\contentsline {paragraph}{Few-shot block for inclusion criteria.}{102}{paragraph*.62}%
+\contentsline {paragraph}{Few-shot block for exclusion criteria.}{102}{paragraph*.63}%
+\contentsline {chapter}{\numberline {C}Individual Reliability Diagrams}{104}{appendix.C}%
+\contentsline {chapter}{\numberline {D}Code and Data Availability}{106}{appendix.D}%
+\contentsline {section}{\numberline {D.1}Repository}{106}{section.D.1}%
+\contentsline {section}{\numberline {D.2}Data Availability}{106}{section.D.2}%
+\contentsline {section}{\numberline {D.3}Reproducing the Experiments}{107}{section.D.3}%
+\contentsline {section}{\numberline {D.4}Computational Requirements}{108}{section.D.4}%
+\contentsline {section}{\numberline {D.5}Software Versions}{108}{section.D.5}%
+\contentsline {chapter}{\numberline {E}Generative AI Usage Declaration}{109}{appendix.E}%
+\contentsline {chapter}{\numberline {F}Detailed Mode Collapse Analysis}{111}{appendix.F}%
+\contentsline {section}{\numberline {F.1}Complete Prediction Distributions}{111}{section.F.1}%
+\contentsline {section}{\numberline {F.2}Constrained-Decoding Simulation (Finding F8)}{112}{section.F.2}%
+\contentsline {section}{\numberline {F.3}The Signal-to-Prior Mechanism}{113}{section.F.3}%
+\contentsline {section}{\numberline {F.4}Dominant vs.\ Discriminative Cases (Finding F9)}{114}{section.F.4}%
+\contentsline {section}{\numberline {F.5}Diversity Predicts Discriminative Accuracy}{115}{section.F.5}%

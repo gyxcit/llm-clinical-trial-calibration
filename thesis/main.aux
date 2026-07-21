@@ -11,7 +11,7 @@
 \@writefile{toc}{\contentsline {chapter}{Acknowledgements}{i}{chapter*.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {chapter}{Abstract}{ii}{chapter*.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {chapter}{Résumé}{iii}{chapter*.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{List of Abbreviations}{xvi}{chapter*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{List of Abbreviations}{xviii}{chapter*.7}\protected@file@percent }
 \abx@aux@cite{0}{jin2024trialgpt}
 \abx@aux@segm{0}{0}{jin2024trialgpt}
 \@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}\protected@file@percent }
@@ -420,283 +420,297 @@
 \newlabel{tab:res-h2-mechanism}{{5.5}{48}{Mean overconfidence (mean confidence minus mean accuracy) for the four Base--Instruct pairs. Negative values indicate underconfidence, positive values indicate overconfidence. The transition from negative to positive across every pair reveals a consistent effect of RLHF on the direction of the miscalibration}{table.caption.19}{}}
 \abx@aux@cite{0}{kadavath2022know}
 \abx@aux@segm{0}{0}{kadavath2022know}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Effect of RLHF post-training on the direction of miscalibration. Each arrow connects the mean overconfidence of a Base variant (hollow marker) to that of its RLHF-aligned Instruct counterpart (filled marker), for the four Base--Instruct pairs of Hypothesis~H2. The dashed line marks perfect agreement between confidence and accuracy: points below it correspond to underconfident models, points above to overconfident ones. Every arrow points upward, and in the Mistral family the transition crosses the line entirely --- from systematic underconfidence to systematic overconfidence.}}{49}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:res-rlhf-shift}{{5.2}{49}{Effect of RLHF post-training on the direction of miscalibration. Each arrow connects the mean overconfidence of a Base variant (hollow marker) to that of its RLHF-aligned Instruct counterpart (filled marker), for the four Base--Instruct pairs of Hypothesis~H2. The dashed line marks perfect agreement between confidence and accuracy: points below it correspond to underconfident models, points above to overconfident ones. Every arrow points upward, and in the Mistral family the transition crosses the line entirely --- from systematic underconfidence to systematic overconfidence}{figure.caption.20}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.4.3}Comparison to Prior Work}{49}{subsection.5.4.3}\protected@file@percent }
 \newlabel{subsec:res-h2-comparison}{{5.4.3}{49}{Comparison to Prior Work}{subsection.5.4.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.5}The Enriched-Prompt Paradox}{49}{section.5.5}\protected@file@percent }
-\newlabel{sec:res-prompt}{{5.5}{49}{The Enriched-Prompt Paradox}{section.5.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}The Enriched-Prompt Paradox}{50}{section.5.5}\protected@file@percent }
+\newlabel{sec:res-prompt}{{5.5}{50}{The Enriched-Prompt Paradox}{section.5.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Effect of Prompt Enrichment Across Models}{50}{subsection.5.5.1}\protected@file@percent }
 \newlabel{subsec:res-prompt-comparison}{{5.5.1}{50}{Effect of Prompt Enrichment Across Models}{subsection.5.5.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.6}{\ignorespaces Effect of prompt enrichment on ECE. A positive $\Delta \textrm  {ECE}$ indicates that Prompt~B, despite being enriched with expert guidance, produces \emph  {worse} calibration than the minimal Prompt~A.}}{50}{table.caption.20}\protected@file@percent }
-\newlabel{tab:res-prompt-comparison}{{5.6}{50}{Effect of prompt enrichment on ECE. A positive $\Delta \ece $ indicates that Prompt~B, despite being enriched with expert guidance, produces \emph {worse} calibration than the minimal Prompt~A}{table.caption.20}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Interpretation}{50}{subsection.5.5.2}\protected@file@percent }
-\newlabel{subsec:res-prompt-interpretation}{{5.5.2}{50}{Interpretation}{subsection.5.5.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.6}{\ignorespaces Effect of prompt enrichment on ECE. A positive $\Delta \textrm  {ECE}$ indicates that Prompt~B, despite being enriched with expert guidance, produces \emph  {worse} calibration than the minimal Prompt~A.}}{50}{table.caption.21}\protected@file@percent }
+\newlabel{tab:res-prompt-comparison}{{5.6}{50}{Effect of prompt enrichment on ECE. A positive $\Delta \ece $ indicates that Prompt~B, despite being enriched with expert guidance, produces \emph {worse} calibration than the minimal Prompt~A}{table.caption.21}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Interpretation}{51}{subsection.5.5.2}\protected@file@percent }
+\newlabel{subsec:res-prompt-interpretation}{{5.5.2}{51}{Interpretation}{subsection.5.5.2}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.6}Mode Collapse in Medical and RLHF-Aligned LLMs}{51}{section.5.6}\protected@file@percent }
 \newlabel{sec:res-mode-collapse}{{5.6}{51}{Mode Collapse in Medical and RLHF-Aligned LLMs}{section.5.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.1}Prediction Distribution Analysis}{51}{subsection.5.6.1}\protected@file@percent }
-\newlabel{subsec:res-collapse-distribution}{{5.6.1}{51}{Prediction Distribution Analysis}{subsection.5.6.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.7}{\ignorespaces Modal label and its usage rate for each configuration. Configurations with a modal usage above 90\% no longer function as classifiers; they behave as biased constant predictors.}}{51}{table.caption.21}\protected@file@percent }
-\newlabel{tab:res-collapse-dist}{{5.7}{51}{Modal label and its usage rate for each configuration. Configurations with a modal usage above 90\% no longer function as classifiers; they behave as biased constant predictors}{table.caption.21}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.1}Prediction Distribution Analysis}{52}{subsection.5.6.1}\protected@file@percent }
+\newlabel{subsec:res-collapse-distribution}{{5.6.1}{52}{Prediction Distribution Analysis}{subsection.5.6.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.7}{\ignorespaces Modal label and its usage rate for each configuration. Configurations with a modal usage above 90\% no longer function as classifiers; they behave as biased constant predictors.}}{52}{table.caption.22}\protected@file@percent }
+\newlabel{tab:res-collapse-dist}{{5.7}{52}{Modal label and its usage rate for each configuration. Configurations with a modal usage above 90\% no longer function as classifiers; they behave as biased constant predictors}{table.caption.22}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.6.2}Structural Persistence Under Constrained Decoding}{52}{subsection.5.6.2}\protected@file@percent }
 \newlabel{subsec:res-collapse-structural}{{5.6.2}{52}{Structural Persistence Under Constrained Decoding}{subsection.5.6.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.3}Mode Collapse Is a Decoding Artefact, Not a Knowledge Loss}{53}{subsection.5.6.3}\protected@file@percent }
-\newlabel{subsec:res-collapse-decoding}{{5.6.3}{53}{Mode Collapse Is a Decoding Artefact, Not a Knowledge Loss}{subsection.5.6.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.8}{\ignorespaces Ordinal separation (Cliff's $\delta $ on the positive-label probability, inclusion criteria) for the collapsed configurations. A high $\delta $ combined with a near-degenerate predicted-label distribution indicates that the discriminative signal is present but not expressed in the $\arg \max $. Meditron is the sole configuration with a negative $\delta $.}}{53}{table.caption.22}\protected@file@percent }
-\newlabel{tab:res-signal-expression}{{5.8}{53}{Ordinal separation (Cliff's $\delta $ on the positive-label probability, inclusion criteria) for the collapsed configurations. A high $\delta $ combined with a near-degenerate predicted-label distribution indicates that the discriminative signal is present but not expressed in the $\arg \max $. Meditron is the sole configuration with a negative $\delta $}{table.caption.22}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.4}A Mechanism for Collapse: Response Prior Versus Signal Amplitude}{54}{subsection.5.6.4}\protected@file@percent }
-\newlabel{subsec:res-collapse-mechanism}{{5.6.4}{54}{A Mechanism for Collapse: Response Prior Versus Signal Amplitude}{subsection.5.6.4}{}}
-\@writefile{toc}{\contentsline {paragraph}{Mechanism.}{54}{paragraph*.23}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.7}Performance on Truly Discriminative Cases}{55}{section.5.7}\protected@file@percent }
-\newlabel{sec:res-non-trivial}{{5.7}{55}{Performance on Truly Discriminative Cases}{section.5.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.7.1}Comparison of Global vs.\ Discriminative Accuracy}{55}{subsection.5.7.1}\protected@file@percent }
-\newlabel{subsec:res-non-trivial-comparison}{{5.7.1}{55}{Comparison of Global vs.\ Discriminative Accuracy}{subsection.5.7.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.9}{\ignorespaces Global accuracy compared to accuracy on the 238 truly discriminative cases (expert label outside $\{$not excluded, not enough information$\}$). A large negative drop indicates that the model's global accuracy depends on the majority-class distribution rather than on clinical reasoning.}}{55}{table.caption.24}\protected@file@percent }
-\newlabel{tab:res-non-trivial}{{5.9}{55}{Global accuracy compared to accuracy on the 238 truly discriminative cases (expert label outside $\{$not excluded, not enough information$\}$). A large negative drop indicates that the model's global accuracy depends on the majority-class distribution rather than on clinical reasoning}{table.caption.24}{}}
-\@writefile{toc}{\contentsline {paragraph}{Two distinct pathologies among the failing medical models.}{56}{paragraph*.25}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.7.2}Implications for Model Evaluation}{56}{subsection.5.7.2}\protected@file@percent }
-\newlabel{subsec:res-non-trivial-implications}{{5.7.2}{56}{Implications for Model Evaluation}{subsection.5.7.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.8}Systematic Inclusion vs.\ Exclusion Asymmetry}{56}{section.5.8}\protected@file@percent }
-\newlabel{sec:res-asymmetry}{{5.8}{56}{Systematic Inclusion vs.\ Exclusion Asymmetry}{section.5.8}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.10}{\ignorespaces ECE stratified by criterion type. Ratios above $1$ indicate that calibration is worse on exclusion criteria than on inclusion criteria. {\normalfont  \textsc  {Meditron}} is the only model to reverse this pattern.}}{57}{table.caption.26}\protected@file@percent }
-\newlabel{tab:res-asymmetry}{{5.10}{57}{ECE stratified by criterion type. Ratios above $1$ indicate that calibration is worse on exclusion criteria than on inclusion criteria. \model {Meditron} is the only model to reverse this pattern}{table.caption.26}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.9}Model-Specific Evasion Biases}{58}{section.5.9}\protected@file@percent }
-\newlabel{sec:res-evasion}{{5.9}{58}{Model-Specific Evasion Biases}{section.5.9}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.11}{\ignorespaces Usage-rate ratios for the two evasion labels (open-source model over expert). Open-source models over-use ``not enough information'' by factors of 2 to 3.5, while under-using ``not applicable''. This pattern is the mirror image of the GPT-4 bias documented in Section~\ref {sec:res-audit}.}}{58}{table.caption.27}\protected@file@percent }
-\newlabel{tab:res-evasion}{{5.11}{58}{Usage-rate ratios for the two evasion labels (open-source model over expert). Open-source models over-use ``not enough information'' by factors of 2 to 3.5, while under-using ``not applicable''. This pattern is the mirror image of the GPT-4 bias documented in Section~\ref {sec:res-audit}}{table.caption.27}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.10}Ordinal Validity (H3) and Selective Classification (H4)}{59}{section.5.10}\protected@file@percent }
-\newlabel{sec:res-h3h4}{{5.10}{59}{Ordinal Validity (H3) and Selective Classification (H4)}{section.5.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.10.1}H3: Ordinal Validity Not Reached}{59}{subsection.5.10.1}\protected@file@percent }
-\newlabel{subsec:res-h3}{{5.10.1}{59}{H3: Ordinal Validity Not Reached}{subsection.5.10.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.12}{\ignorespaces Concordance index (C-index) for the twelve configurations. No configuration reaches the pre-registered threshold of $0.70$.}}{59}{table.caption.28}\protected@file@percent }
-\newlabel{tab:res-h3}{{5.12}{59}{Concordance index (C-index) for the twelve configurations. No configuration reaches the pre-registered threshold of $0.70$}{table.caption.28}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.10.2}H4: Selective Classification Partially Supported}{60}{subsection.5.10.2}\protected@file@percent }
-\newlabel{subsec:res-h4}{{5.10.2}{60}{H4: Selective Classification Partially Supported}{subsection.5.10.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.13}{\ignorespaces Selective classification test for Hypothesis~H4 (Prompt~A configurations only). $\Delta F_1$ is the difference $F_1(80\%) - F_1(100\%)$; a positive value greater than $0.02$ supports H4.}}{60}{table.caption.29}\protected@file@percent }
-\newlabel{tab:res-h4}{{5.13}{60}{Selective classification test for Hypothesis~H4 (Prompt~A configurations only). $\Delta F_1$ is the difference $F_1(80\%) - F_1(100\%)$; a positive value greater than $0.02$ supports H4}{table.caption.29}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.11}Post-hoc Recalibration}{60}{section.5.11}\protected@file@percent }
-\newlabel{sec:res-recalibration}{{5.11}{60}{Post-hoc Recalibration}{section.5.11}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Risk-coverage curves for the six Prompt~B configurations, measured with macro-F1 (left panel, labelled \emph  {Courbes risque-couverture (F1)}) and with accuracy (right panel, labelled \emph  {Courbes risque-couverture (Accuracy)}). The horizontal axis (\emph  {Couverture (\% prédictions retenues)}) is the fraction of pairs on which the model chooses to predict, ranging from full coverage (100\%) on the right to selective prediction of the most confident cases on the left. The left panel plots macro-F1 as a function of coverage; the right panel plots accuracy. Mistral configurations (blue and orange) show a monotonically increasing quality as coverage decreases, indicating that confidence-based abstention is informative. Llama and BioMistral configurations show flat or noisy curves, reflecting the mode collapse documented in Section~\ref {sec:res-mode-collapse}. Axis labels and the legend are kept in French, reflecting the working language of the experimental phase.}}{61}{figure.caption.30}\protected@file@percent }
-\newlabel{fig:res-riskcov}{{5.2}{61}{Risk-coverage curves for the six Prompt~B configurations, measured with macro-F1 (left panel, labelled \emph {Courbes risque-couverture (F1)}) and with accuracy (right panel, labelled \emph {Courbes risque-couverture (Accuracy)}). The horizontal axis (\emph {Couverture (\% prédictions retenues)}) is the fraction of pairs on which the model chooses to predict, ranging from full coverage (100\%) on the right to selective prediction of the most confident cases on the left. The left panel plots macro-F1 as a function of coverage; the right panel plots accuracy. Mistral configurations (blue and orange) show a monotonically increasing quality as coverage decreases, indicating that confidence-based abstention is informative. Llama and BioMistral configurations show flat or noisy curves, reflecting the mode collapse documented in Section~\ref {sec:res-mode-collapse}. Axis labels and the legend are kept in French, reflecting the working language of the experimental phase}{figure.caption.30}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.11.1}Comparison of Recalibration Methods}{62}{subsection.5.11.1}\protected@file@percent }
-\newlabel{subsec:res-recalibration-comparison}{{5.11.1}{62}{Comparison of Recalibration Methods}{subsection.5.11.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.14}{\ignorespaces ECE before and after post-hoc recalibration, evaluated on the 30\% held-out subset. Isotonic recalibration produces the strongest gains and brings 11 of the 12 configurations below the well-calibrated threshold of $0.05$.}}{62}{table.caption.31}\protected@file@percent }
-\newlabel{tab:res-recalibration}{{5.14}{62}{ECE before and after post-hoc recalibration, evaluated on the 30\% held-out subset. Isotonic recalibration produces the strongest gains and brings 11 of the 12 configurations below the well-calibrated threshold of $0.05$}{table.caption.31}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.11.2}Robustness under Cross-Validation}{62}{subsection.5.11.2}\protected@file@percent }
-\newlabel{subsec:res-recalibration-cv}{{5.11.2}{62}{Robustness under Cross-Validation}{subsection.5.11.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.15}{\ignorespaces Cross-validation of isotonic recalibration. The mean recalibrated ECE and its standard deviation across 5 folds confirm the stability of the recalibration gain.}}{63}{table.caption.32}\protected@file@percent }
-\newlabel{tab:res-recalibration-cv}{{5.15}{63}{Cross-validation of isotonic recalibration. The mean recalibrated ECE and its standard deviation across 5 folds confirm the stability of the recalibration gain}{table.caption.32}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.11.3}Interpretive Caveats}{63}{subsection.5.11.3}\protected@file@percent }
-\newlabel{subsec:res-recalibration-caveats}{{5.11.3}{63}{Interpretive Caveats}{subsection.5.11.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.12}Restoring the Signal by Re-thresholding}{64}{section.5.12}\protected@file@percent }
-\newlabel{sec:res-rethreshold}{{5.12}{64}{Restoring the Signal by Re-thresholding}{section.5.12}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.12.1}Out-of-fold Re-thresholding Gains}{64}{subsection.5.12.1}\protected@file@percent }
-\newlabel{subsec:res-rethreshold-gains}{{5.12.1}{64}{Out-of-fold Re-thresholding Gains}{subsection.5.12.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.16}{\ignorespaces Re-thresholding on inclusion criteria, evaluated out-of-fold. $F_1^{\arg \max }$ is the macro-F1 of the default $\arg \max $ rule; $F_1^{\text  {thr}}$ is the macro-F1 of the cross-validated threshold rule; the gain is reported with a 95\% bootstrap confidence interval. AUC is the area under the ROC curve of the positive-label probability. A gain whose interval excludes zero is significant.}}{64}{table.caption.33}\protected@file@percent }
-\newlabel{tab:res-rethreshold}{{5.16}{64}{Re-thresholding on inclusion criteria, evaluated out-of-fold. $F_1^{\arg \max }$ is the macro-F1 of the default $\arg \max $ rule; $F_1^{\text {thr}}$ is the macro-F1 of the cross-validated threshold rule; the gain is reported with a 95\% bootstrap confidence interval. AUC is the area under the ROC curve of the positive-label probability. A gain whose interval excludes zero is significant}{table.caption.33}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.12.2}A Two-Dimensional Diagnostic: Collapse Versus Corruption}{65}{subsection.5.12.2}\protected@file@percent }
-\newlabel{subsec:res-rethreshold-diag}{{5.12.2}{65}{A Two-Dimensional Diagnostic: Collapse Versus Corruption}{subsection.5.12.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.17}{\ignorespaces Two-dimensional diagnostic of the twelve configurations. \emph  {Healthy} configurations express their signal ($r \geq 0.6$). \emph  {Expressive collapse} configurations have a genuine signal (AUC lower bound $>0.5$) that the $\arg \max $ masks ($r < 0.6$); they are recoverable by re-thresholding. \emph  {Corruption} configurations have no usable signal (AUC interval includes or lies below $0.5$) and are not recoverable.}}{66}{table.caption.34}\protected@file@percent }
-\newlabel{tab:res-diagnostic}{{5.17}{66}{Two-dimensional diagnostic of the twelve configurations. \emph {Healthy} configurations express their signal ($r \geq 0.6$). \emph {Expressive collapse} configurations have a genuine signal (AUC lower bound $>0.5$) that the $\arg \max $ masks ($r < 0.6$); they are recoverable by re-thresholding. \emph {Corruption} configurations have no usable signal (AUC interval includes or lies below $0.5$) and are not recoverable}{table.caption.34}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.13}Conformal Prediction and Inter-Model Consensus}{66}{section.5.13}\protected@file@percent }
-\newlabel{sec:res-conformal-consensus}{{5.13}{66}{Conformal Prediction and Inter-Model Consensus}{section.5.13}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.13.1}Conformal Prediction Sets}{66}{subsection.5.13.1}\protected@file@percent }
-\newlabel{subsec:res-conformal}{{5.13.1}{66}{Conformal Prediction Sets}{subsection.5.13.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.18}{\ignorespaces Empirical coverage and mean set size of conformal prediction at target $\alpha = 0.10$. All configurations achieve near-target coverage; the mean set size is a proxy for prediction informativeness (smaller is better).}}{67}{table.caption.35}\protected@file@percent }
-\newlabel{tab:res-conformal}{{5.18}{67}{Empirical coverage and mean set size of conformal prediction at target $\alpha = 0.10$. All configurations achieve near-target coverage; the mean set size is a proxy for prediction informativeness (smaller is better)}{table.caption.35}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.13.2}Inter-Model Consensus}{67}{subsection.5.13.2}\protected@file@percent }
-\newlabel{subsec:res-consensus}{{5.13.2}{67}{Inter-Model Consensus}{subsection.5.13.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.19}{\ignorespaces Accuracy stratified by the level of inter-model consensus. Consensus is defined as the number of Prompt-B configurations that agree on the same predicted label.}}{67}{table.caption.36}\protected@file@percent }
-\newlabel{tab:res-consensus}{{5.19}{67}{Accuracy stratified by the level of inter-model consensus. Consensus is defined as the number of Prompt-B configurations that agree on the same predicted label}{table.caption.36}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.14}Baselines and Composite Utility Score}{67}{section.5.14}\protected@file@percent }
-\newlabel{sec:res-baselines}{{5.14}{67}{Baselines and Composite Utility Score}{section.5.14}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.14.1}Comparison with Naïve Baselines}{68}{subsection.5.14.1}\protected@file@percent }
-\newlabel{subsec:res-naive-baselines}{{5.14.1}{68}{Comparison with Naïve Baselines}{subsection.5.14.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.20}{\ignorespaces Comparison with naïve baselines. Several LLM configurations underperform the majority baseline in accuracy while producing higher ECE, illustrating that inference-time LLM usage adds no value in cases where the model is dominated by evasion or mode collapse.}}{68}{table.caption.37}\protected@file@percent }
-\newlabel{tab:res-baselines}{{5.20}{68}{Comparison with naïve baselines. Several LLM configurations underperform the majority baseline in accuracy while producing higher ECE, illustrating that inference-time LLM usage adds no value in cases where the model is dominated by evasion or mode collapse}{table.caption.37}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.14.2}Composite Utility Score}{68}{subsection.5.14.2}\protected@file@percent }
-\newlabel{subsec:res-composite}{{5.14.2}{68}{Composite Utility Score}{subsection.5.14.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Distribution of predicted labels across the six eligibility labels, for each of the twelve configurations, sorted by increasing prediction entropy. The five collapsed configurations at the bottom assign nearly all their predictions to a single label (``not enough information''), producing near-monochrome bars. The functioning configurations at the top distribute their predictions across several labels. This visual contrast is what the diversity metric of Equation~\ref {eq:diversity} quantifies, and what the aggregate ECE values of Table~\ref {tab:res-calibration} conceal.}}{53}{figure.caption.23}\protected@file@percent }
+\newlabel{fig:res-distribution}{{5.3}{53}{Distribution of predicted labels across the six eligibility labels, for each of the twelve configurations, sorted by increasing prediction entropy. The five collapsed configurations at the bottom assign nearly all their predictions to a single label (``not enough information''), producing near-monochrome bars. The functioning configurations at the top distribute their predictions across several labels. This visual contrast is what the diversity metric of Equation~\ref {eq:diversity} quantifies, and what the aggregate ECE values of Table~\ref {tab:res-calibration} conceal}{figure.caption.23}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.3}Mode Collapse Is a Decoding Artefact, Not a Knowledge Loss}{54}{subsection.5.6.3}\protected@file@percent }
+\newlabel{subsec:res-collapse-decoding}{{5.6.3}{54}{Mode Collapse Is a Decoding Artefact, Not a Knowledge Loss}{subsection.5.6.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.8}{\ignorespaces Ordinal separation (Cliff's $\delta $ on the positive-label probability, inclusion criteria) for the collapsed configurations. A high $\delta $ combined with a near-degenerate predicted-label distribution indicates that the discriminative signal is present but not expressed in the $\arg \max $. Meditron is the sole configuration with a negative $\delta $.}}{55}{table.caption.24}\protected@file@percent }
+\newlabel{tab:res-signal-expression}{{5.8}{55}{Ordinal separation (Cliff's $\delta $ on the positive-label probability, inclusion criteria) for the collapsed configurations. A high $\delta $ combined with a near-degenerate predicted-label distribution indicates that the discriminative signal is present but not expressed in the $\arg \max $. Meditron is the sole configuration with a negative $\delta $}{table.caption.24}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.4}A Mechanism for Collapse: Response Prior Versus Signal Amplitude}{55}{subsection.5.6.4}\protected@file@percent }
+\newlabel{subsec:res-collapse-mechanism}{{5.6.4}{55}{A Mechanism for Collapse: Response Prior Versus Signal Amplitude}{subsection.5.6.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Mechanism.}{56}{paragraph*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{An approximate threshold for collapse.}{56}{paragraph*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{On the direction of causation.}{57}{paragraph*.27}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.7}Performance on Truly Discriminative Cases}{57}{section.5.7}\protected@file@percent }
+\newlabel{sec:res-non-trivial}{{5.7}{57}{Performance on Truly Discriminative Cases}{section.5.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.7.1}Comparison of Global vs.\ Discriminative Accuracy}{57}{subsection.5.7.1}\protected@file@percent }
+\newlabel{subsec:res-non-trivial-comparison}{{5.7.1}{57}{Comparison of Global vs.\ Discriminative Accuracy}{subsection.5.7.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.9}{\ignorespaces Global accuracy compared to accuracy on the 238 truly discriminative cases (expert label outside $\{$not excluded, not enough information$\}$). A large negative drop indicates that the model's global accuracy depends on the majority-class distribution rather than on clinical reasoning.}}{58}{table.caption.28}\protected@file@percent }
+\newlabel{tab:res-non-trivial}{{5.9}{58}{Global accuracy compared to accuracy on the 238 truly discriminative cases (expert label outside $\{$not excluded, not enough information$\}$). A large negative drop indicates that the model's global accuracy depends on the majority-class distribution rather than on clinical reasoning}{table.caption.28}{}}
+\@writefile{toc}{\contentsline {paragraph}{Two distinct pathologies among the failing medical models.}{58}{paragraph*.29}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.7.2}Implications for Model Evaluation}{59}{subsection.5.7.2}\protected@file@percent }
+\newlabel{subsec:res-non-trivial-implications}{{5.7.2}{59}{Implications for Model Evaluation}{subsection.5.7.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.8}Systematic Inclusion vs.\ Exclusion Asymmetry}{59}{section.5.8}\protected@file@percent }
+\newlabel{sec:res-asymmetry}{{5.8}{59}{Systematic Inclusion vs.\ Exclusion Asymmetry}{section.5.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.10}{\ignorespaces ECE stratified by criterion type. Ratios above $1$ indicate that calibration is worse on exclusion criteria than on inclusion criteria. {\normalfont  \textsc  {Meditron}} is the only model to reverse this pattern.}}{59}{table.caption.30}\protected@file@percent }
+\newlabel{tab:res-asymmetry}{{5.10}{59}{ECE stratified by criterion type. Ratios above $1$ indicate that calibration is worse on exclusion criteria than on inclusion criteria. \model {Meditron} is the only model to reverse this pattern}{table.caption.30}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.9}Model-Specific Evasion Biases}{60}{section.5.9}\protected@file@percent }
+\newlabel{sec:res-evasion}{{5.9}{60}{Model-Specific Evasion Biases}{section.5.9}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.11}{\ignorespaces Usage-rate ratios for the two evasion labels (open-source model over expert). Open-source models over-use ``not enough information'' by factors of 2 to 3.5, while under-using ``not applicable''. This pattern is the mirror image of the GPT-4 bias documented in Section~\ref {sec:res-audit}.}}{61}{table.caption.31}\protected@file@percent }
+\newlabel{tab:res-evasion}{{5.11}{61}{Usage-rate ratios for the two evasion labels (open-source model over expert). Open-source models over-use ``not enough information'' by factors of 2 to 3.5, while under-using ``not applicable''. This pattern is the mirror image of the GPT-4 bias documented in Section~\ref {sec:res-audit}}{table.caption.31}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.10}Ordinal Validity (H3) and Selective Classification (H4)}{61}{section.5.10}\protected@file@percent }
+\newlabel{sec:res-h3h4}{{5.10}{61}{Ordinal Validity (H3) and Selective Classification (H4)}{section.5.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.10.1}H3: Ordinal Validity Not Reached}{61}{subsection.5.10.1}\protected@file@percent }
+\newlabel{subsec:res-h3}{{5.10.1}{61}{H3: Ordinal Validity Not Reached}{subsection.5.10.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.12}{\ignorespaces Concordance index (C-index) for the twelve configurations. No configuration reaches the pre-registered threshold of $0.70$.}}{62}{table.caption.32}\protected@file@percent }
+\newlabel{tab:res-h3}{{5.12}{62}{Concordance index (C-index) for the twelve configurations. No configuration reaches the pre-registered threshold of $0.70$}{table.caption.32}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.10.2}H4: Selective Classification Partially Supported}{62}{subsection.5.10.2}\protected@file@percent }
+\newlabel{subsec:res-h4}{{5.10.2}{62}{H4: Selective Classification Partially Supported}{subsection.5.10.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.13}{\ignorespaces Selective classification test for Hypothesis~H4 (Prompt~A configurations only). $\Delta F_1$ is the difference $F_1(80\%) - F_1(100\%)$; a positive value greater than $0.02$ supports H4.}}{62}{table.caption.33}\protected@file@percent }
+\newlabel{tab:res-h4}{{5.13}{62}{Selective classification test for Hypothesis~H4 (Prompt~A configurations only). $\Delta F_1$ is the difference $F_1(80\%) - F_1(100\%)$; a positive value greater than $0.02$ supports H4}{table.caption.33}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Risk-coverage curves for the six Prompt~B configurations, measured with macro-F1 (left panel, labelled \emph  {Courbes risque-couverture (F1)}) and with accuracy (right panel, labelled \emph  {Courbes risque-couverture (Accuracy)}). The horizontal axis (\emph  {Couverture (\% prédictions retenues)}) is the fraction of pairs on which the model chooses to predict, ranging from full coverage (100\%) on the right to selective prediction of the most confident cases on the left. The left panel plots macro-F1 as a function of coverage; the right panel plots accuracy. Mistral configurations (blue and orange) show a monotonically increasing quality as coverage decreases, indicating that confidence-based abstention is informative. Llama and BioMistral configurations show flat or noisy curves, reflecting the mode collapse documented in Section~\ref {sec:res-mode-collapse}. Axis labels and the legend are kept in French, reflecting the working language of the experimental phase.}}{63}{figure.caption.34}\protected@file@percent }
+\newlabel{fig:res-riskcov}{{5.4}{63}{Risk-coverage curves for the six Prompt~B configurations, measured with macro-F1 (left panel, labelled \emph {Courbes risque-couverture (F1)}) and with accuracy (right panel, labelled \emph {Courbes risque-couverture (Accuracy)}). The horizontal axis (\emph {Couverture (\% prédictions retenues)}) is the fraction of pairs on which the model chooses to predict, ranging from full coverage (100\%) on the right to selective prediction of the most confident cases on the left. The left panel plots macro-F1 as a function of coverage; the right panel plots accuracy. Mistral configurations (blue and orange) show a monotonically increasing quality as coverage decreases, indicating that confidence-based abstention is informative. Llama and BioMistral configurations show flat or noisy curves, reflecting the mode collapse documented in Section~\ref {sec:res-mode-collapse}. Axis labels and the legend are kept in French, reflecting the working language of the experimental phase}{figure.caption.34}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.11}Post-hoc Recalibration}{63}{section.5.11}\protected@file@percent }
+\newlabel{sec:res-recalibration}{{5.11}{63}{Post-hoc Recalibration}{section.5.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.11.1}Comparison of Recalibration Methods}{64}{subsection.5.11.1}\protected@file@percent }
+\newlabel{subsec:res-recalibration-comparison}{{5.11.1}{64}{Comparison of Recalibration Methods}{subsection.5.11.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.14}{\ignorespaces ECE before and after post-hoc recalibration, evaluated on the 30\% held-out subset. Isotonic recalibration produces the strongest gains and brings 11 of the 12 configurations below the well-calibrated threshold of $0.05$.}}{64}{table.caption.35}\protected@file@percent }
+\newlabel{tab:res-recalibration}{{5.14}{64}{ECE before and after post-hoc recalibration, evaluated on the 30\% held-out subset. Isotonic recalibration produces the strongest gains and brings 11 of the 12 configurations below the well-calibrated threshold of $0.05$}{table.caption.35}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.11.2}Robustness under Cross-Validation}{64}{subsection.5.11.2}\protected@file@percent }
+\newlabel{subsec:res-recalibration-cv}{{5.11.2}{64}{Robustness under Cross-Validation}{subsection.5.11.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.15}{\ignorespaces Cross-validation of isotonic recalibration. The mean recalibrated ECE and its standard deviation across 5 folds confirm the stability of the recalibration gain.}}{65}{table.caption.36}\protected@file@percent }
+\newlabel{tab:res-recalibration-cv}{{5.15}{65}{Cross-validation of isotonic recalibration. The mean recalibrated ECE and its standard deviation across 5 folds confirm the stability of the recalibration gain}{table.caption.36}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.11.3}Interpretive Caveats}{65}{subsection.5.11.3}\protected@file@percent }
+\newlabel{subsec:res-recalibration-caveats}{{5.11.3}{65}{Interpretive Caveats}{subsection.5.11.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.12}Restoring the Signal by Re-thresholding}{66}{section.5.12}\protected@file@percent }
+\newlabel{sec:res-rethreshold}{{5.12}{66}{Restoring the Signal by Re-thresholding}{section.5.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.12.1}Out-of-fold Re-thresholding Gains}{66}{subsection.5.12.1}\protected@file@percent }
+\newlabel{subsec:res-rethreshold-gains}{{5.12.1}{66}{Out-of-fold Re-thresholding Gains}{subsection.5.12.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.16}{\ignorespaces Re-thresholding on inclusion criteria, evaluated out-of-fold. $F_1^{\arg \max }$ is the macro-F1 of the default $\arg \max $ rule; $F_1^{\text  {thr}}$ is the macro-F1 of the cross-validated threshold rule; the gain is reported with a 95\% bootstrap confidence interval. AUC is the area under the ROC curve of the positive-label probability. A gain whose interval excludes zero is significant.}}{66}{table.caption.37}\protected@file@percent }
+\newlabel{tab:res-rethreshold}{{5.16}{66}{Re-thresholding on inclusion criteria, evaluated out-of-fold. $F_1^{\arg \max }$ is the macro-F1 of the default $\arg \max $ rule; $F_1^{\text {thr}}$ is the macro-F1 of the cross-validated threshold rule; the gain is reported with a 95\% bootstrap confidence interval. AUC is the area under the ROC curve of the positive-label probability. A gain whose interval excludes zero is significant}{table.caption.37}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Macro-F1 before and after re-thresholding on inclusion criteria, evaluated out-of-fold. Each configuration is drawn as a segment running from its $\arg \max $ macro-F1 (hollow marker) to its re-thresholded macro-F1 (filled marker), with the 95\% bootstrap interval of the gain. Colours follow the diagnostic regimes of Figure~\ref {fig:res-quadrant}. The four expressive-collapse configurations move from zero to between $0.62$ and $0.79$; the healthy configurations barely move, which is the negative control. The corruption configurations also move, but Section~\ref {subsec:res-rethreshold-diag} shows this movement to be an artefact of class imbalance rather than a genuine recovery.}}{67}{figure.caption.38}\protected@file@percent }
+\newlabel{fig:res-rethreshold}{{5.5}{67}{Macro-F1 before and after re-thresholding on inclusion criteria, evaluated out-of-fold. Each configuration is drawn as a segment running from its $\arg \max $ macro-F1 (hollow marker) to its re-thresholded macro-F1 (filled marker), with the 95\% bootstrap interval of the gain. Colours follow the diagnostic regimes of Figure~\ref {fig:res-quadrant}. The four expressive-collapse configurations move from zero to between $0.62$ and $0.79$; the healthy configurations barely move, which is the negative control. The corruption configurations also move, but Section~\ref {subsec:res-rethreshold-diag} shows this movement to be an artefact of class imbalance rather than a genuine recovery}{figure.caption.38}{}}
+\@writefile{toc}{\contentsline {paragraph}{Stability of the fitted threshold.}{67}{paragraph*.39}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.12.2}A Two-Dimensional Diagnostic: Collapse Versus Corruption}{68}{subsection.5.12.2}\protected@file@percent }
+\newlabel{subsec:res-rethreshold-diag}{{5.12.2}{68}{A Two-Dimensional Diagnostic: Collapse Versus Corruption}{subsection.5.12.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.6}{\ignorespaces Two-dimensional diagnostic of the twelve configurations. The horizontal axis is the signal-to-prior ratio $r$ (log scale), which measures whether a configuration expresses its decision; the vertical axis is the area under the ROC curve of the positive-label probability, which measures whether a discriminative signal is present. Error bars are 95\% bootstrap confidence intervals on the AUC. The dashed lines mark the collapse threshold ($r \approx 0.6$) and the chance level (AUC $= 0.5$). The three shaded regions correspond to the three regimes: healthy configurations, expressive collapse (recoverable by re-thresholding), and signal corruption (irrecoverable). Llama-Instruct~A occupies the upper-left corner: the highest discriminative signal of the study, entirely unexpressed by its $\arg \max $.}}{69}{figure.caption.41}\protected@file@percent }
+\newlabel{fig:res-quadrant}{{5.6}{69}{Two-dimensional diagnostic of the twelve configurations. The horizontal axis is the signal-to-prior ratio $r$ (log scale), which measures whether a configuration expresses its decision; the vertical axis is the area under the ROC curve of the positive-label probability, which measures whether a discriminative signal is present. Error bars are 95\% bootstrap confidence intervals on the AUC. The dashed lines mark the collapse threshold ($r \approx 0.6$) and the chance level (AUC $= 0.5$). The three shaded regions correspond to the three regimes: healthy configurations, expressive collapse (recoverable by re-thresholding), and signal corruption (irrecoverable). Llama-Instruct~A occupies the upper-left corner: the highest discriminative signal of the study, entirely unexpressed by its $\arg \max $}{figure.caption.41}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.17}{\ignorespaces Two-dimensional diagnostic of the twelve configurations. \emph  {Healthy} configurations express their signal ($r \geq 0.6$). \emph  {Expressive collapse} configurations have a genuine signal (AUC lower bound $>0.5$) that the $\arg \max $ masks ($r < 0.6$); they are recoverable by re-thresholding. \emph  {Corruption} configurations have no usable signal (AUC interval includes or lies below $0.5$) and are not recoverable.}}{70}{table.caption.40}\protected@file@percent }
+\newlabel{tab:res-diagnostic}{{5.17}{70}{Two-dimensional diagnostic of the twelve configurations. \emph {Healthy} configurations express their signal ($r \geq 0.6$). \emph {Expressive collapse} configurations have a genuine signal (AUC lower bound $>0.5$) that the $\arg \max $ masks ($r < 0.6$); they are recoverable by re-thresholding. \emph {Corruption} configurations have no usable signal (AUC interval includes or lies below $0.5$) and are not recoverable}{table.caption.40}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.13}Conformal Prediction and Inter-Model Consensus}{70}{section.5.13}\protected@file@percent }
+\newlabel{sec:res-conformal-consensus}{{5.13}{70}{Conformal Prediction and Inter-Model Consensus}{section.5.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.13.1}Conformal Prediction Sets}{70}{subsection.5.13.1}\protected@file@percent }
+\newlabel{subsec:res-conformal}{{5.13.1}{70}{Conformal Prediction Sets}{subsection.5.13.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.18}{\ignorespaces Empirical coverage and mean set size of conformal prediction at target $\alpha = 0.10$. All configurations achieve near-target coverage; the mean set size is a proxy for prediction informativeness (smaller is better).}}{71}{table.caption.42}\protected@file@percent }
+\newlabel{tab:res-conformal}{{5.18}{71}{Empirical coverage and mean set size of conformal prediction at target $\alpha = 0.10$. All configurations achieve near-target coverage; the mean set size is a proxy for prediction informativeness (smaller is better)}{table.caption.42}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.13.2}Inter-Model Consensus}{71}{subsection.5.13.2}\protected@file@percent }
+\newlabel{subsec:res-consensus}{{5.13.2}{71}{Inter-Model Consensus}{subsection.5.13.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.19}{\ignorespaces Accuracy stratified by the level of inter-model consensus. Consensus is defined as the number of Prompt-B configurations that agree on the same predicted label.}}{71}{table.caption.43}\protected@file@percent }
+\newlabel{tab:res-consensus}{{5.19}{71}{Accuracy stratified by the level of inter-model consensus. Consensus is defined as the number of Prompt-B configurations that agree on the same predicted label}{table.caption.43}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.14}Baselines and Composite Utility Score}{72}{section.5.14}\protected@file@percent }
+\newlabel{sec:res-baselines}{{5.14}{72}{Baselines and Composite Utility Score}{section.5.14}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.14.1}Comparison with Naïve Baselines}{72}{subsection.5.14.1}\protected@file@percent }
+\newlabel{subsec:res-naive-baselines}{{5.14.1}{72}{Comparison with Naïve Baselines}{subsection.5.14.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.20}{\ignorespaces Comparison with naïve baselines. Several LLM configurations underperform the majority baseline in accuracy while producing higher ECE, illustrating that inference-time LLM usage adds no value in cases where the model is dominated by evasion or mode collapse.}}{72}{table.caption.44}\protected@file@percent }
+\newlabel{tab:res-baselines}{{5.20}{72}{Comparison with naïve baselines. Several LLM configurations underperform the majority baseline in accuracy while producing higher ECE, illustrating that inference-time LLM usage adds no value in cases where the model is dominated by evasion or mode collapse}{table.caption.44}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.14.2}Composite Utility Score}{72}{subsection.5.14.2}\protected@file@percent }
+\newlabel{subsec:res-composite}{{5.14.2}{72}{Composite Utility Score}{subsection.5.14.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.21}{\ignorespaces Composite utility score across the twelve configurations. The score integrates macro-F1, calibration quality ($1 - \textrm  {ECE}$), and prediction diversity (normalized entropy). Configurations with mode collapse receive utility scores close to zero, correctly capturing their lack of practical usefulness \emph  {under the default decision rule}.}}{73}{table.caption.45}\protected@file@percent }
+\newlabel{tab:res-composite}{{5.21}{73}{Composite utility score across the twelve configurations. The score integrates macro-F1, calibration quality ($1 - \ece $), and prediction diversity (normalized entropy). Configurations with mode collapse receive utility scores close to zero, correctly capturing their lack of practical usefulness \emph {under the default decision rule}}{table.caption.45}{}}
 \abx@aux@cite{0}{roberts2021trec}
 \abx@aux@segm{0}{0}{roberts2021trec}
 \abx@aux@cite{0}{roberts2022trec}
 \abx@aux@segm{0}{0}{roberts2022trec}
-\@writefile{lot}{\contentsline {table}{\numberline {5.21}{\ignorespaces Composite utility score across the twelve configurations. The score integrates macro-F1, calibration quality ($1 - \textrm  {ECE}$), and prediction diversity (normalized entropy). Configurations with mode collapse receive utility scores close to zero, correctly capturing their lack of practical usefulness \emph  {under the default decision rule}.}}{69}{table.caption.38}\protected@file@percent }
-\newlabel{tab:res-composite}{{5.21}{69}{Composite utility score across the twelve configurations. The score integrates macro-F1, calibration quality ($1 - \ece $), and prediction diversity (normalized entropy). Configurations with mode collapse receive utility scores close to zero, correctly capturing their lack of practical usefulness \emph {under the default decision rule}}{table.caption.38}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.15}External Replication on TREC Clinical Trials}{70}{section.5.15}\protected@file@percent }
-\newlabel{sec:res-external}{{5.15}{70}{External Replication on TREC Clinical Trials}{section.5.15}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.22}{\ignorespaces External replication on TREC Clinical Trials. The dominant-label rate and the signal/prior ratio $r$ (inclusion criteria) are reported for TrialGPT-Criterion and TREC. The ordering of the configurations and the collapse signature are preserved across the two corpora.}}{70}{table.caption.39}\protected@file@percent }
-\newlabel{tab:res-external}{{5.22}{70}{External replication on TREC Clinical Trials. The dominant-label rate and the signal/prior ratio $r$ (inclusion criteria) are reported for TrialGPT-Criterion and TREC. The ordering of the configurations and the collapse signature are preserved across the two corpora}{table.caption.39}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.16}Summary of Results}{71}{section.5.16}\protected@file@percent }
-\newlabel{sec:res-summary}{{5.16}{71}{Summary of Results}{section.5.16}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.23}{\ignorespaces Outcomes of the four pre-registered hypotheses.}}{71}{table.caption.40}\protected@file@percent }
-\newlabel{tab:res-summary-hypotheses}{{5.23}{71}{Outcomes of the four pre-registered hypotheses}{table.caption.40}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.24}{\ignorespaces The twelve original findings documented in this chapter.}}{72}{table.caption.41}\protected@file@percent }
-\newlabel{tab:res-summary-findings}{{5.24}{72}{The twelve original findings documented in this chapter}{table.caption.41}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.15}External Replication on TREC Clinical Trials}{74}{section.5.15}\protected@file@percent }
+\newlabel{sec:res-external}{{5.15}{74}{External Replication on TREC Clinical Trials}{section.5.15}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.22}{\ignorespaces External replication on TREC Clinical Trials. The dominant-label rate and the signal/prior ratio $r$ (inclusion criteria) are reported for TrialGPT-Criterion and TREC. The ordering of the configurations and the collapse signature are preserved across the two corpora.}}{74}{table.caption.46}\protected@file@percent }
+\newlabel{tab:res-external}{{5.22}{74}{External replication on TREC Clinical Trials. The dominant-label rate and the signal/prior ratio $r$ (inclusion criteria) are reported for TrialGPT-Criterion and TREC. The ordering of the configurations and the collapse signature are preserved across the two corpora}{table.caption.46}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.7}{\ignorespaces External replication on TREC Clinical Trials. Left panel: the signal-to-prior ratio $r$ for the four configurations evaluated on both corpora, with the collapse threshold marked by the dashed line. Right panel: the dominant-label rate on both corpora. The ordering of the configurations, and the position of each configuration relative to the collapse threshold, are preserved across the two corpora despite an entirely independent set of patients and trials.}}{75}{figure.caption.47}\protected@file@percent }
+\newlabel{fig:res-trec}{{5.7}{75}{External replication on TREC Clinical Trials. Left panel: the signal-to-prior ratio $r$ for the four configurations evaluated on both corpora, with the collapse threshold marked by the dashed line. Right panel: the dominant-label rate on both corpora. The ordering of the configurations, and the position of each configuration relative to the collapse threshold, are preserved across the two corpora despite an entirely independent set of patients and trials}{figure.caption.47}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.16}Summary of Results}{76}{section.5.16}\protected@file@percent }
+\newlabel{sec:res-summary}{{5.16}{76}{Summary of Results}{section.5.16}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.23}{\ignorespaces Outcomes of the four pre-registered hypotheses.}}{76}{table.caption.48}\protected@file@percent }
+\newlabel{tab:res-summary-hypotheses}{{5.23}{76}{Outcomes of the four pre-registered hypotheses}{table.caption.48}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.24}{\ignorespaces The twelve original findings documented in this chapter.}}{76}{table.caption.49}\protected@file@percent }
+\newlabel{tab:res-summary-findings}{{5.24}{76}{The twelve original findings documented in this chapter}{table.caption.49}{}}
 \abx@aux@cite{0}{vancalster2019calibration}
 \abx@aux@segm{0}{0}{vancalster2019calibration}
 \abx@aux@cite{0}{kadavath2022know}
 \abx@aux@segm{0}{0}{kadavath2022know}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion and Future Work}{73}{chapter.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion and Future Work}{78}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:conclusion}{{6}{73}{Conclusion and Future Work}{chapter.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Summary of Findings}{73}{section.6.1}\protected@file@percent }
-\newlabel{sec:conc-summary}{{6.1}{73}{Summary of Findings}{section.6.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Answer to the Research Question}{74}{section.6.2}\protected@file@percent }
-\newlabel{sec:conc-answer}{{6.2}{74}{Answer to the Research Question}{section.6.2}{}}
+\newlabel{chap:conclusion}{{6}{78}{Conclusion and Future Work}{chapter.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Summary of Findings}{78}{section.6.1}\protected@file@percent }
+\newlabel{sec:conc-summary}{{6.1}{78}{Summary of Findings}{section.6.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Answer to the Research Question}{79}{section.6.2}\protected@file@percent }
+\newlabel{sec:conc-answer}{{6.2}{79}{Answer to the Research Question}{section.6.2}{}}
 \abx@aux@cite{0}{collins2024tripod}
 \abx@aux@segm{0}{0}{collins2024tripod}
-\@writefile{toc}{\contentsline {section}{\numberline {6.3}Contributions}{75}{section.6.3}\protected@file@percent }
-\newlabel{sec:conc-contributions}{{6.3}{75}{Contributions}{section.6.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Contributions}{80}{section.6.3}\protected@file@percent }
+\newlabel{sec:conc-contributions}{{6.3}{80}{Contributions}{section.6.3}{}}
 \abx@aux@cite{0}{kadavath2022know}
 \abx@aux@segm{0}{0}{kadavath2022know}
 \abx@aux@cite{0}{jin2024trialgpt}
 \abx@aux@segm{0}{0}{jin2024trialgpt}
-\@writefile{toc}{\contentsline {section}{\numberline {6.4}Limitations}{76}{section.6.4}\protected@file@percent }
-\newlabel{sec:conc-limitations}{{6.4}{76}{Limitations}{section.6.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.1}External Validation}{77}{subsection.6.4.1}\protected@file@percent }
-\newlabel{subsec:conc-limitations-external}{{6.4.1}{77}{External Validation}{subsection.6.4.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.2}Model Scale}{77}{subsection.6.4.2}\protected@file@percent }
-\newlabel{subsec:conc-limitations-scale}{{6.4.2}{77}{Model Scale}{subsection.6.4.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.3}Prompt Space and Prompt-Driven Effects}{78}{subsection.6.4.3}\protected@file@percent }
-\newlabel{subsec:conc-limitations-prompts}{{6.4.3}{78}{Prompt Space and Prompt-Driven Effects}{subsection.6.4.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.5}Future Work}{78}{section.6.5}\protected@file@percent }
-\newlabel{sec:conc-future}{{6.5}{78}{Future Work}{section.6.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.1}Broader and Prospective External Validation}{78}{subsection.6.5.1}\protected@file@percent }
-\newlabel{subsec:conc-external}{{6.5.1}{78}{Broader and Prospective External Validation}{subsection.6.5.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.4}Limitations}{81}{section.6.4}\protected@file@percent }
+\newlabel{sec:conc-limitations}{{6.4}{81}{Limitations}{section.6.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.1}External Validation}{82}{subsection.6.4.1}\protected@file@percent }
+\newlabel{subsec:conc-limitations-external}{{6.4.1}{82}{External Validation}{subsection.6.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.2}Model Scale}{82}{subsection.6.4.2}\protected@file@percent }
+\newlabel{subsec:conc-limitations-scale}{{6.4.2}{82}{Model Scale}{subsection.6.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.3}Prompt Space and Prompt-Driven Effects}{83}{subsection.6.4.3}\protected@file@percent }
+\newlabel{subsec:conc-limitations-prompts}{{6.4.3}{83}{Prompt Space and Prompt-Driven Effects}{subsection.6.4.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.5}Future Work}{83}{section.6.5}\protected@file@percent }
+\newlabel{sec:conc-future}{{6.5}{83}{Future Work}{section.6.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.1}Broader and Prospective External Validation}{83}{subsection.6.5.1}\protected@file@percent }
+\newlabel{subsec:conc-external}{{6.5.1}{83}{Broader and Prospective External Validation}{subsection.6.5.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{A protocol for prospective validation.}{84}{paragraph*.50}\protected@file@percent }
 \abx@aux@cite{0}{ouyang2022training}
 \abx@aux@segm{0}{0}{ouyang2022training}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.2}Robust Re-thresholding and Prior Correction}{79}{subsection.6.5.2}\protected@file@percent }
-\newlabel{subsec:conc-rethreshold}{{6.5.2}{79}{Robust Re-thresholding and Prior Correction}{subsection.6.5.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.3}Multi-Agent Adversarial Debate for Calibration}{79}{subsection.6.5.3}\protected@file@percent }
-\newlabel{subsec:conc-debate}{{6.5.3}{79}{Multi-Agent Adversarial Debate for Calibration}{subsection.6.5.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.4}Investigating the Origin of the Response Prior}{79}{subsection.6.5.4}\protected@file@percent }
-\newlabel{subsec:conc-collapse-origin}{{6.5.4}{79}{Investigating the Origin of the Response Prior}{subsection.6.5.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.5}Extension to Larger and Multilingual Models}{80}{subsection.6.5.5}\protected@file@percent }
-\newlabel{subsec:conc-scale-future}{{6.5.5}{80}{Extension to Larger and Multilingual Models}{subsection.6.5.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.6}Closing Remarks}{80}{section.6.6}\protected@file@percent }
-\newlabel{sec:conc-closing}{{6.6}{80}{Closing Remarks}{section.6.6}{}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{82}{chapter*.42}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Detailed Results Tables}{86}{appendix.A}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.2}Robust Re-thresholding and Prior Correction}{85}{subsection.6.5.2}\protected@file@percent }
+\newlabel{subsec:conc-rethreshold}{{6.5.2}{85}{Robust Re-thresholding and Prior Correction}{subsection.6.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.3}Multi-Agent Adversarial Debate for Calibration}{85}{subsection.6.5.3}\protected@file@percent }
+\newlabel{subsec:conc-debate}{{6.5.3}{85}{Multi-Agent Adversarial Debate for Calibration}{subsection.6.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.4}Investigating the Origin of the Response Prior}{85}{subsection.6.5.4}\protected@file@percent }
+\newlabel{subsec:conc-collapse-origin}{{6.5.4}{85}{Investigating the Origin of the Response Prior}{subsection.6.5.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.5}Extension to Larger and Multilingual Models}{86}{subsection.6.5.5}\protected@file@percent }
+\newlabel{subsec:conc-scale-future}{{6.5.5}{86}{Extension to Larger and Multilingual Models}{subsection.6.5.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.6}Closing Remarks}{86}{section.6.6}\protected@file@percent }
+\newlabel{sec:conc-closing}{{6.6}{86}{Closing Remarks}{section.6.6}{}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{88}{chapter*.51}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Detailed Results Tables}{92}{appendix.A}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{app:tables}{{A}{86}{Detailed Results Tables}{appendix.A}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.1}Complete Calibration Metrics}{86}{section.A.1}\protected@file@percent }
-\newlabel{sec:app-calibration-full}{{A.1}{86}{Complete Calibration Metrics}{section.A.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.1}{\ignorespaces Complete calibration metrics for the twelve configurations. The mean confidence and mean accuracy columns reveal the direction of miscalibration (over- or underconfidence).}}{86}{table.caption.43}\protected@file@percent }
-\newlabel{tab:app-calibration-full}{{A.1}{86}{Complete calibration metrics for the twelve configurations. The mean confidence and mean accuracy columns reveal the direction of miscalibration (over- or underconfidence)}{table.caption.43}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.2}Permutation Test Detailed Outputs}{86}{section.A.2}\protected@file@percent }
-\newlabel{sec:app-permutation-full}{{A.2}{86}{Permutation Test Detailed Outputs}{section.A.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.2}{\ignorespaces Permutation test detailed outputs for Hypothesis~H2. Every test rejects the null hypothesis of equal calibration between Base and Instruct at the Bonferroni-corrected level.}}{87}{table.caption.44}\protected@file@percent }
-\newlabel{tab:app-h2-full}{{A.2}{87}{Permutation test detailed outputs for Hypothesis~H2. Every test rejects the null hypothesis of equal calibration between Base and Instruct at the Bonferroni-corrected level}{table.caption.44}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.3}Stratified ECE by Criterion Type}{87}{section.A.3}\protected@file@percent }
-\newlabel{sec:app-stratified}{{A.3}{87}{Stratified ECE by Criterion Type}{section.A.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.3}{\ignorespaces Stratified ECE by criterion type with bootstrap confidence intervals. Ten of twelve configurations show a ratio $\textrm  {ECE}_{\text  {excl}} / \textrm  {ECE}_{\text  {incl}} > 2.0$.}}{87}{table.caption.45}\protected@file@percent }
-\newlabel{tab:app-stratified}{{A.3}{87}{Stratified ECE by criterion type with bootstrap confidence intervals. Ten of twelve configurations show a ratio $\ece _{\text {excl}} / \ece _{\text {incl}} > 2.0$}{table.caption.45}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.4}Post-hoc Recalibration Comparison}{87}{section.A.4}\protected@file@percent }
-\newlabel{sec:app-recalibration-full}{{A.4}{87}{Post-hoc Recalibration Comparison}{section.A.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.5}Recalibration Cross-Validation Detail}{87}{section.A.5}\protected@file@percent }
-\newlabel{sec:app-recalibration-cv}{{A.5}{87}{Recalibration Cross-Validation Detail}{section.A.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.4}{\ignorespaces Post-hoc recalibration comparison: absolute ECE values and relative ECE reduction (as a percentage of the original ECE). Isotonic regression is the strongest method for all twelve configurations.}}{88}{table.caption.46}\protected@file@percent }
-\newlabel{tab:app-recalibration-full}{{A.4}{88}{Post-hoc recalibration comparison: absolute ECE values and relative ECE reduction (as a percentage of the original ECE). Isotonic regression is the strongest method for all twelve configurations}{table.caption.46}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.5}{\ignorespaces Per-fold ECE after isotonic recalibration, and mean $\pm $ standard deviation across five folds.}}{88}{table.caption.47}\protected@file@percent }
-\newlabel{tab:app-recalibration-cv-detail}{{A.5}{88}{Per-fold ECE after isotonic recalibration, and mean $\pm $ standard deviation across five folds}{table.caption.47}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.6}Conformal Prediction Detailed Results}{88}{section.A.6}\protected@file@percent }
-\newlabel{sec:app-conformal}{{A.6}{88}{Conformal Prediction Detailed Results}{section.A.6}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.6}{\ignorespaces Conformal prediction detailed results across the twelve configurations at target coverage $0.90$. Singletons denote prediction sets of size~1 (unique predicted label).}}{89}{table.caption.48}\protected@file@percent }
-\newlabel{tab:app-conformal}{{A.6}{89}{Conformal prediction detailed results across the twelve configurations at target coverage $0.90$. Singletons denote prediction sets of size~1 (unique predicted label)}{table.caption.48}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.7}Composite Utility Score Components}{89}{section.A.7}\protected@file@percent }
-\newlabel{sec:app-composite}{{A.7}{89}{Composite Utility Score Components}{section.A.7}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.7}{\ignorespaces Composite utility score components for the twelve configurations. The composite utility is the product of the three columns preceding it.}}{89}{table.caption.49}\protected@file@percent }
-\newlabel{tab:app-composite}{{A.7}{89}{Composite utility score components for the twelve configurations. The composite utility is the product of the three columns preceding it}{table.caption.49}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.8}Re-thresholding on Exclusion Criteria}{89}{section.A.8}\protected@file@percent }
-\newlabel{sec:app-rethreshold-excl}{{A.8}{89}{Re-thresholding on Exclusion Criteria}{section.A.8}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.8}{\ignorespaces Re-thresholding on exclusion criteria, evaluated out-of-fold. The exclusion stratum has only ten gold-positive cases; the wide confidence intervals and high threshold variance ($\sigma _t$) reflect this limited support. Reported for completeness only.}}{90}{table.caption.50}\protected@file@percent }
-\newlabel{tab:app-rethreshold-excl}{{A.8}{90}{Re-thresholding on exclusion criteria, evaluated out-of-fold. The exclusion stratum has only ten gold-positive cases; the wide confidence intervals and high threshold variance ($\sigma _t$) reflect this limited support. Reported for completeness only}{table.caption.50}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {B}Full Prompt Specifications}{91}{appendix.B}\protected@file@percent }
+\newlabel{app:tables}{{A}{92}{Detailed Results Tables}{appendix.A}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.1}Complete Calibration Metrics}{92}{section.A.1}\protected@file@percent }
+\newlabel{sec:app-calibration-full}{{A.1}{92}{Complete Calibration Metrics}{section.A.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.1}{\ignorespaces Complete calibration metrics for the twelve configurations. The mean confidence and mean accuracy columns reveal the direction of miscalibration (over- or underconfidence).}}{92}{table.caption.52}\protected@file@percent }
+\newlabel{tab:app-calibration-full}{{A.1}{92}{Complete calibration metrics for the twelve configurations. The mean confidence and mean accuracy columns reveal the direction of miscalibration (over- or underconfidence)}{table.caption.52}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.2}Permutation Test Detailed Outputs}{92}{section.A.2}\protected@file@percent }
+\newlabel{sec:app-permutation-full}{{A.2}{92}{Permutation Test Detailed Outputs}{section.A.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.2}{\ignorespaces Permutation test detailed outputs for Hypothesis~H2. Every test rejects the null hypothesis of equal calibration between Base and Instruct at the Bonferroni-corrected level.}}{93}{table.caption.53}\protected@file@percent }
+\newlabel{tab:app-h2-full}{{A.2}{93}{Permutation test detailed outputs for Hypothesis~H2. Every test rejects the null hypothesis of equal calibration between Base and Instruct at the Bonferroni-corrected level}{table.caption.53}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.3}Stratified ECE by Criterion Type}{93}{section.A.3}\protected@file@percent }
+\newlabel{sec:app-stratified}{{A.3}{93}{Stratified ECE by Criterion Type}{section.A.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.3}{\ignorespaces Stratified ECE by criterion type with bootstrap confidence intervals. Ten of twelve configurations show a ratio $\textrm  {ECE}_{\text  {excl}} / \textrm  {ECE}_{\text  {incl}} > 2.0$.}}{93}{table.caption.54}\protected@file@percent }
+\newlabel{tab:app-stratified}{{A.3}{93}{Stratified ECE by criterion type with bootstrap confidence intervals. Ten of twelve configurations show a ratio $\ece _{\text {excl}} / \ece _{\text {incl}} > 2.0$}{table.caption.54}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.4}Post-hoc Recalibration Comparison}{93}{section.A.4}\protected@file@percent }
+\newlabel{sec:app-recalibration-full}{{A.4}{93}{Post-hoc Recalibration Comparison}{section.A.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.5}Recalibration Cross-Validation Detail}{93}{section.A.5}\protected@file@percent }
+\newlabel{sec:app-recalibration-cv}{{A.5}{93}{Recalibration Cross-Validation Detail}{section.A.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.4}{\ignorespaces Post-hoc recalibration comparison: absolute ECE values and relative ECE reduction (as a percentage of the original ECE). Isotonic regression is the strongest method for all twelve configurations.}}{94}{table.caption.55}\protected@file@percent }
+\newlabel{tab:app-recalibration-full}{{A.4}{94}{Post-hoc recalibration comparison: absolute ECE values and relative ECE reduction (as a percentage of the original ECE). Isotonic regression is the strongest method for all twelve configurations}{table.caption.55}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.5}{\ignorespaces Per-fold ECE after isotonic recalibration, and mean $\pm $ standard deviation across five folds.}}{94}{table.caption.56}\protected@file@percent }
+\newlabel{tab:app-recalibration-cv-detail}{{A.5}{94}{Per-fold ECE after isotonic recalibration, and mean $\pm $ standard deviation across five folds}{table.caption.56}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.6}Conformal Prediction Detailed Results}{94}{section.A.6}\protected@file@percent }
+\newlabel{sec:app-conformal}{{A.6}{94}{Conformal Prediction Detailed Results}{section.A.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.6}{\ignorespaces Conformal prediction detailed results across the twelve configurations at target coverage $0.90$. Singletons denote prediction sets of size~1 (unique predicted label).}}{95}{table.caption.57}\protected@file@percent }
+\newlabel{tab:app-conformal}{{A.6}{95}{Conformal prediction detailed results across the twelve configurations at target coverage $0.90$. Singletons denote prediction sets of size~1 (unique predicted label)}{table.caption.57}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.7}Composite Utility Score Components}{95}{section.A.7}\protected@file@percent }
+\newlabel{sec:app-composite}{{A.7}{95}{Composite Utility Score Components}{section.A.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.7}{\ignorespaces Composite utility score components for the twelve configurations. The composite utility is the product of the three columns preceding it.}}{95}{table.caption.58}\protected@file@percent }
+\newlabel{tab:app-composite}{{A.7}{95}{Composite utility score components for the twelve configurations. The composite utility is the product of the three columns preceding it}{table.caption.58}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.8}Re-thresholding on Exclusion Criteria}{95}{section.A.8}\protected@file@percent }
+\newlabel{sec:app-rethreshold-excl}{{A.8}{95}{Re-thresholding on Exclusion Criteria}{section.A.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.8}{\ignorespaces Re-thresholding on exclusion criteria, evaluated out-of-fold. The exclusion stratum has only ten gold-positive cases; the wide confidence intervals and high threshold variance ($\sigma _t$) reflect this limited support. Reported for completeness only.}}{96}{table.caption.59}\protected@file@percent }
+\newlabel{tab:app-rethreshold-excl}{{A.8}{96}{Re-thresholding on exclusion criteria, evaluated out-of-fold. The exclusion stratum has only ten gold-positive cases; the wide confidence intervals and high threshold variance ($\sigma _t$) reflect this limited support. Reported for completeness only}{table.caption.59}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {B}Full Prompt Specifications}{97}{appendix.B}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{app:prompts}{{B}{91}{Full Prompt Specifications}{appendix.B}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {B.1}Prompt A --- Generic Baseline}{91}{section.B.1}\protected@file@percent }
-\newlabel{sec:app-prompt-a}{{B.1}{91}{Prompt A --- Generic Baseline}{section.B.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.1.1}Prompt A for Instruct Models}{91}{subsection.B.1.1}\protected@file@percent }
-\newlabel{lst:prompt-a-instruct}{{B.1}{91}{Prompt A for Instruct models (user message before chat-template wrapping)}{lstlisting.B.1}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.1}{\ignorespaces Prompt A for Instruct models (user message before chat-template wrapping)}}{91}{lstlisting.B.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.1.2}Prompt A for Base Models}{92}{subsection.B.1.2}\protected@file@percent }
-\newlabel{lst:prompt-a-base}{{B.2}{92}{Prompt A for Base models}{lstlisting.B.2}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.2}{\ignorespaces Prompt A for Base models}}{92}{lstlisting.B.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B.2}Prompt B --- Adapted with Expert Guidance}{92}{section.B.2}\protected@file@percent }
-\newlabel{sec:app-prompt-b}{{B.2}{92}{Prompt B --- Adapted with Expert Guidance}{section.B.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.2.1}Prompt B for Instruct Models}{92}{subsection.B.2.1}\protected@file@percent }
-\newlabel{lst:prompt-b-instruct-frame}{{B.3}{92}{Prompt B for Instruct models --- common frame}{lstlisting.B.3}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.3}{\ignorespaces Prompt B for Instruct models --- common frame}}{92}{lstlisting.B.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Guidance block for inclusion criteria.}{93}{paragraph*.51}\protected@file@percent }
-\newlabel{lst:prompt-b-instruct-incl}{{B.4}{93}{Prompt B for Instruct models --- inclusion guidance}{lstlisting.B.4}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.4}{\ignorespaces Prompt B for Instruct models --- inclusion guidance}}{93}{lstlisting.B.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Guidance block for exclusion criteria.}{94}{paragraph*.52}\protected@file@percent }
-\newlabel{lst:prompt-b-instruct-excl}{{B.5}{94}{Prompt B for Instruct models --- exclusion guidance}{lstlisting.B.5}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.5}{\ignorespaces Prompt B for Instruct models --- exclusion guidance}}{94}{lstlisting.B.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.2.2}Prompt B for Base Models}{95}{subsection.B.2.2}\protected@file@percent }
-\newlabel{lst:prompt-b-base-frame}{{B.6}{96}{Prompt B for Base models --- common frame}{lstlisting.B.6}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.6}{\ignorespaces Prompt B for Base models --- common frame}}{96}{lstlisting.B.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Few-shot block for inclusion criteria.}{96}{paragraph*.53}\protected@file@percent }
-\newlabel{lst:prompt-b-base-incl}{{B.7}{96}{Prompt B for Base models --- inclusion few-shot examples}{lstlisting.B.7}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.7}{\ignorespaces Prompt B for Base models --- inclusion few-shot examples}}{96}{lstlisting.B.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Few-shot block for exclusion criteria.}{96}{paragraph*.54}\protected@file@percent }
-\newlabel{lst:prompt-b-base-excl}{{B.8}{96}{Prompt B for Base models --- exclusion few-shot examples}{lstlisting.B.8}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.8}{\ignorespaces Prompt B for Base models --- exclusion few-shot examples}}{96}{lstlisting.B.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {C}Individual Reliability Diagrams}{98}{appendix.C}\protected@file@percent }
+\newlabel{app:prompts}{{B}{97}{Full Prompt Specifications}{appendix.B}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.1}Prompt A --- Generic Baseline}{97}{section.B.1}\protected@file@percent }
+\newlabel{sec:app-prompt-a}{{B.1}{97}{Prompt A --- Generic Baseline}{section.B.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1.1}Prompt A for Instruct Models}{97}{subsection.B.1.1}\protected@file@percent }
+\newlabel{lst:prompt-a-instruct}{{B.1}{97}{Prompt A for Instruct models (user message before chat-template wrapping)}{lstlisting.B.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.1}{\ignorespaces Prompt A for Instruct models (user message before chat-template wrapping)}}{97}{lstlisting.B.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1.2}Prompt A for Base Models}{98}{subsection.B.1.2}\protected@file@percent }
+\newlabel{lst:prompt-a-base}{{B.2}{98}{Prompt A for Base models}{lstlisting.B.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.2}{\ignorespaces Prompt A for Base models}}{98}{lstlisting.B.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {B.2}Prompt B --- Adapted with Expert Guidance}{98}{section.B.2}\protected@file@percent }
+\newlabel{sec:app-prompt-b}{{B.2}{98}{Prompt B --- Adapted with Expert Guidance}{section.B.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2.1}Prompt B for Instruct Models}{98}{subsection.B.2.1}\protected@file@percent }
+\newlabel{lst:prompt-b-instruct-frame}{{B.3}{98}{Prompt B for Instruct models --- common frame}{lstlisting.B.3}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.3}{\ignorespaces Prompt B for Instruct models --- common frame}}{98}{lstlisting.B.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Guidance block for inclusion criteria.}{99}{paragraph*.60}\protected@file@percent }
+\newlabel{lst:prompt-b-instruct-incl}{{B.4}{99}{Prompt B for Instruct models --- inclusion guidance}{lstlisting.B.4}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.4}{\ignorespaces Prompt B for Instruct models --- inclusion guidance}}{99}{lstlisting.B.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Guidance block for exclusion criteria.}{100}{paragraph*.61}\protected@file@percent }
+\newlabel{lst:prompt-b-instruct-excl}{{B.5}{100}{Prompt B for Instruct models --- exclusion guidance}{lstlisting.B.5}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.5}{\ignorespaces Prompt B for Instruct models --- exclusion guidance}}{100}{lstlisting.B.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2.2}Prompt B for Base Models}{101}{subsection.B.2.2}\protected@file@percent }
+\newlabel{lst:prompt-b-base-frame}{{B.6}{102}{Prompt B for Base models --- common frame}{lstlisting.B.6}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.6}{\ignorespaces Prompt B for Base models --- common frame}}{102}{lstlisting.B.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Few-shot block for inclusion criteria.}{102}{paragraph*.62}\protected@file@percent }
+\newlabel{lst:prompt-b-base-incl}{{B.7}{102}{Prompt B for Base models --- inclusion few-shot examples}{lstlisting.B.7}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.7}{\ignorespaces Prompt B for Base models --- inclusion few-shot examples}}{102}{lstlisting.B.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Few-shot block for exclusion criteria.}{102}{paragraph*.63}\protected@file@percent }
+\newlabel{lst:prompt-b-base-excl}{{B.8}{102}{Prompt B for Base models --- exclusion few-shot examples}{lstlisting.B.8}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.8}{\ignorespaces Prompt B for Base models --- exclusion few-shot examples}}{102}{lstlisting.B.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {C}Individual Reliability Diagrams}{104}{appendix.C}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{app:reliability}{{C}{98}{Individual Reliability Diagrams}{appendix.C}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {C.1}{\ignorespaces Individual reliability diagrams for the twelve configurations. Colors indicate the model family: \textcolor {red!80!black}{Mistral-Base} (red), \textcolor {orange}{Mistral-Instruct} (orange), \textcolor {blue}{Llama-Base} (blue), \textcolor {black!70}{Llama-Instruct} (dark), \textcolor {green!60!black}{Meditron} (green), \textcolor {purple}{BioMistral} (purple). The dashed diagonal represents perfect calibration. Configurations with mode collapse show curves concentrated in a narrow confidence range, unable to reflect the diversity of clinical situations.}}{99}{figure.caption.55}\protected@file@percent }
-\newlabel{fig:app-reliability-grid}{{C.1}{99}{Individual reliability diagrams for the twelve configurations. Colors indicate the model family: \textcolor {red!80!black}{Mistral-Base} (red), \textcolor {orange}{Mistral-Instruct} (orange), \textcolor {blue}{Llama-Base} (blue), \textcolor {black!70}{Llama-Instruct} (dark), \textcolor {green!60!black}{Meditron} (green), \textcolor {purple}{BioMistral} (purple). The dashed diagonal represents perfect calibration. Configurations with mode collapse show curves concentrated in a narrow confidence range, unable to reflect the diversity of clinical situations}{figure.caption.55}{}}
+\newlabel{app:reliability}{{C}{104}{Individual Reliability Diagrams}{appendix.C}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {C.1}{\ignorespaces Individual reliability diagrams for the twelve configurations. Colors indicate the model family: \textcolor {red!80!black}{Mistral-Base} (red), \textcolor {orange}{Mistral-Instruct} (orange), \textcolor {blue}{Llama-Base} (blue), \textcolor {black!70}{Llama-Instruct} (dark), \textcolor {green!60!black}{Meditron} (green), \textcolor {purple}{BioMistral} (purple). The dashed diagonal represents perfect calibration. Configurations with mode collapse show curves concentrated in a narrow confidence range, unable to reflect the diversity of clinical situations.}}{105}{figure.caption.64}\protected@file@percent }
+\newlabel{fig:app-reliability-grid}{{C.1}{105}{Individual reliability diagrams for the twelve configurations. Colors indicate the model family: \textcolor {red!80!black}{Mistral-Base} (red), \textcolor {orange}{Mistral-Instruct} (orange), \textcolor {blue}{Llama-Base} (blue), \textcolor {black!70}{Llama-Instruct} (dark), \textcolor {green!60!black}{Meditron} (green), \textcolor {purple}{BioMistral} (purple). The dashed diagonal represents perfect calibration. Configurations with mode collapse show curves concentrated in a narrow confidence range, unable to reflect the diversity of clinical situations}{figure.caption.64}{}}
 \abx@aux@cite{0}{jin2024trialgpt}
 \abx@aux@segm{0}{0}{jin2024trialgpt}
-\@writefile{toc}{\contentsline {chapter}{\numberline {D}Code and Data Availability}{100}{appendix.D}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {D}Code and Data Availability}{106}{appendix.D}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{app:code}{{D}{100}{Code and Data Availability}{appendix.D}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {D.1}Repository}{100}{section.D.1}\protected@file@percent }
-\newlabel{sec:app-repo}{{D.1}{100}{Repository}{section.D.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {D.2}Data Availability}{100}{section.D.2}\protected@file@percent }
-\newlabel{sec:app-data}{{D.2}{100}{Data Availability}{section.D.2}{}}
+\newlabel{app:code}{{D}{106}{Code and Data Availability}{appendix.D}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {D.1}Repository}{106}{section.D.1}\protected@file@percent }
+\newlabel{sec:app-repo}{{D.1}{106}{Repository}{section.D.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {D.2}Data Availability}{106}{section.D.2}\protected@file@percent }
+\newlabel{sec:app-data}{{D.2}{106}{Data Availability}{section.D.2}{}}
 \abx@aux@cite{0}{roberts2021trec}
 \abx@aux@segm{0}{0}{roberts2021trec}
 \abx@aux@cite{0}{roberts2022trec}
 \abx@aux@segm{0}{0}{roberts2022trec}
-\@writefile{toc}{\contentsline {section}{\numberline {D.3}Reproducing the Experiments}{101}{section.D.3}\protected@file@percent }
-\newlabel{sec:app-reproduce}{{D.3}{101}{Reproducing the Experiments}{section.D.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {D.4}Computational Requirements}{102}{section.D.4}\protected@file@percent }
-\newlabel{sec:app-compute}{{D.4}{102}{Computational Requirements}{section.D.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {D.5}Software Versions}{102}{section.D.5}\protected@file@percent }
-\newlabel{sec:app-versions}{{D.5}{102}{Software Versions}{section.D.5}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {E}Generative AI Usage Declaration}{103}{appendix.E}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {D.3}Reproducing the Experiments}{107}{section.D.3}\protected@file@percent }
+\newlabel{sec:app-reproduce}{{D.3}{107}{Reproducing the Experiments}{section.D.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {D.4}Computational Requirements}{108}{section.D.4}\protected@file@percent }
+\newlabel{sec:app-compute}{{D.4}{108}{Computational Requirements}{section.D.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {D.5}Software Versions}{108}{section.D.5}\protected@file@percent }
+\newlabel{sec:app-versions}{{D.5}{108}{Software Versions}{section.D.5}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {E}Generative AI Usage Declaration}{109}{appendix.E}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{app:ai-declaration}{{E}{103}{Generative AI Usage Declaration}{appendix.E}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {F}Detailed Mode Collapse Analysis}{105}{appendix.F}\protected@file@percent }
+\newlabel{app:ai-declaration}{{E}{109}{Generative AI Usage Declaration}{appendix.E}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {F}Detailed Mode Collapse Analysis}{111}{appendix.F}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{app:mode-collapse}{{F}{105}{Detailed Mode Collapse Analysis}{appendix.F}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {F.1}Complete Prediction Distributions}{105}{section.F.1}\protected@file@percent }
-\newlabel{sec:app-distributions}{{F.1}{105}{Complete Prediction Distributions}{section.F.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {F.1}{\ignorespaces Complete prediction distributions across the six labels for the twelve configurations. \emph  {Incl.}: included. \emph  {NIncl.}: not included. \emph  {Excl.}: excluded. \emph  {NExcl.}: not excluded. \emph  {NEI}: not enough information. \emph  {NA}: not applicable.}}{105}{table.caption.56}\protected@file@percent }
-\newlabel{tab:app-distributions}{{F.1}{105}{Complete prediction distributions across the six labels for the twelve configurations. \emph {Incl.}: included. \emph {NIncl.}: not included. \emph {Excl.}: excluded. \emph {NExcl.}: not excluded. \emph {NEI}: not enough information. \emph {NA}: not applicable}{table.caption.56}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {F.2}Constrained-Decoding Simulation (Finding F8)}{106}{section.F.2}\protected@file@percent }
-\newlabel{sec:app-forced}{{F.2}{106}{Constrained-Decoding Simulation (Finding F8)}{section.F.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {F.2}{\ignorespaces Prediction distribution under constrained decoding (evasion labels removed from candidate set). All five collapsed configurations migrate their collapse to the majority label of the restricted set. Accuracy is computed against the expert consensus label.}}{106}{table.caption.57}\protected@file@percent }
-\newlabel{tab:app-forced}{{F.2}{106}{Prediction distribution under constrained decoding (evasion labels removed from candidate set). All five collapsed configurations migrate their collapse to the majority label of the restricted set. Accuracy is computed against the expert consensus label}{table.caption.57}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {F.3}The Signal-to-Prior Mechanism}{107}{section.F.3}\protected@file@percent }
-\newlabel{sec:app-mechanism}{{F.3}{107}{The Signal-to-Prior Mechanism}{section.F.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {F.3}{\ignorespaces Signal amplitude ($\sigma _{\text  {pos}}$), response prior ($\text  {bias}_{\text  {ext}}$, in nats), their ratio $r = \sigma _{\text  {pos}} / |\text  {bias}_{\text  {ext}}|$, and the ordinal separation (Cliff's $\delta $) on inclusion criteria. A high $\delta $ with a low $r$ is the signature of a live signal masked by the $\arg \max $; a negative $\delta $ (Meditron) indicates a corrupted signal. Sorted by $r$.}}{107}{table.caption.58}\protected@file@percent }
-\newlabel{tab:app-mechanism}{{F.3}{107}{Signal amplitude ($\sigma _{\text {pos}}$), response prior ($\text {bias}_{\text {ext}}$, in nats), their ratio $r = \sigma _{\text {pos}} / |\text {bias}_{\text {ext}}|$, and the ordinal separation (Cliff's $\delta $) on inclusion criteria. A high $\delta $ with a low $r$ is the signature of a live signal masked by the $\arg \max $; a negative $\delta $ (Meditron) indicates a corrupted signal. Sorted by $r$}{table.caption.58}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {F.4}Dominant vs.\ Discriminative Cases (Finding F9)}{108}{section.F.4}\protected@file@percent }
-\newlabel{sec:app-discriminative}{{F.4}{108}{Dominant vs.\ Discriminative Cases (Finding F9)}{section.F.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {F.4}{\ignorespaces Extended dominant-vs.-discriminative comparison. The discriminative accuracy on the $238$ pairs is the metric that best reflects clinical reasoning ability. Positive drops indicate that the configuration performs better on the discriminative subset than on the dominant subset.}}{108}{table.caption.59}\protected@file@percent }
-\newlabel{tab:app-discriminative}{{F.4}{108}{Extended dominant-vs.-discriminative comparison. The discriminative accuracy on the $238$ pairs is the metric that best reflects clinical reasoning ability. Positive drops indicate that the configuration performs better on the discriminative subset than on the dominant subset}{table.caption.59}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {F.5}Diversity Predicts Discriminative Accuracy}{109}{section.F.5}\protected@file@percent }
-\newlabel{sec:app-diversity-accuracy}{{F.5}{109}{Diversity Predicts Discriminative Accuracy}{section.F.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {F.5}{\ignorespaces Prediction diversity and discriminative accuracy, sorted by diversity. Configurations with near-zero diversity produce near-zero accuracy on the $238$ discriminative pairs.}}{109}{table.caption.60}\protected@file@percent }
-\newlabel{tab:app-diversity-accuracy}{{F.5}{109}{Prediction diversity and discriminative accuracy, sorted by diversity. Configurations with near-zero diversity produce near-zero accuracy on the $238$ discriminative pairs}{table.caption.60}{}}
+\newlabel{app:mode-collapse}{{F}{111}{Detailed Mode Collapse Analysis}{appendix.F}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {F.1}Complete Prediction Distributions}{111}{section.F.1}\protected@file@percent }
+\newlabel{sec:app-distributions}{{F.1}{111}{Complete Prediction Distributions}{section.F.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {F.1}{\ignorespaces Complete prediction distributions across the six labels for the twelve configurations. \emph  {Incl.}: included. \emph  {NIncl.}: not included. \emph  {Excl.}: excluded. \emph  {NExcl.}: not excluded. \emph  {NEI}: not enough information. \emph  {NA}: not applicable.}}{111}{table.caption.65}\protected@file@percent }
+\newlabel{tab:app-distributions}{{F.1}{111}{Complete prediction distributions across the six labels for the twelve configurations. \emph {Incl.}: included. \emph {NIncl.}: not included. \emph {Excl.}: excluded. \emph {NExcl.}: not excluded. \emph {NEI}: not enough information. \emph {NA}: not applicable}{table.caption.65}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {F.2}Constrained-Decoding Simulation (Finding F8)}{112}{section.F.2}\protected@file@percent }
+\newlabel{sec:app-forced}{{F.2}{112}{Constrained-Decoding Simulation (Finding F8)}{section.F.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {F.2}{\ignorespaces Prediction distribution under constrained decoding (evasion labels removed from candidate set). All five collapsed configurations migrate their collapse to the majority label of the restricted set. Accuracy is computed against the expert consensus label.}}{112}{table.caption.66}\protected@file@percent }
+\newlabel{tab:app-forced}{{F.2}{112}{Prediction distribution under constrained decoding (evasion labels removed from candidate set). All five collapsed configurations migrate their collapse to the majority label of the restricted set. Accuracy is computed against the expert consensus label}{table.caption.66}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {F.3}The Signal-to-Prior Mechanism}{113}{section.F.3}\protected@file@percent }
+\newlabel{sec:app-mechanism}{{F.3}{113}{The Signal-to-Prior Mechanism}{section.F.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {F.3}{\ignorespaces Signal amplitude ($\sigma _{\text  {pos}}$), response prior ($\text  {bias}_{\text  {ext}}$, in nats), their ratio $r = \sigma _{\text  {pos}} / |\text  {bias}_{\text  {ext}}|$, and the ordinal separation (Cliff's $\delta $) on inclusion criteria. A high $\delta $ with a low $r$ is the signature of a live signal masked by the $\arg \max $; a negative $\delta $ (Meditron) indicates a corrupted signal. Sorted by $r$.}}{113}{table.caption.67}\protected@file@percent }
+\newlabel{tab:app-mechanism}{{F.3}{113}{Signal amplitude ($\sigma _{\text {pos}}$), response prior ($\text {bias}_{\text {ext}}$, in nats), their ratio $r = \sigma _{\text {pos}} / |\text {bias}_{\text {ext}}|$, and the ordinal separation (Cliff's $\delta $) on inclusion criteria. A high $\delta $ with a low $r$ is the signature of a live signal masked by the $\arg \max $; a negative $\delta $ (Meditron) indicates a corrupted signal. Sorted by $r$}{table.caption.67}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {F.4}Dominant vs.\ Discriminative Cases (Finding F9)}{114}{section.F.4}\protected@file@percent }
+\newlabel{sec:app-discriminative}{{F.4}{114}{Dominant vs.\ Discriminative Cases (Finding F9)}{section.F.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {F.4}{\ignorespaces Extended dominant-vs.-discriminative comparison. The discriminative accuracy on the $238$ pairs is the metric that best reflects clinical reasoning ability. Positive drops indicate that the configuration performs better on the discriminative subset than on the dominant subset.}}{114}{table.caption.68}\protected@file@percent }
+\newlabel{tab:app-discriminative}{{F.4}{114}{Extended dominant-vs.-discriminative comparison. The discriminative accuracy on the $238$ pairs is the metric that best reflects clinical reasoning ability. Positive drops indicate that the configuration performs better on the discriminative subset than on the dominant subset}{table.caption.68}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {F.5}Diversity Predicts Discriminative Accuracy}{115}{section.F.5}\protected@file@percent }
+\newlabel{sec:app-diversity-accuracy}{{F.5}{115}{Diversity Predicts Discriminative Accuracy}{section.F.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {F.5}{\ignorespaces Prediction diversity and discriminative accuracy, sorted by diversity. Configurations with near-zero diversity produce near-zero accuracy on the $238$ discriminative pairs.}}{115}{table.caption.69}\protected@file@percent }
+\newlabel{tab:app-diversity-accuracy}{{F.5}{115}{Prediction diversity and discriminative accuracy, sorted by diversity. Configurations with near-zero diversity produce near-zero accuracy on the $238$ discriminative pairs}{table.caption.69}{}}
 \abx@aux@read@bbl@mdfivesum{7FAD23C8EBEEC619F06B8A890D04B6F4}
 \abx@aux@defaultrefcontext{0}{jin2024trialgpt}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{chen2025scoping}{none/global//global/global/global}
@@ -739,4 +753,4 @@
 \abx@aux@defaultrefcontext{0}{roberts2022trec}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{dettmers2023qlora}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{cohen1968}{none/global//global/global/global}
-\gdef \@abspage@last{128}
+\gdef \@abspage@last{136}

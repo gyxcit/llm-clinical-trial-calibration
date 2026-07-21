@@ -316,19 +316,63 @@ documentation styles. Third, and most demanding, prospective validation
 on live recruitment workflows would close the gap between benchmark 
 performance and clinical utility.
 
+\paragraph{A protocol for prospective validation.} The third extension 
+deserves to be specified rather than merely named, because the design 
+choices that make it informative are not obvious. Four elements matter.
+
+The first is \emph{independence of the threshold}. The decision boundary 
+must be fixed in advance, from the retrospective calibration data, and 
+not re-estimated on the prospective cohort. Re-fitting the threshold on 
+the validation data would reproduce, at the level of the study design, 
+precisely the optimism that the out-of-fold protocol of 
+Section~\ref{subsec:res-rethreshold-gains} was built to avoid.
+
+The second is the \emph{unit of analysis}. The mechanism operates at the 
+criterion level, but recruitment decisions are made at the trial level. 
+A prospective study should therefore record both, and pre-specify which 
+carries the primary endpoint; the TREC replication 
+(Section~\ref{sec:res-external}) illustrates how much interpretive weight 
+this choice bears.
+
+The third is the \emph{comparator}. The relevant baseline is not a naive 
+predictor but the $\arg\max$ decision rule of the same model, since the 
+claim under test is that changing the decision rule --- not the model --- 
+recovers usable performance.
+
+The fourth is the \emph{endpoint}. Macro-F1 is adequate for a 
+methodological comparison but insufficient for a clinical one. A 
+prospective study should report the asymmetric costs that matter in 
+recruitment: eligible patients wrongly screened out, and ineligible 
+patients wrongly forwarded to a clinician for review. These two errors 
+have very different consequences, and a single symmetric metric conceals 
+the trade-off.
+
+Sample size cannot be fixed here in a defensible way. It depends on the 
+prevalence of eligible patients in the recruiting site, on the effect 
+size considered clinically meaningful, and on the chosen endpoint --- 
+none of which the present retrospective data determine. Estimating it 
+would require a pilot phase at the target site. We note only that the 
+effect sizes observed here ($+0.62$ to $+0.79$ macro-F1) are large, so a 
+prospective study would plausibly be powered by a cohort of a few 
+hundred patients rather than several thousand; establishing this 
+precisely is part of the design work such a study would require.
+
 \subsection{Robust Re-thresholding and Prior Correction}
 \label{subsec:conc-rethreshold}
 
 The re-thresholding remedy of Section~\ref{sec:res-rethreshold} 
 recovers substantial macro-F1 but leaves two questions open. The 
-threshold itself is tuned per configuration and, for one collapsed 
-model, proved unstable across folds; a prior-correction rule that 
-subtracts the estimated response prior from the log-probabilities before 
-the $\arg\max$ --- a multi-class generalization of the binary threshold 
---- would remove the free parameter and may transfer more robustly 
-across datasets. Characterizing the conditions under which such a 
-correction generalizes, and comparing it to the per-criterion threshold 
-used here, is a concrete and immediately feasible extension.
+threshold is stable across calibration subsets 
+(Section~\ref{subsec:res-rethreshold-gains}) yet remains tuned per 
+configuration, and for the collapsed models it sits very close to zero, 
+where small absolute shifts represent large relative ones; a 
+prior-correction rule that subtracts the estimated response prior from 
+the log-probabilities before the $\arg\max$ --- a multi-class 
+generalization of the binary threshold --- would remove the free 
+parameter altogether and may transfer more robustly across datasets. 
+Characterizing the conditions under which such a correction generalizes, 
+and comparing it to the per-criterion threshold used here, is a concrete 
+and immediately feasible extension.
 
 \subsection{Multi-Agent Adversarial Debate for Calibration}
 \label{subsec:conc-debate}

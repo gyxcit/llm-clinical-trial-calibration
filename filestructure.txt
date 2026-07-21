@@ -90,9 +90,8 @@
     |-- tous_tests_hypotheses.csv
     |-- verification_robustesse_recalibration.csv
     |-- verification_robustesse_recalibration_detail.csv
-|-- error.txt
 |-- LICENSE
-|-- results
+|-- output.txt
 |-- thesis
     |-- appendices
         |-- A_detailed_tables.tex
@@ -115,8 +114,13 @@
         |-- 08_methodology.tex
         |-- 09_results.tex
         |-- 10_conclusion.tex
+    |-- deepseek_evaluation.txt
     |-- figures
         |-- courbes_risque_couverture.png
+        |-- prediction_distribution_en.pdf
+        |-- prediction_distribution_en.png
+        |-- prediction_distribution_fr.pdf
+        |-- prediction_distribution_fr.png
         |-- quadrant_diagnostic_en.pdf
         |-- quadrant_diagnostic_en.png
         |-- quadrant_diagnostic_fr.pdf
@@ -127,6 +131,11 @@
         |-- rethreshold_gains_en.png
         |-- rethreshold_gains_fr.pdf
         |-- rethreshold_gains_fr.png
+        |-- rlhf_shift_en.pdf
+        |-- rlhf_shift_en.png
+        |-- rlhf_shift_fr.pdf
+        |-- rlhf_shift_fr.png
+        |-- trec_replication_en.pdf
     |-- main.aux
     |-- main.bbl
     |-- main.bcf
